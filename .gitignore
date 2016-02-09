@@ -1,0 +1,32 @@
+# Git ignore files for Angular.js
+/build/
+/benchpress-build/
+.DS_Store
+gen_docs.disable
+test.disable
+regression/temp*.html
+performance/temp*.html
+.idea/workspace.xml
+*~
+*.swp
+angular.js.tmproj
+/node_modules/
+bower_components/
+angular.xcodeproj
+.idea
+*.iml
+.agignore
+.lvimrc
+libpeerconnection.log
+npm-debug.log
+/tmp/
+/scripts/bower/bower-*
+
+# Git ignore files for Typescript
+*/*/*.js
+*/*.js
+*.js
+
+*/*/*.map
+*/*.map
+*.map
