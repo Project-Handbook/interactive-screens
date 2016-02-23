@@ -1,0 +1,100 @@
+@import "../css/app.scss";
+
+// -------- Header styles --------
+.main_frame_header {
+  display: flex;
+  width: 100%;
+  // background-color: $black; // DEBUG
+  align-items: center;
+
+  border-bottom: $kth-color-blue solid;
+
+  .corner_image {
+    img {
+      width: 250%;
+    }
+  }
+
+  .main_header_title {
+    font: $kth-font-title;
+    color: $kth-color-green;
+    padding-left: 8rem;
+    font-size: 350%;
+  }
+
+  .search_bar {
+    display: flex;
+    justify-content: center;
+    padding-right: 2rem;
+    margin: 5rem 0 auto auto;
+    #search_field {
+      text-indent: 1rem;
+      font-size: 1.5rem;
+      outline-width: 0;
+      border-radius: 20rem;
+      width: 50rem;
+      height: 3%;
+    }
+    #search_button {
+      background: url("https://maxcdn.icons8.com/iOS7/PNG/32/Very_Basic/search-32.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 20rem;
+      width: 6rem;
+      height: 3%;
+    }
+  }
+}
+
+// -------- Sidebar styles --------
+.sidebar {
+  // Resolved not aligning to the leftmost
+  margin: 0;
+  padding: 0 1rem;
+
+  // TODO: Style the sidebar
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  list-style: none;
+  // border-style: solid; // DEBUG
+  // border-color: #1F31F3; // DEBUG
+  float: left;
+  .sidebar-item {
+    // TODO: Add click animation
+
+    padding: 1rem 1rem 1rem 1rem;
+    li {
+      padding: 0.5rem;
+      text-align: center;
+    }
+  }
+}
+
+.contact_field {
+  // TODO: Style the contact information field
+}
+
+// TODO: Make the footer stick to the bottom (gl&hf)
+#footer {
+  clear: both;
+  position: relative;
+  height: 2.7rem; // Height of image
+  // KTH blue wave image
+  background: url("https://intra.kth.se/polopoly_fs/1.486628!/image/KTH_pngs19.png");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------
