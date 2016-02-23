@@ -63,6 +63,14 @@
   float: left;
   .sidebar-item {
     // TODO: Add click animation
+    &:hover {
+      transition: ease 0.5s;
+      opacity: 100%;
+      background-color: $kth-color-blue;
+    }
+
+    border: 2px solid;
+    border-radius: 25px;
 
     padding: 1rem 1rem 1rem 1rem;
     li {
@@ -74,6 +82,7 @@
 
 .contact_field {
   // TODO: Style the contact information field
+  clear: both;
 }
 
 // TODO: Make the footer stick to the bottom (gl&hf)
