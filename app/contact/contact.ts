@@ -2,7 +2,7 @@ import { Component } from 'angular2/core';
 
 @Component({
   selector: 'contact',
-  template: '<h1>Contact component here</h1>'
+  templateUrl: 'app/contact/partial_contact.html'
 })
 export class Contact {
 
