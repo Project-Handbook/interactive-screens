@@ -1,34 +1,32 @@
 
 
 
-	<title>Contact KTH</title>
-	 <link rel="stylesheet" type="text/css" href="partial_contact.css">
+	<title>Contact</title>
+	 <link rel="stylesheet" type="text/css" href="partial_contact.min.css">
 
 
 
 
 
 <div class="globalwrapper">
-
 <div class="wrapper">
 <div class="buttonHolder">
+	<br>
   <button class="contact" id="contact" name="contact" type="button">Contact</button>
   <button class="book_errand" id="book_errand" name="book_errand" type="button">Book Errand</button>
-  <button class="report_error" id="report_error" name="report_error" type="button">Report Error</button> <br>
+  <button class="report_error" id="report_error" name="report_error" type="button">Report Error</button>
+	<br>
 </div>
 </div>
 
 
-
-<div class="inputHolder">
-<input class="whofield" type="text" id="who" placeholder="Who?"><br>
-<textarea class="submissionfield" name="errand" type="text" id="errand" placeholder="Descprition (Why?)">  </textarea>
-</div>
-
-
-
-<br>
-<button class="submit" id="submit" type="submit">Submit</button>
+	<form [ngFormModel]="emailForm" (submit)="doSend($event)">
+    <input ngControl="name" class="nameBox" type="name" placeholder="Who?"><br>
+    <textarea ngControl="errand" class="inputBox" type="errand" placeholder="Description (Why?)"></textarea>
+		<br>
+  <button type="submit">Send</button>
+	<button type="reset">Reset</button>
+</form>
 
 
 </div>
