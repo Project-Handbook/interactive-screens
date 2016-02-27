@@ -3,6 +3,7 @@
 <head>
 	<title>Persons</title>
 	<link rel="stylesheet" type="text/css" href="partial_find-person.min.css" />
+
 </head>
 
 <body>
@@ -20,9 +21,8 @@
 
 		<!-- FAT CHUNK OF TEXT -->
 		<div class="person-wrapper">
-
 			
-			<div class="person">
+			<div class="person" (click)="toggle(!isOn)">
 				<img src="app/find-person/images/daniel.jpg" />
 				
 				<div class="person-info">
@@ -37,6 +37,54 @@
 				<div class="person-info">
 					<p class="person-info-name">Sara Ajohansson</p>
 					<p class="person-info-title">Servicechef</p>
+				</div>
+			</div>
+
+			<style>
+				.popup-pos {
+					position: fixed;
+					top: 0;
+					left: 0;
+					background-color: rgba(0, 0, 0, 0.7);
+					width: 100%;
+					height: 100%;
+				}
+				.popup-wrapper {
+					width: 1000px;
+					margin: 250px auto;
+				}
+				.popup-content {
+					background-color: #fff;
+					padding: 20px;
+					height: 500px;
+					border-radius: 4px;
+				}
+
+				.popup-person img {
+					width: 974px;
+					height: 382px;
+					margin: 0 auto;
+					margin-top: 60px;
+				}
+				
+				.active {
+					display: block;
+				}
+				
+				.disabled {
+					display: none;
+				    color: gray;
+				    border: medium solid gray;
+				}
+			</style>
+
+			<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn)">
+				<div class="popup-wrapper">
+					<div class="popup-content">
+						<div class="popup-person">
+							<img src="app/find-person/images/popup-info.png" />
+						</div>
+					</div>
 				</div>
 			</div>
 
