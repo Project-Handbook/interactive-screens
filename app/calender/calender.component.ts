@@ -15,7 +15,10 @@ import {OnInit} from 'angular2/core'
 	providers:[CalenderService],
 
 })
-
+/*
+	getCalander returns an object with all calender events from csc service centers kalender. 
+	Check calender-event.interface to see the structure of the returned object. 
+*/
 
 export class CalenderComponent{
 	answer: Array<CalenderEvent>;
