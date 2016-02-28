@@ -1,5 +1,9 @@
 @import "../css/app.scss";
 
+* {
+	font-family: kth-font-title;
+	font-size: 14px;
+}
 
 .inputBox {
 	width: 700px; height: 250px; border: 1px solid #999999; padding: 5px;
@@ -36,12 +40,6 @@ button {
 button:active {
 	background-color: $kth-color-blue;
 	color: $kth-color-blue !important;
-}
-
-
-.wrapper {
-	display: inline-block;
-	margin: 0 auto;
 }
 
 .globalwrapper {
