@@ -21,24 +21,6 @@
 
 		<!-- FAT CHUNK OF TEXT -->
 		<div class="person-wrapper">
-			
-			<div class="person" (click)="toggle(!isOn)">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Avare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/sara.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Sara Ajohansson</p>
-					<p class="person-info-title">Servicechef</p>
-				</div>
-			</div>
 
 			<style>
 				.popup-pos {
@@ -78,7 +60,7 @@
 				}
 			</style>
 
-			<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn)">
+			<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn); getPeople('org:DAS');">
 				<div class="popup-wrapper">
 					<div class="popup-content">
 						<div class="popup-person">
@@ -89,6 +71,29 @@
 			</div>
 
 		</div>
+
+		<div class="person-wrapper">
+
+			<div class="person"  *ngFor="#person of people; #i = index">
+				<img [src]="person.image" />
+
+				<div class="person-info">
+					<p class="person-info-name">{{person.given_name}} {{person.family_name}}</p>
+					<p class="person-info-title">{{getTitle(person.title_sv)}}</p>
+				</div>
+			</div>
+
+		</div>
+
+		
+			<div class="person" (click)="toggle(!isOn)">
+				<img src="app/find-person/images/daniel.jpg" />
+				
+				<div class="person-info">
+					<p class="person-info-name">Daniel Avare</p>
+					<p class="person-info-title">Projektledare</p>
+				</div>
+			</div>
 
 		<div class="personId" id="C"><h4>C</h4></div>
 
