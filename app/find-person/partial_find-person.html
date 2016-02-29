@@ -10,253 +10,50 @@
 
 <div id="wrapper">
 
+	<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn);">
+		<div class="popup-wrapper">
+			<div class="popup-content">
+				<div class="popup-person">
+					<img src="app/find-person/images/popup-info.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="wrapper-persons">
 
 		<div id="person-header">
 			<!-- Should there be text here saying something like
 				 "Below is a list of all persons found on this floor"? -->
+
+			<form action="search()" id="search-container">
+				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone...">
+				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
+			</form>
+			<br>
+
+			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing {{orgName}} staff</h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing results for: {{currentSearch}}</h5>
 		</div>
 
 		<div class="personId" id="A"><h4>A</h4></div>
 
-		<!-- FAT CHUNK OF TEXT -->
-		<div class="person-wrapper">
+		<div *ngFor="#person of people; #i = index">
 
-			<style>
-				.popup-pos {
-					position: fixed;
-					top: 0;
-					left: 0;
-					background-color: rgba(0, 0, 0, 0.7);
-					width: 100%;
-					height: 100%;
-				}
-				.popup-wrapper {
-					width: 1000px;
-					margin: 250px auto;
-				}
-				.popup-content {
-					background-color: #fff;
-					padding: 20px;
-					height: 500px;
-					border-radius: 4px;
-				}
+			<div *ngIf="i > 0 && person.family_name.charAt(0) > people[i-1].family_name.charAt(0)" class="personId" id="A"><h4>{{person.family_name.charAt(0).toUpperCase()}}</h4></div>
 
-				.popup-person img {
-					width: 974px;
-					height: 382px;
-					margin: 0 auto;
-					margin-top: 60px;
-				}
-				
-				.active {
-					display: block;
-				}
-				
-				.disabled {
-					display: none;
-				    color: gray;
-				    border: medium solid gray;
-				}
-			</style>
-
-			<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn); getPeople('org:DAS');">
-				<div class="popup-wrapper">
-					<div class="popup-content">
-						<div class="popup-person">
-							<img src="app/find-person/images/popup-info.png" />
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="person-wrapper">
-
-			<div class="person"  *ngFor="#person of people; #i = index">
-				<img [src]="person.image" />
+			<div class="person" (click)="toggle(!isOn)">
+				<img [src]="peopleImage[i]" />
 
 				<div class="person-info">
 					<p class="person-info-name">{{person.given_name}} {{person.family_name}}</p>
 					<p class="person-info-title">{{getTitle(person.title_sv)}}</p>
 				</div>
 			</div>
-
-		</div>
-
-		
-			<div class="person" (click)="toggle(!isOn)">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Avare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-		<div class="personId" id="C"><h4>C</h4></div>
-
-		<!-- FAT CHUNK OF TEXT -->
-		<div class="person-wrapper">
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Care</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="personId" id="V"><h4>V</h4></div>
-
-		<!-- FAT CHUNK OF TEXT -->
-		<div class="person-wrapper">
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Vare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/sara.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Sara Vare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Väldanstillefternamn</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Vare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Vare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="person-wrapper">
-
-			<div class="person">
-				<img src="app/find-person/images/sara.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Sara Varnare</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="personId" id="W"><h4>W</h4></div>
-
-		<!-- FAT CHUNK OF TEXT -->
-		<div class="person-wrapper">
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Werewolf</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/sara.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Sara</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Weldanslångtefternamn</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
-			<div class="person">
-				<img src="app/find-person/images/daniel.jpg" />
-				
-				<div class="person-info">
-					<p class="person-info-name">Daniel Weldanslångtefternamn</p>
-					<p class="person-info-title">Projektledare</p>
-				</div>
-			</div>
-
 		</div>
 
 		<div style="height: 40px"></div>
 	</div>
-
-<!-- Funkar inte om man inte 
-
-	<div id="wrapper-scrollbar">
-		<div id="scrollbar">
-			<ul>
-				<li><a href='#A'>A</a></li>
-				<li><a href='#B'>B</a></li>
-				<li><a href='#C'>C</a></li>
-				<li><a href='#D'>D</a></li>
-				<li><a href='#E'>E</a></li>
-				<li><a href='#F'>F</a></li>
-				<li><a href='#G'>G</a></li>
-				<li><a href='#H'>H</a></li>
-				<li><a href='#I'>I</a></li>
-				<li><a href='#J'>J</a></li>
-				<li><a href='#K'>K</a></li>
-				<li><a href='#L'>L</a></li>
-				<li><a href='#M'>M</a></li>
-				<li><a href='#N'>N</a></li>
-				<li><a href='#O'>O</a></li>
-				<li><a href='#P'>P</a></li>
-				<li><a href='#Q'>Q</a></li>
-				<li><a href='#R'>R</a></li>
-				<li><a href='#S'>S</a></li>
-				<li><a href='#T'>T</a></li>
-				<li><a href='#U'>U</a></li>
-				<li><a href='#V'>V</a></li>
-				<li><a href='#W'>W</a></li>
-				<li><a href='#X'>X</a></li>
-				<li><a href='#Y'>Y</a></li>
-				<li><a href='#Z'>Z</a></li>
-			</ul>
-		</div>
-	</div>
--->
 
 </div>
 
