@@ -6,13 +6,19 @@ import {OnInit} from 'angular2/core'
 	selector:'calender',
 	template:`
 		<h3>Calender</h3>
-		<div>
-			<ul *ngFor="#event of answer">
-				<li>{{event.summary}}</li>
-			</ul>
+		<div *ngFor="#event of answer" style="border-style: solid; width:60%; float:left; border-width:1px;">
+			<div style="margin-left:20px;">
+				<h3>{{event.summary}}</h3>
+				<p>{{event.description}}</p>
+				<p><b>Location: </b>{{event.location}}</p>
+				<p><b>Start: </b>{{event.start}}</p>
+				<p><b>End: </b>{{event.end}}</p>
+			</div>	
 		</div>	
 	`,
 	providers:[CalenderService],
+
+
 
 })
 /*
