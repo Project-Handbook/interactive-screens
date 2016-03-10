@@ -26,11 +26,14 @@ module.exports = function(grunt) {
     shell: {
         startserver: {
             command: 'npm start'
-        }
+        },
+				dependencies: {
+						command: 'npm install' 
+				}
     }
 	});
 	grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-shell');
-	grunt.registerTask('prod',['sass', 'cssmin', 'shell:startserver']);
+	grunt.registerTask('prod',['shell:dependencies', 'sass', 'cssmin', 'shell:startserver']);
 }
