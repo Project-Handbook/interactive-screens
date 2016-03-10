@@ -1,0 +1,62 @@
+<!-- Load our partials' css file -->
+<link rel="stylesheet" href="main-frame.min.css"/>
+
+<header class="main_frame_header">
+  <div class="corner_image">
+    <img src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
+  </div>
+
+  <h1 class="main_header_title">Lindstedtsvägen 24, våning 4</h1>
+
+  <div class="search_bar">
+      <input id="search_field" type="text" name="query"
+        placeholder="Sök efter personal och lokaler här ...">
+      <input id="search_button" type="submit" name="submit" value="">
+  </div>
+</header>
+
+<nav>
+  <ul class="sidebar">
+    <div [routerLink] = "['Home']" class="sidebar-item">
+      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Very_Basic/home-100.png" />
+      <li>Home</li>
+    </div>
+    <div [routerLink] = "['FindPerson']" class="sidebar-item">
+      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Users/user_male_circle_filled-100.png" />
+      <li>Find Person</li>
+    </div>
+    <div [routerLink] = "['Map']" class="sidebar-item">
+      <img src="https://maxcdn.icons8.com/Android/PNG/96/Maps/map_marker-96.png" />
+      <li>Map</li>
+    </div>
+    <div [routerLink] = "['Contact']" class="sidebar-item">
+      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Messaging/message-100.png" />
+      <li>Contact</li>
+    </div>
+  </ul>
+</nav>
+
+<!-- Routed views go here -->
+<router-outlet></router-outlet>
+
+<div class="contact_field">
+  <h1>Information</h1>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </p>
+  <h2>Open during</h2>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat.
+  </p>
+</div>
+
+<footer id="footer"></footer>
+
+<!-- Icons8 requirement to be able to use icons .. -->
+<!-- <a href="https://icons8.com">Icon pack by Icons8</a> -->
