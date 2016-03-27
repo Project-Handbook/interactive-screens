@@ -37,3 +37,6 @@ npm-debug.log
 */*/*.map
 */*.map
 *.map
+
+# Ignore distrobution folder and all its content
+dist/**
