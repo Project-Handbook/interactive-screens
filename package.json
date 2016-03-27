@@ -1,19 +1,31 @@
 {
   "dependencies": {
-    "angular2": "2.0.0-beta.3",
-    "systemjs": "0.19.6",
+    "angular2": "^2.0.0-beta.3",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
     "reflect-metadata": "0.1.2",
-    "rxjs": "5.0.0-beta.0",
-    "zone.js": "0.5.11"
+    "rxjs": "5.0.0-beta.2",
+    "systemjs": "0.19.6",
+    "typings": "^0.6.4",
+    "zone.js": "^0.5.11"
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
+    "gh-pages": "^0.11.0",
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-sass": "~0.9.0",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-shell": "^1.2.1",
     "lite-server": "^2.0.1",
+    "normalize.css": "^3.0.3",
     "typescript": "^1.7.5"
   },
   "scripts": {
+    "publish": "node publish.js",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",

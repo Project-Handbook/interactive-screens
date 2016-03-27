@@ -25,8 +25,18 @@ npm-debug.log
 # Git ignore files for Typescript
 */*/*.js
 */*.js
-*.js
+
+# Ignore .css files
+*/*/*.css
+*/*.css
+*.css
+
+# Ignore sass related files
+.sass-cache
 
 */*/*.map
 */*.map
 *.map
+
+# Ignore distrobution folder and all its content
+dist/**
