@@ -1,13 +1,14 @@
 @import "../css/app.scss";
 
 // -------- Header styles --------
+
 .main_frame_header {
   display: flex;
   width: 100%;
   // background-color: $black; // DEBUG
   align-items: center;
 
-  border-bottom: $kth-color-blue solid;
+  border-bottom: 3px $kth-color-blue solid;
 
   .corner_image {
     img {
@@ -48,53 +49,81 @@
 
 // -------- Sidebar styles --------
 .sidebar {
-  // Resolved not aligning to the leftmost
-  margin: 0;
-  padding: 0 1rem;
-
-  // TODO: Style the sidebar
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position:relative;
 
   list-style: none;
-  // border-style: solid; // DEBUG
-  // border-color: #1F31F3; // DEBUG
-  float: left;
+  margin:0;
+  padding:0;
+  width:250px;
+  float:left;
+  z-index:2;
+
   .sidebar-item {
-    // TODO: Add click animation
-    &:hover {
-      transition: ease 0.5s;
-      opacity: 100%;
-      background-color: $kth-color-blue;
+    font: $kth-font-title;
+    font-size:120%;
+    border-right:solid $kth-color-blue;
+    border-bottom: 1px groove #A9A9A9;
+
+
+
+    .icon{
+    text-align: center;
+    width:150px;
+    margin-left:50px;
     }
 
-    border: 2px solid;
-    border-radius: 25px;
-
-    padding: 1rem 1rem 1rem 1rem;
-    li {
-      padding: 0.5rem;
-      text-align: center;
     }
-  }
+  
+
+}
+
+.sidebar-filler{
+  height:100%;
+  border-right:solid $kth-color-blue;
+  z-index:2;
 }
 
 .contact_field {
+    position:relative;
+    font-size:120%;
   // TODO: Style the contact information field
-  clear: both;
-}
+    padding:10 10 10 20;
+    float: right;
+    height:100%;
+    width:300px;
+    border-left: 3px $kth-color-blue solid;
+    z-index:2;
 
+
+    h2{
+      font: $kth-font-title;
+      color: $kth-color-green;
+
+
+    }
+    .open-hrs{
+      width:100%;
+      span{
+        text-align:right;
+        float:right;
+        margin-right:100px;
+
+    }
+    }
+}
 // TODO: Make the footer stick to the bottom (gl&hf)
 #footer {
-  clear: both;
-  position: relative;
-  height: 2.7rem; // Height of image
-  // KTH blue wave image
   background: url("https://intra.kth.se/polopoly_fs/1.486628!/image/KTH_pngs19.png");
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:2em;   /* Height of the footer */
+
 }
 
-
+.absolute{
+  z-index:0;
+}
 
 
 

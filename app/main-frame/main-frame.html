@@ -1,6 +1,5 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="main-frame.min.css"/>
-
 <header class="main_frame_header">
   <div class="corner_image">
     <img src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
@@ -8,30 +7,66 @@
 
   <h1 class="main_header_title">Lindstedtsvägen 24, våning 4</h1>
 
-  <div class="search_bar">
-      <input id="search_field" type="text" name="query"
-        placeholder="Sök efter personal och lokaler här ...">
-      <input id="search_button" type="submit" name="submit" value="">
-  </div>
+
 </header>
+
+<div class="contact_field">
+    <h2>Contact</h2>
+    <p>Address:<br>
+       Lindstedtsv. 4, floot 4<br>
+       12345 Stockholm   
+    </p>
+    <p>
+      Telephone:<br>
+      +46 8 12 34 56
+    </p>
+     <p class="open-hrs">
+      Open:<br>
+      Mon-Thu <span>08:00 - 17:00</span><br>
+      Friday <span>09:00 - 14:00</span><br>
+      Sat-Sun <span>Closed</span>
+    </p>
+    <h2>Departments</h2>
+    <p>
+    Finance<br>
+    <b>Service center</b><br>
+    Human Resources
+    </p>  
+</div>
+
+
 
 <nav>
   <ul class="sidebar">
-    <div [routerLink] = "['Home']" class="sidebar-item">
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Very_Basic/home-100.png" />
+    <div [routerLink] = "['Home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0],
+      'border-bottom': menuItemsTopBottomBorder[0]}">
+      <div class="icon">
       <li>Home</li>
+      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Very_Basic/home-100.png" />
+      </div>
     </div>
-    <div [routerLink] = "['FindPerson']" class="sidebar-item">
+    <div [routerLink] = "['FindPerson']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1],
+     'border-bottom': menuItemsTopBottomBorder[1]}">
+      <div class="icon">
+       <li>People</li>
       <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Users/user_male_circle_filled-100.png" />
-      <li>Find Person</li>
+      </div>
     </div>
-    <div [routerLink] = "['Map']" class="sidebar-item">
+    <div [routerLink] = "['Map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2],
+     'border-bottom': menuItemsTopBottomBorder[2]}">
+      <div class="icon">
+      <li>Places</li>
       <img src="https://maxcdn.icons8.com/Android/PNG/96/Maps/map_marker-96.png" />
-      <li>Map</li>
+      </div>
     </div>
-    <div [routerLink] = "['Contact']" class="sidebar-item">
+    <div [routerLink] = "['Contact']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
+      <div class="icon">
+
+      <li>Assistance</li>
       <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Messaging/message-100.png" />
-      <li>Contact</li>
+      </div>
+    </div>
+     <div [routerLink] = "['Contact']" class="sidebar-filler" >
     </div>
   </ul>
 </nav>
@@ -39,24 +74,8 @@
 <!-- Routed views go here -->
 <router-outlet></router-outlet>
 
-<div class="contact_field">
-  <h1>Information</h1>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat.
-  </p>
-  <h2>Open during</h2>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat.
-  </p>
-</div>
+
 
 <footer id="footer"></footer>
-
 <!-- Icons8 requirement to be able to use icons .. -->
 <!-- <a href="https://icons8.com">Icon pack by Icons8</a> -->
