@@ -67,6 +67,7 @@
 
 
     .icon{
+    padding:10px;
     text-align: center;
     width:150px;
     margin-left:50px;
@@ -76,17 +77,16 @@
   
 
 }
-
 .sidebar-filler{
   height:100%;
   border-right:solid $kth-color-blue;
   z-index:2;
 }
 
+  // TODO: Style the contact information field
 .contact_field {
     position:relative;
     font-size:120%;
-  // TODO: Style the contact information field
     padding:10 10 10 20;
     float: right;
     height:100%;
@@ -94,11 +94,9 @@
     border-left: 3px $kth-color-blue solid;
     z-index:2;
 
-
     h2{
       font: $kth-font-title;
       color: $kth-color-green;
-
 
     }
     .open-hrs{
