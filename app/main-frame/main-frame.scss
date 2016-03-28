@@ -1,7 +1,6 @@
 @import "../css/app.scss";
 
 // -------- Header styles --------
-
 .main_frame_header {
   display: flex;
   width: 100%;
@@ -41,26 +40,21 @@
     border-right:solid $kth-color-blue;
     border-bottom: 1px groove #A9A9A9;
 
-
-
-    .icon{
-    padding:10px;
-    text-align: center;
-    width:150px;
-    margin-left:50px;
+    .icon {
+      padding:10px;
+      text-align: center;
+      width:150px;
+      margin-left:50px;
     }
-
-    }
-  
-
+  }
 }
-.sidebar-filler{
+
+.sidebar-filler {
   height:100%;
   border-right:solid $kth-color-blue;
   z-index:2;
 }
 
-  // TODO: Style the contact information field
 .contact_field {
     position:relative;
     font-size:120%;
@@ -71,43 +65,30 @@
     border-left: 3px $kth-color-blue solid;
     z-index:2;
 
-    h2{
+    h2 {
       font: $kth-font-title;
       color: $kth-color-green;
-
     }
-    .open-hrs{
+    .open-hrs {
       width:100%;
-      span{
+      span {
         text-align:right;
         float:right;
         margin-right:100px;
-
-    }
+      }
     }
 }
-// TODO: Make the footer stick to the bottom (gl&hf)
+
 #footer {
   background: url("https://intra.kth.se/polopoly_fs/1.486628!/image/KTH_pngs19.png");
   position:absolute;
   bottom:0;
   width:100%;
   height:2em;   /* Height of the footer */
-
 }
 
-.absolute{
+.absolute {
   z-index:0;
 }
-
-
-
-
-
-
-
-
-
-
 
 // ----------------
