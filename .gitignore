@@ -40,3 +40,6 @@ npm-debug.log
 
 # Ignore distrobution folder and all its content
 dist/**
+
+# Ignore npm debug logs
+npm-debug.log.*
