@@ -22,29 +22,6 @@
     padding-left: 8rem;
     font-size: 350%;
   }
-
-  .search_bar {
-    display: flex;
-    justify-content: center;
-    padding-right: 2rem;
-    margin: 5rem 0 auto auto;
-    #search_field {
-      text-indent: 1rem;
-      font-size: 1.5rem;
-      outline-width: 0;
-      border-radius: 20rem;
-      width: 50rem;
-      height: 3%;
-    }
-    #search_button {
-      background: url("https://maxcdn.icons8.com/iOS7/PNG/32/Very_Basic/search-32.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      border-radius: 20rem;
-      width: 6rem;
-      height: 3%;
-    }
-  }
 }
 
 // -------- Sidebar styles --------
