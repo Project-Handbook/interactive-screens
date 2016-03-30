@@ -1,15 +1,24 @@
-.submissionfield {
-	width: 500px; height: 200px; border: 1px solid #999999; padding: 5px; 
+@import "../css/app.scss";
+
+* {
+	font-family: $kth-font-title;
+	font-size: 14px;
 }
-.whofield {
-	width: 500px; height: 15px; border: 1px solid #999999; padding: 5px; 
+
+.inputBox {
+	width: 700px; height: 250px; border: 1px solid #999999; padding: 5px;
 }
+.nameBox {
+	width: 700px; height: 30px; border: 1px solid #999999; padding: 5px;
+
+}
+
 
 textarea {
 	resize: none;
 }
 
-input, textarea {
+input,textarea {
    -moz-border-radius:6px;
    -webkit-border-radius:6px;
    border-radius:6px;
@@ -17,31 +26,24 @@ input, textarea {
 }
 
 
-
-
 button {
-	width: 8em; 
+	width: 8em;
 	height: 2em;
 	margin-bottom: 2.5em;
 	margin-top: 1em;
-	border: 2px solid #008CBA; 
+	border: 2px solid $kth-color-blue;
 	border-radius: 5px;
-	color: #008CBA;
+	color: $kth-color-grey;
 
 }
 
 button:active {
-	background-color: #008CBA;
-	color: #FFFFFF !important;
-}
-
-
-.wrapper {
-	display: inline-block;
-	margin: 0 auto;
+	background-color: $kth-color-blue;
+	color: $kth-color-blue !important;
 }
 
 .globalwrapper {
 	display: inline-block;
 	text-align: center;
+	width: 75%;
 }

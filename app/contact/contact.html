@@ -1,0 +1,12 @@
+<h1> FAQ <h1>
+
+<link rel="stylesheet" type="text/css" href="contact.min.css">
+  <div class="dropDown">
+  <select (change)="onSelect($event.target.value)">
+    <option *ngFor="#value of dropDownValues" [value]="value.id">{{value.name}}</option>
+  </select>
+</div>
+
+<h2> Information </h2>
+
+  <div class ="textArea">{{selectedValue.info}}</div>
