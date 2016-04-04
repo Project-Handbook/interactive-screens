@@ -40,7 +40,27 @@ export class AppComponent {
     menuItemsTopBottomBorder: Array<string> = ['1px solid #2258A5', '1px groove #A9A9A9', '1px groove #A9A9A9', '1px groove #A9A9A9'];
     prev:number = 0;
 
-  constructor(private router: Router, private location: Location) {
+    // Called whenever the window is clicked
+    private onWindowClick() {
+      window.clearInterval(this.refreshVar);
+      this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
+    }
+
+    // After this time (5 min) the page will reload if none has touched the window
+    private refreshTimeout = 5 * 60 * 1000;
+    // Reloads the current page
+    private refreshPage() {
+      location.reload();
+    }
+    // Used to clear the refresh timer
+    private refreshVar
+
+constructor(private router: Router, private location: Location) {
+    // Setup update interval
+    this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
+    // Setup the window on click callback
+    window.onclick = this.onWindowClick;
+
     router.subscribe((val) => {
     console.log(val);
     console.log(this.menuItemsRightBorder);
