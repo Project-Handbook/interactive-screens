@@ -40,7 +40,7 @@ export class AppComponent {
     menuItemsTopBottomBorder: Array<string> = ['1px solid #2258A5', '1px groove #A9A9A9', '1px groove #A9A9A9', '1px groove #A9A9A9'];
     prev:number = 0;
 
-  constructor(private router: Router,private location:Location) {
+  constructor(private router: Router, private location: Location) {
     router.subscribe((val) => {
     console.log(val);
     console.log(this.menuItemsRightBorder);
@@ -72,7 +72,7 @@ export class AppComponent {
             this.menuItemsTopBottomBorder[this.prev] = "1px groove #A9A9A9"
             this.prev = 2;
           }
-            break;
+          break;
         case "contact":
           if (this.prev !== 3) {
             this.menuItemsRightBorder[3] = "none";
@@ -81,7 +81,7 @@ export class AppComponent {
             this.menuItemsTopBottomBorder[this.prev] = "1px groove #A9A9A9"
             this.prev = 3;
           }
-        break;
+          break;
       };
     })
    }
