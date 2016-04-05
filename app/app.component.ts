@@ -5,12 +5,16 @@ import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
 import { NgStyle } from 'angular2/common';
+import {LocationStrategy,
+        HashLocationStrategy} from 'angular2/router';
+import {provide}           from 'angular2/core';
 
 @Component({
     selector: 'main-frame',
     templateUrl: 'app/main-frame/main-frame.html', // Relative base
     directives: [ROUTER_DIRECTIVES, NgStyle],
-    providers: [ROUTER_PROVIDERS]
+    providers: [ROUTER_PROVIDERS,provide(LocationStrategy,
+         {useClass: HashLocationStrategy})]
 })
 @RouteConfig([
   {
