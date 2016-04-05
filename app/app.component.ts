@@ -5,6 +5,7 @@ import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
 import { NgStyle } from 'angular2/common';
+import { SetupProcess } from './setup-process/setup-process';
 
 @Component({
     selector: 'main-frame',
@@ -14,10 +15,15 @@ import { NgStyle } from 'angular2/common';
 })
 @RouteConfig([
   {
+    path: '/setup-process',
+    component: SetupProcess,
+    name: 'Setup',
+    useAsDefault: true
+  },
+  {
     path: '/home',
     component: Home,
     name: 'Home',
-    useAsDefault: true
   },
   {
     path: '/find-person',
@@ -56,6 +62,8 @@ export class AppComponent {
     private refreshVar
 
 constructor(private router: Router, private location: Location) {
+    window.open('/home');
+
     // Setup update interval
     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     // Setup the window on click callback
