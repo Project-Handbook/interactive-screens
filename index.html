@@ -25,6 +25,14 @@
    <script src="node_modules/rxjs/bundles/Rx.js"></script>
 
     <!-- 2. Configure SystemJS -->
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
+<script src="node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+
     <script>
       System.config({
         packages: {
@@ -32,7 +40,10 @@
             format: 'register',
             defaultExtension: 'js'
           }
-        }
+        },
+    map: {
+      moment: 'node_modules/moment/moment.js'
+    }
       });
       System.import('app/main')
             .then(null, console.error.bind(console));

@@ -26,13 +26,11 @@
 // -------- Sidebar styles --------
 .sidebar {
   position:relative;
-
   list-style: none;
   margin:0;
   padding:0;
-  width:250px;
+  width:15%;
   float:left;
-  z-index:2;
 
   .sidebar-item {
     font: $kth-font-title;
@@ -52,7 +50,6 @@
 .sidebar-filler {
   height:100%;
   border-right:solid $kth-color-blue;
-  z-index:2;
 }
 
 .contact_field {
@@ -61,7 +58,7 @@
     padding:10 10 10 20;
     float: right;
     height:100%;
-    width:300px;
+    width:15%;
     border-left: 3px $kth-color-blue solid;
     z-index:2;
 
