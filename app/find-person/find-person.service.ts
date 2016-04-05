@@ -1,17 +1,17 @@
 import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
-
+import {Person} from './person-interface';
 @Injectable()
 
 export class FindPersonService{
 
 	constructor(private _http:Http){}
 
-	answer: Array<Object>=[];
+	answer: Array<Person>=[];
 	images: Array<string>=[];
 
-	getPeople(term: string): Array<Object> {
+	getPeople(term: string): Array<Person> {
 		this.answer = [];
 		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
 		this._http.get(url + term)
@@ -19,7 +19,18 @@ export class FindPersonService{
 			.subscribe(res=> {
 				var index = 0;
 				res.result.forEach(item=> {
-					this.answer.push(item);
+					this.answer.push(
+						{
+							given_name:item.given_name,
+							family_name:item.family_name,
+							email_adress:item.email_adress,
+							kthid:item.kthid,
+							phone_number:item.phonehr,
+							visiting_adress:item.visiting_adress,
+							username:item.username,
+							title:item.title_sv,
+						}
+					);
 					this.getImage(item, index++);
 				})
 			},

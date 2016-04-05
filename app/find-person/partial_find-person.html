@@ -11,8 +11,10 @@
 	<div id="popup-1" class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn);">
 		<div class="popup-wrapper">
 			<div class="popup-content">
-				<div class="popup-person">
-					<img src="app/find-person/images/popup-info.png" />
+				<div class="popup-person" *ngIf="currentPerson">
+					<p class="person-name">{{currentPerson.given_name}} {{currentPerson.family_name}}</p>
+					<p class="person-title">{{currentPerson.title}}</p>
+
 				</div>
 			</div>
 		</div>
@@ -40,12 +42,12 @@
 
 			<div *ngIf="i > 0 && person.family_name.charAt(0) > people[i-1].family_name.charAt(0)" class="personId" id="A"><h4>{{person.family_name.charAt(0).toUpperCase()}}</h4></div>
 
-			<div class="person" (click)="toggle(!isOn)">
-				<img [src]="peopleImage[i]" />
+			<div class="person" (click)="toggle(!isOn,person)">
+				<img [src]="peopleImage[i]" onError="this.src='app/find-person/images/missing-profile-image.png'"/>
 
 				<div class="person-info">
 					<p class="person-info-name">{{person.given_name}} {{person.family_name}}</p>
-					<p class="person-info-title">{{getTitle(person.title_sv)}}</p>
+					<p class="person-info-title">{{getTitle(person.title)}}</p>
 				</div>
 			</div>
 		</div>
