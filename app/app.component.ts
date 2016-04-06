@@ -9,6 +9,8 @@ import { SetupProcess } from './setup-process/setup-process';
 import {LocationStrategy,
         HashLocationStrategy} from 'angular2/router';
 import {provide}           from 'angular2/core';
+import { Constants } from './constants';
+import { ScreenSpecificInformation } from './screen-specific-information';
 
 @Component({
     selector: 'main-frame',
@@ -21,7 +23,7 @@ import {provide}           from 'angular2/core';
   {
     path: '/setup-process',
     component: SetupProcess,
-    name: 'Setup',
+    name: 'SetupProcess',
     useAsDefault: true
   },
   {
@@ -50,6 +52,14 @@ export class AppComponent {
     menuItemsTopBottomBorder: Array<string> = ['1px solid #2258A5', '1px groove #A9A9A9', '1px groove #A9A9A9', '1px groove #A9A9A9'];
     prev:number = 0;
 
+    // Fetches the screen specific information from the session storage
+    // If the screen information is null this returns a default object
+    public get screenInfo(): ScreenSpecificInformation {
+      var screenInfo = JSON.parse(sessionStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      if (screenInfo == null) { return new ScreenSpecificInformation(); }
+      return screenInfo
+    }
+
     // Called whenever the window is clicked
     onWindowClick = () => {
       window.clearInterval(this.refreshVar);
@@ -69,6 +79,12 @@ export class AppComponent {
     private refreshVar
 
 constructor(private router: Router, private location: Location) {
+    // Check whether or not the screen has gone through the setup process
+    var screenInfo = sessionStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
+    if (screenInfo != null) { /* Has gone through setup - go to Home then */
+      this.router.navigate(['Home']);
+    }
+
     // Setup update interval
     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     // Setup the window on click callback

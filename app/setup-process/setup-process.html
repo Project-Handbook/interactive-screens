@@ -1,15 +1,37 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="setup-process.min.css"/>
 
-<header>
-  Welcome to the CScreen setup.
-</header>
+<div class="setup">
+  <h1>
+    Welcome to the CScreen setup
+  </h1>
 
-<h1>
-  Press the the 'Help' button for detailed documentation.
-</h1>
+  <header>
+    Press the the 'Help' button for detailed documentation.
+  </header>
 
-<div class="">
-  <h2>Title of the screen</h2>
-  <input type="text" />
+  <div class="">
+    <h2>General Information</h2>
+    <div class="">
+      <h3>Title of the screen</h3>
+      <input type="text" placeholder="Information Desk" [(ngModel)]="title"/>
+    </div>
+  </div>
+
+  <div class="">
+    <h2>Sidebar Information</h2>
+    <div class="">
+      <h3>Address - shown in the sidebar</h3>
+      <input type="text" placeholder="Avenue Street 123" [(ngModel)]="address"/>
+    </div>
+
+    <div class="">
+      <h3>Telephone number - shown in the sidebar</h3>
+      <input type="text" placeholder="+46 076 123 123" [(ngModel)]="telephoneNumber">
+    </div>
+  </div>
+
+  <div class="">
+    <button type="submit" (click)="submitInformation()">Done</button>
+  </div>
 </div>
