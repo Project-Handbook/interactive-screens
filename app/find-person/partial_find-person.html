@@ -14,6 +14,8 @@
 				<div class="popup-person" *ngIf="currentPerson">
 					<p class="person-name">{{currentPerson.given_name}} {{currentPerson.family_name}}</p>
 					<p class="person-title">{{currentPerson.title}}</p>
+					<img [src]="peopleImage[currentPerson.image]" onError="this.src='app/find-person/images/missing-profile-image.png'"/>
+
 
 				</div>
 			</div>

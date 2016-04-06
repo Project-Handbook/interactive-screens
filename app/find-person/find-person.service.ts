@@ -29,6 +29,7 @@ export class FindPersonService{
 							visiting_adress:item.visiting_adress,
 							username:item.username,
 							title:item.title_sv,
+							image:index,
 						}
 					);
 					this.getImage(item, index++);

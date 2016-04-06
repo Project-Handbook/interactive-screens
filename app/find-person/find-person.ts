@@ -12,7 +12,7 @@ import {Person} from './person-interface';
 })
 export class FindPerson {
   currentPerson:Person;
-  organisation: string = "org:D";
+  organisation: string = "org:DAS";
   orgName : string = "CSC";
 
   isOn = false;
@@ -28,8 +28,7 @@ export class FindPerson {
   currentSearch : string = "";
   people: Array<Person>=[];
   peopleImage: Array<string>=[];
-  constructor(private _findPersonService:FindPersonService){
-  }
+  constructor(private _findPersonService:FindPersonService){}
   getPeople(term:string){
     console.log(this.people);
     this.people = [];

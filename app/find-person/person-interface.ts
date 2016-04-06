@@ -5,7 +5,7 @@ export interface Person{
 	kthid:string;
 	phone_number:string;
 	visiting_adress:string;
-	image:string;
+	image:number;
 	username:string;
 	title:string;
 }
