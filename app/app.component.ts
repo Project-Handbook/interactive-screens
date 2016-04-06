@@ -51,7 +51,7 @@ export class AppComponent {
     prev:number = 0;
 
     // Called whenever the window is clicked
-    private onWindowClick() {
+    onWindowClick = () => {
       window.clearInterval(this.refreshVar);
       this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     }
@@ -59,15 +59,16 @@ export class AppComponent {
     // After this time (5 min) the page will reload if none has touched the window
     private refreshTimeout = 5 * 60 * 1000;
     // Reloads the current page
-    private refreshPage() {
-      location.reload();
+    refreshPage = () => {
+      // Navigate to '/Home'
+      this.router.navigate(['Home']).then(() => {
+        window.location.reload(true);
+      });
     }
     // Used to clear the refresh timer
     private refreshVar
 
 constructor(private router: Router, private location: Location) {
-    window.open('/home');
-
     // Setup update interval
     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     // Setup the window on click callback
