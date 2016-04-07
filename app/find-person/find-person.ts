@@ -2,6 +2,7 @@ import { Component } from 'angular2/core';
 import {OnInit} from 'angular2/core'
 import {NgClass} from 'angular2/common';
 import {FindPersonService} from './find-person.service';
+import {Person} from './person-interface';
 
 @Component({
   selector: 'find-person',
@@ -10,23 +11,24 @@ import {FindPersonService} from './find-person.service';
   providers: [FindPersonService]
 })
 export class FindPerson {
-
-  organisation: string = "org:D";
+  currentPerson:Person;
+  organisation: string = "org:DAS";
   orgName : string = "CSC";
 
   isOn = false;
   	isDisabled = false;
-  	toggle(newState) {
+  	toggle(newState,person:Person) {
+      this.currentPerson=person;
+      console.log(person);
       if (!this.isDisabled) {
         	this.isOn = newState;
       }
     }
 
   currentSearch : string = "";
-  people: Array<Object>=[];
+  people: Array<Person>=[];
   peopleImage: Array<string>=[];
-  constructor(private _findPersonService:FindPersonService){
-  }
+  constructor(private _findPersonService:FindPersonService){}
   getPeople(term:string){
     console.log(this.people);
     this.people = [];
