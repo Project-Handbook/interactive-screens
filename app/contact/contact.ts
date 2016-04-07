@@ -1,6 +1,7 @@
 import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import { EmailService } from './email.service';
+import "rxjs/add/operator/map";
 
 class dropDownValue {
   id: number;
@@ -34,9 +35,11 @@ export class Contact {
 
        constructor(private _emailService: EmailService) {}
        public email = {message: "", reciever: "emil.g.persson@gmail.com"};
+
+
        onSubmit(reciever, message) {
          console.log("Mail to: " + reciever + "\nMessage: " + message);
-         this._emailService.sendEmail(reciever, message);
+         this._emailService.sendEmail(reciever, message).map(res=>res).subscribe(res=>console.log(res),error=>console.log(error));
        }
 
 
