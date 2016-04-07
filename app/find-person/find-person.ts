@@ -10,7 +10,7 @@ import {FindPersonService} from './find-person.service';
   providers: [FindPersonService]
 })
 export class FindPerson {
-	
+
   organisation: string = "org:D";
   orgName : string = "CSC";
 
@@ -20,8 +20,8 @@ export class FindPerson {
       if (!this.isDisabled) {
         	this.isOn = newState;
       }
-    } 
-  
+    }
+
   currentSearch : string = "";
   people: Array<Object>=[];
   peopleImage: Array<string>=[];
