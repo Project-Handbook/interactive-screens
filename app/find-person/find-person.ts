@@ -11,7 +11,7 @@ import {FindPersonService} from './find-person.service';
 })
 export class FindPerson {
 
-  organisation: string = "org:D";
+  organisation: string = "org:DAS";
   orgName : string = "CSC";
 
   isOn = false;

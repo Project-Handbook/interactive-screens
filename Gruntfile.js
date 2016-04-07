@@ -59,7 +59,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-shell');
 	// Used for development - compiles all the .ts/.scss and starts the server
-	grunt.registerTask('dev', ['sass', 'cssmin', 'shell:startserver']);
+	grunt.registerTask('dev', ['sass', 'cssmin']);
 	// Used for deployment - removes dist, compiles everything, moves it all to dist and pushes the code to gh-pages
 	grunt.registerTask('deploy', ['clean:deploy', 'sass:dev', 'cssmin:dev', 'shell:compile', 'copy:deploy', 'shell:publish']);
 }

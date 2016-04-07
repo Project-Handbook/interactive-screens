@@ -3,11 +3,7 @@
 
  <body>
  <div class="wrapper">
-		  <h1>Map component here</h1>
-  		<form action="search()" id="search-container">
-  				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone...">
-  				<button type="submit" (click)="search(input)" name="search_button" >Search</button>
-  		</form>
+		<auto-complete (newLocation)="addDestinationMarker($event)"></auto-complete>  
 		  <ul><li *ngFor="#res of searchResult" (click)="addDestinationMarker(res)">{{res.roomCode}}</li></ul>	
 		  <div class="maps" id="map"></div>
     </div>
