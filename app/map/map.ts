@@ -33,22 +33,32 @@ export class Map {
         var zoomControl = L.control.zoom({
             position: 'topright'
         }).addTo(this.map);
-       //Add marker at the location of the screen. 
-			L.marker([59.34694, 18.07319]).addTo(this.map);	 
+      //Add marker at the location of the screen. 
+      var greenIcon = L.icon({
+        iconUrl: './app/map/marker-icon-2x-red.png',
+
+        iconSize:     [25, 40], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-10, -87] // point from which the popup should open relative to the iconAnchor
+        } );
+
+
+			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
+       .bindPopup('<strong>You are here.</strong>')
+          .openPopup();
   }
-
-
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker. test
   addDestinationMarker(place){
     if (this.currentDestination != null) {
       this.map.removeLayer(this.currentDestination);
     } 
-    this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map);
+    console.log(place.roomCode);
+    this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
+     .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
+          .openPopup();
   }
-
-
-
-
 
 }
