@@ -1,8 +1,6 @@
 import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-
-
-
+import { EmailService } from './email.service';
 
 class dropDownValue {
   id: number;
@@ -13,6 +11,7 @@ class dropDownValue {
   selector: 'contact',
   templateUrl: 'app/contact/contact.html',
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
+  providers: [EmailService],
 })
 export class Contact {
   public dropDownValues: dropDownValue[] = [
@@ -21,6 +20,7 @@ export class Contact {
         { "id": 3, "name": "Whats the clock?", "info": "Tiden är 13.37" },
         { "id": 4, "name": "Where are CSC's departments located?", "info": "CSC's departments are located at Lindstedsvägen 3 & 5 and Osquars backe 18."}
       ];
+
       public selectedValue: dropDownValue = this.dropDownValues[0];
       onSelect(valueID) {
           this.selectedValue = null;
@@ -31,5 +31,13 @@ export class Contact {
             }
           }
       }
+
+       constructor(private _emailService: EmailService) {}
+       public email = {message: "", reciever: "emil.g.persson@gmail.com"};
+       onSubmit(reciever, message) {
+         console.log("Mail to: " + reciever + "\nMessage: " + message);
+         this._emailService.sendEmail(reciever, message);
+       }
+
 
 }
