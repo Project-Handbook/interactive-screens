@@ -1,17 +1,9 @@
-@import "../css/app.scss";
+@import "/app/css/_app.scss";
 
 * {
     margin: 0;
     padding: 0;
     list-style: none
-}
-
-body {
-    font-family: Arial, "Helvetica Neue", helvetica, sans-serif;
-    background-color: #fff;
-    color: #000;
-    font-size: 69%;
-    text-align: center
 }
 
 p,
@@ -24,15 +16,20 @@ a {
 }
 
 #wrapper {
-    height: 84%
+    height: 84%;
+    font-family: Arial, "Helvetica Neue", helvetica, sans-serif;
+    background-color: #fff;
+    color: #000;
+    font-size: 69%;
+    text-align: center;
 }
 
 #wrapper-persons {
     overflow-y: scroll;
     overflow-x: none;
-    width: 65%;
+    width: 69.63%;
     height: 100%;
-    float: left
+    float: left;
 }
 
 #wrapper-scrollbar {
@@ -45,27 +42,34 @@ a {
     width: 0
 }
 
+#person-header {
+    padding: 2.4em 2.4em 0 2.4em;
+}
+
 #search-container {
-    width: 45%;
+    width: 50%;
     text-align: left;
     font-size: 3em;
-    margin: 2rem 0 0 2rem
+    overflow: auto;
+    background-color: #f90;
+    margin-bottom: 0.3em;
 }
 
 #person-search-input {
     width: 85%;
+    height: 3.5rem;
     font-size: .8em;
-    padding: .4em;
+    padding-left: .5em;
     float: left
 }
 
 #person-search-button {
     height: 3.5rem;
-    width: 3.5rem;
+    width: 15%;
     background-image: url(app/find-person/images/glass.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 3rem;
+    background-size: 38%;
     background-color: #83a552;
     float: left;
     border: 1px solid #a9a9a9;
@@ -74,7 +78,7 @@ a {
 
 #search-input-string {
     text-align: left;
-    font-size: 3em;
+    font-size: 2.5em;
     margin: 0 0 2rem 0;
     color: #818087;
 }
@@ -83,6 +87,7 @@ a {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 99999;
     background-color: rgba(0, 0, 0, .7);
     width: 100%;
     height: 100%
@@ -90,20 +95,84 @@ a {
 
 .popup-wrapper {
     width: 1000px;
-    margin: 250px auto
+    margin: 250px auto;
 }
 
 .popup-content {
     background-color: #fff;
-    padding: 20px;
     height: 500px;
     border-radius: 4px
 }
 
-.popup-person img {
-    width: 974px;
-    height: 382px;
-    margin: 60px auto 0
+.popup-person {
+    width: 65%;
+    height: inherit;
+    float: left;
+    text-align: left;
+}
+
+.popup-person-wrapper {
+    font-size: 3em;
+    margin: 0.75em;
+}
+
+.popup-person-name {
+}
+
+.popup-person-title {
+    font-size: .6em;
+    margin-top: 0.2em;
+    color: #818087;
+}
+
+.popup-person-line {
+    border-bottom: 1px dashed gray;
+    width: 100%;
+    margin-top: .75em;
+    margin-bottom: 1em;
+}
+
+.popup-person table {
+    font-size: 0.5em;
+    margin-bottom: 3em;
+}
+
+.popup-person table .category {
+    font-family: Arial;
+    font-weight: bold;
+    padding-right: 2em;
+    padding-top: 0.15em;
+}
+
+.popup-person-about {
+    font-size: 0.75em;
+    color: #000;
+}
+
+.popup-person-about p {
+    color: #000;
+    margin-top: 0.25em;
+    font-size: 0.75em;
+    font-family: sans-serif;
+}
+
+.popup-person-about .popup-person-line {
+    border-bottom: 1px solid gray;
+    margin-top: .25em;
+    margin-bottom: .75em;
+}
+
+.popup-image {
+    width: 35%;
+    float: right;
+    height: inherit;
+    text-align: center;
+}
+
+.popup-image img {
+    margin-top: 2em;
+    width: 70%;
+    border-radius: 50%;
 }
 
 .active {
@@ -184,31 +253,4 @@ a {
     border-radius: 50%;
     margin-top: 1.5em;
     width: 50%;
-}
-
-#scrollbar a {
-    text-decoration: none;
-    font-size: 2.5em;
-    color: #62922e
-}
-
-#scrollbar li:hover {
-    font-size: 3em;
-    line-height: .3em;
-    padding-left: 10px;
-    text-align: left;
-    padding-top: .5em;
-    height: 14px
-}
-
-#scrollbar ul {
-    height: 863px;
-    padding-top: .6em;
-    width: 120px
-}
-
-#scrollbar li {
-    text-align: right;
-    margin-bottom: 2%;
-    height: 31px
 }
