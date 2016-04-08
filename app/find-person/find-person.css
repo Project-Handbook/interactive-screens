@@ -90,8 +90,7 @@ a {
     z-index: 99999;
     background-color: rgba(0, 0, 0, .7);
     width: 100%;
-    height: 100%;
-    z-index:10;
+    height: 100%
 }
 
 .popup-wrapper {
@@ -196,7 +195,7 @@ a {
     padding-top: .2em;
     padding-bottom: .2em;
     text-align: left;
-    background-color: $kth-color-light-blue;
+    background-color: #2E7CC0;
     overflow: auto
 }
 
