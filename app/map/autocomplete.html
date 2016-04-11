@@ -1,7 +1,10 @@
 	<div class="container" >
         
         <input class="searchField" placeholder="Search for a location..." autocomplete="off" type="text" [(ngModel)]=query (keyup)=search(query)>
-        <div class="suggestions"  *ngIf="searchResult.length> 0">
+        <div class="error" *ngIf="showErrorMessage">
+            <h1>The requested data is not available at the moment, please come again!</h1>
+        </div>
+        <div  class="suggestions"  *ngIf="searchResult.length> 0">
             <ul *ngFor="#item of searchResult" >
                 <li >
                     <a (click)="select(item)">{{item.roomCode}}</a>

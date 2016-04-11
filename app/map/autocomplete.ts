@@ -17,6 +17,7 @@ import {Location} from './location.interface';
 export class AutoCompleteComponent {
 	// Used for passing the selected argument from the dropdown menu to the map component
 	newLocation = new EventEmitter<Location>();
+  showErrorMessage:boolean=false;
 
 	public query = '';
 	searchResult:Array<Location>=[];
@@ -34,7 +35,6 @@ export class AutoCompleteComponent {
 		this.searchResult = [];
 		this._mapService.getPlaces(term)
 			.subscribe(res => {
-        console.log(res),
         res.forEach(item=>{
           if ((item.typeName === "Övningssal" || item.typeName === "Datorsal" || item.typeName==="Hörsal")&& item.kthLokalkod.length !== 0) {
              this.searchResult.push(
@@ -54,7 +54,8 @@ export class AutoCompleteComponent {
            }
         )
       },
-      error=>console.log(error),
+      error=>this.showErrorMessage=true,
+      ()=>this.showErrorMessage=false;
 		}else{
 			this.searchResult=[];
 		}	
