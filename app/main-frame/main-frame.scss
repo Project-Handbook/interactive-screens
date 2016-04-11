@@ -6,6 +6,7 @@
   width: 100%;
   // background-color: $black; // DEBUG
   align-items: center;
+  margin:0;
 
   border-bottom: 3px $kth-color-blue solid;
 
@@ -59,8 +60,11 @@
     float: right;
     height:100%;
     width:15%;
-    border-left: 3px $kth-color-blue solid;
+    border-left:solid $kth-color-blue ;
     z-index:2;
+    margin:0;
+    box-sizing: border-box;
+
 
     h2 {
       font: $kth-font-title;

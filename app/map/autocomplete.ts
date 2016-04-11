@@ -5,14 +5,13 @@ import {Location} from './location.interface';
 
 @Component({
 	selector:'auto-complete',
-	host: {
+   host: {
         '(document:click)': 'handleClick($event)',
     },
-	templateUrl: './app/map/autocomplete.html',
-	providers: [MapService],
-	styleUrls:['./app/map/autocomplete.min.css'],
-	outputs:['newLocation']
-
+    templateUrl: './app/map/autocomplete.html',
+    providers: [MapService],
+    styleUrls:['./app/map/autocomplete.min.css'],
+    outputs:['newLocation']
 })
 
 export class AutoCompleteComponent {
@@ -35,8 +34,9 @@ export class AutoCompleteComponent {
 		this.searchResult = [];
 		this._mapService.getPlaces(term)
 			.subscribe(res => {
+        console.log(res),
         res.forEach(item=>{
-          if ((item.typeName === "Övningssal" || item.typeName === "Datorsal" )&& item.kthLokalkod.length !== 0) {
+          if ((item.typeName === "Övningssal" || item.typeName === "Datorsal" || item.typeName==="Hörsal")&& item.kthLokalkod.length !== 0) {
              this.searchResult.push(
                 {
                   latitude:item.geoData.lat,
@@ -54,7 +54,7 @@ export class AutoCompleteComponent {
            }
         )
       },
-      error=>console.log(error)
+      error=>console.log(error),
 		}else{
 			this.searchResult=[];
 		}	

@@ -1,12 +1,10 @@
 
 
  <div class="wrapper">
- 	<div class="map-and-search">
 		<auto-complete (newLocation)="addDestinationMarker($event)"></auto-complete>  
-		  <ul><li *ngFor="#res of searchResult" (click)="addDestinationMarker(res)">{{res.roomCode}}</li></ul>	
 		  <div class="maps" id="map"></div>
-    </div>
-    <div class="common-places">
+</div>
+   <!-- <div class="common-places">
     	<h1>Popular Places</h1>
     	<ul>
     		<li> Library </li>
@@ -16,3 +14,4 @@
     	</ul>
 
     </div>
+    -->
