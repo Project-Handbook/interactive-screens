@@ -3,11 +3,12 @@ import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
 import { FindPersonService } from './find-person.service';
 import { Person } from './person';
+import { RouterLink } from 'angular2/router';
 
 @Component({
   selector: 'person-profile',
   templateUrl: 'app/find-person/person-profile.html',
-  directives: [NgClass],
+  directives: [NgClass, RouterLink],
   providers: [FindPersonService]
 })
 export class PersonProfile {
