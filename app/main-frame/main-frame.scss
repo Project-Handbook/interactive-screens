@@ -6,9 +6,10 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: $kth-color-blue;
+  background-color: #1a54a6;
 
   .main_header_title {
+    margin-left:2rem;
     max-width: 50%;
     font: $kth-font-title;
     font-weight: lighter;
@@ -74,11 +75,11 @@
 }
 
 #footer {
-  background: url("https://intra.kth.se/polopoly_fs/1.486628!/image/KTH_pngs19.png");
+  background: url("app/main-frame/images/footer.png");
   position:absolute;
   bottom:0;
   width:100%;
-  height:2.6rem;   /* Height of the footer */
+  height:2.5rem;   /* Height of the footer */
 }
 
 .absolute {
