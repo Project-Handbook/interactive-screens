@@ -31,6 +31,10 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
                     var url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
                     return this._http.get(url).map(function (res) { return res.json(); });
                 };
+                MapService.prototype.getGeoCode = function (address) {
+                    return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + ', stockholm')
+                        .map(function (res) { return res.json(); });
+                };
                 MapService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

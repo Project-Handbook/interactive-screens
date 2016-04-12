@@ -26,6 +26,7 @@ System.register(['angular2/core', './map-service'], function(exports_1, context_
                     this._mapService = _mapService;
                     // Used for passing the selected argument from the dropdown menu to the map component
                     this.newLocation = new core_1.EventEmitter();
+                    this.showErrorMessage = false;
                     this.query = '';
                     this.searchResult = [];
                     //Saves the root node of this componenet. Used for toogling dropdown menu on and off.
@@ -39,7 +40,7 @@ System.register(['angular2/core', './map-service'], function(exports_1, context_
                         this._mapService.getPlaces(term)
                             .subscribe(function (res) {
                             res.forEach(function (item) {
-                                if ((item.typeName === "Övningssal" || item.typeName === "Datorsal") && item.kthLokalkod.length !== 0) {
+                                if ((item.typeName === "Övningssal" || item.typeName === "Datorsal" || item.typeName === "Hörsal") && item.kthLokalkod.length !== 0) {
                                     _this.searchResult.push({
                                         latitude: item.geoData.lat,
                                         longitude: item.geoData.long,
@@ -53,7 +54,7 @@ System.register(['angular2/core', './map-service'], function(exports_1, context_
                                     });
                                 }
                             });
-                        }, function (error) { return console.log(error); });
+                        }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                     }
                     else {
                         this.searchResult = [];

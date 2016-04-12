@@ -38,9 +38,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './p
                         .map(function (res) { return res.json(); })
                         .subscribe(function (res) {
                         res.result.forEach(function (item) {
-                            var person = new person_1.Person(item.given_name, item.family_name, item.email_address, item.kthid, item.phonehr, item.visiting_address, item.username, item.title_sv, undefined, /* Need to fetch the image url */ undefined /* Need to fetch working place */);
+                            var person = new person_1.Person(item.given_name, item.family_name, item.email_address, item.kthid, item.phonehr, item.visiting_address, item.username, item.title_sv, item.image_url);
                             _this.fetchImage(person);
-                            _this.fetchWorkingPlace(person);
                             people.push(person);
                         });
                     }, function (error) { return console.log(error); }, function () { });
@@ -53,15 +52,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './p
                         .map(function (res) { return res.text(); })
                         .subscribe(function (image_url) {
                         person.image_url = image_url.substr(1, image_url.length - 2);
-                    }, function (error) { return console.log(error); }, function () { });
-                };
-                // Fetches the persons working place from the KTH Profile API
-                FindPersonService.prototype.fetchWorkingPlace = function (person) {
-                    var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
-                    this.http.get(url)
-                        .map(function (res) { return res.json(); })
-                        .subscribe(function (person_info) {
-                        person.working_place = person_info.worksFor[0].name;
                     }, function (error) { return console.log(error); }, function () { });
                 };
                 FindPersonService = __decorate([

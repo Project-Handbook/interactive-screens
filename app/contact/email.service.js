@@ -27,8 +27,8 @@ System.register(["angular2/core", 'angular2/http'], function(exports_1, context_
                 }
                 EmailService.prototype.sendEmail = function (reciever, message) {
                     var headers = new http_1.Headers();
-                    // headers.append("Authorization": "Basic "+btoa("api:key-5164d1f0b491719c50e103020764205a")
-                    // headers.append("content-type": "application/x-www-form-urlencoded");
+                    headers.append("Authorization", "Basic " + btoa("api:key-5164d1f0b491719c50e103020764205a"));
+                    headers.append("content-type", "application/x-www-form-urlencoded");
                     var url = "https://api.mailgun.net/v3/sandbox34e0d52fd37247abab5dbe90b52e2e71.mailgun.org/messages";
                     var data = "from=Jakob<jakob.svenning@gmail.com>&to=FittEmil<jaksve@kth.se>&subject=Hungdaddy&text=testing";
                     return this._http.post(url, data, { headers: headers });
