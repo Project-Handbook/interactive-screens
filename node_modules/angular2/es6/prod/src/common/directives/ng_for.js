@@ -100,6 +100,10 @@ export let NgFor = class {
             var viewRef = this._viewContainer.get(i);
             viewRef.setLocal('last', i === ilen - 1);
         }
+        changes.forEachIdentityChange((record) => {
+            var viewRef = this._viewContainer.get(record.currentIndex);
+            viewRef.setLocal('\$implicit', record.item);
+        });
     }
     _perViewChange(view, record) {
         view.setLocal('\$implicit', record.item);

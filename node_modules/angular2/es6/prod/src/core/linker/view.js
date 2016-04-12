@@ -273,6 +273,26 @@ function _flattenNestedViewRenderNodes(nodes, renderNodes) {
     }
     return renderNodes;
 }
+export function findLastRenderNode(node) {
+    var lastNode;
+    if (node instanceof AppElement) {
+        var appEl = node;
+        lastNode = appEl.nativeElement;
+        if (isPresent(appEl.nestedViews)) {
+            // Note: Views might have no root nodes at all!
+            for (var i = appEl.nestedViews.length - 1; i >= 0; i--) {
+                var nestedView = appEl.nestedViews[i];
+                if (nestedView.rootNodesOrAppElements.length > 0) {
+                    lastNode = findLastRenderNode(nestedView.rootNodesOrAppElements[nestedView.rootNodesOrAppElements.length - 1]);
+                }
+            }
+        }
+    }
+    else {
+        lastNode = node;
+    }
+    return lastNode;
+}
 export function checkSlotCount(componentName, expectedSlotCount, projectableNodes) {
     var givenSlotCount = isPresent(projectableNodes) ? projectableNodes.length : 0;
     if (givenSlotCount < expectedSlotCount) {

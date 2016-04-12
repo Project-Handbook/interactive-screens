@@ -19,6 +19,8 @@ export declare class DefaultIterableDiffer implements IterableDiffer {
     private _movesTail;
     private _removalsHead;
     private _removalsTail;
+    private _identityChangesHead;
+    private _identityChangesTail;
     constructor(_trackByFn?: TrackByFn);
     collection: any;
     length: number;
@@ -27,6 +29,7 @@ export declare class DefaultIterableDiffer implements IterableDiffer {
     forEachAddedItem(fn: Function): void;
     forEachMovedItem(fn: Function): void;
     forEachRemovedItem(fn: Function): void;
+    forEachIdentityChange(fn: Function): void;
     diff(collection: any): DefaultIterableDiffer;
     onDestroy(): void;
     check(collection: any): boolean;

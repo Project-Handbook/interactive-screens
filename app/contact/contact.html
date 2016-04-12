@@ -1,0 +1,17 @@
+<div class="header1"> FAQ </div>
+
+<link rel="stylesheet" type="text/css" href="contact.min.css">
+  <div class="dropDown">
+  <select (change)="onSelect($event.target.value)">
+    <option *ngFor="#value of dropDownValues" [value]="value.id">{{value.name}}</option>
+  </select>
+</div>
+<div class="textArea">{{selectedValue.info}}</div>
+
+
+<p>If you have something else you need to ask/report, please do so below.</p>
+
+<textarea [(ngModel)]="email.message"	type="text" name="requestHelp" placeholder="Description"></textarea>
+
+
+<button type="submit" (click)="onSubmit(email.reciever, email.message)">Submit</button>

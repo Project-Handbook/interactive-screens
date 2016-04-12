@@ -21,4 +21,3 @@ export * from './src/core/platform_directives_and_pipes';
 export * from './src/core/platform_common_providers';
 export * from './src/core/application_common_providers';
 export * from './src/core/reflection/reflection';
-import "./manual_typings/globals-es6.d.ts";

@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-var obs = new Observable(obs => {
+import { Observable } from 'rxjs/Rx';
+var obs = new Observable((obs) => {
     var i = 0;
     setInterval(_ => { obs.next(++i); }, 1000);
 });

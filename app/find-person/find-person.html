@@ -1,0 +1,30 @@
+<link rel="stylesheet" type="text/css" href="find-person.min.css" />
+
+<div id="wrapper">
+
+	<div id="wrapper-persons">
+		<div id="person-header">
+			<form action="search()" id="search-container">
+				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone..." autocomplete="off">
+				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
+			</form>
+			<br>
+			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing {{ orgName }} staff</h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{people.length}} results for: {{ currentSearch }}</h5>
+		</div>
+
+		<div class="personId"><h4>A</h4></div>
+
+		<div *ngFor="#person of people; #i = index">
+
+			<!-- Displays the current letter for the surnames -->
+			<div *ngIf="i > 0 && person.family_name.charAt(0) > people[i-1].family_name.charAt(0)" class="personId">
+				<h4>{{ person.family_name.charAt(0).toUpperCase() }}</h4>
+			</div>
+
+			<person-profile [person]="person"></person-profile>
+
+		</div>
+	</div>
+
+</div>

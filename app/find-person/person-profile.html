@@ -1,0 +1,57 @@
+<link rel="stylesheet" type="text/css" href="find-person.min.css" />
+
+<div class="person" (click)="toggle(!isOn,person)">
+	<img [src]="person.image_url" onError="this.src='app/find-person/images/missing-profile-image.png'"/>
+
+	<div class="person-info">
+		<p class="person-info-name">{{ person.given_name }} {{ person.family_name }}</p>
+		<p class="person-info-title">{{ getTitle(person.title) }}</p>
+	</div>
+</div>
+
+<div class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}" (click)="toggle(!isOn);">
+	<div class="popup-wrapper">
+		<div class="popup-content">
+			<div class="popup-person">
+				<div class="popup-person-wrapper">
+					<p class="popup-person-name">{{ person.given_name }} {{ person.family_name }}</p>
+					<p class="popup-person-title">{{ person.title }}</p>
+
+					<div class="popup-person-line"></div>
+
+					<table>
+						<tr>
+							<td class="category">Works at</td>
+							<td>{{ person.working_place }}</td>
+						</tr>
+						<tr>
+							<td class="category">Email</td>
+							<td>{{ person.email }}</td>
+						</tr>
+						<tr>
+							<td class="category">Phone</td>
+							<td>{{ person.phone_number }}</td>
+						</tr>
+						<tr>
+							<td class="category">Address</td>
+							<td>{{ person.visiting_address }}</td>
+							<td *ngIf="person.visiting_address"><a [routerLink]="['Map', {person: person}]">View on map</a></td>
+						</tr>
+						<tr>
+							<td class="category">KTH profile</td>
+							<td>MISSING</td>
+						</tr>
+					</table>
+					<div class="popup-person-about">
+						About me
+						<div class="popup-person-line"></div>
+						<p>Project manager at Centre for Sustainable Communications (SESC).</p>
+					</div>
+				</div>
+			</div>
+			<div class="popup-image">
+				<img [src]="person.image_url" onError="this.src='app/find-person/images/missing-profile-image.png'"/>
+			</div>
+		</div>
+	</div>
+</div>

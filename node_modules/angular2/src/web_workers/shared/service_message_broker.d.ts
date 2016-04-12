@@ -1,7 +1,6 @@
 import { Serializer } from "angular2/src/web_workers/shared/serializer";
 import { Type } from "angular2/src/facade/lang";
 import { MessageBus } from "angular2/src/web_workers/shared/message_bus";
-import { Promise } from 'angular2/src/facade/async';
 export declare abstract class ServiceMessageBrokerFactory {
     /**
      * Initializes the given channel and attaches a new {@link ServiceMessageBroker} to it.

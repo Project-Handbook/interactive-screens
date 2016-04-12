@@ -24,9 +24,16 @@ export declare class HtmlElementAst implements HtmlAst {
     constructor(name: string, attrs: HtmlAttrAst[], children: HtmlAst[], sourceSpan: ParseSourceSpan);
     visit(visitor: HtmlAstVisitor, context: any): any;
 }
+export declare class HtmlCommentAst implements HtmlAst {
+    value: string;
+    sourceSpan: ParseSourceSpan;
+    constructor(value: string, sourceSpan: ParseSourceSpan);
+    visit(visitor: HtmlAstVisitor, context: any): any;
+}
 export interface HtmlAstVisitor {
     visitElement(ast: HtmlElementAst, context: any): any;
     visitAttr(ast: HtmlAttrAst, context: any): any;
     visitText(ast: HtmlTextAst, context: any): any;
+    visitComment(ast: HtmlCommentAst, context: any): any;
 }
 export declare function htmlVisitAll(visitor: HtmlAstVisitor, asts: HtmlAst[], context?: any): any[];

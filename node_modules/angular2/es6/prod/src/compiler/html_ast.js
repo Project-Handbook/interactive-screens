@@ -23,6 +23,13 @@ export class HtmlElementAst {
     }
     visit(visitor, context) { return visitor.visitElement(this, context); }
 }
+export class HtmlCommentAst {
+    constructor(value, sourceSpan) {
+        this.value = value;
+        this.sourceSpan = sourceSpan;
+    }
+    visit(visitor, context) { return visitor.visitComment(this, context); }
+}
 export function htmlVisitAll(visitor, asts, context = null) {
     var result = [];
     asts.forEach(ast => {

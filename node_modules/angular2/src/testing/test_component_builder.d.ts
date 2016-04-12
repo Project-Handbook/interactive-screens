@@ -1,6 +1,5 @@
 import { ComponentRef, Injector, ViewMetadata, ElementRef } from 'angular2/core';
 import { Type } from 'angular2/src/facade/lang';
-import { Promise } from 'angular2/src/facade/async';
 import { DebugElement } from 'angular2/src/core/debug/debug_node';
 /**
  * Fixture for debugging and testing a component.

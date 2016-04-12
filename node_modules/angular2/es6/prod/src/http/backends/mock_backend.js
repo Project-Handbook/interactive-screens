@@ -108,7 +108,7 @@ export let MockBackend = class {
     constructor() {
         this.connectionsArray = [];
         this.connections = new Subject();
-        this.connections.subscribe(connection => this.connectionsArray.push(connection));
+        this.connections.subscribe((connection) => this.connectionsArray.push(connection));
         this.pendingConnections = new Subject();
     }
     /**
@@ -118,7 +118,7 @@ export let MockBackend = class {
      */
     verifyNoPendingRequests() {
         let pending = 0;
-        this.pendingConnections.subscribe(c => pending++);
+        this.pendingConnections.subscribe((c) => pending++);
         if (pending > 0)
             throw new BaseException(`${pending} pending connections to be resolved`);
     }
@@ -128,7 +128,7 @@ export let MockBackend = class {
      *
      * This method only exists in the mock implementation, not in real Backends.
      */
-    resolveAllConnections() { this.connections.subscribe(c => c.readyState = 4); }
+    resolveAllConnections() { this.connections.subscribe((c) => c.readyState = 4); }
     /**
      * Creates a new {@link MockConnection}. This is equivalent to calling `new
      * MockConnection()`, except that it also will emit the new `Connection` to the `connections`

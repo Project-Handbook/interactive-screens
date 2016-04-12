@@ -49,7 +49,7 @@ export declare class Reflector {
         [key: string]: MethodFn;
     }): void;
     factory(type: Type): Function;
-    parameters(typeOrFunc: any): any[];
+    parameters(typeOrFunc: any): any[][];
     annotations(typeOrFunc: any): any[];
     propMetadata(typeOrFunc: any): {
         [key: string]: any[];

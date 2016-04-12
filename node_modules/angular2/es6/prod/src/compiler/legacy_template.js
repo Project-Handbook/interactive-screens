@@ -34,6 +34,7 @@ export class LegacyHtmlAstTransformer {
         this.rewrittenAst = [];
         this.visitingTemplateEl = false;
     }
+    visitComment(ast, context) { return ast; }
     visitElement(ast, context) {
         this.visitingTemplateEl = ast.name.toLowerCase() == 'template';
         let attrs = ast.attrs.map(attr => attr.visit(this, null));

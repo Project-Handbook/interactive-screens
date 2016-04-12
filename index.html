@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Angular 2 QuickStart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfills, in this exact order -->
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
+
+    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <!-- Load the Angular router -->
+    <script src="node_modules/angular2/bundles/router.dev.js"></script>
+
+    <!-- Normalize.css -->
+    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css"/>
+
+   <!-- Angular HTTP -->
+   <script src="node_modules/angular2/bundles/http.dev.js"></script>
+
+   <!-- Angular RXJS -->
+   <script src="node_modules/rxjs/bundles/Rx.js"></script>
+
+    <!-- 2. Configure SystemJS -->
+    <script>
+      System.config({
+        packages: {
+          app: {
+            format: 'register',
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('app/main')
+            .then(null, console.error.bind(console));
+    </script>
+  </head>
+  <!-- Used by the Angular router ... -->
+  <base href="/">
+
+  <!-- 3. Display the application -->
+  <body scroll="no" style="overflow: hidden">
+    <main-frame>Loading...</main-frame>
+  </body>
+
+</html>
