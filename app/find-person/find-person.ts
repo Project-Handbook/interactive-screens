@@ -37,6 +37,7 @@ export class FindPerson {
     this.people=[];
     this.findPersonService.fetchPeople(searchterm)
       .subscribe(res => {
+        console.log(res);
         res.result.forEach(item => {
           var person = new Person(
             item.given_name,
@@ -44,12 +45,14 @@ export class FindPerson {
             item.email_address,
             item.kthid,
             item.phonehr,
-            item.visiting_adress,
+            item.visiting_address,
             item.username,
             item.title_sv,
             item.image_url
           );
-          this.fetchImage(person),
+          console.log(person)
+
+          this.fetchAdditionalInfo(person),
           this.people.push(person);
         })
       },
@@ -58,11 +61,14 @@ export class FindPerson {
       );
 
   }
-  //Fetches the associated image for every person fetched by getPeople
-  private fetchImage(person: Person) {
-    this.findPersonService.fetchImage(person)
-      .subscribe(image_url => {
-        person.image_url = image_url.substr(1, image_url.length - 2);
+  //Fetches the associated image, kthprofile and workplace for every person fetched by getPeople
+  fetchAdditionalInfo(person: Person) {
+    this.findPersonService.fetchAdditionalInfo(person)
+      .subscribe(item => {
+        console.log(item)
+        person.image_url = item.image;
+        person.kth_profile = item.url;
+        person.works_for = item.worksFor[0].name;
       },
       error => console.log(error),
       () => {}

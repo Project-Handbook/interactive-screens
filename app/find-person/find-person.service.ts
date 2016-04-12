@@ -14,9 +14,9 @@ export class FindPersonService{
 
 	}
 	// Fetches the persons image url from the API asscioated their kth id
-	fetchImage(person: Person) {
-		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid + "/image";
+	fetchAdditionalInfo(person: Person) {
+		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		return this.http.get(url)
-			.map(res => res.text())
+			.map(res => res.json())
 	}
 }
