@@ -1,6 +1,9 @@
-import { Component ,View, ViewChild } from 'angular2/core';
+<<<<<<< HEAD
+import { Component } from 'angular2/core';
 import {MapService} from './map-service';
 import {AutoCompleteComponent} from './autocomplete';
+import { RouteParams } from 'angular2/router';
+
 /// <reference path="../../typings/leaflet/leaflet.d.ts"/>
 
 @Component({
@@ -15,7 +18,10 @@ export class Map {
   map: L.Map;
   //Leaflet Marker Object
   currentDestination: L.Marker;
-
+   constructor(routeParams: RouteParams) {
+    var person = <Person> routeParams.get('person'); // This works (hooray!)
+    console.log(person);
+  }
   
   //Executes on page load.
 	ngOnInit(){
@@ -47,11 +53,15 @@ export class Map {
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
   addDestinationMarker(place){
+
+
+
+
     if (this.currentDestination != null) {
       this.map.removeLayer(this.currentDestination);
     } 
     this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
      .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
     .openPopup();
-  }
+ 
 }
