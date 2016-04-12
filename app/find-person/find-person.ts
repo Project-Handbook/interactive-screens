@@ -3,11 +3,12 @@ import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
 import { FindPersonService } from './find-person.service';
 import { Person } from './person';
+import { PersonProfile } from './person-profile';
 
 @Component({
   selector: 'find-person',
   templateUrl: 'app/find-person/find-person.html',
-  directives: [NgClass],
+  directives: [NgClass, PersonProfile],
   providers: [FindPersonService]
 })
 export class FindPerson {

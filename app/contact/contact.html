@@ -11,6 +11,7 @@
 
 <p>If you have something else you need to ask/report, please do so below.</p>
 
-<textarea name="requestHelp" placeholder="What is your problem?"></textarea>
-<br>
-<button type="submit">Send</button>
+<textarea [(ngModel)]="email.message"	type="text" name="requestHelp" placeholder="Description"></textarea>
+
+
+<button type="submit" (click)="onSubmit(email.reciever, email.message)">Submit</button>
