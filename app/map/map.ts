@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 import { Component } from 'angular2/core';
 import {MapService} from './map-service';
 import {AutoCompleteComponent} from './autocomplete';
 import { RouteParams } from 'angular2/router';
-
+import {Person} from 'app/find-person/person';
 /// <reference path="../../typings/leaflet/leaflet.d.ts"/>
 
 @Component({
@@ -11,6 +10,7 @@ import { RouteParams } from 'angular2/router';
   templateUrl:'./app/map/map.html',
   styleUrls:['./app/map/map.min.css'],  
   directives:[AutoCompleteComponent],
+  providers:[MapService],
 })
 export class Map {
   public destinationLocation;
@@ -18,9 +18,15 @@ export class Map {
   map: L.Map;
   //Leaflet Marker Object
   currentDestination: L.Marker;
-   constructor(routeParams: RouteParams) {
+
+  constructor(routeParams: RouteParams, private geoCodingService:MapService) {
     var person = <Person> routeParams.get('person'); // This works (hooray!)
+    //var person_name = <string> routeParams.get('person');
+    //var person_address = <string> routeParams.get('address');
     console.log(person);
+    if(person!==null){
+      this.getGeoCoding(person);
+    }
   }
   
   //Executes on page load.
@@ -53,15 +59,27 @@ export class Map {
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
   addDestinationMarker(place){
-
-
-
-
     if (this.currentDestination != null) {
       this.map.removeLayer(this.currentDestination);
     } 
     this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
      .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
     .openPopup();
- 
+  }
+
+  getGeoCoding(address:Person){
+    console.log(address);
+    console.log("+");
+    var coordinates;
+    this.geoCodingService.getGeoCode(address.visiting_address)
+      .subscribe(res=>{coordinates= res.results[0].geometry.location,
+      this.currentDestination = L.marker([coordinates.lat,coordinates.lng]).addTo(this.map);
+       // .bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" + person.visiting_address)
+       //.openPopup();  
+
+      });
+
+  }
+
+
 }

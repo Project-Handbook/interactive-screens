@@ -75,7 +75,6 @@ export class AutoCompleteComponent {
 				    inside = true;
 			    }
 			   clickedComponent = clickedComponent.parentNode;
-
 		  }while (clickedComponent);
 
   		if(!inside){
