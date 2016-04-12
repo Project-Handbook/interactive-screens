@@ -7,14 +7,14 @@ import { Person } from './person';
 export class FindPersonService{
 	constructor(private http: Http) {}
 	// Fetches all the people matching the searchterm from KTH Profiles
-	fetchPeople(searchterm: string): Array<Person> {
+	fetchPeople(searchterm: string) {
 		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
 		return this.http.get(url + searchterm)
 			.map(res => res.json())
-			
+
 	}
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchImage(person: Person) {
+	fetchImage(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid + "/image";
 		return this.http.get(url)
 			.map(res => res.text())

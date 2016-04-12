@@ -3,23 +3,17 @@
 // -------- Header styles --------
 .main_frame_header {
   display: flex;
-  width: 100%;
-  // background-color: $black; // DEBUG
   align-items: center;
-
-  border-bottom: 3px $kth-color-blue solid;
-
-  .corner_image {
-    img {
-      width: 250%;
-    }
-  }
+  justify-content: center;
+  width: 100%;
+  background-color: $kth-color-blue;
 
   .main_header_title {
+    max-width: 50%;
     font: $kth-font-title;
-    color: $kth-color-green;
-    padding-left: 8rem;
-    font-size: 350%;
+    font-weight: lighter;
+    color: $white;
+    font-size: 400%;
   }
 }
 
@@ -84,7 +78,7 @@
   position:absolute;
   bottom:0;
   width:100%;
-  height:2em;   /* Height of the footer */
+  height:2.6rem;   /* Height of the footer */
 }
 
 .absolute {
