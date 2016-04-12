@@ -8,5 +8,6 @@ export class Person {
 							public visiting_address: string,
 							public username: string,
 							public title: string,
-							public image_url: string) {}
+							public image_url: string,
+							public working_place: string) {}
 }
