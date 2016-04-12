@@ -1,47 +1,52 @@
 import { Component } from 'angular2/core';
-import {OnInit} from 'angular2/core'
-import {NgClass} from 'angular2/common';
-import {FindPersonService} from './find-person.service';
+import { OnInit } from 'angular2/core'
+import { NgClass } from 'angular2/common';
+import { FindPersonService } from './find-person.service';
+import { Person } from './person';
+import { PersonProfile } from './person-profile';
 
 @Component({
   selector: 'find-person',
-  templateUrl: 'app/find-person/partial_find-person.html',
-  directives: [NgClass],
+  templateUrl: 'app/find-person/find-person.html',
+  directives: [NgClass, PersonProfile],
   providers: [FindPersonService]
 })
 export class FindPerson {
 
+  currentPerson: Person;
+  // Default search values
   organisation: string = "org:DAS";
-  orgName : string = "CSC";
+  orgName: string = "CSC";
+  currentSearch: string = "";
 
   isOn = false;
-  	isDisabled = false;
-  	toggle(newState) {
-      if (!this.isDisabled) {
-        	this.isOn = newState;
-      }
-    }
+  isDisabled = false;
 
-  currentSearch : string = "";
-  people: Array<Object>=[];
-  peopleImage: Array<string>=[];
-  constructor(private _findPersonService:FindPersonService){
+  toggle(newState, person: Person) {
+    this.currentPerson = person;
+    if (!this.isDisabled) {
+      	this.isOn = newState;
+    }
   }
-  getPeople(term:string){
-    console.log(this.people);
-    this.people = [];
-    this.people = this._findPersonService.getPeople(term);
-    this.peopleImage = this._findPersonService.getImages();
+
+  people: Array<Person> = []; // Holds all the persons fetched from the API
+
+  constructor(private findPersonService: FindPersonService) {}
+
+  getPeople(searchterm: string) {
+    this.people = this.findPersonService.fetchPeople(searchterm);
   }
-  getTitle(title : string) : string {
-    var res = title.charAt(0) + title.substr(1).toLowerCase();
-    return res;
+
+  // Makes a Persons title lowercase instead of KTH standard ALL CAPS.
+  getTitle(title: string): string {
+    return title.charAt(0) + title.substr(1).toLowerCase();
   }
-  ngOnInit():any{
+
+  ngOnInit(): any {
     this.getPeople(this.organisation);
   }
 
-  search(input : string) {
+  search(input: string) {
     if(input == undefined) {
       this.getPeople(this.organisation);
       this.currentSearch = "";

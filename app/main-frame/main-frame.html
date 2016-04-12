@@ -1,21 +1,18 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="main-frame.min.css"/>
 <header class="main_frame_header">
-  <div class="corner_image">
-    <img src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
-  </div>
-  <h1 class="main_header_title">Lindstedtsvägen 24, våning 4</h1>
+  <h1 class="main_header_title">{{ screenInfo.title }}</h1>
 </header>
 
 <div class="contact_field">
     <h2>Contact</h2>
     <p>Address:<br>
-       Lindstedtsv. 4, floot 4<br>
+       {{ screenInfo.address }}<br>
        12345 Stockholm
     </p>
     <p>
       Telephone:<br>
-      +46 8 12 34 56
+      {{ screenInfo.telephoneNumber }}
     </p>
      <p class="open-hrs">
       Open:<br>

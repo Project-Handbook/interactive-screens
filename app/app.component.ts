@@ -5,9 +5,12 @@ import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
 import { NgStyle } from 'angular2/common';
+import { SetupProcess } from './setup-process/setup-process';
 import {LocationStrategy,
         HashLocationStrategy} from 'angular2/router';
 import {provide}           from 'angular2/core';
+import { Constants } from './constants';
+import { ScreenSpecificInformation } from './screen-specific-information';
 
 @Component({
     selector: 'main-frame',
@@ -18,10 +21,15 @@ import {provide}           from 'angular2/core';
 })
 @RouteConfig([
   {
+    path: '/setup-process',
+    component: SetupProcess,
+    name: 'SetupProcess',
+    useAsDefault: true
+  },
+  {
     path: '/home',
     component: Home,
     name: 'Home',
-    useAsDefault: true
   },
   {
     path: '/find-person',
@@ -44,8 +52,16 @@ export class AppComponent {
     menuItemsTopBottomBorder: Array<string> = ['1px solid #2258A5', '1px groove #A9A9A9', '1px groove #A9A9A9', '1px groove #A9A9A9'];
     prev:number = 0;
 
+    // Fetches the screen specific information from the session storage
+    // If the screen information is null this returns a default object
+    public get screenInfo(): ScreenSpecificInformation {
+      var screenInfo = JSON.parse(sessionStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      if (screenInfo == null) { return new ScreenSpecificInformation(); }
+      return screenInfo
+    }
+
     // Called whenever the window is clicked
-    private onWindowClick() {
+    onWindowClick = () => {
       window.clearInterval(this.refreshVar);
       this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     }
@@ -53,13 +69,22 @@ export class AppComponent {
     // After this time (5 min) the page will reload if none has touched the window
     private refreshTimeout = 5 * 60 * 1000;
     // Reloads the current page
-    private refreshPage() {
-      location.reload();
+    refreshPage = () => {
+      // Navigate to '/Home'
+      this.router.navigate(['Home']).then(() => {
+        window.location.reload(true);
+      });
     }
     // Used to clear the refresh timer
     private refreshVar
 
 constructor(private router: Router, private location: Location) {
+    // Check whether or not the screen has gone through the setup process
+    var screenInfo = sessionStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
+    if (screenInfo != null) { /* Has gone through setup - go to Home then */
+      this.router.navigate(['Home']);
+    }
+
     // Setup update interval
     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     // Setup the window on click callback
