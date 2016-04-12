@@ -25,9 +25,11 @@ export class FindPersonService{
 						item.visiting_address,
 						item.username,
 						item.title_sv,
-						item.image_url
+						undefined,	/* Need to fetch the image url */
+						undefined /* Need to fetch working place */
 					);
 					this.fetchImage(person);
+					this.fetchWorkingPlace(person);
 					people.push(person);
 				})
 			},
@@ -44,6 +46,19 @@ export class FindPersonService{
 			.map(res => res.text())
 			.subscribe(image_url => {
 				person.image_url = image_url.substr(1, image_url.length - 2);
+			},
+			error => console.log(error),
+			() => {}
+		);
+	}
+
+	// Fetches the persons working place from the KTH Profile API
+	private fetchWorkingPlace(person: Person) {
+		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
+		this.http.get(url)
+			.map(res => res.json())
+			.subscribe(person_info => {
+				person.working_place = person_info.worksFor[0].name;
 			},
 			error => console.log(error),
 			() => {}
