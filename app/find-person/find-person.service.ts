@@ -22,7 +22,7 @@ export class FindPersonService{
 						item.email_address,
 						item.kthid,
 						item.phonehr,
-						item.visiting_adress,
+						item.visiting_address,
 						item.username,
 						item.title_sv,
 						item.image_url
