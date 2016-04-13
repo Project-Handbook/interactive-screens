@@ -4,15 +4,12 @@ import 'rxjs/add/operator/map';
 import { Person } from './person';
 
 @Injectable()
-export class FindPersonService{
-
+export class FindPersonService {
 	constructor(private http: Http) {}
-
 	// Fetches all the people matching the searchterm from KTH Profiles
-	fetchPeople(searchterm: string): Array<Person> {
-		var people = [];
+	fetchPeople(searchterm: string) {
 		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
-		this.http.get(url + searchterm)
+		return this.http.get(url + searchterm)
 			.map(res => res.json())
 			.subscribe(res => {
 				res.result.forEach(item => {
@@ -38,30 +35,11 @@ export class FindPersonService{
 			);
 		return people;
 	}
-
+}
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchImage(person: Person) {
-		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid + "/image";
-		this.http.get(url)
-			.map(res => res.text())
-			.subscribe(image_url => {
-				person.image_url = image_url.substr(1, image_url.length - 2);
-			},
-			error => console.log(error),
-			() => {}
-		);
-	}
-
-	// Fetches the persons working place from the KTH Profile API
-	private fetchWorkingPlace(person: Person) {
+	fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
-		this.http.get(url)
+		return this.http.get(url)
 			.map(res => res.json())
-			.subscribe(person_info => {
-				person.working_place = person_info.worksFor[0].name;
-			},
-			error => console.log(error),
-			() => {}
-		);
 	}
 }

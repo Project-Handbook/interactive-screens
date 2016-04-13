@@ -17,6 +17,8 @@ export class FindPerson {
   organisation: string = "org:DAS";
   orgName: string = "CSC";
   currentSearch: string = "";
+  //Boolean for displaying error message if a search request would fail for any reason
+  showErrorMessage:boolean=false;
 
   isOn = false;
   isDisabled = false;
@@ -27,13 +29,50 @@ export class FindPerson {
       	this.isOn = newState;
     }
   }
-
   people: Array<Person> = []; // Holds all the persons fetched from the API
-
   constructor(private findPersonService: FindPersonService) {}
 
+  //Fetches people matching the given search string
   getPeople(searchterm: string) {
-    this.people = this.findPersonService.fetchPeople(searchterm);
+    this.people=[];
+    this.findPersonService.fetchPeople(searchterm)
+      .subscribe(res => {
+        console.log(res);
+        res.result.forEach(item => {
+          var person = new Person(
+            item.given_name,
+            item.family_name,
+            item.email_address,
+            item.kthid,
+            item.phonehr,
+            item.visiting_address,
+            item.username,
+            item.title_sv,
+            item.image_url
+          );
+          console.log(person)
+
+          this.fetchAdditionalInfo(person),
+          this.people.push(person);
+        })
+      },
+        error=> this.showErrorMessage=true,
+        () => {this.showErrorMessage=false}
+      );
+
+  }
+  //Fetches the associated image, kthprofile and workplace for every person fetched by getPeople
+  fetchAdditionalInfo(person: Person) {
+    this.findPersonService.fetchAdditionalInfo(person)
+      .subscribe(item => {
+        console.log(item)
+        person.image_url = item.image;
+        person.kth_profile = item.url;
+        person.works_for = item.worksFor[0].name;
+      },
+      error => console.log(error),
+      () => {}
+    );
   }
 
   // Makes a Persons title lowercase instead of KTH standard ALL CAPS.
@@ -41,6 +80,7 @@ export class FindPerson {
     return title.charAt(0) + title.substr(1).toLowerCase();
   }
 
+  //Displays people local to the department as default when the people tab is pushed.
   ngOnInit(): any {
     this.getPeople(this.organisation);
   }
@@ -60,4 +100,6 @@ export class FindPerson {
       this.getPeople(input);
     }
   }
+
+
 }
