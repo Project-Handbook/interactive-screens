@@ -7,7 +7,28 @@
   </select>
 </div>
 -->
-<div class="textArea">{{selectedValue.info}}</div>
+
+
+<div class="container">
+    <form>
+
+      <p>You can contact CSC here to report your errand</p>
+      <div class="form-group">
+        <label for="alterEgo">Message</label>
+        <textarea type="text" class="form-control" placeholder="Description"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="name">Your email</label>
+        <br>
+        <input type="text" class="form-control" placeholder="Email" required>
+      </div>
+      <button type="submit" (click)="onSubmit(email.sender, email.reciever, email.message)" class="btn btn-default">Submit</button>
+    </form>
+</div>
+
+<!-- <div class="textArea">{{selectedValue.info}}</div>
+
+
 
 
 <p>If you have something else you need to ask/report, please do so below.</p>
@@ -15,4 +36,4 @@
 <textarea [(ngModel)]="email.message"	type="text" name="requestHelp" placeholder="Description"></textarea>
 
 
-<button type="submit" (click)="onSubmit(email.reciever, email.message)">Submit</button>
+<button type="submit" (click)="onSubmit(email.reciever, email.message)">Submit</button> -->
