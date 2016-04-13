@@ -12,6 +12,7 @@ import { PersonProfile } from './person-profile';
   providers: [FindPersonService]
 })
 export class FindPerson {
+
   currentPerson: Person;
   // Default search values
   organisation: string = "org:DAS";
