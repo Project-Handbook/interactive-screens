@@ -23,6 +23,9 @@
 
    <!-- Angular RXJS -->
    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+   <!-- Leaflet -->
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
 
     <!-- 2. Configure SystemJS -->
     <script>
@@ -32,7 +35,10 @@
             format: 'register',
             defaultExtension: 'js'
           }
-        }
+        },
+    map: {
+      moment: 'node_modules/moment/moment.js'
+    }
       });
       System.import('app/main')
             .then(null, console.error.bind(console));

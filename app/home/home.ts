@@ -1,34 +1,33 @@
-import { Component } from 'angular2/core';
+import { Component, ViewEncapsulation } from 'angular2/core';
 import { Http, HTTP_PROVIDERS } from 'angular2/http';
+import { HomeService } from './home-service';
 
 @Component({
   selector: 'home',
   viewProviders: [HTTP_PROVIDERS],
-  templateUrl: 'app/home/home.html'
+  templateUrl: 'app/home/home.html',
+  providers:[HomeService],
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['app/home/home.min.css']
 })
 export class Home {
-    private base_polopoly_url = "https://www.kth.se/cm/"
+    calendar_block: String;
+    news_block: String;
 
-    private calendar_polopoly_id = "1.231565"
-    private news_polopoly_id = "1.314503"
+    constructor(private homeService:HomeService){}
 
-    /**
-    * Description to be added
-    * @property {String} news_block
-    */
-    news_block: String
+    getCalendar(){
+      this.homeService.getCalendar()
+      .subscribe(res => { this.calendar_block = res });
+    }
 
-    /**
-    * Description to be added
-    * @property {String} news_block
-    */
-    calendar_block: String
+    getNewsFeed(){
+    this.homeService.getNewsFeed()
+    .subscribe(res => { this.news_block = res });
+    }
 
-    constructor(http: Http) {
-      http.get(this.base_polopoly_url + this.news_polopoly_id)
-        .subscribe(res => this.news_block = res.text())
-
-      http.get(this.base_polopoly_url + this.calendar_polopoly_id)
-        .subscribe(res => this.calendar_block = res.text())
+    ngOnInit(){
+      this.getCalendar();
+      //this.getNewsFeed();
     }
 }

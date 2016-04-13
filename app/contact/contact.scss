@@ -4,43 +4,19 @@
 * {
 	font-size: 1.5rem;
 }
-select {
-  width: 90rem; // from 101
-  height: 4rem;
-	padding: 5rem $kth-color-grey;
-	margin-left: 1rem;
+
+p {
+	color: #FF0000;
+	margin-left: 20rem;
+	font-size: 1rem;
 }
 
-.header1 {
-	font-family: $kth-font-title;
-	font-size: 3rem;
-	text-align: center;
-}
-
-/* .dropDown {
-	margin-bottom: 1rem;
-	margin-top: 1rem;
-}
-*/
-
-/*
-.textArea {
-	font-size: 1.2rem;
-	margin-left: 20.5rem;
-	margin-bottom: 3rem;
-}
-*/
 
 label {
 	font-size: 1.2rem;
 	margin-left: 1rem;
 }
 
-input {
-	margin-left: 1rem;
-	padding: 50rem $kth-color-grey;
-
-}
 textarea {
 	margin-left: 1rem;
 	width: 90rem;	// from 100
@@ -55,3 +31,34 @@ button {
 	height: 3rem;
 	margin-top: 0.3rem;
 }
+input {
+	margin-left: 1rem;
+	padding: 50rem $kth-color-grey;
+}
+
+
+// DROPDOWN SHIT
+
+/*
+select {
+  width: 90rem; // from 101
+  height: 4rem;
+	padding: 5rem $kth-color-grey;
+	margin-left: 1rem;
+}
+ */
+
+
+ /*
+ .dropDown {
+ 	margin-bottom: 1rem;
+ 	margin-top: 1rem;
+ }
+
+
+ .textArea {
+ 	font-size: 1.2rem;
+ 	margin-left: 20.5rem;
+ 	margin-bottom: 3rem;
+ }
+*/
