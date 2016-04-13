@@ -15,7 +15,8 @@ class dropDownValue {
   providers: [EmailService],
 })
 export class Contact {
-  public dropDownValues: dropDownValue[] = [
+
+/*  public dropDownValues: dropDownValue[] = [
         { "id": 1, "name": "Where am i?", "info": "You are at Lindstedsvägen 4" },
         { "id": 2, "name": "heee", "info": "DU kan lämna skit här" },
         { "id": 3, "name": "Whats the clock?", "info": "Tiden är 13.37" },
@@ -32,12 +33,13 @@ export class Contact {
             }
           }
       }
-
+*/
        constructor(private _emailService: EmailService) {}
        public email = {message: "", reciever: "emil.g.persson@gmail.com"};
 
 
        onSubmit(reciever, message) {
+         
          console.log("Mail to: " + reciever + "\nMessage: " + message);
          this._emailService.sendEmail(reciever, message).map(res=>res).subscribe(res=>console.log(res),error=>console.log(error));
        }
