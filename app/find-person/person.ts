@@ -9,6 +9,6 @@ export class Person {
 							public username: string,
 							public title: string,
 							public image_url: string,
-							public kth_profile:string,
-							public works_at:string) {}
+							public kth_profile: string,
+							public working_place: string) {}
 }
