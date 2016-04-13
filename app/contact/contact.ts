@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, Control, ControlGroup, FormBuilder, Validators} from 'angular2/common';
 import { EmailService } from './email.service';
 import "rxjs/add/operator/map";
 
@@ -8,13 +8,70 @@ class dropDownValue {
   name: string;
   info: string;
 }
+
+
 @Component({
   selector: 'contact',
   templateUrl: 'app/contact/contact.html',
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
   providers: [EmailService],
 })
+
 export class Contact {
+
+  msgCtrl: Control;
+  emailCtrl: Control;
+
+  form: ControlGroup;
+
+
+constructor(private _emailService: EmailService, private builder: FormBuilder) {
+  this.msgCtrl = new Control('', Validators.minLength(10));
+  this.emailCtrl = new Control('', EmailValidator.mailFormat);
+  this.form = builder.group({
+     msgCtrl: this.msgCtrl,
+     emailCtrl: this.emailCtrl
+   });
+ }
+
+
+ public email = {message: "", fromEmail: ""};
+
+ onSubmit(fromEmail, message) {
+   console.log("Mail from: " + fromEmail + "\nMessage: " + message);
+   this._emailService.sendEmail(fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>console.log(error));
+ }
+
+
+ }
+
+
+ interface ValidationResult {
+  [key:string]:boolean;
+ }
+
+ class EmailValidator {
+
+  static mailFormat(control: Control): ValidationResult {
+
+  var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+
+    if (control.value != "" && !EMAIL_REGEXP.test(control.value)) {
+      return { "isInCorrectEmail": true };
+    }
+
+    return null;
+
+  }
+
+ }
+
+
+
+
+
+
+
 
 /*  public dropDownValues: dropDownValue[] = [
         { "id": 1, "name": "Where am i?", "info": "You are at Lindstedsvägen 4" },
@@ -34,15 +91,3 @@ export class Contact {
           }
       }
 */
-       constructor(private _emailService: EmailService) {}
-       public email = {message: "", reciever: "emil.g.persson@gmail.com"};
-
-
-       onSubmit(reciever, message) {
-         
-         console.log("Mail to: " + reciever + "\nMessage: " + message);
-         this._emailService.sendEmail(reciever, message).map(res=>res).subscribe(res=>console.log(res),error=>console.log(error));
-       }
-
-
-}
