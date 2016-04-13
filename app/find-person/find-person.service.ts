@@ -3,13 +3,24 @@ import { Http } from 'angular2/http';
 import 'rxjs/add/operator/map';
 import { Person } from './person';
 
+// ErrorType describes what kind of error has occured
+export enum ErrorType {
+	NoError, NoResults, NoInternetConnection
+}
+
+// Defines a interface to a generic error callback to be passed to functions
+// which may fail or produce a error that we support via the ErrorType interface
+export interface ErrorCallback {
+	(errorType: ErrorType): void;
+}
+
 @Injectable()
 export class FindPersonService{
 
 	constructor(private http: Http) {}
 
 	// Fetches all the people matching the searchterm from KTH Profiles
-	fetchPeople(searchterm: string): Array<Person> {
+	fetchPeople(searchterm: string, onError: ErrorCallback): Array<Person> {
 		var people = [];
 		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
 		this.http.get(url + searchterm)
@@ -33,8 +44,8 @@ export class FindPersonService{
 					people.push(person);
 				})
 			},
-				error=> console.log(error),
-				() => {}
+				error => onError(ErrorType.NoInternetConnection),
+				() => onError(ErrorType.NoError)
 			);
 		return people;
 	}
