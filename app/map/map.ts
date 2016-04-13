@@ -21,9 +21,6 @@ export class Map {
 
   constructor(routeParams: RouteParams, private geoCodingService:MapService) {
     var person = <Person> routeParams.get('person'); // This works (hooray!)
-    //var person_name = <string> routeParams.get('person');
-    //var person_address = <string> routeParams.get('address');
-    console.log(person);
     if(person!==null){
       this.getGeoCoding(person);
     }
@@ -33,53 +30,48 @@ export class Map {
 	ngOnInit(){
     //Initialize map
 	 this.map = new L.Map('map', {
-            zoomControl: false,
-            center: new L.LatLng(59.3469417, 18.0702413),
-            zoom: 16,
-            minZoom: 4,
-            maxZoom: 18
-        });
-        var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+        zoomControl: false,
+        center: new L.LatLng(59.3469417, 18.0702413),
+        zoom: 16,
+        minZoom: 4,
+        maxZoom: 18
+    });
+    var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
         	attribution: '&copy; Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
         }).addTo(this.map);
-        var zoomControl = L.control.zoom({
-            position: 'topright'
+    var zoomControl = L.control.zoom({
+          position: 'topright'
         }).addTo(this.map);
       //Add marker at the location of the screen. 
-      var greenIcon = L.icon({
-        iconUrl: './app/map/marker-icon-2x-red.png',
-        iconSize:     [25, 40], // size of the icon
-        iconAnchor:   [12.5, 20], // point of the icon which will correspond to marker's location
-        popupAnchor:  [-10, -87] // point from which the popup should open relative to the iconAnchor
-        } );
+    var greenIcon = L.icon({
+      iconUrl: './app/map/marker-icon-2x-red.png',
+      iconSize:     [25, 40], // size of the icon
+      iconAnchor:   [12.5, 20], // point of the icon which will correspond to marker's location
+      popupAnchor:  [-10, -87] // point from which the popup should open relative to the iconAnchor
+      } );
 			L.marker([59.34694, 18.07319]).addTo(this.map)
-       .bindPopup('<strong>You are here.</strong>')
-          .openPopup();
+       .bindPopup('<strong>You are here.</strong>').openPopup();
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
   addDestinationMarker(place){
     if (this.currentDestination != null) {
       this.map.removeLayer(this.currentDestination);
-    } 
+    }
     this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
-     .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
-    .openPopup();
+        .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
+        .openPopup();
   }
 
   getGeoCoding(address:Person){
-    console.log(address);
-    console.log("+");
     var coordinates;
     this.geoCodingService.getGeoCode(address.visiting_address)
-      .subscribe(res=>{coordinates= res.results[0].geometry.location,
-      this.currentDestination = L.marker([coordinates.lat,coordinates.lng]).addTo(this.map);
+      .subscribe(res=>{
+          coordinates= res.results[0].geometry.location, 
+          console.log(res),
+          this.currentDestination = L.marker([coordinates.lat,coordinates.lng]).addTo(this.map);
        // .bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" + person.visiting_address)
        //.openPopup();  
-
       });
-
   }
-
-
 }
