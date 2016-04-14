@@ -3,5 +3,7 @@
 export class ScreenSpecificInformation {
   constructor(public title: string = "", /* Title to show in the top of the screen */
               public address: string = "", /* Address to show in the sidebar */
-              public telephoneNumber: string = "") /* Telephone nuber in the sidebar */ {}
+              public telephoneNumber: string = "", /* Telephone nuber in the sidebar */
+              public postal_code: string = "", /* Postal code in the sidebar */
+              public city: string = "") /* Nearest city shown in the sidebar */ {}
 }
