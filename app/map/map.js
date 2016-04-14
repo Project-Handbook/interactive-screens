@@ -55,7 +55,7 @@ System.register(['angular2/core', './map-service', './autocomplete', 'angular2/r
                     var zoomControl = L.control.zoom({
                         position: 'topright'
                     }).addTo(this.map);
-                    //Add marker at the location of the screen. 
+                    //Add marker at the location of the screen.
                     var greenIcon = L.icon({
                         iconUrl: './app/map/marker-icon-2x-red.png',
                         iconSize: [25, 40],
@@ -86,7 +86,7 @@ System.register(['angular2/core', './map-service', './autocomplete', 'angular2/r
                         coordinates = res.results[0].geometry.location,
                             _this.currentDestination = L.marker([coordinates.lat, coordinates.lng]).addTo(_this.map);
                         // .bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" + person.visiting_address)
-                        //.openPopup();  
+                        //.openPopup();
                     });
                 };
                 Map = __decorate([

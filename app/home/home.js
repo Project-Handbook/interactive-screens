@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', './home-service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, home_service_1;
     var Home;
     return {
         setters:[
@@ -19,26 +19,39 @@ System.register(['angular2/core', 'angular2/http'], function(exports_1, context_
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (home_service_1_1) {
+                home_service_1 = home_service_1_1;
             }],
         execute: function() {
             Home = (function () {
-                function Home(http) {
-                    var _this = this;
-                    this.base_polopoly_url = "https://www.kth.se/cm/";
-                    this.calendar_polopoly_id = "1.231565";
-                    this.news_polopoly_id = "1.314503";
-                    http.get(this.base_polopoly_url + this.news_polopoly_id)
-                        .subscribe(function (res) { return _this.news_block = res.text(); });
-                    http.get(this.base_polopoly_url + this.calendar_polopoly_id)
-                        .subscribe(function (res) { return _this.calendar_block = res.text(); });
+                function Home(homeService) {
+                    this.homeService = homeService;
                 }
+                Home.prototype.getCalendar = function () {
+                    var _this = this;
+                    this.homeService.getCalendar()
+                        .subscribe(function (res) { _this.calendar_block = res; });
+                };
+                Home.prototype.getNewsFeed = function () {
+                    var _this = this;
+                    this.homeService.getNewsFeed()
+                        .subscribe(function (res) { _this.news_block = res; });
+                };
+                Home.prototype.ngOnInit = function () {
+                    this.getCalendar();
+                    //this.getNewsFeed();
+                };
                 Home = __decorate([
                     core_1.Component({
                         selector: 'home',
                         viewProviders: [http_1.HTTP_PROVIDERS],
-                        templateUrl: 'app/home/home.html'
+                        templateUrl: 'app/home/home.html',
+                        providers: [home_service_1.HomeService],
+                        encapsulation: core_1.ViewEncapsulation.None,
+                        styleUrls: ['app/home/home.min.css']
                     }), 
-                    __metadata('design:paramtypes', [http_1.Http])
+                    __metadata('design:paramtypes', [home_service_1.HomeService])
                 ], Home);
                 return Home;
             }());

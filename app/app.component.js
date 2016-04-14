@@ -79,9 +79,9 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     // Setup the window on click callback
                     window.onclick = this.onWindowClick;
                     router.subscribe(function (val) {
-                        console.log(val);
-                        console.log(_this.menuItemsRightBorder);
-                        switch (val) {
+                        var url_with_para = val.split("?", 1);
+                        console.log(url_with_para);
+                        switch (url_with_para[0]) {
                             case "home":
                                 if (_this.prev !== 0) {
                                     _this.menuItemsRightBorder[0] = "none";

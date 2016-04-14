@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { isBlank, isPresent, CONST, getTypeNameForDebugging } from 'angular2/src/facade/lang';
 import { BaseException } from 'angular2/src/facade/exceptions';
 import { ListWrapper } from 'angular2/src/facade/collection';
-import { Provider, SkipSelfMetadata, OptionalMetadata, Injectable } from 'angular2/src/core/di';
+import { Provider, SkipSelfMetadata, OptionalMetadata } from 'angular2/src/core/di';
 /**
  * A repository of different iterable diffing strategies used by NgFor, NgClass, and others.
  */
@@ -73,7 +73,6 @@ export let IterableDiffers = class {
     }
 };
 IterableDiffers = __decorate([
-    Injectable(),
     CONST(), 
     __metadata('design:paramtypes', [Array])
 ], IterableDiffers);

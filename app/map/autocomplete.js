@@ -60,13 +60,13 @@ System.register(['angular2/core', './map-service'], function(exports_1, context_
                         this.searchResult = [];
                     }
                 };
-                //Send the selected location to map component. 
+                //Send the selected location to map component.
                 AutoCompleteComponent.prototype.select = function (item) {
                     this.newLocation.emit(item);
                     this.searchResult = [];
                 };
-                //This funtion determines if the user clicks outside the dropdown menu. If this is the case 
-                // the searchresult array will be cleared and the dropdown will disappear.  
+                //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+                // the searchresult array will be cleared and the dropdown will disappear.
                 AutoCompleteComponent.prototype.handleClick = function (event) {
                     var clickedComponent = event.target;
                     var inside = false;

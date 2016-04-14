@@ -29,14 +29,28 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
         execute: function() {
             FindPerson = (function () {
                 function FindPerson(findPersonService) {
+                    var _this = this;
                     this.findPersonService = findPersonService;
                     // Default search values
                     this.organisation = "org:DAS";
                     this.orgName = "CSC";
                     this.currentSearch = "";
+                    // Displaying error message if a search request would fail for any reason
+                    this.showErrorMessage = false;
                     this.isOn = false;
                     this.isDisabled = false;
                     this.people = []; // Holds all the persons fetched from the API
+                    // This is called whenever an event that might fail occurs.
+                    // Ex) Internet/API is down.
+                    this.onError = function (errorType) {
+                        switch (errorType) {
+                            case find_person_service_1.ErrorType.NoError:
+                                _this.showErrorMessage = false;
+                                break;
+                            default:
+                                _this.showErrorMessage = true;
+                        }
+                    };
                 }
                 FindPerson.prototype.toggle = function (newState, person) {
                     this.currentPerson = person;
@@ -45,7 +59,7 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
                     }
                 };
                 FindPerson.prototype.getPeople = function (searchterm) {
-                    this.people = this.findPersonService.fetchPeople(searchterm);
+                    this.people = this.findPersonService.fetchPeople(searchterm, this.onError);
                 };
                 // Makes a Persons title lowercase instead of KTH standard ALL CAPS.
                 FindPerson.prototype.getTitle = function (title) {
