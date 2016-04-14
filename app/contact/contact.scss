@@ -7,7 +7,6 @@
 
 p {
 	color: #FF0000;
-	margin-left: 20rem;
 	font-size: 1rem;
 }
 
@@ -25,8 +24,23 @@ textarea {
 	padding: 50rem $kth-color-grey;
 }
 
+.msgError {
+	margin-left: 20rem;
+
+
+}
+
+.emailError {
+	margin-left: 20rem;
+}
+
+.buttonArea {
+	//margin-left: 81.5rem; // from 93
+	float: right;
+	margin-right: 2rem;
+
+}
 button {
-	margin-left: 81.5rem; // from 93
 	width: 9rem;
 	height: 3rem;
 	margin-top: 0.3rem;
