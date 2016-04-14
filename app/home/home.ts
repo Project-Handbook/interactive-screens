@@ -18,12 +18,12 @@ export class Home {
 
     getCalendar(){
       this.homeService.getCalendar()
-      .subscribe(res => { this.calendar_block = res, console.log(res) });
+      .subscribe(res => { this.calendar_block = res });
     }
 
     getNewsFeed(){
     this.homeService.getNewsFeed()
-    .subscribe(res => { this.news_block = res , console.log(res)});
+    .subscribe(res => { this.news_block = res });
     }
 
     ngOnInit(){

@@ -38,9 +38,10 @@ export class FindPersonService{
 						item.title_sv,
 						undefined,	/* Need to fetch the image url */
 						undefined /* Need to fetch working place */
+						undefined /* Need to fetch kth profile*/
 					);
-					this.fetchImage(person);
-					this.fetchWorkingPlace(person);
+					this.FetchAdditionalInfo(person);
+					//this.fetchWorkingPlace(person);
 					people.push(person);
 				})
 			},
@@ -51,12 +52,14 @@ export class FindPersonService{
 	}
 
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchImage(person: Person) {
-		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid + "/image";
+	private FetchAdditionalInfo(person: Person) {
+		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
-			.map(res => res.text())
-			.subscribe(image_url => {
-				person.image_url = image_url.substr(1, image_url.length - 2);
+			.map(res => res.json())
+			.subscribe(item => {
+				person.image_url = item.image;
+				person.working_place = item.worksFor[0].name;
+				person.kth_profile = item.url;
 			},
 			error => console.log(error),
 			() => {}
