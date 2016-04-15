@@ -37,11 +37,10 @@ export class FindPersonService{
 						item.username,
 						item.title_sv,
 						undefined,	/* Need to fetch the image url */
-						undefined /* Need to fetch working place */
+						undefined, /* Need to fetch working place */
 						undefined /* Need to fetch kth profile*/
 					);
-					this.FetchAdditionalInfo(person);
-					//this.fetchWorkingPlace(person);
+					this.fetchAdditionalInfo(person);
 					people.push(person);
 				})
 			},
@@ -52,7 +51,7 @@ export class FindPersonService{
 	}
 
 	// Fetches the persons image url from the API asscioated their kth id
-	private FetchAdditionalInfo(person: Person) {
+	private fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
 			.map(res => res.json())
