@@ -35,6 +35,7 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
                     this._emailService = _emailService;
                     this.builder = builder;
                     this.email = { message: "", fromEmail: "" };
+                    this.error = false;
                     this.msgCtrl = new common_1.Control('', common_1.Validators.minLength(10));
                     this.emailCtrl = new common_1.Control('', EmailValidator.mailFormat);
                     this.form = builder.group({
@@ -43,8 +44,11 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
                     });
                 }
                 Contact.prototype.onSubmit = function (fromEmail, message) {
+                    var _this = this;
                     console.log("Mail from: " + fromEmail + "\nMessage: " + message);
-                    this._emailService.sendEmail(fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) { return console.log(error); });
+                    this._emailService.sendEmail(fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) {
+                        console.log(error), _this.error = true;
+                    }, function () { console.log("apa"), _this.error = false; });
                 };
                 Contact = __decorate([
                     core_1.Component({

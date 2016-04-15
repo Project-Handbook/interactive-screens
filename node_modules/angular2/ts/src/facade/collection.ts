@@ -278,11 +278,6 @@ export class ListWrapper {
   }
 
   static isImmutable(list: any[]): boolean { return Object.isSealed(list); }
-  static flatten<T>(array: T[][]): T[] {
-    let res = [];
-    array.forEach((a) => res = res.concat(a));
-    return res;
-  }
 }
 
 export function isListLikeIterable(obj: any): boolean {

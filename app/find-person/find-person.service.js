@@ -45,16 +45,16 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './p
                         .map(function (res) { return res.json(); })
                         .subscribe(function (res) {
                         res.result.forEach(function (item) {
-                            var person = new person_1.Person(item.given_name, item.family_name, item.email_address, item.kthid, item.phonehr, item.visiting_address, item.username, item.title_sv, undefined, /* Need to fetch the image url */ undefined, /* Need to fetch working place */ undefined /* Need to fetch kth profile*/);
-                            _this.FetchAdditionalInfo(person);
-                            //this.fetchWorkingPlace(person);
+                            var person = new person_1.Person(item.given_name, item.family_name, item.email_address, item.kthid, item.phonehr, item.visiting_address, item.username, item.title_sv, undefined, /* Need to fetch the image url */ undefined, /* Need to fetch working place */ undefined, /* Need to fetch kth profile */ undefined /* Need to scrape the 'about me' section */);
+                            _this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
                             people.push(person);
                         });
                     }, function (error) { return onError(ErrorType.NoInternetConnection); }, function () { return onError(ErrorType.NoError); });
                     return people;
                 };
                 // Fetches the persons image url from the API asscioated their kth id
-                FindPersonService.prototype.FetchAdditionalInfo = function (person) {
+                FindPersonService.prototype.fetchAdditionalInfo = function (person) {
+                    var _this = this;
                     var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
                     this.http.get(url)
                         .map(function (res) { return res.json(); })
@@ -62,16 +62,16 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', './p
                         person.image_url = item.image;
                         person.working_place = item.worksFor[0].name;
                         person.kth_profile = item.url;
+                        _this.fetchAboutMeInfo(person);
                     }, function (error) { return console.log(error); }, function () { });
                 };
-                // Fetches the persons working place from the KTH Profile API
-                FindPersonService.prototype.fetchWorkingPlace = function (person) {
-                    var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
-                    this.http.get(url)
-                        .map(function (res) { return res.json(); })
-                        .subscribe(function (person_info) {
-                        person.working_place = person_info.worksFor[0].name;
-                    }, function (error) { return console.log(error); }, function () { });
+                // Scrapes the Person's KTH profile 'About me' section from the internet.
+                FindPersonService.prototype.fetchAboutMeInfo = function (person) {
+                    this.http.get(person.kth_profile).subscribe(function (resp) {
+                        var body = resp.text();
+                        var about_me = jQuery(body).find(".description").text();
+                        person.about_me = about_me;
+                    });
                 };
                 FindPersonService = __decorate([
                     core_1.Injectable(), 

@@ -57,10 +57,6 @@ class ParseException extends BaseException {
   }
 }
 
-export class SplitInterpolation {
-  constructor(public strings: string[], public expressions: string[]) {}
-}
-
 @Injectable()
 export class Parser {
   /** @internal */
@@ -122,21 +118,6 @@ export class Parser {
   }
 
   parseInterpolation(input: string, location: any): ASTWithSource {
-    let split = this.splitInterpolation(input, location);
-    if (split == null) return null;
-
-    let expressions = [];
-
-    for (let i = 0; i < split.expressions.length; ++i) {
-      var tokens = this._lexer.tokenize(split.expressions[i]);
-      var ast = new _ParseAST(input, location, tokens, this._reflector, false).parseChain();
-      expressions.push(ast);
-    }
-
-    return new ASTWithSource(new Interpolation(split.strings, expressions), input, location);
-  }
-
-  splitInterpolation(input: string, location: string): SplitInterpolation {
     var parts = StringWrapper.split(input, INTERPOLATION_REGEXP);
     if (parts.length <= 1) {
       return null;
@@ -150,14 +131,16 @@ export class Parser {
         // fixed string
         strings.push(part);
       } else if (part.trim().length > 0) {
-        expressions.push(part);
+        var tokens = this._lexer.tokenize(part);
+        var ast = new _ParseAST(input, location, tokens, this._reflector, false).parseChain();
+        expressions.push(ast);
       } else {
         throw new ParseException('Blank expressions are not allowed in interpolated strings', input,
                                  `at column ${this._findInterpolationErrorColumn(parts, i)} in`,
                                  location);
       }
     }
-    return new SplitInterpolation(strings, expressions);
+    return new ASTWithSource(new Interpolation(strings, expressions), input, location);
   }
 
   wrapLiteralPrimitive(input: string, location: any): ASTWithSource {

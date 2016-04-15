@@ -126,7 +126,7 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     // Fetches the screen specific information from the session storage
                     // If the screen information is null this returns a default object
                     get: function () {
-                        var screenInfo = JSON.parse(sessionStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+                        var screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
                         if (screenInfo == null) {
                             return new screen_specific_information_1.ScreenSpecificInformation();
                         }

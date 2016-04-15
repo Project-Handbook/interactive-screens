@@ -1,5 +1,4 @@
-import { verifyNoBrowserErrors, browser } from 'angular2/src/testing/e2e_util';
-import { expect } from 'angular2/testing';
+import { verifyNoBrowserErrors } from 'angular2/src/testing/e2e_util';
 function waitForElement(selector) {
     var EC = protractor.ExpectedConditions;
     // Waits for the element with id 'abc' to be present on the dom.
