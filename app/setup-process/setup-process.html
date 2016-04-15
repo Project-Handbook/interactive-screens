@@ -9,12 +9,13 @@
   <header>
     Press the the 'Help' button for detailed documentation.
   </header>
+  <button type="button">Help</button>
 
   <div class="">
     <h2>General Information</h2>
     <div class="">
       <h3>Title of the screen</h3>
-      <input type="text" placeholder="Information Desk" [(ngModel)]="title"/>
+      <input type="text" placeholder="Information Desk" [(ngModel)]="screenInfo.title"/>
     </div>
   </div>
 
@@ -22,16 +23,41 @@
     <h2>Sidebar Information</h2>
     <div class="">
       <h3>Address - shown in the sidebar</h3>
-      <input type="text" placeholder="Avenue Street 123" [(ngModel)]="address"/>
+      <input type="text" placeholder="Avenue Street 123" [(ngModel)]="screenInfo.address"/>
+    </div>
+
+    <div class="">
+      <h3>Postal code - shown in the sidebar</h3>
+      <input type="text" placeholder="12345" [(ngModel)]="screenInfo.postal_code">
+    </div>
+
+    <div class="">
+      <h3>City - shown in the sidebar</h3>
+      <input type="text" placeholder="Stockholm" [(ngModel)]="screenInfo.city">
     </div>
 
     <div class="">
       <h3>Telephone number - shown in the sidebar</h3>
-      <input type="text" placeholder="+46 076 123 123" [(ngModel)]="telephoneNumber">
+      <input type="text" placeholder="+46 076 123 123" [(ngModel)]="screenInfo.telephoneNumber">
+    </div>
+
+    <div class="">
+      <h3>Nearby Departments - shown in the sidebar</h3>
+      <h4>Add the nearby departments</h4>
+      <input type="text" placeholder="Service Center" [(ngModel)]="newDepartment">
+      <button (click)="addDepartment()">Add</button>
+      <h4>Select the nearest department</h4>
+      <select [(ngModel)]="screenInfo.nearest_department">
+        <option *ngFor="#department of departments">{{ department }}</option>
+      </select>
     </div>
   </div>
 
   <div class="">
-    <button type="submit" (click)="submitInformation()">Done</button>
+    <button type="submit" (click)="saveInformation()">Save</button>
+  </div>
+
+  <div class="">
+    <button (click)="loadInformation()">Load</button>
   </div>
 </div>

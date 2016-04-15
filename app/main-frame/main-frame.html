@@ -22,11 +22,12 @@
       Sat-Sun <span>Closed</span>
     </p>
     <h2>Departments</h2>
-    <p>
-    Finance<br>
-    <b>Service center</b><br>
-    Human Resources
-    </p>
+    <div>
+      <b>{{ screenInfo.nearest_department }}</b>
+      <div *ngFor="#department of screenInfo.departments" *ngIf="!(department === screenInfo.nearest_department)">
+        {{ department }}
+      </div>
+    </div>
 </div>
 
 <nav>
