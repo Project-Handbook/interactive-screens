@@ -54,9 +54,8 @@ export class AutoCompleteComponent {
            }
         )
       },
-      error => this.showErrorMessage = true,
-      () => this.showErrorMessage = false
-		)
+      error=>this.showErrorMessage=true,
+      ()=>this.showErrorMessage=false);
 		}else{
 			this.searchResult=[];
 		}

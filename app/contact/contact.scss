@@ -7,22 +7,15 @@
 
 p {
 	color: #FF0000;
-	margin-left: 20rem;
 	font-size: 1rem;
-
 }
 
-h1 {
-	margin-top: 2rem;
-	text-align: center;
-	font-size: 2rem;
-	font-family: $kth-font-title;
-
-}
 
 label {
+	font-size: 1.2rem;
 	margin-left: 1rem;
 }
+
 textarea {
 	margin-left: 1rem;
 	width: 90rem;	// from 100
@@ -31,8 +24,23 @@ textarea {
 	padding: 50rem $kth-color-grey;
 }
 
+.msgError {
+	margin-left: 20rem;
+
+
+}
+
+.emailError {
+	margin-left: 20rem;
+}
+
+.buttonArea {
+	//margin-left: 81.5rem; // from 93
+	float: right;
+	margin-right: 2rem;
+
+}
 button {
-	margin-left: 81.5rem; // from 93
 	width: 9rem;
 	height: 3rem;
 	margin-top: 0.3rem;

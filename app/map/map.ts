@@ -2,13 +2,13 @@ import { Component } from 'angular2/core';
 import {MapService} from './map-service';
 import {AutoCompleteComponent} from './autocomplete';
 import { RouteParams } from 'angular2/router';
-import {Person} from 'app/find-person/person';
+import {Person} from '../find-person/person';
 /// <reference path="../../typings/leaflet/leaflet.d.ts"/>
 
 @Component({
   selector: 'map',
   templateUrl:'./app/map/map.html',
-  styleUrls:['./app/map/map.min.css'],  
+  styleUrls:['./app/map/map.min.css'],
   directives:[AutoCompleteComponent],
   providers:[MapService],
 })
@@ -20,7 +20,7 @@ export class Map {
   currentDestination: L.Marker;
 
   constructor(routeParams: RouteParams, private geoCodingService:MapService) {
-    var person = <Person> routeParams.get('person'); // This works (hooray!)
+    var person = <any> routeParams.get('person'); // This works (hooray!)
     //var person_name = <string> routeParams.get('person');
     //var person_address = <string> routeParams.get('address');
     console.log(person);
@@ -28,7 +28,7 @@ export class Map {
       this.getGeoCoding(person);
     }
   }
-  
+
   //Executes on page load.
 	ngOnInit(){
     //Initialize map
@@ -45,7 +45,7 @@ export class Map {
         var zoomControl = L.control.zoom({
             position: 'topright'
         }).addTo(this.map);
-      //Add marker at the location of the screen. 
+      //Add marker at the location of the screen.
       var greenIcon = L.icon({
         iconUrl: './app/map/marker-icon-2x-red.png',
         iconSize:     [25, 40], // size of the icon
@@ -61,7 +61,7 @@ export class Map {
   addDestinationMarker(place){
     if (this.currentDestination != null) {
       this.map.removeLayer(this.currentDestination);
-    } 
+    }
     this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
      .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
     .openPopup();
@@ -75,7 +75,7 @@ export class Map {
       .subscribe(res=>{coordinates= res.results[0].geometry.location,
       this.currentDestination = L.marker([coordinates.lat,coordinates.lng]).addTo(this.map);
        // .bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" + person.visiting_address)
-       //.openPopup();  
+       //.openPopup();
 
       });
 

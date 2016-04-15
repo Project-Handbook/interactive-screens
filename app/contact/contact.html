@@ -6,33 +6,39 @@
     <option *ngFor="#value of dropDownValues" [value]="value.id">{{value.name}}</option>
   </select>
 </div>
-<div class="textArea">{{selectedValue.info}}</div>
 
+
+<div class="textArea">{{selectedValue.info}}</div>
 -->
 <h1>Contact CSC in the text field below if you have an errand. Don't forget to supply your email so that they can contact you!</h1>
 <form [ngFormModel]="form">
   <div class="wrapper1">
     <label for="msg">Message</label>
-    <br>
+    <br />
     <textarea type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>
-    <div *ngIf="msgCtrl.dirty && !msgCtrl.valid">
+    <div class="msgError" *ngIf="msgCtrl.dirty && !msgCtrl.valid">
       <p *ngIf="msgCtrl.errors.minlength">
         Your message needs to be longer.
       </p>
     </div>
 
-  </div>
 
-  <div class="wrapper2">
+
 
     <label for="from">Email</label>
-    <br>
+    <br />
     <input required type="text" [(ngModel)]="email.fromEmail" placeholder="Your mail" ngControl="emailCtrl"/>
-    <div *ngIf="emailCtrl.dirty && !emailCtrl.valid" class="alert alert-danger">
+    <div class="emailError" *ngIf="emailCtrl.dirty && !emailCtrl.valid">
                             <p *ngIf="emailCtrl.errors.required">Email is required.</p>
                             <p *ngIf="emailCtrl.errors.isInCorrectEmail">Email format is invalid.</p>
                         </div>
   </div>
+
+  <div class="buttonArea">
     <button type="submit" (click)="onSubmit(email.fromEmail, email.message)">Submit</button>
+    <div class="errorMsg" *ngIf="error === true" class="alert alert-success box-msg" role="alert">
+    <p>Couldn't send!</p>
+  </div>
+</div>
 
 </form>
