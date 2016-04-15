@@ -2,7 +2,8 @@ import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import "rxjs/add/operator/map";
 import {LatLngBounds} from 'leaflet';
-import {Location} from './location.interface';
+import {Location} from '../location.interface';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 
@@ -14,7 +15,7 @@ export class MapService{
 		var searchResult:Array<Location>=[];
 		var url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
 		return this._http.get(url)
-			.map(res => res.json())
+			.map((request)  => request.json())
 			.map(res => {
 				res.forEach(item => {
 				if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
@@ -47,8 +48,8 @@ export class MapService{
               	if(item.geometry.location_type!=="APPROXIMATE"){
               		searchResult.push(
           				{
-          					latitude: item.geometry.lat,
-          					longitude: item.geometry.lng,
+          					latitude: item.geometry.location.lat,
+          					longitude: item.geometry.location.lng,
         					buildingName: null,
 							roomCode: null,
 							streetAddress: item.formatted_address,
@@ -61,5 +62,34 @@ export class MapService{
          		 })
           		return searchResult;
         	})
+	}
+
+	getSchools(){
+		var schools=[];
+		return this._http.get('app/map/schools.json')
+			.map(res=>res.json())
+			.map(res=>{
+				res.forEach(item=>
+				schools.push(item)
+				)
+				return schools;
+			});
+	}
+	getDepartments(term:string){
+		var departments=[];
+		return this._http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
+			.map(res=>res.json())
+			.map(res=>{
+				console.log(res);
+				var regexp = new RegExp('handen|kista')
+				res.children.forEach(item=>{
+					console.log(item.address)
+					if(item.address!==null && regexp.test(item.address.toLowerCase())===false){
+						departments.push(item);
+					}
+				
+				})
+				return departments;
+			})
 	}
 }

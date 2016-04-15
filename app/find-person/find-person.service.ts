@@ -37,7 +37,7 @@ export class FindPersonService{
 						item.username,
 						item.title_sv,
 						undefined,	/* Need to fetch the image url */
-						undefined /* Need to fetch working place */
+						undefined, /* Need to fetch working place */
 						undefined /* Need to fetch kth profile*/
 					);
 					this.FetchAdditionalInfo(person); // Profile info is divided into two APIs. 
