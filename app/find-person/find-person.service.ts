@@ -41,7 +41,7 @@ export class FindPersonService {
 						undefined, /* Need to fetch kth profile */
 						undefined /* Need to scrape the 'about me' section */
 					);
-					this.fetchAdditionalInfo(person);
+					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
 					people.push(person);
 				})
 			},
