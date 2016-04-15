@@ -37,6 +37,10 @@
 							<td>{{ person.visiting_address }}</td>
 							<td *ngIf="person.visiting_address"><a [routerLink]="['Map', {person: person}]">View on map</a></td>
 						</tr>
+						<tr>
+							<td class="category">KTH profile</td>
+							<td>{{person.kth_profile}}</td>
+						</tr>
 					</table>
 					<div class="popup-person-about">
 						About me

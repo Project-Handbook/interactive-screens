@@ -3,13 +3,24 @@ import { Http } from 'angular2/http';
 import 'rxjs/add/operator/map';
 import { Person } from './person';
 
+// ErrorType describes what kind of error has occured
+export enum ErrorType {
+	NoError, NoResults, NoInternetConnection
+}
+
+// Defines a interface to a generic error callback to be passed to functions
+// which may fail or produce a error that we support via the ErrorType interface
+export interface ErrorCallback {
+	(errorType: ErrorType): void;
+}
+
 @Injectable()
 export class FindPersonService{
 
 	constructor(private http: Http) {}
 
 	// Fetches all the people matching the searchterm from KTH Profiles
-	fetchPeople(searchterm: string): Array<Person> {
+	fetchPeople(searchterm: string, onError: ErrorCallback): Array<Person> {
 		var people = [];
 		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
 		this.http.get(url + searchterm)
@@ -27,25 +38,28 @@ export class FindPersonService{
 						item.title_sv,
 						undefined,	/* Need to fetch the image url */
 						undefined /* Need to fetch working place */
+						undefined /* Need to fetch kth profile*/
 					);
-					this.fetchImage(person);
-					this.fetchWorkingPlace(person);
+					this.FetchAdditionalInfo(person);
+					//this.fetchWorkingPlace(person);
 					people.push(person);
 				})
 			},
-				error=> console.log(error),
-				() => {}
+				error => onError(ErrorType.NoInternetConnection),
+				() => onError(ErrorType.NoError)
 			);
 		return people;
 	}
 
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchImage(person: Person) {
-		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid + "/image";
+	private FetchAdditionalInfo(person: Person) {
+		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
-			.map(res => res.text())
-			.subscribe(image_url => {
-				person.image_url = image_url.substr(1, image_url.length - 2);
+			.map(res => res.json())
+			.subscribe(item => {
+				person.image_url = item.image;
+				person.working_place = item.worksFor[0].name;
+				person.kth_profile = item.url;
 			},
 			error => console.log(error),
 			() => {}
