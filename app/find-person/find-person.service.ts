@@ -15,7 +15,7 @@ export interface ErrorCallback {
 }
 
 @Injectable()
-export class FindPersonService{
+export class FindPersonService {
 
 	constructor(private http: Http) {}
 
