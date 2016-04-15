@@ -50,23 +50,23 @@ export class AutoCompleteComponent {
                   floor:item.floor
                 }
               );
-             } 
+             }
            }
         )
       },
       error=>this.showErrorMessage=true,
-      ()=>this.showErrorMessage=false;
+      ()=>this.showErrorMessage=false);
 		}else{
 			this.searchResult=[];
-		}	
+		}
 	}
-    //Send the selected location to map component. 
+    //Send the selected location to map component.
     select(item:Location){
 		  this.newLocation.emit(item);
 		  this.searchResult = [];
     }
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case 
-    // the searchresult array will be cleared and the dropdown will disappear.  
+    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+    // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
       var clickedComponent = event.target;
   		var inside = false;
