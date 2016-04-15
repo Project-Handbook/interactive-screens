@@ -38,7 +38,8 @@ export class FindPersonService{
 						item.title_sv,
 						undefined,	/* Need to fetch the image url */
 						undefined, /* Need to fetch working place */
-						undefined /* Need to fetch kth profile*/
+						undefined, /* Need to fetch kth profile */
+						undefined /* Need to scrape the 'about me' section */
 					);
 					this.fetchAdditionalInfo(person);
 					people.push(person);
@@ -59,9 +60,19 @@ export class FindPersonService{
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
+				this.fetchAboutMeInfo(person);
 			},
 			error => console.log(error),
 			() => {}
 		);
+	}
+
+	// Scrapes the Person's KTH profile 'About me' section from the internet.
+	private fetchAboutMeInfo(person: Person) {
+		this.http.get(person.kth_profile).subscribe(resp => {
+			var body = resp.text();
+			var about_me = jQuery(body).find(".description").text();
+			person.about_me = about_me;
+		})
 	}
 }
