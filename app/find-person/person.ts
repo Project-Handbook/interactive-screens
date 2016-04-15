@@ -10,5 +10,6 @@ export class Person {
 							public title: string,
 							public image_url: string,
 							public working_place: string,
-							public kth_profile:string) {}
+							public kth_profile: string,
+							public about_me: string) {}
 }
