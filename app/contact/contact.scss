@@ -2,47 +2,82 @@
 
 
 * {
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 }
+
+p {
+	color: #FF0000;
+	font-size: 1rem;
+}
+h1 {
+	text-align: center;
+}
+
+.wrapper1 {
+
+}
+
+label {
+	font-size: 1.2rem;
+	margin-left: 1rem;
+}
+
+textarea {
+	margin-left: 1rem;
+	width: 80rem;	// from 100
+	height: 10rem;
+	resize: none;
+}
+
+.msgError {
+	margin-left: 20rem;
+
+
+}
+
+.emailError {
+	margin-left: 20rem;
+}
+
+.buttonArea {
+	//margin-left: 81.5rem; // from 93
+	float: right;
+	margin-right: 2rem;
+
+}
+button {
+	width: 9rem;
+	height: 3rem;
+	margin-top: 0.3rem;
+}
+input {
+	margin-left: 1rem;
+	padding: 50rem $kth-color-grey;
+}
+
+
+// DROPDOWN SHIT
+
+/*
 select {
-  width: 101rem;
+  width: 90rem; // from 101
   height: 4rem;
 	padding: 5rem $kth-color-grey;
 	margin-left: 1rem;
 }
+ */
 
-.header1 {
-	font-family: $kth-font-title;
-	font-size: 3rem;
-	text-align: center;
-}
 
-.dropDown {
-	margin-bottom: 1rem;
-	margin-top: 1rem;
-}
+ /*
+ .dropDown {
+ 	margin-bottom: 1rem;
+ 	margin-top: 1rem;
+ }
 
-.textArea {
-	font-size: 1.2rem;
-	margin-left: 20.5rem;
-	margin-bottom: 3rem;
-}
 
-p {
-	font-size: 1.2rem;
-	margin-left: 20.5rem;
-}
-textarea {
-	margin-left: 1rem;
-	width: 100rem;
-	height: 30rem;
-	resize: none;
-	padding: 50rem $kth-color-grey;
-}
-
-button {
-	margin-left: 93rem;
-	width: 8rem;
-	height: 3rem;
-	margin-top: 0.5rem;
-}
+ .textArea {
+ 	font-size: 1.2rem;
+ 	margin-left: 20.5rem;
+ 	margin-bottom: 3rem;
+ }
+*/

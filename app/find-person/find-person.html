@@ -1,7 +1,6 @@
 <link rel="stylesheet" type="text/css" href="find-person.min.css" />
 
 <div id="wrapper">
-
 	<div id="wrapper-persons">
 		<div id="person-header">
 			<form action="search()" id="search-container">
@@ -10,13 +9,14 @@
 			</form>
 			<br>
 			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing {{ orgName }} staff</h5>
-			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{people.length}} results for: {{ currentSearch }}</h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }}</h5>
 		</div>
 		<div *ngIf="showErrorMessage">
 			<img src="app/find-person/images/Error-100.png"/>
 			<br>
 			<h1>The requested data is not available at the moment, please come again!</h1>
 		</div>
+
 
 		<div *ngIf="!showErrorMessage">
 			<div class="personId"><h4>A</h4></div>
@@ -25,9 +25,9 @@
 				<div *ngIf="i > 0 && person.family_name.charAt(0) > people[i-1].family_name.charAt(0)" class="personId">
 					<h4>{{ person.family_name.charAt(0).toUpperCase() }}</h4>
 				</div>
-				<person-profile [person]="person"></person-profile>
+
+				<person-profile  [person]="person"></person-profile>
 			</div>
 		</div>
 	</div>
-
 </div>

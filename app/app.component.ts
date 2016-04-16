@@ -55,7 +55,7 @@ export class AppComponent {
     // Fetches the screen specific information from the session storage
     // If the screen information is null this returns a default object
     public get screenInfo(): ScreenSpecificInformation {
-      var screenInfo = JSON.parse(sessionStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      var screenInfo = JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       if (screenInfo == null) { return new ScreenSpecificInformation(); }
       return screenInfo
     }
@@ -91,10 +91,9 @@ constructor(private router: Router, private location: Location) {
     window.onclick = this.onWindowClick;
 
     router.subscribe((val) => {
-    console.log(val);
-    console.log(this.menuItemsRightBorder);
-
-    switch(val){
+    var url_with_para = val.split("?",1);
+    console.log(url_with_para);
+    switch(url_with_para[0]){
       case "home":
         if (this.prev !== 0) {
             this.menuItemsRightBorder[0] = "none";

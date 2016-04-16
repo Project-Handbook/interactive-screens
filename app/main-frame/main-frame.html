@@ -1,13 +1,11 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="main-frame.min.css"/>
 <header class="main_frame_header">
-  <div class="corner_image">
-    <img src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
-  </div>
   <h1 class="main_header_title">{{ screenInfo.title }}</h1>
 </header>
 
 <div class="contact_field">
+  <div class="inner_contact_field">
     <h2>Contact</h2>
     <p>Address:<br>
        {{ screenInfo.address }}<br>
@@ -24,11 +22,13 @@
       Sat-Sun <span>Closed</span>
     </p>
     <h2>Departments</h2>
-    <p>
-    Finance<br>
-    <b>Service center</b><br>
-    Human Resources
-    </p>
+    <div>
+      <b>{{ screenInfo.nearest_department }}</b>
+      <div *ngFor="#department of screenInfo.departments" *ngIf="!(department === screenInfo.nearest_department)">
+        {{ department }}
+      </div>
+    </div>
+  </div>
 </div>
 
 <nav>
@@ -64,7 +64,6 @@
     </div>
   </ul>
 </nav>
-
 <!-- Routed views go here -->
 <router-outlet></router-outlet>
 

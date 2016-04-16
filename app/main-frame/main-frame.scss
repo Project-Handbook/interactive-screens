@@ -3,36 +3,29 @@
 // -------- Header styles --------
 .main_frame_header {
   display: flex;
-  width: 100%;
-  // background-color: $black; // DEBUG
   align-items: center;
-
-  border-bottom: 3px $kth-color-blue solid;
-
-  .corner_image {
-    img {
-      width: 250%;
-    }
-  }
+  justify-content: center;
+  width: 100%;
+  background-color: $kth-color-blue;
 
   .main_header_title {
+    margin-left:2rem;
+    max-width: 50%;
     font: $kth-font-title;
-    color: $kth-color-green;
-    padding-left: 8rem;
-    font-size: 350%;
+    font-weight: lighter;
+    color: $white;
+    font-size: 400%;
   }
 }
 
 // -------- Sidebar styles --------
 .sidebar {
   position:relative;
-
   list-style: none;
   margin:0;
   padding:0;
-  width:250px;
+  width:15%;
   float:left;
-  z-index:2;
 
   .sidebar-item {
     font: $kth-font-title;
@@ -44,7 +37,8 @@
       padding:10px;
       text-align: center;
       width:150px;
-      margin-left:50px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
@@ -52,18 +46,22 @@
 .sidebar-filler {
   height:100%;
   border-right:solid $kth-color-blue;
-  z-index:2;
 }
 
 .contact_field {
     position:relative;
     font-size:120%;
-    padding:10 10 10 20;
     float: right;
     height:100%;
-    width:300px;
-    border-left: 3px $kth-color-blue solid;
+    width:15%;
+    border-left:solid $kth-color-blue ;
     z-index:2;
+    margin:0;
+    box-sizing: border-box;
+
+    .inner_contact_field {
+      margin:1rem;
+    }
 
     h2 {
       font: $kth-font-title;
@@ -80,11 +78,11 @@
 }
 
 #footer {
-  background: url("https://intra.kth.se/polopoly_fs/1.486628!/image/KTH_pngs19.png");
-  position:absolute;
+  background: url("app/main-frame/images/footer.png");
+  position:fixed;
   bottom:0;
   width:100%;
-  height:2em;   /* Height of the footer */
+  height:2.5rem;   /* Height of the footer */
 }
 
 .absolute {
