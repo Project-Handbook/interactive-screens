@@ -1,37 +1,124 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="setup-process.min.css"/>
 
-<div class="setup">
+<div id="setup">
   <h1>
     Welcome to the CScreen setup
   </h1>
 
   <header>
-    Press the the 'Help' button for detailed documentation.
+    <button type="button">Detailed documentation</button>
+    <br />
+    <br />
+    Or press the the '?' for detailed information about a certain input.
   </header>
 
-  <div class="">
-    <h2>General Information</h2>
-    <div class="">
-      <h3>Title of the screen</h3>
-      <input type="text" placeholder="Information Desk" [(ngModel)]="title"/>
-    </div>
-  </div>
+  <h2>General Information</h2>
+  
+  <table width="50%" border="0" style="margin-top: 1em">
+    <tr class="item">
+      <td>
+        <p>Title of the screen</p>
+        <input type="text" placeholder="Information Desk" [(ngModel)]="screenInfo.title"/>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('titleInfo').style.display= document.getElementById('titleInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="titleInfo" class="info" style="display: none;">
+        Where the screen is located, this will be shown on the top of the screen.
+      </td>
+    </tr>
+  </table>
 
-  <div class="">
-    <h2>Sidebar Information</h2>
-    <div class="">
-      <h3>Address - shown in the sidebar</h3>
-      <input type="text" placeholder="Avenue Street 123" [(ngModel)]="address"/>
-    </div>
+  <h2>Sidebar Information</h2>
+    
+  <table width="50%" border="0" style="margin-top: 1rem">
 
-    <div class="">
-      <h3>Telephone number - shown in the sidebar</h3>
-      <input type="text" placeholder="+46 076 123 123" [(ngModel)]="telephoneNumber">
-    </div>
-  </div>
+    <tr class="item">
+      <td>
+        <p>Address</p>
+        <input type="text" placeholder="Avenue Street 123" [(ngModel)]="screenInfo.address"/>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('addressInfo').style.display= document.getElementById('addressInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="addressInfo" class="info" style="display: none;">
+        Where the screen is located, this will be shown on the top of the screen.
+      </td>
+    </tr>
 
-  <div class="">
-    <button type="submit" (click)="submitInformation()">Done</button>
-  </div>
+    <tr class="item">
+      <td>
+        <p>Postal code</p>
+        <input type="text" placeholder="12345" [(ngModel)]="screenInfo.postal_code">
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>City</p>
+        <input type="text" placeholder="Stockholm" [(ngModel)]="screenInfo.city">
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>Telephone number</p>
+        <input type="text" placeholder="+46 076 123 123" [(ngModel)]="telephoneNumber" />
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="telephoneInfo" class="info" style="display: none;">
+        Where the screen is located, this will be shown on the top of the screen.
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>Nearby Departments</p>
+        <input type="text" placeholder="Service Center" [(ngModel)]="newDepartment" style="width: 90%">
+        <button (click)="addDepartment()" style="float: right; padding: 0.2em;">Add</button>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="telephoneInfo" class="info" style="display: none;">
+        Departments located in the close vicinity of the screen.
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>The nearest department</p>
+        <select [(ngModel)]="screenInfo.nearest_department" style="width: 100%; padding: 0.2em">
+          <option *ngFor="#department of departments">{{ department }}</option>
+        </select>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="telephoneInfo" class="info" style="display: none;">
+        The nearest department in relation to the screen. The department associated with the screens location.
+      </td>
+    </tr>
+
+  </table>
+
+  <button class="button" (click)="loadInformation()">Load</button>
+  <button class="button" type="submit" (click)="saveInformation()">Save</button>
+
+  <!-- Padding -->
+  <div style="height: 200px"></div>
+
 </div>
