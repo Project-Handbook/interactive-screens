@@ -24,7 +24,7 @@ export class Home {
 
     getNewsFeed(){
     this.homeService.getNewsFeed()
-    .subscribe(res => { this.news_block = res , console.log(res)});
+    .subscribe(res => { this.news_block = res });
     }
 
     ngOnInit(){
