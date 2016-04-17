@@ -48,7 +48,6 @@ System.register(['angular2/core', 'angular2/http', './home-service'], function(e
                         viewProviders: [http_1.HTTP_PROVIDERS],
                         templateUrl: 'app/home/home.html',
                         providers: [home_service_1.HomeService],
-                        encapsulation: core_1.ViewEncapsulation.None,
                         styleUrls: ['app/home/home.min.css']
                     }), 
                     __metadata('design:paramtypes', [home_service_1.HomeService])
