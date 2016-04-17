@@ -9,6 +9,7 @@
 		font-size:2.5rem;
 		width:30rem;
 		height:4rem;
+		border-radius: 1rem 0  0 1rem;
 
 	}
 	 .selectButton{
@@ -17,7 +18,17 @@
       background-color:blue;
       z-index:3;
       float:right;
+			color:white;
+			text-align:center;
+			vertical-align: middle;
+			h3{
+				margin-top:1.5rem;
+			}
+
     }
+		#button2{
+			border-radius:0 1rem 1rem 0;
+		}
 	.suggestions{
 			border:solid 1px #f1f1f1;
 			position:absolute;

@@ -1,6 +1,6 @@
 import {Component,ElementRef,EventEmitter} from 'angular2/core';
 import {MapService} from './services/map-service';
-import {Location} from './location.interface';
+import {Location,Location_type} from './location.interface';
 import { NgStyle,Control } from 'angular2/common';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -29,6 +29,9 @@ export class SearchBarComponent {
 	searchResult:Array<Location>=[];
 	public elementRef;
   searchForLocation:boolean=true;
+	searchForDepartment:boolean=false;
+	searchForAddress:boolean=false;
+	search_bar_placeholder="Search for a location...";
   term = new Control();
  // items: Observable<Array<Location>>;
 	constructor(private _mapService: MapService, myElement: ElementRef) {
@@ -44,7 +47,10 @@ export class SearchBarComponent {
                 error => this.showErrorMessage = true,
                 () => this.showErrorMessage = false);
             } else {
-              this._mapService.getGeoCode(item.toString()).subscribe(res => { this.searchResult = res },
+							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
+							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
+							var term = item.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
+              this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
                 error => this.showErrorMessage = true,
                 () => this.showErrorMessage = false);
             }
@@ -53,22 +59,33 @@ export class SearchBarComponent {
           }
         })
 	 }
-    //Send the selected location to map component. 
+    //Send the selected location to map component.
     select(location){
-    console.log(location);
-    console.log("+");
     this.term.updateValue(""); //Reset search field
-    if(location.latitude!==undefined){
+		//Locations that is not fetched from KTH Places hasnt got coordinates but an address.
+		//Those locations has to be sent to googleapis in order to recieve coordinates.
+    if(location.latitude!==undefined && location.longitude!==undefined){
         this.newLocation.emit(location); // Send selected location to output
     }else{
-      this._mapService.getGeoCode(location.streetAddress).subscribe(res => { this.newLocation.emit(res[0])},
-                error => this.showErrorMessage = true,
-                () => this.showErrorMessage = false);
+			var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
+      this._mapService.getGeoCode(location.streetAddress,location_type).subscribe(res => {
+				if(res.length!==0){
+					res[0].buildingName = location.buildingName;
+					this.newLocation.emit(res[0])
+				}else{
+					this.newLocation.emit(undefined);
+				}
+			},
+        error => this.showErrorMessage = true,
+        () => this.showErrorMessage = false);
     }
 		this.searchResult = [];
+		this.departmentsCol1 = [];
+		this.departmentsCol2 = [];
+		this.schools=[];
     }
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case 
-    // the searchresult array will be cleared and the dropdown will disappear.  
+    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+    // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
       var clickedComponent = event.target;
   		var inside = false;
@@ -85,31 +102,42 @@ export class SearchBarComponent {
         this.departmentsCol2 = [];
   		}
     }
-    buttons:Array<string>=["blue","white","white"];  
+    buttons:Array<string>=["#2258A5","white","white"];
     buttonPush(value){
       this.query="";
       this.searchResult=[];
       if(value===0){
-        this.buttons[0]="blue";
+        this.buttons[0]="#2258A5";
         this.buttons[1]="white";
         this.buttons[2]="white";
         this.searchForLocation=true;
+				this.searchForAddress=false;
+				this.searchForDepartment=false;
         this.schools = [];
         this.departmentsCol1=[];
         this.departmentsCol2=[];
+				this.search_bar_placeholder = "Search for a Location..."
+
       }else if(value===1){
         this.buttons[0]="white";
-        this.buttons[1]="blue";
+        this.buttons[1]="#2258A5";
         this.buttons[2]="white";
         this.searchForLocation=false;
+				this.searchForAddress=true;
+				this.searchForDepartment=false;
         this.schools = [];
         this.departmentsCol1=[];
         this.departmentsCol2=[];
+				this.search_bar_placeholder = "Search for an Address..."
       }
       else if(value===2) {
         this.buttons[0]="white";
         this.buttons[1]="white";
-        this.buttons[2]="blue";
+        this.buttons[2]="#2258A5";
+				this.searchForLocation=false;
+				this.searchForAddress=false;
+				this.searchForDepartment=true;
+
       }
     }
 
@@ -121,13 +149,13 @@ export class SearchBarComponent {
   departmentsCol2: Array<any> = [];
   getDepartments(department:string){
     this._mapService.getDepartments(department).subscribe(res => {
-      if (res.length > 25) {
-        this.departmentsCol1 = res.splice(10, 25);
-        this.departmentsCol2 = res.splice(25, res.length);
+      if (res.length > 20) {
+        this.departmentsCol1 = res.splice(0, 20);
+        this.departmentsCol2 = res.splice(20, res.length);
       } else {
         this.departmentsCol1 = res;
         this.departmentsCol2 = [];
       }
-    })   
+    })
   }
 }
