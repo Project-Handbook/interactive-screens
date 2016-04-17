@@ -5,7 +5,7 @@ p {
 	font-size: 1rem;
 }
 
-h1 {
+h1, h2 {
 	text-align: center;
 }
 
@@ -23,13 +23,13 @@ label {
 textarea {
 	border-radius: 10px;
 	margin-left: 1rem;
-	width: 60rem;
+	width: 80rem;
 	height: 10rem;
 	resize: none;
 }
 
 .msgError {
-	margin-left: 20rem;
+	margin-left: 2rem;
 }
 
 .emailError {
