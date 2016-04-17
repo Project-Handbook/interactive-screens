@@ -3,7 +3,6 @@ import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
 import { RouteParams } from 'angular2/router';
 import {Location,Location_type} from './location.interface';
-/// <reference path="../../typings/leaflet/leaflet.d.ts"/>
 
 @Component({
   selector: 'map',
@@ -40,6 +39,7 @@ export class Map {
         minZoom: 4,
         maxZoom: 18,
         zoomAnimation:false,
+        doubleClickZoom:false
 
     });
     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
