@@ -50,6 +50,7 @@ export class Map {
 			L.marker([59.34694, 18.07319]).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
 
+      this.map.touchZoom.disable();
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
