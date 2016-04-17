@@ -55,7 +55,7 @@ export class AppComponent {
     // Fetches the screen specific information from the session storage
     // If the screen information is null this returns a default object
     public get screenInfo(): ScreenSpecificInformation {
-      var screenInfo = JSON.parse(sessionStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      var screenInfo = JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       if (screenInfo == null) { return new ScreenSpecificInformation(); }
       return screenInfo
     }

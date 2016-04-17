@@ -1,70 +1,53 @@
 @import "../css/app.scss";
 
-
-* {
-	font-size: 1.5rem;
-}
-
 p {
 	color: #FF0000;
-	margin-left: 20rem;
 	font-size: 1rem;
-
 }
 
 h1 {
-	margin-top: 2rem;
 	text-align: center;
-	font-size: 2rem;
-	font-family: $kth-font-title;
+}
 
+.wrapper {
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 label {
+	font-size: 1.2rem;
 	margin-left: 1rem;
 }
+
 textarea {
+	border-radius: 10px;
 	margin-left: 1rem;
-	width: 90rem;	// from 100
+	width: 60rem;
 	height: 10rem;
 	resize: none;
-	padding: 50rem $kth-color-grey;
+}
+
+.msgError {
+	margin-left: 20rem;
+}
+
+.emailError {
+	margin-left: 20rem;
+}
+
+.buttonArea {
+	float: right;
+	margin-right: 2rem;
 }
 
 button {
-	margin-left: 81.5rem; // from 93
 	width: 9rem;
 	height: 3rem;
 	margin-top: 0.3rem;
 }
+
 input {
 	margin-left: 1rem;
-	padding: 50rem $kth-color-grey;
+	border-radius: 10px;
 }
-
-
-// DROPDOWN SHIT
-
-/*
-select {
-  width: 90rem; // from 101
-  height: 4rem;
-	padding: 5rem $kth-color-grey;
-	margin-left: 1rem;
-}
- */
-
-
- /*
- .dropDown {
- 	margin-bottom: 1rem;
- 	margin-top: 1rem;
- }
-
-
- .textArea {
- 	font-size: 1.2rem;
- 	margin-left: 20.5rem;
- 	margin-bottom: 3rem;
- }
-*/
