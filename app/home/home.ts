@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from 'angular2/core';
+import { Component } from 'angular2/core';
 import { Http, HTTP_PROVIDERS } from 'angular2/http';
 import { HomeService } from './home-service';
 
@@ -7,7 +7,6 @@ import { HomeService } from './home-service';
   viewProviders: [HTTP_PROVIDERS],
   templateUrl: 'app/home/home.html',
   providers:[HomeService],
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ['app/home/home.min.css']
 
 })
