@@ -154,12 +154,11 @@ class TreeBuilder {
       selfClosing = false;
     }
     var end = this.peek.sourceSpan.start;
-    let span = new ParseSourceSpan(startTagToken.sourceSpan.start, end);
-    var el = new HtmlElementAst(fullName, attrs, [], span, span, null);
+    var el = new HtmlElementAst(fullName, attrs, [],
+                                new ParseSourceSpan(startTagToken.sourceSpan.start, end));
     this._pushElement(el);
     if (selfClosing) {
       this._popElement(fullName);
-      el.endSourceSpan = span;
     }
   }
 
@@ -174,8 +173,7 @@ class TreeBuilder {
     var tagDef = getHtmlTagDefinition(el.name);
     var parentEl = this._getParentElement();
     if (tagDef.requireExtraParent(isPresent(parentEl) ? parentEl.name : null)) {
-      var newParent = new HtmlElementAst(tagDef.parentToAdd, [], [el], el.sourceSpan,
-                                         el.startSourceSpan, el.endSourceSpan);
+      var newParent = new HtmlElementAst(tagDef.parentToAdd, [], [el], el.sourceSpan);
       this._addToParent(newParent);
       this.elementStack.push(newParent);
       this.elementStack.push(el);
@@ -188,8 +186,6 @@ class TreeBuilder {
   private _consumeEndTag(endTagToken: HtmlToken) {
     var fullName =
         getElementFullName(endTagToken.parts[0], endTagToken.parts[1], this._getParentElement());
-
-    this._getParentElement().endSourceSpan = endTagToken.sourceSpan;
 
     if (getHtmlTagDefinition(fullName).isVoid) {
       this.errors.push(

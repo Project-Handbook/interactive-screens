@@ -40,7 +40,7 @@ System.register(['angular2/core', 'angular2/http', './home-service'], function(e
                 };
                 Home.prototype.ngOnInit = function () {
                     this.getCalendar();
-                    this.getNewsFeed();
+                    //this.getNewsFeed();
                 };
                 Home = __decorate([
                     core_1.Component({

@@ -65,7 +65,6 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
                 FindPerson.prototype.getTitle = function (title) {
                     return title.charAt(0) + title.substr(1).toLowerCase();
                 };
-                //Displays people local to the department as default when the people tab is pushed.
                 FindPerson.prototype.ngOnInit = function () {
                     this.getPeople(this.organisation);
                 };
