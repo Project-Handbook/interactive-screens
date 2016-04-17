@@ -9,6 +9,7 @@ import { HomeService } from './home-service';
   providers:[HomeService],
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['app/home/home.min.css']
+
 })
 export class Home {
     calendar_block: String;
@@ -23,11 +24,11 @@ export class Home {
 
     getNewsFeed(){
     this.homeService.getNewsFeed()
-    .subscribe(res => { this.news_block = res });
+    .subscribe(res => { this.news_block = res,console.log(res) });
     }
 
     ngOnInit(){
       this.getCalendar();
-      //this.getNewsFeed();
+      this.getNewsFeed();
     }
 }

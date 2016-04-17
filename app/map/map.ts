@@ -38,7 +38,9 @@ export class Map {
         center: new L.LatLng(59.3469417, 18.0702413),
         zoom: 15,
         minZoom: 4,
-        maxZoom: 18
+        maxZoom: 18,
+        zoomAnimation:false,
+
     });
     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
         	attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'

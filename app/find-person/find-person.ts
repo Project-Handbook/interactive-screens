@@ -31,9 +31,7 @@ export class FindPerson {
       	this.isOn = newState;
     }
   }
-
   people: Array<Person> = []; // Holds all the persons fetched from the API
-
   constructor(private findPersonService: FindPersonService) {}
 
   // This is called whenever an event that might fail occurs.
@@ -57,6 +55,7 @@ export class FindPerson {
     return title.charAt(0) + title.substr(1).toLowerCase();
   }
 
+  //Displays people local to the department as default when the people tab is pushed.
   ngOnInit(): any {
     this.getPeople(this.organisation);
   }
@@ -76,4 +75,6 @@ export class FindPerson {
       this.getPeople(input);
     }
   }
+
+
 }

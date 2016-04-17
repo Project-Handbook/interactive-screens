@@ -1,8 +1,129 @@
 @import "../css/app.scss";
 
-.first-news-block {
-  float: center;
+.home_container{
+  overflow: hidden;
+//  background-color: red;
+  width:70%;
+  height:100%;
+  margin-top:1rem;
+  margin-left:auto;
+  margin-right:auto;
+
+  .news_block {
+    font-weight: bold;
+    margin-top:0;
+    width:48%;
+    margin-left:1%;
+    float:left;
+    .article.standard{
+      a{
+        color:white;
+      }
+    //  background-color: green;
+      .paragraphs{
+      //  background-color: blue;
+        .block.list.group.defaultTheme:nth-of-type(1){
+          .teaserText{
+            background-color: #ee277d;
+          }
+        }
+        .block.list.group.defaultTheme:nth-of-type(2){
+          .teaserText{
+          background-color: #fab819;
+            p{
+              font-size: 50%;
+              float:right;
+            }
+            h2{
+              font-size:50%;
+              float:right;
+            }
+            .teaserImage{
+              float:left;
+            }
+          }
+        }
+        .block.list.group.defaultTheme:nth-of-type(3){
+          .teaserText{
+            background-color: #24a0d8;
+          }
+        }
+        .teaserTextInner{
+          color:white;
+          height:100%;
+          width:100%;
+
+        }
+        .teaserText{
+          color:white;
+          height:15rem;
+          margin-bottom:0.5rem;
+        }
+        h2{
+          margin-top:0;
+          padding:0.7rem 0.7rem 0.7rem 0.7rem;
+          margin-bottom:0;
+          display:inline;
+          float:left;
+          width:50%;
+          box-sizing: border-box;
+          display:inline-block;
+          //background-color:blue;
+        }
+        h3.topic{
+          //background-color: black;
+          padding:0rem 0.7rem 0.7rem 0.7rem;
+          margin-bottom:0;
+          display:inline;
+          float:left;
+          width:50%;
+          box-sizing: border-box;
+          display:inline-block;
+
+        }
+        p{
+          //background-color: yellow;
+          margin-top:0;
+          padding:0.7rem 0.7rem 0.7rem 0.7rem;
+          font-size:13px;
+          width:50%;
+          float:left;
+          box-sizing: border-box;
+        }
+        .mainLink{
+          padding:0.7rem 0.7rem 0.7rem 0.7rem;
+          a{
+            color:white;
+          }
+        }
+        .overlayWrapper{
+          margin:0;
+          padding:0;
+        }
+        .teaserImage{
+          width:50%;
+          height:15rem;
+          float:right;
+          margin:0;
+          padding:0;
+          img{
+            margin:0;
+            padding:0;
+            width:100%;
+            height:100%;
+          }
+        }
+      }
+    }
+  }
+  .calendar_block{
+    margin-left:2%;
+    margin-right:1%;
+    width:48%;
+    float:right;
+  }
 }
+
 
 
 .block.calendar { padding: 0px 0px 10px 0px; margin: 0px; display: block; overflow: hidden; max-width: 100%; }
@@ -20,5 +141,5 @@
 .block.calendar .date.startDay { text-transform: capitalize; }
 .block.calendar .calendarContent { padding: 2px 0; }
 
-.block.teaser.top.image .teaserText { padding: 10px 0px 0px 0px; margin: 0px; background-color:blue;}
-//.article .paragraphs .block.list.group { margin-bottom: 15px; background-color:blue;} 
+//.block.teaser.top.image .teaserText { padding: 10px 0px 0px 0px; margin: 0px; background-color:blue;}
+//.article .paragraphs .block.list.group { margin-bottom: 15px; background-color:blue;}

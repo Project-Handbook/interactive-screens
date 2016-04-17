@@ -50,7 +50,6 @@ export class FindPersonService {
 			);
 		return people;
 	}
-
 	// Fetches the persons image url from the API asscioated their kth id
 	private fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
