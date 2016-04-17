@@ -16,6 +16,9 @@
     margin-left:1%;
     float:left;
     .article.standard{
+      a{
+        color:white;
+      }
     //  background-color: green;
       .paragraphs{
       //  background-color: blue;
@@ -89,6 +92,9 @@
         }
         .mainLink{
           padding:0.7rem 0.7rem 0.7rem 0.7rem;
+          a{
+            color:white;
+          }
         }
         .overlayWrapper{
           margin:0;
