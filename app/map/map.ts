@@ -2,7 +2,7 @@ import { Component,ElementRef } from 'angular2/core';
 import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
 import { RouteParams } from 'angular2/router';
-import {Person} from '../find-person/person';
+import {Location,Location_type} from './location.interface';
 /// <reference path="../../typings/leaflet/leaflet.d.ts"/>
 
 @Component({
@@ -20,10 +20,14 @@ export class Map {
   currentDestination: L.Marker;
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
-    var person = <any> routeParams.get('hej'); // This works (hooray!)
-    if(person!==null){
-      this.getPopUpAdress(person);
-    }
+    var person = {
+                   given_name: <string> routeParams.get('given_name'),
+                   family_name: <string> routeParams.get('family_name'),
+                   visiting_address: <string> routeParams.get('address')
+                 }
+   if(person.given_name!==null && person.family_name!==null && person.visiting_address!==null){
+     this.getPopUpAdress(person);
+   }
   }
 
   //Executes on page load.
@@ -42,30 +46,56 @@ export class Map {
     var zoomControl = L.control.zoom({
           position: 'topright'
         }).addTo(this.map);
+      //Add marker at the location of the screen
 			L.marker([59.34694, 18.07319]).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
 
+      this.map.touchZoom.disable();
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
-  addDestinationMarker(place){
+  addDestinationMarker(place:Location){
     console.log(place);
-    if (this.currentDestination != null) {
-      this.map.removeLayer(this.currentDestination);
-    }
-    this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
-        .bindPopup("<strong>" + place.roomCode + "</strong> <br>" + place.streetAddress + " "  + place.streetNumber + "<br>" +  place.buildingName )
-        .openPopup();
-  }
+    if(place===undefined){
+      console.log("No address was found for this department");
+    }else{
 
-  getPopUpAdress(address:Person){
-    console.log(address.visiting_address);
-    this._mapService.getGeoCode(address.visiting_address)
+      if (this.currentDestination != null) {
+        this.map.removeLayer(this.currentDestination); //Removes old marker
+      }
+
+      this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
+
+        switch(place.location_type){
+
+        case Location_type.kth_places:
+          this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong><br>" + place.streetAddress + " " + place.streetNumber + "<br>" +  place.buildingName )
+              .openPopup();
+          break;
+        case Location_type.department:
+          this.currentDestination.bindPopup("<strong>" + place.buildingName + "</strong><br>" + place.streetAddress)
+              .openPopup();
+          break;
+        case Location_type.street_address:
+          this.currentDestination.bindPopup("<strong>" + place.streetAddress + "</strong>")
+              .openPopup();
+          break;
+          default:
+            console.log("No match");
+      }
+
+  }
+}
+
+getPopUpAdress(person){
+    console.log(person.visiting_address);
+    this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
       .subscribe(res=>{
           var coordinate_lat= res[0].latitude;
           var coordinate_lng= res[0].longitude;
           this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
-          .bindPopup("<strong>" + res[0].streetAddress + "</strong> <br>")
+          .bindPopup("<strong>" + res[0].streetAddress + "</strong> <br>" +
+            person.given_name + " " +  person.family_name)
           .openPopup();
     });
   }

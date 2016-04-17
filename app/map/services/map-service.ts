@@ -2,13 +2,13 @@ import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import "rxjs/add/operator/map";
 import {LatLngBounds} from 'leaflet';
-import {Location} from '../location.interface';
+import {Location,Location_type} from '../location.interface';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 
 export class MapService{
-	
+
 	constructor(private _http:Http){}
 	//Fetches all locations from KTH Places that matches the given search string.
 	getPlaces(term:string){
@@ -30,7 +30,8 @@ export class MapService{
 							streetNumber: item.streetNumber,
 							roomType: item.typeName,
 							zipCode: item.zip,
-							floor: item.floor
+							floor: item.floor,
+							location_type: Location_type.kth_places
 						});
 					}
 				})
@@ -39,7 +40,7 @@ export class MapService{
       	);
 	}
 
-	getGeoCode(address:string){
+	getGeoCode(address:string,location_type:Location_type){
 		var searchResult:Array<Location>=[];
 		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
 			.map(res => res.json())
@@ -50,18 +51,21 @@ export class MapService{
           				{
           					latitude: item.geometry.location.lat,
           					longitude: item.geometry.location.lng,
-        					buildingName: null,
-							roomCode: null,
-							streetAddress: item.formatted_address,
-							streetNumber: null,
-							roomType: null,
-							zipCode: null,
-							floor: null
+	        					buildingName: null,
+										roomCode: null,
+										streetAddress: item.formatted_address,
+										streetNumber: null,
+										roomType: null,
+										zipCode: null,
+										floor: null,
+										location_type: location_type
           				});
+									console.log(searchResult);
+
             		}
-         		 })
+         		 });
           		return searchResult;
-        	})
+        	});
 	}
 
 	getSchools(){
@@ -80,15 +84,22 @@ export class MapService{
 		return this._http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
 			.map(res=>res.json())
 			.map(res=>{
-				console.log(res);
 				var regexp = new RegExp('handen|kista')
+				var added = [];
 				res.children.forEach(item=>{
-					console.log(item.address)
-					if(item.address!==null && regexp.test(item.address.toLowerCase())===false){
+					var exists=false;
+					added.forEach( dep =>{
+						if(item.name_sv===dep){
+							exists=true;
+						}
+					})
+					added.push(item.name_sv);
+					if(exists===false && item.address!==null && regexp.test(item.address.toLowerCase())===false){
 						departments.push(item);
 					}
-				
+
 				})
+				console
 				return departments;
 			})
 	}

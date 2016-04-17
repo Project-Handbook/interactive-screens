@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../location.interface'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1;
+    var core_1, http_1, location_interface_1;
     var MapService;
     return {
         setters:[
@@ -20,7 +20,10 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (_1) {}],
+            function (_1) {},
+            function (location_interface_1_1) {
+                location_interface_1 = location_interface_1_1;
+            }],
         execute: function() {
             MapService = (function () {
                 function MapService(_http) {
@@ -45,14 +48,15 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
                                     streetNumber: item.streetNumber,
                                     roomType: item.typeName,
                                     zipCode: item.zip,
-                                    floor: item.floor
+                                    floor: item.floor,
+                                    location_type: location_interface_1.Location_type.kth_places
                                 });
                             }
                         });
                         return searchResult;
                     });
                 };
-                MapService.prototype.getGeoCode = function (address) {
+                MapService.prototype.getGeoCode = function (address, location_type) {
                     var searchResult = [];
                     return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
                         .map(function (res) { return res.json(); })
@@ -68,8 +72,10 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
                                     streetNumber: null,
                                     roomType: null,
                                     zipCode: null,
-                                    floor: null
+                                    floor: null,
+                                    location_type: location_type
                                 });
+                                console.log(searchResult);
                             }
                         });
                         return searchResult;
@@ -91,14 +97,21 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map"], fun
                     return this._http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
                         .map(function (res) { return res.json(); })
                         .map(function (res) {
-                        console.log(res);
                         var regexp = new RegExp('handen|kista');
+                        var added = [];
                         res.children.forEach(function (item) {
-                            console.log(item.address);
-                            if (item.address !== null && regexp.test(item.address.toLowerCase()) === false) {
+                            var exists = false;
+                            added.forEach(function (dep) {
+                                if (item.name_sv === dep) {
+                                    exists = true;
+                                }
+                            });
+                            added.push(item.name_sv);
+                            if (exists === false && item.address !== null && regexp.test(item.address.toLowerCase()) === false) {
                                 departments.push(item);
                             }
                         });
+                        console;
                         return departments;
                     });
                 };

@@ -1,3 +1,10 @@
+export enum Location_type{
+		street_address,
+		kth_places,
+		department
+}
+
+
 export interface Location{
 	latitude?:number;
 	longitude?:number;
@@ -8,4 +15,5 @@ export interface Location{
 	roomType?:string;
 	zipCode?:string;
 	floor?:string;
+	location_type:Location_type;
 }
