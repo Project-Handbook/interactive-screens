@@ -116,7 +116,7 @@ export class SearchBarComponent {
         this.schools = [];
         this.departmentsCol1=[];
         this.departmentsCol2=[];
-				this.search_bar_placeholder = "Search for a Location..."
+				this.search_bar_placeholder = "Search for a location..."
 
       }else if(value===1){
         this.buttons[0]="white";
@@ -128,7 +128,7 @@ export class SearchBarComponent {
         this.schools = [];
         this.departmentsCol1=[];
         this.departmentsCol2=[];
-				this.search_bar_placeholder = "Search for an Address..."
+				this.search_bar_placeholder = "Search for an address..."
       }
       else if(value===2) {
         this.buttons[0]="white";
