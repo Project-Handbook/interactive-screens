@@ -21,7 +21,7 @@ a {
 #wrapper-persons {
   overflow-y: scroll;
   overflow-x: none;
-  width: 69.63%;
+  width: 70%;
   height: 100%;
   float: left; }
 
@@ -76,7 +76,8 @@ a {
   z-index: 99999;
   background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  z-index: 10; }
 
 .popup-wrapper {
   width: 1000px;
@@ -120,7 +121,9 @@ a {
 
 .popup-person-about {
   font-size: 0.75em;
-  color: #000; }
+  color: #000;
+  height: 10.3rem;
+  overflow: hidden; }
 
 .popup-person-about p {
   color: #000;
