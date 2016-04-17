@@ -36,11 +36,11 @@ System.register(['angular2/core', 'angular2/http', './home-service'], function(e
                 Home.prototype.getNewsFeed = function () {
                     var _this = this;
                     this.homeService.getNewsFeed()
-                        .subscribe(function (res) { _this.news_block = res; });
+                        .subscribe(function (res) { _this.news_block = res, console.log(res); });
                 };
                 Home.prototype.ngOnInit = function () {
                     this.getCalendar();
-                    //this.getNewsFeed();
+                    this.getNewsFeed();
                 };
                 Home = __decorate([
                     core_1.Component({

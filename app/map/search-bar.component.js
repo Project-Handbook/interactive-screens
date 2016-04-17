@@ -1,4 +1,4 @@
-System.register(['angular2/core', './services/map-service', 'angular2/common', 'rxjs/add/operator/map', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/switchMap'], function(exports_1, context_1) {
+System.register(['angular2/core', './services/map-service', './location.interface', 'angular2/common', 'rxjs/add/operator/map', 'rxjs/add/operator/debounceTime', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/switchMap'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, map_service_1, common_1;
+    var core_1, map_service_1, location_interface_1, common_1;
     var SearchBarComponent;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
             },
             function (map_service_1_1) {
                 map_service_1 = map_service_1_1;
+            },
+            function (location_interface_1_1) {
+                location_interface_1 = location_interface_1_1;
             },
             function (common_1_1) {
                 common_1 = common_1_1;
@@ -39,8 +42,11 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
                     this.query = '';
                     this.searchResult = [];
                     this.searchForLocation = true;
+                    this.searchForDepartment = false;
+                    this.searchForAddress = false;
+                    this.search_bar_placeholder = "Search for a location...";
                     this.term = new common_1.Control();
-                    this.buttons = ["blue", "white", "white"];
+                    this.buttons = ["#2258A5", "white", "white"];
                     this.schools = [];
                     this.departmentsCol1 = [];
                     this.departmentsCol2 = [];
@@ -55,7 +61,10 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
                                 _this._mapService.getPlaces(item.toString()).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                             }
                             else {
-                                _this._mapService.getGeoCode(item.toString()).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
+                                //Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
+                                var location_type = _this.searchForAddress === true ? location_interface_1.Location_type.street_address : location_interface_1.Location_type.department;
+                                var term = item.toString().replace(/ä|å/ig, 'a').replace(/ö/ig, 'o');
+                                _this._mapService.getGeoCode(term, location_type).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                             }
                         }
                         else {
@@ -63,22 +72,34 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
                         }
                     });
                 }
-                //Send the selected location to map component. 
+                //Send the selected location to map component.
                 SearchBarComponent.prototype.select = function (location) {
                     var _this = this;
-                    console.log(location);
-                    console.log("+");
                     this.term.updateValue(""); //Reset search field
-                    if (location.latitude !== undefined) {
+                    //Locations that is not fetched from KTH Places hasnt got coordinates but an address.
+                    //Those locations has to be sent to googleapis in order to recieve coordinates.
+                    if (location.latitude !== undefined && location.longitude !== undefined) {
                         this.newLocation.emit(location); // Send selected location to output
                     }
                     else {
-                        this._mapService.getGeoCode(location.streetAddress).subscribe(function (res) { _this.newLocation.emit(res[0]); }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
+                        var location_type = this.searchForAddress === true ? location_interface_1.Location_type.street_address : location_interface_1.Location_type.department;
+                        this._mapService.getGeoCode(location.streetAddress, location_type).subscribe(function (res) {
+                            if (res.length !== 0) {
+                                res[0].buildingName = location.buildingName;
+                                _this.newLocation.emit(res[0]);
+                            }
+                            else {
+                                _this.newLocation.emit(undefined);
+                            }
+                        }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                     }
                     this.searchResult = [];
+                    this.departmentsCol1 = [];
+                    this.departmentsCol2 = [];
+                    this.schools = [];
                 };
-                //This funtion determines if the user clicks outside the dropdown menu. If this is the case 
-                // the searchresult array will be cleared and the dropdown will disappear.  
+                //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+                // the searchresult array will be cleared and the dropdown will disappear.
                 SearchBarComponent.prototype.handleClick = function (event) {
                     var clickedComponent = event.target;
                     var inside = false;
@@ -99,27 +120,36 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
                     this.query = "";
                     this.searchResult = [];
                     if (value === 0) {
-                        this.buttons[0] = "blue";
+                        this.buttons[0] = "#2258A5";
                         this.buttons[1] = "white";
                         this.buttons[2] = "white";
                         this.searchForLocation = true;
+                        this.searchForAddress = false;
+                        this.searchForDepartment = false;
                         this.schools = [];
                         this.departmentsCol1 = [];
                         this.departmentsCol2 = [];
+                        this.search_bar_placeholder = "Search for a location...";
                     }
                     else if (value === 1) {
                         this.buttons[0] = "white";
-                        this.buttons[1] = "blue";
+                        this.buttons[1] = "#2258A5";
                         this.buttons[2] = "white";
                         this.searchForLocation = false;
+                        this.searchForAddress = true;
+                        this.searchForDepartment = false;
                         this.schools = [];
                         this.departmentsCol1 = [];
                         this.departmentsCol2 = [];
+                        this.search_bar_placeholder = "Search for an address...";
                     }
                     else if (value === 2) {
                         this.buttons[0] = "white";
                         this.buttons[1] = "white";
-                        this.buttons[2] = "blue";
+                        this.buttons[2] = "#2258A5";
+                        this.searchForLocation = false;
+                        this.searchForAddress = false;
+                        this.searchForDepartment = true;
                     }
                 };
                 SearchBarComponent.prototype.getSchools = function () {
@@ -129,9 +159,9 @@ System.register(['angular2/core', './services/map-service', 'angular2/common', '
                 SearchBarComponent.prototype.getDepartments = function (department) {
                     var _this = this;
                     this._mapService.getDepartments(department).subscribe(function (res) {
-                        if (res.length > 25) {
-                            _this.departmentsCol1 = res.splice(10, 25);
-                            _this.departmentsCol2 = res.splice(25, res.length);
+                        if (res.length > 20) {
+                            _this.departmentsCol1 = res.splice(0, 20);
+                            _this.departmentsCol2 = res.splice(20, res.length);
                         }
                         else {
                             _this.departmentsCol1 = res;

@@ -1,0 +1,6 @@
+{
+  "ambientDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160316155526",
+    "leaflet": "registry:dt/leaflet#0.7.3+20160412142116"
+  }
+}
