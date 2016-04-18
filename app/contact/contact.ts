@@ -24,14 +24,13 @@ export class Contact {
   error: boolean;
   form: ControlGroup;
 
-
 constructor(private _emailService: EmailService, private builder: FormBuilder) {
   this.error = false;
   this.msgCtrl = new Control('', Validators.minLength(10));
   this.emailCtrl = new Control('', EmailValidator.mailFormat);
   this.form = builder.group({
      msgCtrl: this.msgCtrl,
-     emailCtrl: this.emailCtrl
+     emailCtrl: this.emailCtrl,
    });
  }
 
@@ -39,13 +38,13 @@ constructor(private _emailService: EmailService, private builder: FormBuilder) {
  public email = {message: "", fromEmail: ""};
 
  onSubmit(fromEmail, message) {
+
    console.log("Mail from: " + fromEmail + "\nMessage: " + message);
    this._emailService.sendEmail(fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
    },()=>{console.log("apa"),this.error = false});
-}
-
-
  }
+
+}
 
 
  interface ValidationResult {

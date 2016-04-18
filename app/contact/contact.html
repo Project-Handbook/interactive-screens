@@ -1,35 +1,39 @@
 <link rel="stylesheet" type="text/css" href="contact.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
 <div class="bigAssWrapper">
   <h1>Contact CSC in the text field below if you have an errand.</h1>
   <h2>Don't forget to supply your email so that they can contact you.</h2>
 
-  <form [ngFormModel]="form">
+  <form [ngFormModel]="form" (submit)="onSubmit(email.fromEmail, email.message)">
     <div class="wrapper">
       <label for="msg">Message</label>
-      <br />
+      <br/>
       <textarea type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>
       <div class="msgError" *ngIf="msgCtrl.dirty && !msgCtrl.valid">
-        <p *ngIf="msgCtrl.errors.minlength">
-          Your message needs to be longer.
-        </p>
-      </div>
-    </div>
-
-      <div>
-        <label for="from">Email</label>
-        <br/>
-        <input required type="text" [(ngModel)]="email.fromEmail" placeholder="Your mail" ngControl="emailCtrl"/>
-        <div class="emailError" *ngIf="emailCtrl.dirty && !emailCtrl.valid">
-          <p *ngIf="emailCtrl.errors.required">Email is required.</p>
-          <p *ngIf="emailCtrl.errors.isInCorrectEmail">Email format is invalid.</p>
+        <div *ngIf="msgCtrl.errors.minlength" class="formError">
+        <i class="fa fa-exclamation-triangle"></i> Your message needs to be longer.
         </div>
       </div>
 
+      <div>
+        <label for="email">Email</label>
+        <br/>
+        <input required type="text" [(ngModel)]="email.fromEmail" placeholder="Your mail" ngControl="emailCtrl"/>
+        <div class="emailError" *ngIf="emailCtrl.dirty && !emailCtrl.valid">
+        <div *ngIf="emailCtrl.errors.isInCorrectEmail" class="formError">
+          <i class="fa fa-exclamation-triangle"></i> Invalid format.
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+
     <div class="buttonArea">
-      <button type="submit" (click)="onSubmit(email.fromEmail, email.message)">Submit</button>
-      <div class="errorMsg" *ngIf="error === true" class="alert alert-success box-msg" role="alert">
-      <p>Couldn't send!</p>
+        <button type="submit" [disabled]="!form.valid">Submit</button>
+        <div class="formError" *ngIf="error === true" role="alert">
+      <i class="fa fa-exclamation-triangle"></i> Couldn't send.
       </div>
     </div>
   </form>

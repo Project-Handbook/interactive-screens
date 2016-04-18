@@ -1,9 +1,5 @@
 @import "../css/app.scss";
 
-p {
-	color: #FF0000;
-	font-size: 1rem;
-}
 
 h1, h2 {
 	text-align: center;
@@ -28,12 +24,23 @@ textarea {
 	resize: none;
 }
 
+button[disabled] {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  opacity: .65;
+  cursor: not-allowed;
+}
+
 .msgError {
 	margin-left: 2rem;
 }
 
 .emailError {
-	margin-left: 20rem;
+	margin-left: 2rem;
+}
+
+.formError {
+	color: darkred;
 }
 
 .buttonArea {
@@ -45,6 +52,10 @@ button {
 	width: 9rem;
 	height: 3rem;
 	margin-top: 0.3rem;
+	background-color: #337ab7;
+	border: 1px solid #2e6da4;
+	border-radius: 3px;
+	padding: 4px 8px;
 }
 
 input {
