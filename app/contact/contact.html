@@ -9,7 +9,7 @@
     <div class="wrapper">
       <label for="msg">Message</label>
       <br/>
-      <textarea type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>
+      <textarea required type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>
       <div class="msgError" *ngIf="msgCtrl.dirty && !msgCtrl.valid">
         <div *ngIf="msgCtrl.errors.minlength" class="formError">
         <i class="fa fa-exclamation-triangle"></i> Your message needs to be longer.
