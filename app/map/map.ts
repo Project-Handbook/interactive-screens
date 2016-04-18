@@ -17,6 +17,7 @@ export class Map {
   map: L.Map;
   //Leaflet Marker Object
   currentDestination: L.Marker;
+  public mapCenter =  new L.LatLng(59.3469417, 18.0702413);
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
     var person = {
@@ -31,10 +32,10 @@ export class Map {
 
   //Executes on page load.
 	ngOnInit(){
-    //Initialize map
+    //Initialize mapvar antarctica = [-77,70];
 	 this.map = new L.Map('map', {
         zoomControl: false,
-        center: new L.LatLng(59.3469417, 18.0702413),
+        center:this.mapCenter,
         zoom: 15,
         minZoom: 4,
         maxZoom: 18,
@@ -49,8 +50,14 @@ export class Map {
           position: 'topright'
         }).addTo(this.map);
       //Add marker at the location of the screen
-			L.marker([59.34694, 18.07319]).addTo(this.map)
+      var greenIcon = L.icon({
+    iconUrl: 'app/map/images/marker-icon-red.png',
+    iconSize:     [25, 38], // size of the icon
+    popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
+});
+			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
+
 
       this.map.touchZoom.disable();
   }
@@ -71,7 +78,12 @@ export class Map {
         switch(place.location_type){
 
         case Location_type.kth_places:
-          this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong><br>" + place.streetAddress + " " + place.streetNumber + "<br>" +  place.buildingName )
+          if(place.popular_name.length!==0){
+            place.roomCode=place.popular_name;
+          }
+          this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong> - "
+          + place.roomType.toLowerCase() +  "<br>"
+            + place.streetAddress + " " + place.streetNumber + "<br>" + " Våningsplan " + place.floor + ", " + place.buildingName )
               .openPopup();
           break;
         case Location_type.department:
@@ -100,5 +112,9 @@ getPopUpAdress(person){
             person.given_name + " " +  person.family_name)
           .openPopup();
     });
+  }
+
+  centerOnMarker(){
+    this.map.setView(this.mapCenter,15);
   }
 }

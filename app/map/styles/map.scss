@@ -1,6 +1,7 @@
 @import "../../css/app.scss";
 
 .map_wrapper{
+  position: relative;
   width:70%;
   height:57rem;
   margin-left:auto;
@@ -8,8 +9,18 @@
   margin-top:0;
   z-index:1;
   background-color: blue;
+  z-index:0;
   // position:absolute;
+  #center_button{
+    margin-right:0.7rem;
+    background-color:white;
+    right:0;
+    top:80;
+    font-size: 200%;
+    position:absolute;
+    z-index:10;
 
+  }
    .maps{
     height:100%;
     width:100%;

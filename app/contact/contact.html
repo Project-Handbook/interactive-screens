@@ -6,7 +6,7 @@
   <h2>Don't forget to supply your email so that they can contact you.</h2>
 
   <form [ngFormModel]="form" (submit)="onSubmit(email.fromEmail, email.message)">
-    <div class="wrapper">
+    <div class="contact_wrapper">
       <label for="msg">Message</label>
       <br/>
       <textarea required type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>

@@ -1,15 +1,17 @@
 	<div class="search_bar_wrapper" >
         <div>
             <input class="searchField" placeholder={{search_bar_placeholder}} autocomplete="off" type="text" [ngFormControl]="term">
-            <div class="selectButton" id="button2" (click)="buttonPush(2)" (click)="getSchools()" [ngStyle]="{'background-color': buttons[2]}">
+						<div class="selectButton" id="button0" (click)="buttonPush(0)"  [ngStyle]="{'background-color': buttons[0]}">
+							<h3>Location</h3>
+					</div>
+					<div class="selectButton" id="button1" (click)="buttonPush(1)" [ngStyle]="{'background-color': buttons[1]}">
+						<h3>Address</h3>
+				</div>
+						<div class="selectButton" id="button2" (click)="buttonPush(2)" (click)="getSchools()" [ngStyle]="{'background-color': buttons[2]}">
                 <h3>Schools</h3>
             </div>
-              <div class="selectButton" id="button1" (click)="buttonPush(1)" [ngStyle]="{'background-color': buttons[1]}">
-                <h3>Address</h3>
-            </div>
-              <div class="selectButton" id="button0" (click)="buttonPush(0)"  [ngStyle]="{'background-color': buttons[0]}">
-                <h3>Location</h3>
-            </div>
+
+
         </div>
         <div class="school-wrapper">
             <div class="left-wrapper">
@@ -30,16 +32,19 @@
                 </div>
             </div>
         </div>
-            <div class="error" *ngIf="showErrorMessage">
-                <h1>The requested data is not available at the moment, please come again!</h1>
-            </div>
+
             <div  class="suggestions"  *ngIf="searchResult.length> 0">
                 <ul *ngFor="#item of searchResult" >
                     <li >
-                        <a *ngIf="searchForLocation" (click)="select(item)">{{item.roomCode}}</a>
+                        <a *ngIf="searchForLocation" (click)="select(item)">
+												<label *ngIf="item.pupular_name">{{item.popular_name}}</label> {{item.roomCode}}
+											- {{item.roomType}}</a>
                         <a *ngIf="!searchForLocation" (click) ="select(item)">
                             {{item.streetAddress}} </a>
                     </li>
                 </ul>
             </div>
+						<div class="error" *ngIf="showErrorMessage">
+								<h1>The requested data is not available at the moment, please come again!</h1>
+						</div>
     </div>

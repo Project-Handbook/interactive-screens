@@ -96,6 +96,13 @@ export class SearchBarComponent {
 			   clickedComponent = clickedComponent.parentNode;
 		  }while (clickedComponent);
   		if(!inside){
+				if(this.searchForLocation===true){
+					this.buttons[0]="#2258A5";
+					this.buttons[2]="white";
+				}else{
+					this.buttons[1]="#2258A5";
+					this.buttons[2]="white";
+				}
   			this.searchResult = [];
         this.schools = [];
         this.departmentsCol1 = [];
@@ -134,8 +141,6 @@ export class SearchBarComponent {
         this.buttons[0]="white";
         this.buttons[1]="white";
         this.buttons[2]="#2258A5";
-				this.searchForLocation=false;
-				this.searchForAddress=false;
 				this.searchForDepartment=true;
 
       }

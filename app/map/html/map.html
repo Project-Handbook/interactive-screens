@@ -1,6 +1,7 @@
 
 
  <div class="map_wrapper">
+   <INPUT id="center_button" type="image" (click)="centerOnMarker()" src="app/map/images/marker-icon-red.png" value="">
 		<auto-complete (newLocation)="addDestinationMarker($event)"></auto-complete>
 		  <div class="maps" id="map"></div>
 </div>

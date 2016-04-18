@@ -19,13 +19,15 @@ export class MapService{
 			.map(res => {
 				res.forEach(item => {
 				if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
-					|| item.typeName === "Hörsal") && item.kthLokalkod.length !== 0) {
+					|| item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
+					&& (item.placeName.length !== 0 || item.kthPopularName.length !==0)) {
 					searchResult.push(
 						{
 							latitude: item.geoData.lat,
 							longitude: item.geoData.long,
 							buildingName: item.buildingName,
-							roomCode: item.kthLokalkod,
+							roomCode: item.placeName,
+							popular_name: item.kthPopularName,
 							streetAddress: item.streetAddress,
 							streetNumber: item.streetNumber,
 							roomType: item.typeName,
@@ -53,6 +55,7 @@ export class MapService{
           					longitude: item.geometry.location.lng,
 	        					buildingName: null,
 										roomCode: null,
+										popular_name:null,
 										streetAddress: item.formatted_address,
 										streetNumber: null,
 										roomType: null,

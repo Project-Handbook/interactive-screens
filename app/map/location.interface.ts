@@ -10,6 +10,7 @@ export interface Location{
 	longitude?:number;
 	buildingName:string;
 	roomCode:string;
+	popular_name?:string;
 	streetAddress:string;
 	streetNumber?:string;
 	roomType?:string;

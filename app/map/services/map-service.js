@@ -38,12 +38,14 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                         .map(function (res) {
                         res.forEach(function (item) {
                             if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
-                                || item.typeName === "Hörsal") && item.kthLokalkod.length !== 0) {
+                                || item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
+                                && (item.placeName.length !== 0 || item.kthPopularName.length !== 0)) {
                                 searchResult.push({
                                     latitude: item.geoData.lat,
                                     longitude: item.geoData.long,
                                     buildingName: item.buildingName,
-                                    roomCode: item.kthLokalkod,
+                                    roomCode: item.placeName,
+                                    popular_name: item.kthPopularName,
                                     streetAddress: item.streetAddress,
                                     streetNumber: item.streetNumber,
                                     roomType: item.typeName,
@@ -68,6 +70,7 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                                     longitude: item.geometry.location.lng,
                                     buildingName: null,
                                     roomCode: null,
+                                    popular_name: null,
                                     streetAddress: item.formatted_address,
                                     streetNumber: null,
                                     roomType: null,
