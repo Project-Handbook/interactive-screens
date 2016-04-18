@@ -14,17 +14,26 @@ import { HomeService } from './home-service';
 export class Home {
     calendar_block: String;
     news_block: String;
-
+    calendar_error:boolean;
+    news_feed_error:boolean;
     constructor(private homeService:HomeService){}
 
     getCalendar(){
       this.homeService.getCalendar()
-      .subscribe(res => { this.calendar_block = res });
+        .subscribe(res =>
+          this.calendar_block = res,
+          error=>this.calendar_error=true,
+          ()=>this.news_feed_error=true
+        );
     }
 
     getNewsFeed(){
-    this.homeService.getNewsFeed()
-    .subscribe(res => { this.news_block = res,console.log(res) });
+      this.homeService.getNewsFeed()
+      .subscribe(res =>
+        this.news_block = res,
+        error=>this.news_feed_error=true,
+        ()=>this.news_feed_error=false
+      );
     }
 
     ngOnInit(){
