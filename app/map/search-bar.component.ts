@@ -41,7 +41,8 @@ export class SearchBarComponent {
         .debounceTime(300)
         .distinctUntilChanged()
         .subscribe(item => {
-          if (item.toString().length > 1) {
+					var regex = new RegExp('^[\\w\\d]+:?[\\w\\d]*$','i');
+          if (item.toString().length > 1 && regex.test(item.toString())){
             if (this.searchForLocation === true) {
               this._mapService.getPlaces(item.toString()).subscribe(res => { this.searchResult = res },
                 error => this.showErrorMessage = true,
@@ -56,6 +57,7 @@ export class SearchBarComponent {
             }
           }else{
           this.searchResult = [];
+					console.log("hej");
           }
         })
 	 }
