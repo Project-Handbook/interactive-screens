@@ -1,14 +1,7 @@
-import {Component} from 'angular2/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, Control, ControlGroup, FormBuilder, Validators} from 'angular2/common';
+import {Component} from 'angular2/core'
+import {CORE_DIRECTIVES, FORM_DIRECTIVES, Control, ControlGroup, FormBuilder, Validators, AbstractControl} from 'angular2/common'
 import { EmailService } from './email.service';
 import "rxjs/add/operator/map";
-
-class dropDownValue {
-  id: number;
-  name: string;
-  info: string;
-}
-
 
 @Component({
   selector: 'contact',
@@ -26,33 +19,52 @@ export class Contact {
   form: ControlGroup;
 
 constructor(private _emailService: EmailService, private builder: FormBuilder) {
+  this.createForm();
+ }
+
+ public email = {fromName: "", message: "", fromEmail: ""};
+
+createForm() {
   this.error = false;
   this.msgCtrl = new Control('', Validators.minLength(10));
   this.emailCtrl = new Control('', EmailValidator.mailFormat);
   this.nameCtrl = new Control('', Validators.required);
-  this.form = builder.group({
+
+  this.form = this.builder.group({
      msgCtrl: this.msgCtrl,
      emailCtrl: this.emailCtrl,
-     nameCtrl: this.nameCtrl,
+     nameCtrl: this.nameCtrl
    });
- }
-
-
- public email = {fromName: "", message: "", fromEmail: ""};
-
- onSubmit(fromName, fromEmail, message) {
-
-   console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
-   this._emailService.sendEmail(fromName, fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
-   },()=>{console.log("apa"),this.error = false});
- }
-
 }
 
 
- interface ValidationResult {
-  [key:string]:boolean;
+reset() {
+  this.createForm();
+  this.email.fromName = "";
+  this.email.message = "";
+  this.email.fromEmail = "";
+}
+
+showForm:boolean = true;
+onSubmit(fromName, fromEmail, message) {
+   // INSERT CAPTCHA HERE
+   console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
+   this._emailService.sendEmail(fromName, fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
+   },()=>{console.log("apa"), this.error = false, this.showForm = false,
+   setTimeout(() => {
+     this.reset()
+      this.showForm = true;
+   });
+});
+
+}
+
+}
+
+interface ValidationResult {
+  [key:string]:boolean
  }
+
 
  class EmailValidator {
 
@@ -68,30 +80,4 @@ constructor(private _emailService: EmailService, private builder: FormBuilder) {
 
   }
 
- }
-
-
-
-
-
-
-
-
-/*  public dropDownValues: dropDownValue[] = [
-        { "id": 1, "name": "Where am i?", "info": "You are at Lindstedsvägen 4" },
-        { "id": 2, "name": "heee", "info": "DU kan lämna skit här" },
-        { "id": 3, "name": "Whats the clock?", "info": "Tiden är 13.37" },
-        { "id": 4, "name": "Where are CSC's departments located?", "info": "CSC's departments are located at Lindstedsvägen 3 & 5 and Osquars backe 18."}
-      ];
-
-      public selectedValue: dropDownValue = this.dropDownValues[0];
-      onSelect(valueID) {
-          this.selectedValue = null;
-          for (var i = 0; i < this.dropDownValues.length; i++)
-          {
-            if (this.dropDownValues[i].id == valueID) {
-              this.selectedValue = this.dropDownValues[i];
-            }
-          }
-      }
-*/
+}

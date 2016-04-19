@@ -5,7 +5,7 @@
   <h1>Contact CSC in the text field below if you have an errand.</h1>
   <h2>Don't forget to supply your email so that they can contact you.</h2>
 
-  <form [ngFormModel]="form" (submit)="onSubmit(email.fromName, email.fromEmail, email.message)">
+  <form *ngIf="showForm" [ngFormModel]="form" (submit)="onSubmit(email.fromName, email.fromEmail, email.message)">
     <div class="wrapper">
       <label for="msg">Message</label>
       <br/>
