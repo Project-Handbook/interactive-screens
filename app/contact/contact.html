@@ -5,7 +5,7 @@
   <h1>Contact CSC in the text field below if you have an errand.</h1>
   <h2>Don't forget to supply your email so that they can contact you.</h2>
 
-  <form [ngFormModel]="form" (submit)="onSubmit(email.fromEmail, email.message)">
+  <form [ngFormModel]="form" (submit)="onSubmit(email.fromName, email.fromEmail, email.message)">
     <div class="wrapper">
       <label for="msg">Message</label>
       <br/>
@@ -16,7 +16,8 @@
         </div>
       </div>
 
-      <div>
+      <div class="contactInfo">
+        <h3>Please supply your contact info here</h3>
         <label for="email">Email</label>
         <br/>
         <input required type="text" [(ngModel)]="email.fromEmail" placeholder="Your mail" ngControl="emailCtrl"/>
@@ -25,6 +26,11 @@
           <i class="fa fa-exclamation-triangle"></i> Invalid format.
         </div>
         </div>
+        <br/>
+        <label for="name">Name</label>
+        <br/>
+        <input required type="text" [(ngModel)]="email.fromName" placeholder="Your name" ngControl="nameCtrl"/>
+
       </div>
 
     </div>

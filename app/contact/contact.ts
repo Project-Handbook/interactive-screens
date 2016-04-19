@@ -21,6 +21,7 @@ export class Contact {
 
   msgCtrl: Control;
   emailCtrl: Control;
+  nameCtrl: Control;
   error: boolean;
   form: ControlGroup;
 
@@ -28,19 +29,21 @@ constructor(private _emailService: EmailService, private builder: FormBuilder) {
   this.error = false;
   this.msgCtrl = new Control('', Validators.minLength(10));
   this.emailCtrl = new Control('', EmailValidator.mailFormat);
+  this.nameCtrl = new Control('', Validators.required);
   this.form = builder.group({
      msgCtrl: this.msgCtrl,
      emailCtrl: this.emailCtrl,
+     nameCtrl: this.nameCtrl,
    });
  }
 
 
- public email = {message: "", fromEmail: ""};
+ public email = {fromName: "", message: "", fromEmail: ""};
 
- onSubmit(fromEmail, message) {
+ onSubmit(fromName, fromEmail, message) {
 
-   console.log("Mail from: " + fromEmail + "\nMessage: " + message);
-   this._emailService.sendEmail(fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
+   console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
+   this._emailService.sendEmail(fromName, fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
    },()=>{console.log("apa"),this.error = false});
  }
 
