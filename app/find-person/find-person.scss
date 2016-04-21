@@ -48,25 +48,80 @@ a {
 }
 
 #search-container {
-    width: 50%;
     text-align: left;
     font-size: 3em;
     overflow: auto;
-    background-color: #f90;
     margin-bottom: 0.3em;
+    display: table;
 }
 
 #person-search-input {
-    width: 85%;
+    width: 30rem;
     height: 3.5rem;
     font-size: .8em;
     padding-left: .5em;
-    float: left
+    float: left;
+}
+
+#person-search-schools {
+  float: left;
+  height: 3.35rem;
+  width: 120px;
+  border-left: none;
+  font-size: 1.5rem;
+  border-top: 1px solid #9a9a9a;
+  border-bottom: 1px solid #9a9a9a;
+}
+
+#person-search-schools-current {
+  height: 3.5rem;
+  width: 100%;
+  line-height: 3.5rem;
+  margin-left: 0.9em;
+}
+
+#person-search-schools-current mark {
+  transform: rotate(90deg);
+  position: absolute;
+  background: none;
+  margin-left: 0.5em;
+  color: #83a552;
+}
+
+#person-search-schools ul {
+  position: absolute;
+  width: 122px;
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+#person-search-schools li {
+  height: 1.8rem;
+  line-height: 1.8rem;
+  background-color: #fff;
+  display: block;
+  padding: 0.7rem;
+  border-top: 1px solid #adafb2;
+  border-left: 1px solid #adafb2;
+  border-right: 1px solid #adafb2;
+  text-align: center;
+}
+
+#person-search-schools li:hover {
+  background-color: #f1f1f1;
+}
+
+#person-search-schools li:first-child {
+  border-top: none;
+}
+
+#person-search-schools li:last-child {
+  border-bottom: 1px solid #adafb2;
 }
 
 #person-search-button {
     height: 3.5rem;
-    width: 15%;
+    width: 5rem;
     background-image: url(app/find-person/images/glass.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -199,7 +254,7 @@ a {
     padding-top: .2em;
     padding-bottom: .2em;
     text-align: left;
-    background-color: $kth-color-light-blue;
+    background-color: #2E7CC0;
     overflow: auto
 }
 
@@ -211,7 +266,7 @@ a {
 }
 
 .person {
-    width: 20%;
+    width: 100%;
     display: inline-block;
     margin-bottom: 2em;
     margin-top: 2em;
@@ -220,29 +275,6 @@ a {
 
 .person-image {
     width: 100%;
-}
-
-.person-info {
-    margin-top: 1em;
-    color: #111;
-    font-size: 1.35em;
-    word-wrap: break-word;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto
-}
-
-.person-info-name {
-    font-family: Arial;
-    font-weight: 400;
-    font-size: 2em;
-    margin-bottom: .15em
-}
-
-.person-info-title {
-    color: #a3a3a3;
-    font-size: 1.4em;
-    margin-bottom: .75em
 }
 
 .person-info-left {
@@ -257,4 +289,50 @@ a {
     border-radius: 50%;
     margin-top: 1.5em;
     width: 50%;
+}
+
+#person-table {
+  width: 100%;
+}
+
+#person-table thead th {
+  font-size: 2em;
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  border-left: 1px solid #c0c0c0;
+  padding: 0.25em;
+  min-width: 156px;
+}
+
+#person-table thead th:first-child {
+  border: none;
+  min-width: 0;
+}
+
+#person-table thead th p {
+  float: left;
+  color: #2e7cc0;
+  text-decoration: underline;
+}
+
+#person-table thead th mark {
+  background: none;
+  color: #83a552;
+  transform: rotate(90deg);
+  float: left;
+  margin-left: 0.5em;
+}
+
+#firstname, #email, #phone, #title {
+  display: none;
+}
+
+#person-table td {
+  border-right: 1px solid #c0c0c0;
+  font-size: 2em;
+  padding: 0.25em;
+}
+
+#person-table td img {
+  width: 20px
 }

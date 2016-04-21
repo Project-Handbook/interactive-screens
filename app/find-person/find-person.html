@@ -1,10 +1,28 @@
 <link rel="stylesheet" type="text/css" href="find-person.min.css" />
 
 <div id="wrapper">
+
 	<div id="wrapper-persons">
 		<div id="person-header">
 			<form action="search()" id="search-container">
 				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone..." autocomplete="off">
+				<div id="person-search-schools" (click)="state = state == 'none' ? 'block' : 'none'">
+					<p id="person-search-schools-current">KTH<mark>&#10095;</mark></p>
+					<ul [ngStyle]="{'display': state}">
+					 	<li>KTH</li>
+					 	<li>ABC</li>
+					 	<li>BIO</li>
+					 	<li>CSC</li>
+					 	<li>EES</li>
+					 	<li>STH</li>
+					 	<li>ICT</li>
+					 	<li>CHE</li>
+					 	<li>ECE</li>
+					 	<li>ITM</li>
+					 	<li>KHD</li>
+					 	<li>UF</li>
+					</ul>
+				</div>
 				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
 			</form>
 			<br>
@@ -17,17 +35,29 @@
 			<h1>The requested data is not available at the moment, please come again!</h1>
 		</div>
 
-
 		<div *ngIf="!showErrorMessage">
-			<div class="personId"><h4>A</h4></div>
-			<div *ngFor="#person of people; #i = index">
-				<!-- Displays the current letter for the surnames -->
-				<div *ngIf="i > 0 && person.family_name.charAt(0) > people[i-1].family_name.charAt(0)" class="personId">
-					<h4>{{ person.family_name.charAt(0).toUpperCase() }}</h4>
-				</div>
-
-				<person-profile  [person]="person"></person-profile>
-			</div>
+			<!--div class="personId"><h4>A</h4></div-->
+			
+			<table id="person-table">
+				<thead>
+					<th></th>
+					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
+					<th (click)="sort('surname')"><p>Family name</p> <mark id="surname">&#10095;</mark></th>
+					<th (click)="sort('email')"><p>Email</p> <mark id="email">&#10095;</mark></th>
+					<th (click)="sort('phone')"><p>Phone</p> <mark id="phone">&#10095;</mark></th>
+					<th (click)="sort('title')"><p>Title</p> <mark  id="title">&#10095;</mark></th>
+				</thead>
+				<tbody>
+					<tr *ngFor="#person of people; #i = index">
+						<td><img src="https://www.lan.kth.se/sip/lur15.png" /></td>
+						<td>{{ person.given_name }}</td>
+						<td>{{ person.family_name }}</td>
+						<td>{{ person.email }}</td>
+						<td>{{ person.phone_number }}</td>
+						<td>{{ person.title }}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
