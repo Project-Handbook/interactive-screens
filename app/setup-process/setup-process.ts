@@ -11,6 +11,9 @@ import { NgClass } from 'angular2/common';
 })
 export class SetupProcess {
 
+  map: L.Map;
+  public lat;
+  public lng;
   public screenInfo = new ScreenSpecificInformation()
 
   constructor(private router: Router) {}
@@ -45,4 +48,35 @@ export class SetupProcess {
   addDepartment() {
     this.departments.push(this.newDepartment);
   }
+
+
+  ngOnInit(){
+
+    this.map = new L.Map('map', {
+         zoomControl: false,
+         center: new L.LatLng(59.3469417, 18.0702413),
+         zoom: 15,
+         minZoom: 4,
+         maxZoom: 18,
+         zoomAnimation:false,
+         doubleClickZoom:false
+
+     });
+     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+           attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
+         }).addTo(this.map);
+     var zoomControl = L.control.zoom({
+           position: 'topright'
+         }).addTo(this.map);
+         //this.map.on('click', this.onMapClick);
+         this.map.on('click', (event:L.LeafletMouseEvent) => {
+                  this.lat=event.latlng.lat;
+                  this.lng=event.latlng.lng;
+        });
+        this.map.touchZoom.disable();
+
+  }
+
+
+
 }

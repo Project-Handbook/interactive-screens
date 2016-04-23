@@ -30,6 +30,29 @@
         Where the screen is located, this will be shown on the top of the screen.
       </td>
     </tr>
+    <tr class="item">
+      <td>
+        <p>Position of the screen</p>
+        <div class="maps" id="map"></div>
+        <br>
+        <label>Latitude</label>
+        <input  placeholder="Enter latitude coordinate" [(ngModel)]="lat"/>
+        <br>
+        <label>Longitude</label>
+        <input  placeholder="Enter longitude coordinate" [(ngModel)]="lng"/>
+        <br>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('coordinatesInfo').style.display= document.getElementById('coordinatesInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="coordinatesInfo" class="info" style="display: none;">
+          Enter the coordinates of the position of the screen. The coordinates will be used to display the
+          position of the screen in the map view. The coordinates can either be fetched by clicking on the map or
+          inseted manually in the text fields.
+      </td>
+    </tr>
   </table>
 
   <h2>Sidebar Information</h2>
