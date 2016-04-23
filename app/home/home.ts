@@ -7,9 +7,10 @@ import { HomeService } from './home-service';
   viewProviders: [HTTP_PROVIDERS],
   templateUrl: 'app/home/home.html',
   providers:[HomeService],
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['app/home/home.min.css'],
-
+  encapsulation: ViewEncapsulation.Native,
+   styles: [`
+    @import "http://www.kth.se/css/v/8.28.4/kth.css";
+  `],
 })
 export class Home {
     calendar_block: String;

@@ -1,7 +1,33 @@
 <!-- Load our partials' css file <link rel="stylesheet" href="http://www.kth.se/css/v/8.28.4/kth.css"/>-->
 <div  id="home_container" class="home_container">
+
+	<style>
+		#home_container {
+			width: 70%;
+			margin: 0 auto;
+			display: table;
+		}
+
+		.news_block {
+			width: 75%;
+			float: left;
+			display: inline;
+			margin: 0;
+		}
+
+		.calendar_block {
+			width: 25%;
+			float: right;
+		}
+
+		.blockItem {
+			width: 650px;
+		}
+	</style>
+
+
 	<div class="news_block">
-		<div id="news_item1" *ngIf="!news_feed_error" *ngIf="news_block" class="block_item" [innerHTML]="news_block">
+		<div id="news_item1" *ngIf="news_block || !news_feed_error" class="block_item" [innerHTML]="news_block">
 		</div>
 
 	<div *ngIf="news_feed_error">

@@ -41,7 +41,7 @@ export class HomeService{
 						}
 						news_items= news_items + blocks[i].innerHTML;
 				}
-				return news_items;
+				return res;
 			});
 		}
 }
