@@ -53,7 +53,7 @@ export class SearchBarComponent {
           }
         })
 	 }
-    //Send the selected location to map component. 
+    //Send the selected location to map component.
     select(location){
     console.log(location);
     console.log("+");
@@ -67,8 +67,8 @@ export class SearchBarComponent {
     }
 		this.searchResult = [];
     }
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case 
-    // the searchresult array will be cleared and the dropdown will disappear.  
+    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+    // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
       var clickedComponent = event.target;
   		var inside = false;
@@ -76,7 +76,7 @@ export class SearchBarComponent {
 			   if (clickedComponent === this.elementRef.nativeElement) {
 				    inside = true;
 			    }
-			   clickedComponent = clickedComponent.parentNode;
+			   clickedComponent = clickedComponent.nativeElement.parentNode.value;
 		  }while (clickedComponent);
   		if(!inside){
   			this.searchResult = [];
@@ -85,7 +85,7 @@ export class SearchBarComponent {
         this.departmentsCol2 = [];
   		}
     }
-    buttons:Array<string>=["blue","white","white"];  
+    buttons:Array<string>=["blue","white","white"];
     buttonPush(value){
       this.query="";
       this.searchResult=[];
@@ -128,6 +128,6 @@ export class SearchBarComponent {
         this.departmentsCol1 = res;
         this.departmentsCol2 = [];
       }
-    })   
+    })
   }
 }
