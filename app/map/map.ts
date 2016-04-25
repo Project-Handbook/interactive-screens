@@ -17,6 +17,7 @@ export class Map {
   map: L.Map;
   //Leaflet Marker Object
   currentDestination: L.Marker;
+  //Center coords for map Initialize
   public mapCenter =  new L.LatLng(59.3469417, 18.0702413);
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
@@ -51,14 +52,12 @@ export class Map {
         }).addTo(this.map);
       //Add marker at the location of the screen
       var greenIcon = L.icon({
-    iconUrl: 'app/map/images/marker-icon-red.png',
-    iconSize:     [25, 38], // size of the icon
-    popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
-});
+          iconUrl: 'app/map/images/marker-icon-red.png',
+          iconSize:     [25, 38], // size of the icon
+          popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
+      });
 			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
-
-
       this.map.touchZoom.disable();
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
@@ -66,7 +65,6 @@ export class Map {
   addDestinationMarker(place:Location){
     console.log(place);
     if(place===undefined){
-      console.log("No address was found for this department");
     }else{
 
       if (this.currentDestination != null) {

@@ -102,7 +102,6 @@ export class MapService{
 					}
 
 				})
-				console
 				return departments;
 			})
 	}

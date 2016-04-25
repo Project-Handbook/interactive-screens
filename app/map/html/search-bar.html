@@ -1,15 +1,15 @@
 	<div class="search_bar_wrapper" >
         <div>
-            <input class="searchField" placeholder={{search_bar_placeholder}} autocomplete="off" type="text" [ngFormControl]="term">
-						<div class="selectButton" id="button0" (click)="buttonPush(0)"  [ngStyle]="{'background-color': buttons[0]}">
-							<h3>Location</h3>
+					<div class="selectButton" id="button2" (click)="buttonPush(2)" (click)="getSchools()" [ngStyle]="{'background-color': buttonColors[2]}">
+						<h3>Schools</h3>
 					</div>
-					<div class="selectButton" id="button1" (click)="buttonPush(1)" [ngStyle]="{'background-color': buttons[1]}">
+					<div class="selectButton" id="button1" (click)="buttonPush(1)" [ngStyle]="{'background-color': buttonColors[1]}">
 						<h3>Address</h3>
-				</div>
-						<div class="selectButton" id="button2" (click)="buttonPush(2)" (click)="getSchools()" [ngStyle]="{'background-color': buttons[2]}">
-                <h3>Schools</h3>
-            </div>
+					</div>
+					<div class="selectButton" id="button0" (click)="buttonPush(0)"  [ngStyle]="{'background-color': buttonColors[0]}">
+						<h3>Location</h3>
+					</div>
+				<input class="searchField" placeholder={{search_bar_placeholder}} autocomplete="off" type="text" [ngFormControl]="term">
 
 
         </div>
@@ -20,16 +20,12 @@
                 </ul>
             </div>
             <div class="right-wrapper">
-                <div class="dep-col-1">
-                    <ul *ngFor="#dep of departmentsCol1">
+                <div *ngFor="#column of departmentsColumns; #i = index" class="dep-col-1">
+                    <ul *ngFor="#dep of column">
                         <li (click)="select({buildingName:dep.name_sv,code:dep.code,streetAddress:dep.address})">{{dep.name_sv}} </li>
                     </ul>
                 </div>
-                <div class="dep-col-2">
-                    <ul  *ngFor="#dep of departmentsCol2">
-                        <li (click)="select(dep)">{{dep.name_sv}} </li>
-                    </ul>
-                </div>
+
             </div>
         </div>
 
@@ -46,5 +42,8 @@
             </div>
 						<div class="error" *ngIf="showErrorMessage">
 								<h1>The requested data is not available at the moment, please come again!</h1>
+						</div>
+						<div class="error" *ngIf="no_address_found">
+								<h1>No address found for this department.</h1>
 						</div>
     </div>

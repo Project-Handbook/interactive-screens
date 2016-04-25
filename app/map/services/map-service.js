@@ -114,7 +114,6 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                                 departments.push(item);
                             }
                         });
-                        console;
                         return departments;
                     });
                 };
