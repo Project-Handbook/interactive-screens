@@ -6,22 +6,26 @@
 		<div id="person-header">
 			<form action="search()" id="search-container">
 				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone..." autocomplete="off">
-				<div id="person-search-schools" (click)="state = state == 'none' ? 'block' : 'none'">
+				<div id="person_search_schools" (click)="toggleSchools()">
 					<p id="person-search-schools-current">KTH<mark>&#10095;</mark></p>
-					<ul [ngStyle]="{'display': state}">
-					 	<li>KTH</li>
-					 	<li>ABC</li>
-					 	<li>BIO</li>
-					 	<li>CSC</li>
-					 	<li>EES</li>
-					 	<li>STH</li>
-					 	<li>ICT</li>
-					 	<li>CHE</li>
-					 	<li>ECE</li>
-					 	<li>ITM</li>
-					 	<li>KHD</li>
-					 	<li>UF</li>
+					<ul id="schools" style="display: none">
+					 	<li *ngFor="#school of schools" (click)="getDep()">
+					 		{{ school }}
+					 	</li>
 					</ul>
+					<div id="departments_wrapper" *ngIf="deps.length > 0">
+						<button (click)="scrollDep(-1)">
+							<p><mark>&#10095;</mark></p>
+						</button>
+						<ul id="departments" [ngStyle]="{'display': 'block'}">
+							<li *ngFor="#dep of deps">
+								{{ dep }}
+							</li>
+						</ul>
+						<button (click)="scrollDep(1)">
+							<p><mark>&#10095;</mark></p>
+						</button>
+					</div>
 				</div>
 				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
 			</form>

@@ -31,6 +31,11 @@ a {
     width: 70%;
     height: 100%;
     float: left;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select:none; 
+  user-select:none;
+  -o-user-select:none
 }
 
 #wrapper-scrollbar {
@@ -63,17 +68,19 @@ a {
     float: left;
 }
 
-#person-search-schools {
+#person_search_schools {
   float: left;
-  height: 3.35rem;
   width: 120px;
   border-left: none;
   font-size: 1.5rem;
   border-top: 1px solid #9a9a9a;
   border-bottom: 1px solid #9a9a9a;
+  position: relative;
+  cursor: pointer;
 }
 
 #person-search-schools-current {
+  position: relative;
   height: 3.5rem;
   width: 100%;
   line-height: 3.5rem;
@@ -88,35 +95,84 @@ a {
   color: #83a552;
 }
 
-#person-search-schools ul {
+#person_search_schools ul {
   position: absolute;
-  width: 122px;
+  border-bottom: 1px solid #adafb2;
   margin-top: -1px;
-  margin-left: -1px;
-}
-
-#person-search-schools li {
-  height: 1.8rem;
-  line-height: 1.8rem;
-  background-color: #fff;
-  display: block;
-  padding: 0.7rem;
-  border-top: 1px solid #adafb2;
   border-left: 1px solid #adafb2;
   border-right: 1px solid #adafb2;
+  float: left;
+  background-color: #fff;
+}
+
+#person_search_schools li {
+  line-height: 2rem;
+  display: block;
+  padding: 0.7rem 2.1rem;
+  border-top: 1px solid #adafb2;
   text-align: center;
 }
 
-#person-search-schools li:hover {
+#person_search_schools li:hover {
   background-color: #f1f1f1;
 }
 
-#person-search-schools li:first-child {
-  border-top: none;
+#person_search_schools li:first-child {
 }
 
-#person-search-schools li:last-child {
-  border-bottom: 1px solid #adafb2;
+#person_search_schools li:last-child {
+}
+
+#departments_wrapper {
+  margin-left: 122px;
+  position: absolute;
+  float: left;
+}
+
+#departments_wrapper button {
+  width: 100%;
+  border: 1px solid #adafb2;
+  background: #fff;
+  height: 55px;
+  color: #83a552;
+  outline:none;
+}
+
+#departments_wrapper button:first-child p {
+  line-height: 0px;
+}
+
+#departments_wrapper button:last-child p {
+  line-height: 0px;
+}
+
+#departments_wrapper button:first-child p mark {
+  position: absolute;
+  transform: rotate(-90deg);
+  color: #83a552;
+}
+
+#departments_wrapper button:last-child p mark {
+  position: absolute;
+  color: #83a552;
+  transform: rotate(90deg);
+}
+
+#departments {
+  white-space: nowrap;
+  position: static !important;
+  width: auto;
+  border-bottom: none !important;
+  max-width: 1020px;
+  max-height: 810px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#departments li:first-child {
+}
+
+#departments li:last-child {
 }
 
 #person-search-button {
@@ -297,9 +353,8 @@ a {
 
 #person-table thead th {
   font-size: 2em;
-  border-top: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-  border-left: 1px solid #c0c0c0;
+  border-top: 1px dotted #111111;
+  border-bottom: 1px dotted #111111;
   padding: 0.25em;
   min-width: 156px;
 }
@@ -311,7 +366,6 @@ a {
 
 #person-table thead th p {
   float: left;
-  color: #2e7cc0;
   text-decoration: underline;
 }
 
@@ -327,10 +381,28 @@ a {
   display: none;
 }
 
+#person-table tr {
+}
+
+#person-table tr:nth-child(even) {
+
+}
+#person-table tr:nth-child(odd) {
+}
+
+#person-table tr td:first-child {
+  border: none !important;
+  color: #2e7cc0;
+}
+
+#person-table tr td:nth-child(2), td:nth-child(3) {
+  color: #2e7cc0;
+}
+
 #person-table td {
-  border-right: 1px solid #c0c0c0;
+  border-top: 1px dotted #e3e5e3;
   font-size: 2em;
-  padding: 0.25em;
+  padding: 0.5em 0.25em 0.5em 0.5em;
 }
 
 #person-table td img {
