@@ -1,6 +1,7 @@
 import { Component } from 'angular2/core';
 import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
+import { ngStyle } from 'angular2/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
@@ -12,6 +13,8 @@ import { PersonProfile } from './person-profile';
   providers: [FindPersonService]
 })
 export class FindPerson {
+
+  state: string = "none";
 
   currentPerson: Person;
   // Default search values
@@ -76,5 +79,87 @@ export class FindPerson {
     }
   }
 
+  rotation: string = "rotate(90deg)";
+  previous: string = "surname";
 
+  sort(input) {
+    var element = this.getElement(input);
+
+    if(this.previous != input) {
+      var prev = this.getElement(this.previous);
+      prev.style.transform = "rotate(90deg)";
+      prev.style.display = "none";
+      element.style.display = "block";
+      element.style.transform = "rotate(90deg)";
+      this.previous = input;
+      this.rotation = "rotate(90deg)";
+    }
+    else {
+      element.style.transform = this.rotation;
+      this.rotation = this.rotation == "rotate(-90deg)" ? "rotate(90deg)" : "rotate(-90deg)";
+    }
+
+    element.style.transform = this.rotation;
+
+    var rotation = this.rotation;
+    this.people.sort(function(a, b) {
+      if(input == "firstname") {
+          if(a.given_name < b.given_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.given_name > b.given_name) return rotation == "rotate(90deg)" ? 1 : -1;
+
+          if(a.family_name < b.family_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.family_name > b.family_name) return rotation == "rotate(90deg)" ? 1 : -1;
+          return 0; // Maybe sort by other parameter?
+      }
+      else if(input == "surname") {
+          if(a.family_name < b.family_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.family_name > b.family_name) return rotation == "rotate(90deg)" ? 1 : -1;
+          return 0; // Maybe sort by other parameter?
+      }
+      else if(input == "email") {
+          if(a.email < b.email) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.email > b.email) return rotation == "rotate(90deg)" ? 1 : -1;
+
+          if(a.family_name < b.family_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.family_name > b.family_name) return rotation == "rotate(90deg)" ? 1 : -1;
+          return 0; // Maybe sort by other parameter?
+      }
+      else if(input == "phone") {
+          if(a.phone_number < b.phone_number) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.phone_number > b.phone_number) return rotation == "rotate(90deg)" ? 1 : -1;
+
+          if(a.family_name < b.family_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.family_name > b.family_name) return rotation == "rotate(90deg)" ? 1 : -1;
+          return 0; // Maybe sort by other parameter?
+      }
+      else if(input == "title") {
+          if(a.title < b.title) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.title > b.title) return rotation == "rotate(90deg)" ? 1 : -1;
+
+          if(a.family_name < b.family_name) return rotation == "rotate(90deg)" ? -1 : 1;
+          if(a.family_name > b.family_name) return rotation == "rotate(90deg)" ? 1 : -1;
+          return 0; // Maybe sort by other parameter?
+      }
+    });
+  }
+
+  getElement(input) {
+    var element;
+    if(input == "firstname") {
+      element = firstname;
+    }
+    else if(input == "surname") {
+      element = surname;
+    }
+    else if(input == "email") {
+      element = email;
+    }
+    else if(input == "phone") {
+      element = phone;
+    }
+    else if(input == "title") {
+      element = title;
+    }
+    return element;
+  }
 }

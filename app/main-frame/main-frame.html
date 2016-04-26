@@ -1,8 +1,11 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="main-frame.min.css"/>
-<header class="main_frame_header">
-  <h1 class="main_header_title">{{ screenInfo.title }}</h1>
+<header class="main-frame-header">
+  <img class="icon" src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
+  <div class="main-header-title"><h1>{{ screenInfo.title }}</h1></div>
 </header>
+
+<div class="header-border"></div>
 
 <div class="contact_field">
   <div class="inner_contact_field">
@@ -56,7 +59,7 @@
     </div>
     <div [routerLink] = "['Contact']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
       <div class="icon">
-      <li>Assistance</li>
+      <li>Service or advice</li>
       <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Messaging/message-100.png" />
       </div>
     </div>
