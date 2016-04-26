@@ -60,27 +60,27 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                 };
                 MapService.prototype.getGeoCode = function (address, location_type) {
                     var searchResult = [];
-                    return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
+                    return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
                         .map(function (res) { return res.json(); })
                         .map(function (res) {
-                        res.results.forEach(function (item) {
-                            if (item.geometry.location_type !== "APPROXIMATE") {
-                                searchResult.push({
-                                    latitude: item.geometry.location.lat,
-                                    longitude: item.geometry.location.lng,
-                                    buildingName: null,
-                                    roomCode: null,
-                                    popular_name: null,
-                                    streetAddress: item.formatted_address,
-                                    streetNumber: null,
-                                    roomType: null,
-                                    zipCode: null,
-                                    floor: null,
-                                    location_type: location_type
-                                });
-                                console.log(searchResult);
-                            }
-                        });
+                        console.log(res),
+                            res.results.forEach(function (item) {
+                                if (item.geometry.location_type !== "APPROXIMATE") {
+                                    searchResult.push({
+                                        latitude: item.geometry.location.lat,
+                                        longitude: item.geometry.location.lng,
+                                        buildingName: null,
+                                        roomCode: null,
+                                        popular_name: null,
+                                        streetAddress: item.formatted_address,
+                                        streetNumber: null,
+                                        roomType: null,
+                                        zipCode: null,
+                                        floor: null,
+                                        location_type: location_type
+                                    });
+                                }
+                            });
                         return searchResult;
                     });
                 };

@@ -21,13 +21,15 @@ export class Map {
   public mapCenter =  new L.LatLng(59.3469417, 18.0702413);
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
+    //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
     var person = {
                    given_name: <string> routeParams.get('given_name'),
                    family_name: <string> routeParams.get('family_name'),
                    visiting_address: <string> routeParams.get('address')
                  }
+    //If parameters was passed then display the address on the map
    if(person.given_name!==null && person.family_name!==null && person.visiting_address!==null){
-     this.getPopUpAdress(person);
+     this.getAdressFromPerson(person);
    }
   }
 
@@ -37,12 +39,11 @@ export class Map {
 	 this.map = new L.Map('map', {
         zoomControl: false,
         center:this.mapCenter,
-        zoom: 15,
+        zoom: 17,
         minZoom: 4,
         maxZoom: 18,
         zoomAnimation:false,
         doubleClickZoom:false
-
     });
     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
         	attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
@@ -58,48 +59,48 @@ export class Map {
       });
 			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
-      this.map.touchZoom.disable();
+      this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
   addDestinationMarker(place:Location){
-    console.log(place);
-    if(place===undefined){
-    }else{
-
+      if(place===undefined){
+        return;
+      }
       if (this.currentDestination != null) {
         this.map.removeLayer(this.currentDestination); //Removes old marker
       }
-
       this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
-
+      this.map.setView([place.latitude,place.longitude]);
+        /*Depending if the location is fetched from googleapis, department api or KTH places the location Object
+          contains different information and therefore the popups print different variables.
+        */
         switch(place.location_type){
-
-        case Location_type.kth_places:
-          if(place.popular_name.length!==0){
-            place.roomCode=place.popular_name;
-          }
-          this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong> - "
-          + place.roomType.toLowerCase() +  "<br>"
-            + place.streetAddress + " " + place.streetNumber + "<br>" + " Våningsplan " + place.floor + ", " + place.buildingName )
-              .openPopup();
-          break;
-        case Location_type.department:
-          this.currentDestination.bindPopup("<strong>" + place.buildingName + "</strong><br>" + place.streetAddress)
-              .openPopup();
-          break;
-        case Location_type.street_address:
-          this.currentDestination.bindPopup("<strong>" + place.streetAddress + "</strong>")
-              .openPopup();
-          break;
+          case Location_type.kth_places:
+            if(place.popular_name.length!==0){
+              place.roomCode=place.popular_name;
+            }
+            this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong> - "
+            + place.roomType.toLowerCase() +  "<br>"
+              + place.streetAddress + " " + place.streetNumber + "<br>" + " Våningsplan " + place.floor + ", " + place.buildingName )
+                .openPopup();
+            break;
+          case Location_type.department:
+            this.currentDestination.bindPopup("<strong>" + place.buildingName + "</strong><br>" + place.streetAddress)
+                .openPopup();
+            break;
+          case Location_type.street_address:
+            this.currentDestination.bindPopup("<strong>" + place.streetAddress + "</strong>")
+                .openPopup();
+            break;
           default:
-            console.log("No match");
+              console.log("No match");
       }
-
-  }
 }
-
-getPopUpAdress(person){
+/* Used to fetch the address if the user navigates to the map tab through the peoples tab by clicking on
+ the view address button. Fetches the coordinates of the adress of the person and displays it on the map.
+*/
+getAdressFromPerson(person){
     console.log(person.visiting_address);
     this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
       .subscribe(res=>{
@@ -111,8 +112,8 @@ getPopUpAdress(person){
           .openPopup();
     });
   }
-
+  //Centers the map on the default coordinates.
   centerOnMarker(){
-    this.map.setView(this.mapCenter,15);
+    this.map.setView(this.mapCenter,17);
   }
 }

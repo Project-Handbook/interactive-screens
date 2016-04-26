@@ -44,9 +44,10 @@ export class MapService{
 
 	getGeoCode(address:string,location_type:Location_type){
 		var searchResult:Array<Location>=[];
-		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
+		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
 			.map(res => res.json())
 			.map(res=>{
+							console.log(res),
           		res.results.forEach(item=>{
               	if(item.geometry.location_type!=="APPROXIMATE"){
               		searchResult.push(
@@ -63,7 +64,6 @@ export class MapService{
 										floor: null,
 										location_type: location_type
           				});
-									console.log(searchResult);
 
             		}
          		 });

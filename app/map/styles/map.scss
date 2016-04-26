@@ -29,33 +29,14 @@
     z-index:0;
   }
 
+  .legend{
+    position: absolute;
+    width:100px;
+    height:100px;
+    z-index:10;
+    background-color: white;
+    bottom:10rem;
+    right:2rem;
+  }
 
 }
-  .dep-wrapper{
-    position:absolute;
-    z-index:10;
-    right:17%;
-    margin-top:5%;
-    width:auto;
-    height:auto;
-    .dep-right{
-      background-color:white;
-      width:auto;
-      float:right;
-      .ul-schools{
-        columns: 2;
-      }
-    }
-    .dep-left{
-      background-color:white;
-      width:auto;
-      float:left;
-      .ul-departments{
-
-        .li-departments{
-          display: inline-block; /*necessary*/
-
-        }
-      }
-    }
-  }

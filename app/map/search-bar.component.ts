@@ -31,6 +31,7 @@ export class SearchBarComponent {
 	// Boolean values that keeps track of which button is currently pressed
   searchForLocation:boolean=true;
 	searchForAddress:boolean=false;
+	showSearchField:boolean=true;
 	//Holds the string that will be displayed in the search field if there is no user input.
 	search_bar_placeholder="Search for a location...";
 	// Holds an Observable that is subscribed to inside the constructor. Keeps track if the user is typing in the search field
@@ -54,7 +55,6 @@ export class SearchBarComponent {
 							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
 							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
 							var term = item.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
-							console.log(term);
               this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
                 error => this.showErrorMessage = true,
                 () => this.showErrorMessage = false);
@@ -66,65 +66,70 @@ export class SearchBarComponent {
 	 }
     //Send the selected location to map component.
     select(location){
-
-    this.term.updateValue(""); //Reset search field
-		//Locations that is not fetched from KTH Places hasnt got coordinates but an address.
-		//Those locations has to be sent to googleapis in order to recieve coordinates.
-    if(location.latitude!==undefined && location.longitude!==undefined){
-        this.newLocation.emit(location); // Send selected location to output
-    }else{
-			var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
-      this._mapService.getGeoCode(location.streetAddress,location_type).subscribe(res => {
-				if(res.length!==0){
-					res[0].buildingName = location.buildingName;
-					this.newLocation.emit(res[0])
-				}else{
-					this.no_address_found=true;
-					 setTimeout(() => {this.no_address_found=false;},3000);
-					this.newLocation.emit(undefined);
-				}
-			},
-        error => this.showErrorMessage = true,
-        () => this.showErrorMessage = false);
-    }
-		this.resetDropDownMenus();
+	    this.term.updateValue(""); //Reset search field
+			//Locations that is not fetched from KTH Places hasnt got coordinates but an address.
+			//Those locations has to be sent to googleapis in order to recieve coordinates.
+	    if(location.latitude!==undefined && location.longitude!==undefined){
+	        this.newLocation.emit(location); // Send selected location to output
+	    }else{
+				var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
+	      this._mapService.getGeoCode(location.streetAddress,location_type).subscribe(res => {
+					if(res.length!==0){
+						res[0].buildingName = location.buildingName;
+						this.newLocation.emit(res[0])
+					}else{
+						this.no_address_found=true;
+						 setTimeout(() => {this.no_address_found=false;},3000);
+						this.newLocation.emit(undefined);
+					}
+				},
+	        error => this.showErrorMessage = true,
+	        () => this.showErrorMessage = false);
+	    }
+			this.resetDropDownMenus();
     }
     //This funtion determines if the user clicks outside the dropdown menu. If this is the case
     // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
-      var clickedComponent = event.target;
-  		var inside = false;
+			var clickedComponent = event.target;
+			var inside = false;
 		  do {
 			   if (clickedComponent === this.elementRef.nativeElement) {
 				    inside = true;
 			    }
 			   clickedComponent = clickedComponent.parentNode;
 		  }while (clickedComponent);
+			//If drop down wrapper is pushed then clear dropdown.
+			if(document.querySelector(".departments_drop_down")===event.target
+				||document.querySelector(".drop_down_wrapper")===event.target ){
+					inside=false;
+			};
   		if(!inside){
 				if(this.searchForLocation===true){
 						this.updateButtons(0);
 				}else{
 						this.updateButtons(1);
 				}
+				this.showSearchField=true;
 				this.resetDropDownMenus();
   		}
     }
-
     buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
     buttonPush(value){
       if(value===0){
         this.searchForLocation=true;
 				this.searchForAddress=false;
+				this.showSearchField=true;
 				this.search_bar_placeholder = "Search for a location..."
 				this.resetDropDownMenus();
-
       }else if(value===1){
         this.searchForLocation=false;
 				this.searchForAddress=true;
+				this.showSearchField=true;
 				this.search_bar_placeholder = "Search for an address..."
 				this.resetDropDownMenus();
       }else if(value===2){
-
+				this.showSearchField=false;
 			}
 			this.searchResult=[];
 			this.term.updateValue("");
@@ -160,6 +165,7 @@ export class SearchBarComponent {
   departmentsColumns: Array<Array<any>> = [];
   getDepartments(department:string){
     this._mapService.getDepartments(department).subscribe(res => {
+			this.departmentsColumns=[];
 			switch(true){
 				case res.length>51:
 					this.departmentsColumns[0] = res.splice(0, 17);
@@ -187,6 +193,11 @@ export class SearchBarComponent {
 	resetDropDownMenus(){
 		this.schools=[];
 		this.departmentsColumns=[];
-		this.searchResult=[];
 	}
+//used when search button is pressed
+	search(){
+		if(this.searchResult.length!==0){
+			this.select(this.searchResult[0]);
+	}
+}
 }
