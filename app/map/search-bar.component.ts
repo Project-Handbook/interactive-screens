@@ -56,7 +56,7 @@ export class SearchBarComponent {
 							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
 							var term = item.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
               this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
-                error => this.showErrorMessage = true,
+                error => {this.showErrorMessage = true},
                 () => this.showErrorMessage = false);
             }
           }else{
@@ -101,8 +101,9 @@ export class SearchBarComponent {
 		  }while (clickedComponent);
 			//If drop down wrapper is pushed then clear dropdown.
 			if(document.querySelector(".departments_drop_down")===event.target
-				||document.querySelector(".drop_down_wrapper")===event.target ){
+				||document.querySelector(".component_wrapper")===event.target ){
 					inside=false;
+					console.log("hej");
 			};
   		if(!inside){
 				if(this.searchForLocation===true){

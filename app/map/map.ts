@@ -71,7 +71,7 @@ export class Map {
         this.map.removeLayer(this.currentDestination); //Removes old marker
       }
       this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
-      this.map.setView([place.latitude,place.longitude]);
+      this.map.setView([place.latitude,place.longitude],this.map.getZoom(),{animate:true});
         /*Depending if the location is fetched from googleapis, department api or KTH places the location Object
           contains different information and therefore the popups print different variables.
         */
@@ -114,6 +114,6 @@ getAdressFromPerson(person){
   }
   //Centers the map on the default coordinates.
   centerOnMarker(){
-    this.map.setView(this.mapCenter,17);
+    this.map.setView(this.mapCenter,this.map.getZoom(),{animate:true});
   }
 }
