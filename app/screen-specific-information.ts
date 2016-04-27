@@ -7,5 +7,7 @@ export class ScreenSpecificInformation {
               public postal_code: string = "", /* Postal code in the sidebar */
               public city: string = "", /* Nearest city shown in the sidebar */
               public departments: Array<string> = [], /* List of nearby departments */
-              public nearest_department: string = "") /*  */ {}
+              public nearest_department: string = "", /* Name of the department nearest the screen */
+              public longitude: number = 0, /* Coordinate for the sceen */
+              public latitude: number = 0) /* Coordinate for the screen  */ {}
 }
