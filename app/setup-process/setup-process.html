@@ -36,10 +36,10 @@
         <div class="maps" id="map"></div>
         <br>
         <label>Latitude</label>
-        <input  placeholder="Enter latitude coordinate" [(ngModel)]="lat"/>
+        <input placeholder="Enter latitude coordinate" [(ngModel)]="screenInfo.latitude"/>
         <br>
         <label>Longitude</label>
-        <input  placeholder="Enter longitude coordinate" [(ngModel)]="lng"/>
+        <input placeholder="Enter longitude coordinate" [(ngModel)]="screenInfo.longitude"/>
         <br>
       </td>
       <td>
@@ -56,7 +56,7 @@
     <tr class="item">
       <td>
         <p>Department</p>
-        <label>Choose school</label> 
+        <label>Choose school</label>
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
           <option  *ngFor="#school of schools" [value]="school.code">
