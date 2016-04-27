@@ -14,12 +14,9 @@ import {MapService} from '../map/services/map-service';
 export class SetupProcess {
 
   map: L.Map;
-  //latitude and longitude from map
-  public lat;
-  public lng;
-  public screenInfo = new ScreenSpecificInformation()
+  public screenInfo = new ScreenSpecificInformation();
   //This variable will hold the department code
-  department_code:string;
+  department_code: string;
 
   constructor(private router: Router,private mapService:MapService) {}
 
@@ -54,18 +51,15 @@ export class SetupProcess {
     this.departments.push(this.newDepartment);
   }
 
-
   ngOnInit(){
-
     this.map = new L.Map('map', {
          zoomControl: false,
          center: new L.LatLng(59.3469417, 18.0702413),
          zoom: 15,
          minZoom: 4,
          maxZoom: 18,
-         zoomAnimation:false,
-         doubleClickZoom:false
-
+         zoomAnimation: false,
+         doubleClickZoom: false
      });
      var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
            attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
@@ -73,28 +67,25 @@ export class SetupProcess {
      var zoomControl = L.control.zoom({
            position: 'topright'
          }).addTo(this.map);
-         //this.map.on('click', this.onMapClick);
-         this.map.on('click', (event:L.LeafletMouseEvent) => {
-                  this.lat=event.latlng.lat;
-                  this.lng=event.latlng.lng;
+         this.map.on('click', (event: L.LeafletMouseEvent) => {
+                  this.screenInfo.latitude = event.latlng.lat;
+                  this.screenInfo.longitude = event.latlng.lng;
         });
         this.map.touchZoom.disable();
         this.getSchools();
   }
 
-  schools:Array<any>=[];
-  getSchools(){
-    this.mapService.getSchools().subscribe(res=>this.schools=res);
+  schools: Array<any> = [];
+
+  getSchools() {
+    this.mapService.getSchools().subscribe(res => this.schools = res);
   }
+
   department_list: Array<any> = [];
-  getDepartments(department){
+
+  getDepartments(department) {
     this.mapService.getDepartments(department).subscribe(res => {
-      this.department_list=res;
-
-
+      this.department_list = res;
     })
-  }
-  test(){
-    console.log(this.department_code);
   }
 }
