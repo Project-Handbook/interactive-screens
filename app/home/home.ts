@@ -10,6 +10,9 @@ import { HomeService } from './home-service';
   encapsulation: ViewEncapsulation.Native,
    styles: [`
     @import "http://www.kth.se/css/v/8.28.4/kth.css";
+    a{
+      pointer-events: none;
+    }
   `],
 })
 export class Home {

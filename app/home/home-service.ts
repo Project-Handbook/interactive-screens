@@ -12,7 +12,7 @@ export class HomeService{
 		return this._http.get(this.url + calendar_polopoly_id).map(res=>res.text());
 	}
 	getNewsFeed(){
-		var news_polopoly_id = "1.640551"
+		var news_polopoly_id = "1.640564"
 		return this._http.get(this.url + news_polopoly_id)
 			.map(res => res.text())
 			.map(res=>{
