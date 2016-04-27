@@ -38,34 +38,35 @@
 
 <nav>
   <ul class="sidebar">
-    <div [routerLink] = "['Home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0],
-      'border-bottom': menuItemsTopBottomBorder[0]}">
+    <div [routerLink] = "['Home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0]}">
       <div class="icon">
       <li>Home</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Very_Basic/home-100.png" />
+      <img *ngIf="!menuImages[0]" src="{{imagePath}}ofylldhome.svg" height="100" width="100" />
+      <img *ngIf="menuImages[0]" src="{{imagePath}}fylldhome.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['FindPerson']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1],
-     'border-bottom': menuItemsTopBottomBorder[1]}">
+    <div [routerLink] = "['FindPerson']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1]}">
       <div class="icon">
        <li>People</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Users/user_male_circle_filled-100.png" />
+       <img *ngIf="!menuImages[1]" src="{{imagePath}}people2.svg" height="100" width="100" />
+       <img *ngIf="menuImages[1]" src="{{imagePath}}people1.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['Map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2],
-     'border-bottom': menuItemsTopBottomBorder[2]}">
+    <div [routerLink] = "['Map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2]}">
       <div class="icon">
       <li>Places</li>
-      <img src="https://maxcdn.icons8.com/Android/PNG/96/Maps/map_marker-96.png" />
+      <img *ngIf="!menuImages[2]" src="{{imagePath}}map-unfilled.svg" height="100" width="100" />
+      <img *ngIf="menuImages[2]" src="{{imagePath}}map-filled.svg" height="100" width="100" />
       </div>
     </div>
     <div [routerLink] = "['Contact']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
       <div class="icon">
       <li>Service or advice</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Messaging/message-100.png" />
+      <img *ngIf="!menuImages[3]" src="{{imagePath}}assistance-unfilled.svg" height="100" width="100" />
+      <img *ngIf="menuImages[3]" src="{{imagePath}}assistance-filled.svg" height="100" width="100" />
       </div>
     </div>
-     <div [routerLink] = "['Contact']" class="sidebar-filler" >
+     <div class="sidebar-filler" >
     </div>
   </ul>
 </nav>
