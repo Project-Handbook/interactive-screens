@@ -3,20 +3,25 @@ import { Router } from 'angular2/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
 import { NgClass } from 'angular2/common';
+import {MapService} from '../map/services/map-service';
 
 @Component({
   selector: 'setup-process',
   directives: [NgClass],
-  templateUrl: 'app/setup-process/setup-process.html'
+  templateUrl: 'app/setup-process/setup-process.html',
+  providers:[MapService]
 })
 export class SetupProcess {
 
   map: L.Map;
+  //latitude and longitude from map
   public lat;
   public lng;
   public screenInfo = new ScreenSpecificInformation()
+  //This variable will hold the department code
+  department_code:string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private mapService:MapService) {}
 
   // Stores the ScreenSpecificInformation object
   saveInformation() {
@@ -74,9 +79,22 @@ export class SetupProcess {
                   this.lng=event.latlng.lng;
         });
         this.map.touchZoom.disable();
-
+        this.getSchools();
   }
 
+  schools:Array<any>=[];
+  getSchools(){
+    this.mapService.getSchools().subscribe(res=>this.schools=res);
+  }
+  department_list: Array<any> = [];
+  getDepartments(department){
+    this.mapService.getDepartments(department).subscribe(res => {
+      this.department_list=res;
 
 
+    })
+  }
+  test(){
+    console.log(this.department_code);
+  }
 }

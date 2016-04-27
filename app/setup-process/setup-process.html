@@ -53,6 +53,33 @@
           inseted manually in the text fields.
       </td>
     </tr>
+    <tr class="item">
+      <td>
+        <p>Department</p>
+        <label>Choose school</label> 
+        <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
+          <option>School</option>
+          <option  *ngFor="#school of schools" [value]="school.code">
+            {{school.school}}
+          </option>
+        </select>
+        <br><br>
+        <label>Choose department</label>
+        <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
+          <option *ngFor="#department of department_list" [value]="department.code">
+            {{department.name_sv}}
+          </option>
+        </select>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('department_code_info').style.display= document.getElementById('department_code_info').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="department_code_info" class="info" style="display: none;">
+          The deparment code will be used to display the employees of choosen departmen by default in the people tab.
+      </td>
+    </tr>
   </table>
 
   <h2>Sidebar Information</h2>
