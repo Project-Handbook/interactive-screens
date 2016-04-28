@@ -52,6 +52,9 @@ export class SetupProcess {
     this.departments.splice(index, 1);
   }
 
+  // Leaflet Marker Object which shows the current selected position on the map
+  private currentMapMarker: L.Marker;
+
   ngOnInit(){
     this.map = new L.Map('map', {
          zoomControl: false,
@@ -61,19 +64,28 @@ export class SetupProcess {
          maxZoom: 18,
          zoomAnimation: false,
          doubleClickZoom: false
-     });
-     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+    });
+    var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
            attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
          }).addTo(this.map);
-     var zoomControl = L.control.zoom({
+    var zoomControl = L.control.zoom({
            position: 'topright'
          }).addTo(this.map);
-         this.map.on('click', (event: L.LeafletMouseEvent) => {
-                  this.screenInfo.latitude = event.latlng.lat;
-                  this.screenInfo.longitude = event.latlng.lng;
-        });
-        this.map.touchZoom.disable();
-        this.getSchools();
+    this.map.on('click', (event: L.LeafletMouseEvent) => {
+      var longitude = event.latlng.lat;
+      var latitude = event.latlng.lng;
+      this.screenInfo.latitude = latitude;
+      this.screenInfo.longitude = longitude;
+      if (this.currentMapMarker != null) {
+        this.map.removeLayer(this.currentMapMarker); //Removes old marker
+      }
+      //Add marker at the location of the screen
+      this.currentMapMarker = L.marker(event.latlng)
+        .addTo(this.map)
+        .bindPopup('<b>You are here.</b>').openPopup();
+    });
+    this.map.touchZoom.disable();
+    this.getSchools();
   }
 
   schools: Array<any> = [];
