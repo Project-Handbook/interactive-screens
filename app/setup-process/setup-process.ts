@@ -47,6 +47,11 @@ export class SetupProcess {
     this.departments.push(this.newDepartment);
   }
 
+  removeDepartment() {
+    var index: number = this.departments.indexOf(this.screenInfo.nearest_department);
+    this.departments.splice(index, 1);
+  }
+
   ngOnInit(){
     this.map = new L.Map('map', {
          zoomControl: false,
