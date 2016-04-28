@@ -3,24 +3,22 @@ import { Router } from 'angular2/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
 import { NgClass } from 'angular2/common';
-import {MapService} from '../map/services/map-service';
+import { MapService } from '../map/services/map-service';
 
 @Component({
   selector: 'setup-process',
   directives: [NgClass],
   templateUrl: 'app/setup-process/setup-process.html',
-  providers:[MapService]
+  providers: [MapService]
 })
 export class SetupProcess {
 
   map: L.Map;
   public screenInfo = new ScreenSpecificInformation();
-  //This variable will hold the department code
-  department_code: string;
 
-  constructor(private router: Router,private mapService:MapService) {}
+  constructor(private router: Router, private mapService: MapService) {}
 
-  // Stores the ScreenSpecificInformation object
+  // Stores the ScreenSpecificInformation object and navigates to /home.
   saveInformation() {
     if (!this.validateInputs(this.screenInfo)) { return; }
     this.screenInfo.departments = this.departments;
@@ -42,8 +40,6 @@ export class SetupProcess {
 
   // Input - need to add this the the list
   public newDepartment: string = ""
-  // User selected department
-  public selectedDepartment: string = ""
   // List of user created departments
   public departments: Array<string> = []
 
