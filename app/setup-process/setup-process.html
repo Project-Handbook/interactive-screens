@@ -48,9 +48,9 @@
         </a>
       </td>
       <td id="coordinatesInfo" class="info" style="display: none;">
-          Enter the coordinates of the position of the screen. The coordinates will be used to display the
-          position of the screen in the map view. The coordinates can either be fetched by clicking on the map or
-          inseted manually in the text fields.
+          Enter the coordinates of the position of the screen.
+          The coordinates will be used to display the position of the screen in the map view.
+          Click on the map or insert them manually in the text fields.
       </td>
     </tr>
     <tr class="item">
@@ -77,7 +77,7 @@
         </a>
       </td>
       <td id="department_code_info" class="info" style="display: none;">
-          The deparment code will be used to display the employees of choosen departmen by default in the people tab.
+          This deparment will be displayed by default in the People tab.
       </td>
     </tr>
   </table>
@@ -124,7 +124,22 @@
         </a>
       </td>
       <td id="telephoneInfo" class="info" style="display: none;">
-        Where the screen is located, this will be shown on the top of the screen.
+        Telephone number to which the visitors, amongs others, should be calling.
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>Telephone number for deliveries</p>
+        <input type="text" placeholder="+46 076 321 321" [(ngModel)]="screenInfo.telephone_deliveries" />
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('telephone_deliveries').style.display= document.getElementById('telephone_deliveries').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="telephone_deliveries" class="info" style="display: none;">
+        Telephone number to which the delivery man should be calling.
       </td>
     </tr>
 
@@ -140,16 +155,17 @@
         </a>
       </td>
       <td id="telephoneInfo" class="info" style="display: none;">
-        Departments located in the close vicinity of the screen.
+        Departments located in the close vicinity of the screen, in the same building and so on.
       </td>
     </tr>
 
     <tr class="item">
       <td>
-        <p>The nearest department</p>
-        <select [(ngModel)]="screenInfo.nearest_department" style="width: 100%; padding: 0.2em">
+        <p>Nearest department</p>
+        <select [(ngModel)]="screenInfo.nearest_department" style="width: 90%">
           <option *ngFor="#department of departments">{{ department }}</option>
         </select>
+        <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>
       <td>
         <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
@@ -157,7 +173,7 @@
         </a>
       </td>
       <td id="telephoneInfo" class="info" style="display: none;">
-        The nearest department in relation to the screen. The department associated with the screens location.
+        Nearest department in relationship to the screen. The department associated with the screen.
       </td>
     </tr>
 
