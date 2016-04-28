@@ -30,6 +30,7 @@ export class SetupProcess {
   // Reads the stored ScreenSpecificInformation object
   loadInformation() {
     this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
   }
 
   // Validates that all the required fields in the setup process contain data
@@ -72,20 +73,24 @@ export class SetupProcess {
            position: 'topright'
          }).addTo(this.map);
     this.map.on('click', (event: L.LeafletMouseEvent) => {
-      var longitude = event.latlng.lat;
-      var latitude = event.latlng.lng;
+      var longitude = event.latlng.lng;
+      var latitude = event.latlng.lat;
       this.screenInfo.latitude = latitude;
       this.screenInfo.longitude = longitude;
-      if (this.currentMapMarker != null) {
-        this.map.removeLayer(this.currentMapMarker); //Removes old marker
-      }
-      //Add marker at the location of the screen
-      this.currentMapMarker = L.marker(event.latlng)
-        .addTo(this.map)
-        .bindPopup('<b>You are here.</b>').openPopup();
+      this.updateMapMarker(longitude, latitude);
     });
     this.map.touchZoom.disable();
     this.getSchools();
+  }
+
+  updateMapMarker(longitude: number, latitude: number) {
+    if (this.currentMapMarker != null) {
+      this.map.removeLayer(this.currentMapMarker); // Remove old marker
+    }
+    // Add a new marker at the location of the screen
+    this.currentMapMarker = L.marker([latitude, longitude])
+      .addTo(this.map)
+      .bindPopup('<b>You are here.</b>').openPopup();
   }
 
   schools: Array<any> = [];
