@@ -19,13 +19,15 @@ export class MapService{
 			.map(res => {
 				res.forEach(item => {
 				if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
-					|| item.typeName === "Hörsal") && item.kthLokalkod.length !== 0) {
+					|| item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
+					&& (item.placeName.length !== 0 || item.kthPopularName.length !==0)) {
 					searchResult.push(
 						{
 							latitude: item.geoData.lat,
 							longitude: item.geoData.long,
 							buildingName: item.buildingName,
-							roomCode: item.kthLokalkod,
+							roomCode: item.placeName,
+							popular_name: item.kthPopularName,
 							streetAddress: item.streetAddress,
 							streetNumber: item.streetNumber,
 							roomType: item.typeName,
@@ -42,9 +44,10 @@ export class MapService{
 
 	getGeoCode(address:string,location_type:Location_type){
 		var searchResult:Array<Location>=[];
-		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
+		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
 			.map(res => res.json())
 			.map(res=>{
+							console.log(res),
           		res.results.forEach(item=>{
               	if(item.geometry.location_type!=="APPROXIMATE"){
               		searchResult.push(
@@ -53,6 +56,7 @@ export class MapService{
           					longitude: item.geometry.location.lng,
 	        					buildingName: null,
 										roomCode: null,
+										popular_name:null,
 										streetAddress: item.formatted_address,
 										streetNumber: null,
 										roomType: null,
@@ -60,7 +64,6 @@ export class MapService{
 										floor: null,
 										location_type: location_type
           				});
-									console.log(searchResult);
 
             		}
          		 });
@@ -99,7 +102,6 @@ export class MapService{
 					}
 
 				})
-				console
 				return departments;
 			})
 	}

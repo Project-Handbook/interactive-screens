@@ -38,12 +38,14 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                         .map(function (res) {
                         res.forEach(function (item) {
                             if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
-                                || item.typeName === "Hörsal") && item.kthLokalkod.length !== 0) {
+                                || item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
+                                && (item.placeName.length !== 0 || item.kthPopularName.length !== 0)) {
                                 searchResult.push({
                                     latitude: item.geoData.lat,
                                     longitude: item.geoData.long,
                                     buildingName: item.buildingName,
-                                    roomCode: item.kthLokalkod,
+                                    roomCode: item.placeName,
+                                    popular_name: item.kthPopularName,
                                     streetAddress: item.streetAddress,
                                     streetNumber: item.streetNumber,
                                     roomType: item.typeName,
@@ -58,26 +60,27 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                 };
                 MapService.prototype.getGeoCode = function (address, location_type) {
                     var searchResult = [];
-                    return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&components=country:SE')
+                    return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
                         .map(function (res) { return res.json(); })
                         .map(function (res) {
-                        res.results.forEach(function (item) {
-                            if (item.geometry.location_type !== "APPROXIMATE") {
-                                searchResult.push({
-                                    latitude: item.geometry.location.lat,
-                                    longitude: item.geometry.location.lng,
-                                    buildingName: null,
-                                    roomCode: null,
-                                    streetAddress: item.formatted_address,
-                                    streetNumber: null,
-                                    roomType: null,
-                                    zipCode: null,
-                                    floor: null,
-                                    location_type: location_type
-                                });
-                                console.log(searchResult);
-                            }
-                        });
+                        console.log(res),
+                            res.results.forEach(function (item) {
+                                if (item.geometry.location_type !== "APPROXIMATE") {
+                                    searchResult.push({
+                                        latitude: item.geometry.location.lat,
+                                        longitude: item.geometry.location.lng,
+                                        buildingName: null,
+                                        roomCode: null,
+                                        popular_name: null,
+                                        streetAddress: item.formatted_address,
+                                        streetNumber: null,
+                                        roomType: null,
+                                        zipCode: null,
+                                        floor: null,
+                                        location_type: location_type
+                                    });
+                                }
+                            });
                         return searchResult;
                     });
                 };
@@ -111,7 +114,6 @@ System.register(['angular2/core', 'angular2/http', "rxjs/add/operator/map", '../
                                 departments.push(item);
                             }
                         });
-                        console;
                         return departments;
                     });
                 };
