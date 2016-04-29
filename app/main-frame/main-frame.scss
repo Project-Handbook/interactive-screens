@@ -26,6 +26,12 @@
       font-size: 500%;
     }
   }
+
+  .main-header-clock {
+    align-self: flex-end;
+    color: $kth-color-blue;
+    padding-right: 0.5rem;
+  }
 }
 
 .header-border {

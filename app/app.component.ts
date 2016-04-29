@@ -48,6 +48,10 @@ import { ScreenSpecificInformation } from './screen-specific-information';
   }
 ])
 export class AppComponent {
+
+    // The system time displayed in the main-frame header
+    clock: string = "";
+
     menuItemsRightBorder: Array<string> = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
     prev:number = 0;
     menuImages:Array<boolean> = [true,false,false,false];
@@ -78,6 +82,11 @@ export class AppComponent {
     // Used to clear the refresh timer
     private refreshVar
 
+    refreshClock = () => {
+      var datestring = new Date().toString();
+      this.clock = datestring.substring(0, datestring.length - 16); // Removes the timezone information
+    }
+
 constructor(private router: Router, private location: Location) {
     // Check whether or not the screen has gone through the setup process
     var screenInfo = sessionStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
@@ -89,6 +98,9 @@ constructor(private router: Router, private location: Location) {
     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
     // Setup the window on click callback
     window.onclick = this.onWindowClick;
+
+    // Refresh the clock every minute
+    window.setInterval(this.refreshClock, 60);
 
     router.subscribe((val) => {
     var url_with_para = val.split("?",1);
