@@ -1,7 +1,7 @@
 import { Component, EventEmitter } from 'angular2/core';
 import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
-import { ngStyle } from 'angular2/common';
+import { NgStyle } from 'angular2/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
@@ -152,19 +152,19 @@ export class FindPerson {
   getElement(input) {
     var element;
     if(input == "firstname") {
-      element = firstname;
+      element = document.getElementById("firstname");
     }
     else if(input == "surname") {
-      element = surname;
+      element = document.getElementById("surname");;
     }
     else if(input == "email") {
-      element = email;
+      element = document.getElementById("email");
     }
     else if(input == "phone") {
-      element = phone;
+      element = document.getElementById("phone");
     }
     else if(input == "title") {
-      element = title;
+      element = document.getElementById("title");
     }
     return element;
   }
