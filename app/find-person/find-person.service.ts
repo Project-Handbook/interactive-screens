@@ -50,6 +50,86 @@ export class FindPersonService {
 			);
 		return people;
 	}
+
+	// Fetches all the people matching the searchterm from KTH Profiles
+	// This function will also make sure they are from a certain department
+	fetchPeople2(searchterm: string, prefix: string, onError: ErrorCallback): Array<Person> {
+		var people = [];
+		var peopleAlsoInDep = [];
+		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
+
+		this.http.get(url + searchterm)
+			.map(res => res.json())
+			.subscribe(res => {
+				res.result.forEach(item => {
+					var person = new Person(
+						item.given_name,
+						item.family_name,
+						item.email_address,
+						item.kthid,
+						item.phonehr,
+						item.visiting_address,
+						item.username,
+						item.title_sv,
+						undefined,	/* Need to fetch the image url */
+						undefined, /* Need to fetch working place */
+						undefined, /* Need to fetch kth profile */
+						undefined /* Need to scrape the 'about me' section */
+					);
+					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+					people.push(person);
+				})
+			},
+				error => onError(ErrorType.NoInternetConnection),
+				() => {
+
+					if(prefix == "org:KTH") {
+						people.forEach(item => {
+							peopleAlsoInDep.push(item);
+						});
+					}
+					else {
+
+						this.http.get(url + prefix)
+							.map(res => res.json())
+							.subscribe(res => {
+								res.result.forEach(item => {
+									if(people.some(function(e) { return e.kthid == item.kthid })) {
+										// Person was also found in the department, add to list
+
+										var person = new Person(
+											item.given_name,
+											item.family_name,
+											item.email_address,
+											item.kthid,
+											item.phonehr,
+											item.visiting_address,
+											item.username,
+											item.title_sv,
+											undefined,	/* Need to fetch the image url */
+											undefined, /* Need to fetch working place */
+											undefined, /* Need to fetch kth profile */
+											undefined /* Need to scrape the 'about me' section */
+										);
+										this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+										peopleAlsoInDep.push(person);
+									}
+								})
+							},
+								error => onError(ErrorType.NoInternetConnection),
+								() => {
+									onError(ErrorType.NoError);
+								}
+							);
+					}
+
+					onError(ErrorType.NoError);
+				}
+			);
+
+		return peopleAlsoInDep;
+	}
+
 	// Fetches the persons image url from the API asscioated their kth id
 	private fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;

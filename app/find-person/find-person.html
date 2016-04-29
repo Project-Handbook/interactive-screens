@@ -5,33 +5,36 @@
 	<div id="wrapper-persons">
 		<div id="person-header">
 			<form action="search()" id="search-container">
-				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone..." autocomplete="off">
-				<div id="person_search_schools" (click)="toggleSchools()">
-					<p id="person-search-schools-current">KTH<mark>&#10095;</mark></p>
-					<ul id="schools" style="display: none">
-					 	<li *ngFor="#school of schools" (click)="getDep()">
-					 		{{ school }}
-					 	</li>
-					</ul>
-					<div id="departments_wrapper" *ngIf="deps.length > 0">
-						<button (click)="scrollDep(-1)">
-							<p><mark>&#10095;</mark></p>
-						</button>
-						<ul id="departments" [ngStyle]="{'display': 'block'}">
-							<li *ngFor="#dep of deps">
-								{{ dep }}
-							</li>
-						</ul>
-						<button (click)="scrollDep(1)">
-							<p><mark>&#10095;</mark></p>
-						</button>
-					</div>
+				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone" autocomplete="off">
+				<div id="person-search-schools">
+					<p id="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
 				</div>
 				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
 			</form>
+			<div id="schools-wrapper" style="display: none">
+				<ul id="schools">
+					<li *ngFor="#school of schools" (click)="getDep(school)">
+						{{ school.school }}
+					</li>
+				</ul>
+				<div id="departments-wrapper" *ngIf="deps.length > 0">
+					<button (click)="scrollDep(-1)" *ngIf="deps.length > 14">
+						<p><mark>&#10095;</mark></p>
+					</button>
+					<ul id="departments" [ngStyle]="{'display': 'block'}">
+						<li *ngFor="#dep of deps" (click)="setDep(dep)">
+							{{ dep.name_sv }}
+						</li>
+					</ul>
+					<button (click)="scrollDep(1)" *ngIf="deps.length > 14">
+						<p><mark>&#10095;</mark></p>
+					</button>
+				</div>	
+			</div>
+
 			<br>
-			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing {{ orgName }} staff</h5>
-			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }}</h5>
+			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing staff for {{ currentSchool }}</h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }} at {{ currentSchool }}</h5>
 		</div>
 		<div *ngIf="showErrorMessage">
 			<img src="app/find-person/images/Error-100.png"/>
@@ -40,20 +43,16 @@
 		</div>
 
 		<div *ngIf="!showErrorMessage">
-			<!--div class="personId"><h4>A</h4></div-->
-			
 			<table id="person-table">
 				<thead>
-					<th></th>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
-					<th (click)="sort('surname')"><p>Family name</p> <mark id="surname">&#10095;</mark></th>
-					<th (click)="sort('email')"><p>Email</p> <mark id="email">&#10095;</mark></th>
-					<th (click)="sort('phone')"><p>Phone</p> <mark id="phone">&#10095;</mark></th>
-					<th (click)="sort('title')"><p>Title</p> <mark  id="title">&#10095;</mark></th>
+					<th (click)="sort('surname')"><p>Family name</p><mark id="surname">&#10095;</mark></th>
+					<th (click)="sort('email')"><p>Email</p><mark id="email">&#10095;</mark></th>
+					<th (click)="sort('phone')"><p>Phone</p><mark id="phone">&#10095;</mark></th>
+					<th (click)="sort('title')"><p>Title</p><mark id="title">&#10095;</mark></th>
 				</thead>
-				<tbody>
-					<tr *ngFor="#person of people; #i = index">
-						<td><img src="https://www.lan.kth.se/sip/lur15.png" /></td>
+				<tbody id="person-table-body">
+					<tr *ngFor="#person of people; #i = index" (click)="setPerson(person)">
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>
@@ -62,6 +61,7 @@
 					</tr>
 				</tbody>
 			</table>
+			<person-profile [person]="currentPerson" [isOn]="isOn"></person-profile>
 		</div>
 	</div>
 </div>
