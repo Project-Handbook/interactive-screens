@@ -4,6 +4,7 @@
 .main-frame-header {
   display: flex;
   width: 100%;
+  justify-content: space-between;
 
   .icon-wrapper {
     width: 15%;
@@ -16,7 +17,6 @@
   }
 
   .main-header-title {
-    max-width: 100%;
     display: flex;
     align-items: center;
     h1 {
@@ -24,7 +24,14 @@
       font: $kth-font-title;
       font-weight: lighter;
       font-size: 500%;
+      white-space: nowrap;
     }
+  }
+
+  .main-header-clock {
+    align-self: flex-end;
+    color: $kth-color-blue;
+    padding-right: 0.5rem;
   }
 }
 
@@ -47,7 +54,7 @@
     font: $kth-font-title;
     font-size:120%;
     border-right:solid $kth-color-blue;
-    border-bottom: 0.3rem solid $kth-color-blue;
+    border-bottom: 0.2rem solid $kth-color-blue;
 
     .icon {
       padding:1rem;
