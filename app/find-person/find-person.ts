@@ -150,19 +150,19 @@ export class FindPerson {
   getElement(input) {
     var element;
     if(input == "firstname") {
-      element = firstname;
+      element = document.getElementById("firstname");
     }
     else if(input == "surname") {
-      element = surname;
+      element = document.getElementById("surname");;
     }
     else if(input == "email") {
-      element = email;
+      element = document.getElementById("email");
     }
     else if(input == "phone") {
-      element = phone;
+      element = document.getElementById("phone");
     }
     else if(input == "title") {
-      element = title;
+      element = document.getElementById("title");
     }
     return element;
   }
