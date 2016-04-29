@@ -4,6 +4,7 @@
 .main-frame-header {
   display: flex;
   width: 100%;
+  justify-content: space-between;
 
   .icon-wrapper {
     width: 15%;
@@ -53,7 +54,7 @@
     font: $kth-font-title;
     font-size:120%;
     border-right:solid $kth-color-blue;
-    border-bottom: 0.3rem solid $kth-color-blue;
+    border-bottom: 0.2rem solid $kth-color-blue;
 
     .icon {
       padding:1rem;
