@@ -21,7 +21,7 @@ import { ScreenSpecificInformation } from './screen-specific-information';
 })
 @RouteConfig([
   {
-    path: '/setup-process',
+    path: '/setup',
     component: SetupProcess,
     name: 'SetupProcess',
     useAsDefault: true

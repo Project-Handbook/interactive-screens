@@ -3,19 +3,22 @@ import { Router } from 'angular2/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
 import { NgClass } from 'angular2/common';
+import { MapService } from '../map/services/map-service';
 
 @Component({
   selector: 'setup-process',
   directives: [NgClass],
-  templateUrl: 'app/setup-process/setup-process.html'
+  templateUrl: 'app/setup-process/setup-process.html',
+  providers: [MapService]
 })
 export class SetupProcess {
 
-  public screenInfo = new ScreenSpecificInformation()
+  map: L.Map;
+  public screenInfo = new ScreenSpecificInformation();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private mapService: MapService) {}
 
-  // Stores the ScreenSpecificInformation object
+  // Stores the ScreenSpecificInformation object and navigates to /home.
   saveInformation() {
     if (!this.validateInputs(this.screenInfo)) { return; }
     this.screenInfo.departments = this.departments;
@@ -27,6 +30,7 @@ export class SetupProcess {
   // Reads the stored ScreenSpecificInformation object
   loadInformation() {
     this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
   }
 
   // Validates that all the required fields in the setup process contain data
@@ -37,12 +41,69 @@ export class SetupProcess {
 
   // Input - need to add this the the list
   public newDepartment: string = ""
-  // User selected department
-  public selectedDepartment: string = ""
   // List of user created departments
   public departments: Array<string> = []
 
   addDepartment() {
     this.departments.push(this.newDepartment);
+  }
+
+  removeDepartment() {
+    var index: number = this.departments.indexOf(this.screenInfo.nearest_department);
+    this.departments.splice(index, 1);
+  }
+
+  // Leaflet Marker Object which shows the current selected position on the map
+  private currentMapMarker: L.Marker;
+
+  ngOnInit(){
+    this.map = new L.Map('map', {
+         zoomControl: false,
+         center: new L.LatLng(59.3469417, 18.0702413),
+         zoom: 15,
+         minZoom: 4,
+         maxZoom: 18,
+         zoomAnimation: false,
+         doubleClickZoom: false
+    });
+    var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+           attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
+         }).addTo(this.map);
+    var zoomControl = L.control.zoom({
+           position: 'topright'
+         }).addTo(this.map);
+    this.map.on('click', (event: L.LeafletMouseEvent) => {
+      var longitude = event.latlng.lng;
+      var latitude = event.latlng.lat;
+      this.screenInfo.latitude = latitude;
+      this.screenInfo.longitude = longitude;
+      this.updateMapMarker(longitude, latitude);
+    });
+    this.map.touchZoom.disable();
+    this.getSchools();
+  }
+
+  updateMapMarker(longitude: number, latitude: number) {
+    if (this.currentMapMarker != null) {
+      this.map.removeLayer(this.currentMapMarker); // Remove old marker
+    }
+    // Add a new marker at the location of the screen
+    this.currentMapMarker = L.marker([latitude, longitude])
+      .addTo(this.map)
+      .bindPopup('<b>You are here.</b>').openPopup();
+  }
+
+  schools: Array<any> = [];
+
+  getSchools() {
+    this.mapService.getSchools().subscribe(res => this.schools = res);
+  }
+
+  department_list: Array<any> = [];
+
+  getDepartments(department) {
+    this.mapService.getDepartments(department).subscribe(res => {
+      this.department_list = res;
+    })
   }
 }
