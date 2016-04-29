@@ -1,7 +1,7 @@
 import { Component, EventEmitter } from 'angular2/core';
 import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
-import { ngStyle } from 'angular2/common';
+import { NgStyle } from 'angular2/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
@@ -185,9 +185,10 @@ export class FindPerson {
     // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
       var clickedComponent = event.target;
+      var schools = document.getElementById("schools");
       var inside = false;
       do {
-         if (clickedComponent === schools 
+         if (clickedComponent === schools
             || clickedComponent === departments_wrapper) {
             inside = true;
           }
@@ -204,6 +205,7 @@ export class FindPerson {
 
   toggleSchools() {
     console.log('hello');
+    var schools = document.getElementById("schools");
     if(schools.style.display == "block")
       schools.style.display = "none";
     else
