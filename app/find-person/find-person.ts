@@ -1,7 +1,7 @@
 import { Component } from 'angular2/core';
 import { OnInit } from 'angular2/core'
 import { NgClass } from 'angular2/common';
-import { ngStyle } from 'angular2/common';
+import { NgStyle } from 'angular2/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
