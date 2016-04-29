@@ -52,6 +52,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     var _this = this;
                     this.router = router;
                     this.location = location;
+                    // The system time displayed in the main-frame header
+                    this.clock = "";
                     this.menuItemsRightBorder = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
                     this.prev = 0;
                     this.menuImages = [true, false, false, false];
@@ -70,6 +72,10 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                             window.location.reload(true);
                         });
                     };
+                    this.refreshClock = function () {
+                        var datestring = new Date().toString();
+                        _this.clock = datestring.substring(0, datestring.length - 16); // Removes the timezone information
+                    };
                     // Check whether or not the screen has gone through the setup process
                     var screenInfo = sessionStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
                     if (screenInfo != null) {
@@ -79,6 +85,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
                     // Setup the window on click callback
                     window.onclick = this.onWindowClick;
+                    // Refresh the clock every minute
+                    window.setInterval(this.refreshClock, 60);
                     router.subscribe(function (val) {
                         var url_with_para = val.split("?", 1);
                         console.log(_this.menuImages);
