@@ -1,10 +1,11 @@
-import { Component } from 'angular2/core';
+import { Component ,ViewEncapsulation} from 'angular2/core';
 import { Http, HTTP_PROVIDERS } from 'angular2/http';
 import { HomeService } from './home-service';
 
 @Component({
   selector: 'home',
   viewProviders: [HTTP_PROVIDERS],
+  encapsulation: ViewEncapsulation.Native,
   templateUrl: 'app/home/home.html',
   providers:[HomeService],
   styleUrls: ['app/home/home.min.css']
