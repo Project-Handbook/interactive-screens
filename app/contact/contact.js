@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, common_1, email_service_1;
-    var dropDownValue, Contact, EmailValidator;
+    var Contact, EmailValidator;
     return {
         setters:[
             function (core_1_1) {
@@ -25,30 +25,44 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
             },
             function (_1) {}],
         execute: function() {
-            dropDownValue = (function () {
-                function dropDownValue() {
-                }
-                return dropDownValue;
-            }());
             Contact = (function () {
                 function Contact(_emailService, builder) {
                     this._emailService = _emailService;
                     this.builder = builder;
-                    this.email = { message: "", fromEmail: "" };
+                    this.email = { fromName: "", message: "", fromEmail: "" };
+                    this.showForm = true;
+                    this.createForm();
+                }
+                Contact.prototype.createForm = function () {
                     this.error = false;
                     this.msgCtrl = new common_1.Control('', common_1.Validators.minLength(10));
                     this.emailCtrl = new common_1.Control('', EmailValidator.mailFormat);
-                    this.form = builder.group({
+                    this.nameCtrl = new common_1.Control('', common_1.Validators.required);
+                    this.form = this.builder.group({
                         msgCtrl: this.msgCtrl,
-                        emailCtrl: this.emailCtrl
+                        emailCtrl: this.emailCtrl,
+                        nameCtrl: this.nameCtrl
                     });
-                }
-                Contact.prototype.onSubmit = function (fromEmail, message) {
+                };
+                Contact.prototype.reset = function () {
+                    this.createForm();
+                    this.email.fromName = "";
+                    this.email.message = "";
+                    this.email.fromEmail = "";
+                };
+                Contact.prototype.onSubmit = function (fromName, fromEmail, message) {
                     var _this = this;
-                    console.log("Mail from: " + fromEmail + "\nMessage: " + message);
-                    this._emailService.sendEmail(fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) {
+                    // INSERT CAPTCHA HERE
+                    console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
+                    this._emailService.sendEmail(fromName, fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) {
                         console.log(error), _this.error = true;
-                    }, function () { console.log("apa"), _this.error = false; });
+                    }, function () {
+                        console.log("apa"), _this.error = false, _this.showForm = false,
+                            setTimeout(function () {
+                                _this.reset();
+                                _this.showForm = true;
+                            });
+                    });
                 };
                 Contact = __decorate([
                     core_1.Component({
@@ -77,22 +91,4 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
         }
     }
 });
-/*  public dropDownValues: dropDownValue[] = [
-        { "id": 1, "name": "Where am i?", "info": "You are at Lindstedsvägen 4" },
-        { "id": 2, "name": "heee", "info": "DU kan lämna skit här" },
-        { "id": 3, "name": "Whats the clock?", "info": "Tiden är 13.37" },
-        { "id": 4, "name": "Where are CSC's departments located?", "info": "CSC's departments are located at Lindstedsvägen 3 & 5 and Osquars backe 18."}
-      ];
-
-      public selectedValue: dropDownValue = this.dropDownValues[0];
-      onSelect(valueID) {
-          this.selectedValue = null;
-          for (var i = 0; i < this.dropDownValues.length; i++)
-          {
-            if (this.dropDownValues[i].id == valueID) {
-              this.selectedValue = this.dropDownValues[i];
-            }
-          }
-      }
-*/
 //# sourceMappingURL=contact.js.map

@@ -25,7 +25,7 @@ System.register(["angular2/core", 'angular2/http'], function(exports_1, context_
                 function EmailService(_http) {
                     this._http = _http;
                 }
-                EmailService.prototype.sendEmail = function (fromEmail, message) {
+                EmailService.prototype.sendEmail = function (fromName, fromEmail, message) {
                     var headers = new http_1.Headers();
                     var recieverName = "CSC Skolan";
                     var recieverMail = "emil.g.persson@gmail.com";
@@ -33,7 +33,7 @@ System.register(["angular2/core", 'angular2/http'], function(exports_1, context_
                     headers.append("Authorization", "Basic " + btoa("api:key-5164d1f0b491719c50e103020764205a"));
                     headers.append("content-type", "application/x-www-form-urlencoded");
                     var url = "https://api.mailgun.net/v3/sandbox34e0d52fd37247abab5dbe90b52e2e71.mailgun.org/messages";
-                    var data = "from=CSCreen<" + fromEmail + ">&to=" + recieverName + "<" + recieverMail + ">&subject=" + subject + "&text=" + message;
+                    var data = "from=" + fromName + "<" + fromEmail + ">&to=" + recieverName + "<" + recieverMail + ">&subject=" + subject + "&text=" + message;
                     return this._http.post(url, data, { headers: headers });
                     /* https://api:key-3ax6xnjp29jd6fds4gc373sgvjxteol0@api.mailgun.net/v3/samples.mailgun.org/log */
                 };

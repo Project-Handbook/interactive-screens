@@ -46,6 +46,7 @@ System.register(['angular2/core', 'angular2/http', './home-service'], function(e
                     core_1.Component({
                         selector: 'home',
                         viewProviders: [http_1.HTTP_PROVIDERS],
+                        encapsulation: core_1.ViewEncapsulation.Native,
                         templateUrl: 'app/home/home.html',
                         providers: [home_service_1.HomeService],
                         styleUrls: ['app/home/home.min.css']

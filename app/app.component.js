@@ -53,8 +53,9 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     this.router = router;
                     this.location = location;
                     this.menuItemsRightBorder = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
-                    this.menuItemsTopBottomBorder = ['1px solid #2258A5', '1px groove #A9A9A9', '1px groove #A9A9A9', '1px groove #A9A9A9'];
                     this.prev = 0;
+                    this.menuImages = [true, false, false, false];
+                    this.imagePath = "app/main-frame/images/";
                     // Called whenever the window is clicked
                     this.onWindowClick = function () {
                         window.clearInterval(_this.refreshVar);
@@ -80,14 +81,14 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     window.onclick = this.onWindowClick;
                     router.subscribe(function (val) {
                         var url_with_para = val.split("?", 1);
-                        console.log(url_with_para);
+                        console.log(_this.menuImages);
                         switch (url_with_para[0]) {
                             case "home":
                                 if (_this.prev !== 0) {
                                     _this.menuItemsRightBorder[0] = "none";
                                     _this.menuItemsRightBorder[_this.prev] = "solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[0] = "1px solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[_this.prev] = "1px groove #A9A9A9";
+                                    _this.menuImages[0] = true;
+                                    _this.menuImages[_this.prev] = false;
                                     _this.prev = 0;
                                 }
                                 break;
@@ -95,8 +96,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                                 if (_this.prev !== 1) {
                                     _this.menuItemsRightBorder[1] = "none";
                                     _this.menuItemsRightBorder[_this.prev] = "solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[1] = "1px solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[_this.prev] = "1px groove #A9A9A9";
+                                    _this.menuImages[1] = true;
+                                    _this.menuImages[_this.prev] = false;
                                     _this.prev = 1;
                                 }
                                 break;
@@ -104,8 +105,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                                 if (_this.prev !== 2) {
                                     _this.menuItemsRightBorder[2] = "none";
                                     _this.menuItemsRightBorder[_this.prev] = "solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[2] = "1px solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[_this.prev] = "1px groove #A9A9A9";
+                                    _this.menuImages[2] = true;
+                                    _this.menuImages[_this.prev] = false;
                                     _this.prev = 2;
                                 }
                                 break;
@@ -113,8 +114,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                                 if (_this.prev !== 3) {
                                     _this.menuItemsRightBorder[3] = "none";
                                     _this.menuItemsRightBorder[_this.prev] = "solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[3] = "1px solid #2258A5";
-                                    _this.menuItemsTopBottomBorder[_this.prev] = "1px groove #A9A9A9";
+                                    _this.menuImages[3] = true;
+                                    _this.menuImages[_this.prev] = false;
                                     _this.prev = 3;
                                 }
                                 break;
@@ -144,7 +145,7 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     }),
                     router_1.RouteConfig([
                         {
-                            path: '/setup-process',
+                            path: '/setup',
                             component: setup_process_1.SetupProcess,
                             name: 'SetupProcess',
                             useAsDefault: true

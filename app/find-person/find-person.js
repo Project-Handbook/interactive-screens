@@ -31,6 +31,7 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
                 function FindPerson(findPersonService) {
                     var _this = this;
                     this.findPersonService = findPersonService;
+                    this.state = "none";
                     // Default search values
                     this.organisation = "org:DAS";
                     this.orgName = "CSC";
@@ -51,6 +52,8 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
                                 _this.showErrorMessage = true;
                         }
                     };
+                    this.rotation = "rotate(90deg)";
+                    this.previous = "surname";
                 }
                 FindPerson.prototype.toggle = function (newState, person) {
                     this.currentPerson = person;
@@ -83,6 +86,97 @@ System.register(['angular2/core', 'angular2/common', './find-person.service', '.
                         this.currentSearch = "\"" + input + "\"";
                         this.getPeople(input);
                     }
+                };
+                FindPerson.prototype.sort = function (input) {
+                    var element = this.getElement(input);
+                    if (this.previous != input) {
+                        var prev = this.getElement(this.previous);
+                        prev.style.transform = "rotate(90deg)";
+                        prev.style.display = "none";
+                        element.style.display = "block";
+                        element.style.transform = "rotate(90deg)";
+                        this.previous = input;
+                        this.rotation = "rotate(90deg)";
+                    }
+                    else {
+                        element.style.transform = this.rotation;
+                        this.rotation = this.rotation == "rotate(-90deg)" ? "rotate(90deg)" : "rotate(-90deg)";
+                    }
+                    element.style.transform = this.rotation;
+                    var rotation = this.rotation;
+                    this.people.sort(function (a, b) {
+                        if (input == "firstname") {
+                            if (a.given_name < b.given_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.given_name > b.given_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            if (a.family_name < b.family_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.family_name > b.family_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            return 0; // Maybe sort by other parameter?
+                        }
+                        else if (input == "surname") {
+                            if (a.family_name < b.family_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.family_name > b.family_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            return 0; // Maybe sort by other parameter?
+                        }
+                        else if (input == "email") {
+                            if (a.email < b.email)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.email > b.email)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            if (a.family_name < b.family_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.family_name > b.family_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            return 0; // Maybe sort by other parameter?
+                        }
+                        else if (input == "phone") {
+                            if (a.phone_number < b.phone_number)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.phone_number > b.phone_number)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            if (a.family_name < b.family_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.family_name > b.family_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            return 0; // Maybe sort by other parameter?
+                        }
+                        else if (input == "title") {
+                            if (a.title < b.title)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.title > b.title)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            if (a.family_name < b.family_name)
+                                return rotation == "rotate(90deg)" ? -1 : 1;
+                            if (a.family_name > b.family_name)
+                                return rotation == "rotate(90deg)" ? 1 : -1;
+                            return 0; // Maybe sort by other parameter?
+                        }
+                    });
+                };
+                FindPerson.prototype.getElement = function (input) {
+                    var element;
+                    if (input == "firstname") {
+                        element = document.getElementById("firstname");
+                    }
+                    else if (input == "surname") {
+                        element = document.getElementById("surname");
+                        ;
+                    }
+                    else if (input == "email") {
+                        element = document.getElementById("email");
+                    }
+                    else if (input == "phone") {
+                        element = document.getElementById("phone");
+                    }
+                    else if (input == "title") {
+                        element = document.getElementById("title");
+                    }
+                    return element;
                 };
                 FindPerson = __decorate([
                     core_1.Component({
