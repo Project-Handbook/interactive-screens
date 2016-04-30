@@ -3,6 +3,8 @@ import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
 import { RouteParams } from 'angular2/router';
 import {Location,Location_type} from './location.interface';
+import { Constants } from '../constants';
+import { ScreenSpecificInformation } from '../screen-specific-information';
 
 @Component({
   selector: 'map',
@@ -12,13 +14,15 @@ import {Location,Location_type} from './location.interface';
   providers:[MapService],
 })
 export class Map {
+
+
   public destinationLocation;
   //Leaflet Map Object
   map: L.Map;
   //Leaflet Marker Object
   currentDestination: L.Marker;
   //Center coords for map Initialize
-  public mapCenter =  new L.LatLng(59.3469417, 18.0702413);
+  public mapCenter;
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
     //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
@@ -35,6 +39,9 @@ export class Map {
 
   //Executes on page load.
 	ngOnInit(){
+    var screenInfo = new ScreenSpecificInformation();
+    screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
     //Initialize mapvar antarctica = [-77,70];
 	 this.map = new L.Map('map', {
         zoomControl: false,
@@ -57,9 +64,11 @@ export class Map {
           iconSize:     [25, 38], // size of the icon
           popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
       });
-			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
+			L.marker([screenInfo.latitude, screenInfo.longitude],{icon: greenIcon}).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
       this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
+
+
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
