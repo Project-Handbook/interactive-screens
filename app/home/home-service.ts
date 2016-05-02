@@ -28,7 +28,7 @@ export class HomeService{
 					Image on top and text in the bottom, floating image to the right and text on the left and
 					blocks without any media.
 				*/
-				for(var i=0;i<blocks.length;i++){
+			/*	for(var i=0;i<blocks.length;i++){
 						var regex_top = new RegExp("<div class=\"tlc cid-1_[0-9]{6} no-categories\\sblock[\\s\\w]+[top|bottom][\\s\\w]+[^n][^o][^M][^e][^d][^i][^a]\">","gi");
 						var regex_right = new RegExp("<div class=\"tlc cid-1_[0-9]{6} no-categories\\sblock[\\s\\w]+[right|left][\\s\\w]+[^n][^o][^M][^e][^d][^i][^a]\">","gi");
 						var regex_match;
@@ -40,8 +40,8 @@ export class HomeService{
 							blocks[i].innerHTML = blocks[i].innerHTML.replace(regex_match[0],"<div class=\"block_image_right\">");
 						}
 						news_items= news_items + blocks[i].innerHTML;
-				}
-				return res;
+				}*/
+				return blocks;
 			});
 		}
 }

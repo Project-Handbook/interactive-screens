@@ -16,14 +16,14 @@
 		.news_block {
 			margin-left:1%;
 			margin-right:1%;
-			width: 66%;
+			width: 55%;
 			float: left;
 			display: inline;
 			background-color:
 		}
 
 		.calendar_block {
-			width: 31%;
+			width: 42%;
 			float: right;
 			margin-right:1%;
 		}
@@ -36,11 +36,23 @@
 			padding:1rem;
 			background-color:#98ad29;
 		}
+
+		#news_item1{
+			margin-bottom:1rem;
+		}
+		#news_item2{
+			margin-bottom:1rem;
+		}
+
 	</style>
 
 
 	<div class="news_block">
-		<div id="news_item1" *ngIf="news_block || !news_feed_error" class="block_item" [innerHTML]="news_block">
+		<div id="news_item1" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[0]">
+		</div>
+		<div id="news_item2" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[1]">
+		</div>
+		<div id="news_item3" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[2]">
 		</div>
 
 	<div *ngIf="news_feed_error">

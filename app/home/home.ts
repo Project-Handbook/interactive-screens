@@ -17,7 +17,7 @@ import { HomeService } from './home-service';
 })
 export class Home {
     calendar_block: String;
-    news_block:String;
+    news_block:Array<String>=[];
     calendar_error:boolean;
     news_feed_error:boolean;
 
@@ -26,7 +26,7 @@ export class Home {
     getCalendar(){
       this.homeService.getCalendar()
         .subscribe(res =>
-          {this.calendar_block = res, console.log(res)},
+          {this.calendar_block = res},
           error=>{this.calendar_error=true},
           ()=>this.calendar_error=false
         );
@@ -35,7 +35,11 @@ export class Home {
     getNewsFeed(){
       this.homeService.getNewsFeed()
       .subscribe(res => {
-            this.news_block=res;
+          for(var i =0;i<res.length;i++){
+            this.news_block.push(res[i].innerHTML);
+            console.log(this.news_block[i]);
+          }
+
         },
         error=>{this.news_feed_error=true},
         ()=>  this.news_feed_error=false
