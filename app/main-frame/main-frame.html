@@ -34,7 +34,7 @@
     <h2>Departments</h2>
     <div>
       <b>{{ screenInfo.nearest_department }}</b>
-      <div *ngFor="#department of screenInfo.departments">
+      <div *ngFor="let department of screenInfo.departments">
         <label *ngIf="!(department === screenInfo.nearest_department)"> {{ department }}</label>
       </div>
     </div>

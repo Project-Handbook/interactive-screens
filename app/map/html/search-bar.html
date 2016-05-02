@@ -17,7 +17,7 @@
 						<div class="search_field_image"><img (click)="search()" src="app/map/images/search_icon.png" width="25" height="25"></div>
 					</div>
 					<div  class="suggestions"  *ngIf="searchResult.length> 0">
-							<ul *ngFor="#item of searchResult" >
+							<ul *ngFor="let item of searchResult" >
 									<li >
 											<a *ngIf="searchForLocation" (click)="select(item)">
 											<label *ngIf="item.pupular_name">{{item.popular_name}}</label> {{item.roomCode}}
@@ -30,13 +30,13 @@
 				</div>
         <div class="drop_down_wrapper">
             <div class="schools_drop_down">
-                 <ul class="ul-schools"*ngFor="#school of schools">
+                 <ul class="ul-schools"*ngFor="let school of schools">
                     <li class="li-schools" (click)="getDepartments(school.code)">{{school.school}} </li>
                 </ul>
             </div>
             <div class="departments_drop_down">
-                <div *ngFor="#column of departmentsColumns; #i = index"  class="department_drop_down_column">
-                    <ul *ngFor="#dep of column">
+                <div *ngFor="let column of departmentsColumns"  class="department_drop_down_column">
+                    <ul *ngFor="let dep of column">
                         <li (click)="select({buildingName:dep.name_sv,code:dep.code,streetAddress:dep.address})">{{dep.name_sv}} </li>
                     </ul>
                 </div>
