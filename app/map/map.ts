@@ -41,12 +41,18 @@ export class Map {
 	ngOnInit(){
     var screenInfo = new ScreenSpecificInformation();
     screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    var gotChoords=false;
+    if(screenInfo!==null){
+    gotChoords=true;
     this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+  }else{
+    this.mapCenter = new L.LatLng(59.347196, 18.073336);
+  }
     //Initialize mapvar antarctica = [-77,70];
 	 this.map = new L.Map('map', {
         zoomControl: false,
         center:this.mapCenter,
-        zoom: 17,
+        zoom: 18,
         minZoom: 4,
         maxZoom: 18,
         zoomAnimation:false,
@@ -64,8 +70,10 @@ export class Map {
           iconSize:     [25, 38], // size of the icon
           popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
       });
+      if(gotChoords===true){
 			L.marker([screenInfo.latitude, screenInfo.longitude],{icon: greenIcon}).addTo(this.map)
        .bindPopup('<strong>You are here.</strong>').openPopup();
+     }
       this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
 
 
