@@ -185,11 +185,9 @@ export class FindPerson {
     // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
       this.handleClickForPopup(event);
-
       var clickedComponent = event.target;
       var schoolsDiv = document.getElementById('schools-wrapper');
       var schoolsBtn = document.getElementById('person-search-schools');
-
       do {
           if (clickedComponent === schoolsBtn) {
             this.toggleSchools();
@@ -200,7 +198,7 @@ export class FindPerson {
           }
          clickedComponent = clickedComponent.parentNode;
       }while (clickedComponent);
-      
+
       schoolsDiv.style.display = "none";
       this.deps = [];
     }
@@ -236,7 +234,7 @@ export class FindPerson {
   getSchools() {
     this.schools = [];
     this._mapService.getSchools().subscribe( res=> {
-      this.schools=res; 
+      this.schools=res;
 
       // Add KTH as the first element should one just want
       // to search with that

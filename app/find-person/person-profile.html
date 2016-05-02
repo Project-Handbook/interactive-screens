@@ -7,7 +7,7 @@
 				<div class="popup-person-wrapper">
 					<p class="popup-person-name">{{ person.given_name }} {{ person.family_name }}</p>
 					<p class="popup-person-title">{{ person.title }}</p>
-
+					<p class="popup-person-status" *ngIf="person.status_info">Back on {{person.status_info.to}}</p>
 					<div class="popup-person-line"></div>
 
 					<table>

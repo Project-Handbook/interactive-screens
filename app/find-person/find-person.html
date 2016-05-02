@@ -29,7 +29,7 @@
 					<button (click)="scrollDep(1)" *ngIf="deps.length > 14">
 						<p><mark>&#10095;</mark></p>
 					</button>
-				</div>	
+				</div>
 			</div>
 
 			<br>
@@ -45,6 +45,7 @@
 		<div *ngIf="!showErrorMessage">
 			<table id="person-table">
 				<thead>
+					<th></th>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
 					<th (click)="sort('surname')"><p>Family name</p><mark id="surname">&#10095;</mark></th>
 					<th (click)="sort('email')"><p>Email</p><mark id="email">&#10095;</mark></th>
@@ -53,6 +54,7 @@
 				</thead>
 				<tbody id="person-table-body">
 					<tr *ngFor="#person of people; #i = index" (click)="setPerson(person)">
+						<td class="image_column"><center><img *ngIf="person.status_image"  [src]="person.status_image" width="20" height="20"></center></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>

@@ -39,9 +39,12 @@ export class FindPersonService {
 						undefined,	/* Need to fetch the image url */
 						undefined, /* Need to fetch working place */
 						undefined, /* Need to fetch kth profile */
-						undefined /* Need to scrape the 'about me' section */
+						undefined, /* Need to scrape the 'about me' section */
+						undefined,
+						undefined
 					);
-					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+				this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+
 					people.push(person);
 				})
 			},
@@ -74,9 +77,12 @@ export class FindPersonService {
 						undefined,	/* Need to fetch the image url */
 						undefined, /* Need to fetch working place */
 						undefined, /* Need to fetch kth profile */
-						undefined /* Need to scrape the 'about me' section */
+						undefined, /* Need to scrape the 'about me' section */
+						undefined,
+						undefined
 					);
 					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+
 					people.push(person);
 				})
 			},
@@ -109,7 +115,9 @@ export class FindPersonService {
 											undefined,	/* Need to fetch the image url */
 											undefined, /* Need to fetch working place */
 											undefined, /* Need to fetch kth profile */
-											undefined /* Need to scrape the 'about me' section */
+											undefined, /* Need to scrape the 'about me' section */
+											undefined,
+											undefined
 										);
 										this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
 										peopleAlsoInDep.push(person);
@@ -126,12 +134,11 @@ export class FindPersonService {
 					onError(ErrorType.NoError);
 				}
 			);
-
 		return peopleAlsoInDep;
 	}
 
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchAdditionalInfo(person: Person) {
+	public fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
 			.map(res => res.json())
@@ -140,6 +147,7 @@ export class FindPersonService {
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
 				this.fetchAboutMeInfo(person);
+				this.fetchStatus(person);
 			},
 			error => console.log(error),
 			() => {}
@@ -154,4 +162,25 @@ export class FindPersonService {
 			person.about_me = about_me;
 		})
 	}
+
+//Fetches the availibility of employees
+	private fetchStatus(person:Person){
+		var url = "https://www.lan.kth.se/mobile/api/katalogjson?q=kthid:";
+		this.http.get(url + person.kthid)
+			.map(res=>res.json())
+			.subscribe(res=>{
+				if(res.result[0].intercepts!==undefined){
+					if(res.result[0].intercepts.length===0){
+						person.status_image="https://www.lan.kth.se/sip/lur15.png";
+					}else{
+						person.status_image="https://www.lan.kth.se/sip/lur14.png";
+						person.status_info = res.result[0].intercepts[0];
+					}
+				}else{
+					person.status_image=null;
+				}
+			})
+	}
+
+
 }
