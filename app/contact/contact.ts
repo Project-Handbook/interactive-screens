@@ -12,6 +12,7 @@ import "rxjs/add/operator/map";
 
 export class Contact {
 
+  messageSent: boolean;
   msgCtrl: Control;
   emailCtrl: Control;
   nameCtrl: Control;
@@ -38,11 +39,15 @@ createForm() {
 }
 
 
+
 reset() {
   this.createForm();
   this.email.fromName = "";
   this.email.message = "";
   this.email.fromEmail = "";
+  setTimeout(() => {
+    this.messageSent = false;
+  }, 2000);
 }
 
 showForm:boolean = true;
@@ -50,7 +55,7 @@ onSubmit(fromName, fromEmail, message) {
    // INSERT CAPTCHA HERE
    console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
    this._emailService.sendEmail(fromName, fromEmail, message).map(res=>res).subscribe(res=>console.log(res),error=>{console.log(error), this.error = true
-   },()=>{console.log("apa"), this.error = false, this.showForm = false,
+   },()=>{console.log("apa"), this.error = false, this.messageSent = true, this.showForm = false,
    setTimeout(() => {
      this.reset()
       this.showForm = true;

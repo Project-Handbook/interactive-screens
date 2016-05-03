@@ -41,6 +41,12 @@
         <div class="formError" *ngIf="error === true" role="alert">
       <i class="fa fa-exclamation-triangle"></i> Couldn't send.
       </div>
+      <br />
+    <div class="succesfulMail" *ngIf="messageSent === true" role="alert">
+  <i class="fa fa-check" aria-hidden="true"></i> Message sent!
     </div>
+  </div>
+
   </form>
+
 </div>
