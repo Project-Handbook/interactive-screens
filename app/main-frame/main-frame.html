@@ -22,12 +22,15 @@
       Telephone deliveries:<br>
       {{ screenInfo.telephone_deliveries }}
     </p>
-     <p class="open-hrs">
+    <div class="open-hrs" *ngIf="!screenInfo.opening_hours_enabled">
+       <h6 *ngFor="#hours of screenInfo.opening_hours">
+         {{ hours }}
+       </h6>
       Open:<br>
-      Mon-Thu <span>08:00 - 17:00</span><br>
-      Friday <span>09:00 - 14:00</span><br>
-      Sat-Sun <span>Closed</span>
-    </p>
+      Mon-Thu 09:00 - 14:00<br>
+      Friday  09:00 - 14:00<br>
+      Sat-Sun Closed
+    </div>
     <h2>Departments</h2>
     <div>
       <b>{{ screenInfo.nearest_department }}</b>
