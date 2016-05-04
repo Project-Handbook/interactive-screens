@@ -10,5 +10,11 @@ export class ScreenSpecificInformation {
               public nearest_department: string = "", /* Name of the department nearest the screen */
               public department_code: string = "", /* Department code for People tab default */
               public longitude: number = 0, /* Coordinate for the sceen */
-              public latitude: number = 0) /* Coordinate for the screen  */ {}
+              public latitude: number = 0, /* Coordinate for the screen  */
+              // The first seven of the Date tuples will be interpreted as one opening,
+              // one closing date per day in a seven day week, all other values will be ignored.
+              // The dates hours and minutes are only used, all other time measure will be ignored.
+              // Example) opening_hours["monday"][1] would be the closing hour on monday, and so on
+              public opening_hours: { [key: string]: [string, string] } = {}, /* opening hours */
+              public opening_hours_enabled: boolean = false) /* Whether or not the opening hours should be displayed or not */ {}
 }

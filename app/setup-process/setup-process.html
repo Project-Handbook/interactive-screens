@@ -181,28 +181,37 @@
     <tr class="item">
       <td>
         <p>Opening hours</p>
-        <p> <input type="checkbox"> Show opening hours </p> <br/>
-        Monday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Tuesday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Wednesday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Thursday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Friday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Saturday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Sunday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
+        Show opening hours? <input type="checkbox" (click)="toggleOpeningHours()"> <br/>
+        <div *ngIf="screenInfo.opening_hours_enabled">
+          Monday <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('monday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['monday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['monday'][1]">
+          <br>
+          <b>Tuesday</b> <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('tuesday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['tuesday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['tuesday'][1]">
+          <br>
+          Wednesday <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('wednesday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['wednesday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['wednesday'][1]">
+          <br>
+          <b>Thursday</b> <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('thursday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['thursday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['thursday'][1]">
+          <br>
+          Friday <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('friday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['friday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['friday'][1]">
+          <br>
+          <b>Saturday</b> <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('saturday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['saturday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['saturday'][1]">
+          <br>
+          Sunday <br>
+          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('sunday')">
+          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['sunday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['sunday'][1]">
+          <br>
+        </div>
       </td>
       <td>
         <a href="javascript:void(0)" onclick="document.getElementById('opening-hours').style.display= document.getElementById('opening-hours').style.display == 'none' ? 'block' : 'none';">
@@ -211,6 +220,7 @@
       </td>
       <td id="opening-hours" class="info" style="display: none;">
         Opening hours of the nearest department, for example the closest reception to the screen, etc.
+        Format as 11:00, 13:37, etc.
       </td>
     </tr>
 
