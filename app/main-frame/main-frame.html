@@ -25,14 +25,14 @@
       Telephone deliveries:<br>
       {{ screenInfo.telephone_deliveries }}
     </p>
-    <div class="open-hrs" *ngIf="!screenInfo.opening_hours_enabled">
-       <h6 *ngFor="#hours of screenInfo.opening_hours">
-         {{ hours }}
-       </h6>
-      Open:<br>
-      Mon-Thu 09:00 - 14:00<br>
-      Friday  09:00 - 14:00<br>
-      Sat-Sun Closed
+    <div class="open-hrs" *ngIf="screenInfo.opening_hours_enabled">
+      <h2>Opening Hours</h2>
+       <label *ngFor="let weekday of weekdays">
+         <label class="opening-hours-day">{{ weekday }}</label><br>
+         <label class="opening-hours-times" *ngIf="screenInfo.opening_hours[weekday][2]">{{ screenInfo.opening_hours[weekday][0] }} - {{ screenInfo.opening_hours[weekday][1] }}</label>
+         <label class="opening-hours-times" *ngIf="!screenInfo.opening_hours[weekday][2]">Closed</label>
+         <br>
+       </label>
     </div>
     <h2>Departments</h2>
     <div>
