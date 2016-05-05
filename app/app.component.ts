@@ -1,13 +1,13 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router } from 'angular2/router';
-import {Location,LocationStrategy,HashLocationStrategy} from "angular2/platform/common";
+import { Location, LocationStrategy, HashLocationStrategy } from "angular2/platform/common";
 import { FindPerson } from './find-person/find-person';
 import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
 import { NgStyle } from 'angular2/common';
 import { SetupProcess } from './setup-process/setup-process';
-import {provide}           from 'angular2/core';
+import { provide } from 'angular2/core';
 import { Constants } from './constants';
 import { ScreenSpecificInformation } from './screen-specific-information';
 
@@ -15,7 +15,7 @@ import { ScreenSpecificInformation } from './screen-specific-information';
     selector: 'main-frame',
     templateUrl: 'app/main-frame/main-frame.html', // Relative base
     directives: [ROUTER_DIRECTIVES, NgStyle],
-    providers: [ROUTER_PROVIDERS,provide(LocationStrategy,
+    providers: [ROUTER_PROVIDERS, provide(LocationStrategy,
          {useClass: HashLocationStrategy})]
 })
 @RouteConfig([
