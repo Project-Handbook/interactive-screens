@@ -106,7 +106,7 @@ constructor(private router: Router, private location: Location) {
 
     router.subscribe((val) => {
     var url_with_para = val.split("?",1);
-    console.log(this.menuImages);
+    // Set right border on sidebar
     switch(url_with_para[0]){
       case "home":
         if (this.prev !== 0) {
