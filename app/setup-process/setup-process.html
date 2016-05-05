@@ -60,14 +60,14 @@
         <label>Choose school</label>
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
-          <option  *ngFor="#school of schools" [value]="school.code">
+          <option  *ngFor="let school of schools" [value]="school.code">
             {{school.school}}
           </option>
         </select>
         <br><br>
         <label>Choose department</label>
         <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
-          <option *ngFor="#department of department_list" [value]="department.code">
+          <option *ngFor="let department of department_list" [value]="department.code">
             {{department.name_sv}}
           </option>
         </select>
@@ -164,7 +164,7 @@
       <td>
         <p>Nearest department</p>
         <select [(ngModel)]="screenInfo.nearest_department" style="width: 90%">
-          <option *ngFor="#department of departments">{{ department }}</option>
+          <option *ngFor="let department of departments">{{ department }}</option>
         </select>
         <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>
