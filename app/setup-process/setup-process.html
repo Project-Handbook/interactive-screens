@@ -151,12 +151,14 @@
         <button (click)="addDepartment()" style="float: right; padding: 0.2em;">Add</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearby-department').style.display= document.getElementById('nearby-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
+      <td id="nearby-department" class="info" style="display: none;">
         Departments located in the close vicinity of the screen, in the same building and so on.
+        Add all the departments that are close then in the next field you select
+        the one which is the closest to the screen.
       </td>
     </tr>
 
@@ -169,12 +171,13 @@
         <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearest-department').style.display= document.getElementById('nearest-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
-        Nearest department in relationship to the screen. The department associated with the screen.
+      <td id="nearest-department" class="info" style="display: none;">
+        Nearest department in relationship to the screen.
+        Select the department associated with the screen.
       </td>
     </tr>
 
