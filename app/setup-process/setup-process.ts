@@ -115,6 +115,9 @@ export class SetupProcess {
     })
   }
 
+  public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
+                                    'friday', 'saturday', 'sunday'];
+
   // Toggle if opening hours feature is used or not.
   toggleOpeningHours() {
       this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
