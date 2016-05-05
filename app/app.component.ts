@@ -47,6 +47,9 @@ import { ScreenSpecificInformation } from './screen-specific-information';
   }
 ])
 export class AppComponent {
+    // Keys of screenInfo.opening_hours, used for iteration over dictionary
+    public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
+                                      'friday', 'saturday', 'sunday'];
 
     // The system time displayed in the main-frame header
     clock: string = "";
