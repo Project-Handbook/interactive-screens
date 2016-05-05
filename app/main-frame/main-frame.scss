@@ -68,7 +68,8 @@
   border-right:solid $kth-color-blue;
 }
 
-.contact_field {
+// -------- Contact field styles --------
+.contact-field {
     position:relative;
     font-size:120%;
     float: right;
@@ -79,7 +80,7 @@
     margin:0;
     box-sizing: border-box;
 
-    .inner_contact_field {
+    .inner-contact-field {
       margin:1rem;
     }
 
