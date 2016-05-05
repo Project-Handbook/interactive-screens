@@ -120,7 +120,7 @@ export class SetupProcess {
       this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
   }
 
-  // Sets the opening hours for a specific day to null.
+  // Toggles opening hours for the specific day
   toggleOpeningHoursDay(day: string) {
     this.screenInfo.opening_hours[day][0] = null;
     this.screenInfo.opening_hours[day][1] = null;
