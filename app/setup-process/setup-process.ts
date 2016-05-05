@@ -122,7 +122,6 @@ export class SetupProcess {
 
   // Toggles opening hours for the specific day
   toggleOpeningHoursDay(day: string) {
-    this.screenInfo.opening_hours[day][0] = null;
-    this.screenInfo.opening_hours[day][1] = null;
+    this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
   }
 }
