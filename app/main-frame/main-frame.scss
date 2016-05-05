@@ -86,6 +86,7 @@
 
     h2 {
       font: $kth-font-title;
+      font-weight: normal;
       color: $kth-color-green;
     }
     .open-hrs {
@@ -95,6 +96,9 @@
         float:right;
         margin-right:100px;
       }
+    }
+    .opening-hours-day {
+      font-weight: lighter;
     }
 }
 
