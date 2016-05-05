@@ -31,6 +31,7 @@
         Where the screen is located, this will be shown on the top of the screen.
       </td>
     </tr>
+
     <tr class="item">
       <td>
         <p>Position of the screen</p>
@@ -61,14 +62,14 @@
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
           <option  *ngFor="let school of schools" [value]="school.code">
-            {{school.school}}
+            {{ school.school }}
           </option>
         </select>
         <br><br>
         <label>Choose department</label>
         <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
           <option *ngFor="let department of department_list" [value]="department.code">
-            {{department.name_sv}}
+            {{ department.name_sv }}
           </option>
         </select>
       </td>
