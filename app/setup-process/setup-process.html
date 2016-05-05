@@ -66,7 +66,7 @@
           </option>
         </select>
         <br><br>
-        <label>Choose department</label>
+        <label>Default department</label>
         <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
           <option *ngFor="let department of department_list" [value]="department.code">
             {{ department.name_sv }}
@@ -79,7 +79,7 @@
         </a>
       </td>
       <td id="department_code_info" class="info" style="display: none;">
-          This deparment will be displayed by default in the People tab.
+          This deparment will be displayed by default when there is no search in the People tab.
       </td>
     </tr>
   </table>
