@@ -15,6 +15,16 @@ export class ScreenSpecificInformation {
               // one closing date per day in a seven day week, all other values will be ignored.
               // The dates hours and minutes are only used, all other time measure will be ignored.
               // Example) opening_hours["monday"][1] would be the closing hour on monday, and so on
-              public opening_hours: { [key: string]: [string, string] } = {}, /* opening hours */
-              public opening_hours_enabled: boolean = false) /* Whether or not the opening hours should be displayed or not */ {}
+              // opening_hours["thursday"][2] = false says that on thursday it's closed.
+              public opening_hours: { [weekday: string]: [string, string, boolean] } = opening_hours_defaults, /* opening hours */
+              public opening_hours_enabled: boolean = true) /* Whether or not the opening hours should be displayed or not */ {}
 }
+
+let opening_hours_defaults: {[weekday: string]: [string , string, boolean]} =
+                            { 'monday'   : ['09:00', '17:00', true],
+                              'tuesday'  : ['09:00', '17:00', true],
+                              'wednesday': ['09:00', '17:00', true],
+                              'thursday' : ['09:00', '17:00', true],
+                              'friday'   : ['09:00', '17:00', true],
+                              'saturday' : ['09:00', '17:00', true],
+                              'sunday'   : ['09:00', '17:00', true]};
