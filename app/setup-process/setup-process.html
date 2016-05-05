@@ -181,36 +181,18 @@
     <tr class="item">
       <td>
         <p>Opening hours</p>
-        Show opening hours? <input type="checkbox" (click)="toggleOpeningHours()"> <br/>
+        Show opening hours? <input class="toggle-box" type="checkbox" (click)="toggleOpeningHours()"> <br/>
         <div *ngIf="screenInfo.opening_hours_enabled">
-          Monday <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('monday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['monday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['monday'][1]">
-          <br>
-          <b>Tuesday</b> <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('tuesday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['tuesday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['tuesday'][1]">
-          <br>
-          Wednesday <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('wednesday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['wednesday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['wednesday'][1]">
-          <br>
-          <b>Thursday</b> <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('thursday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['thursday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['thursday'][1]">
-          <br>
-          Friday <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('friday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['friday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['friday'][1]">
-          <br>
-          <b>Saturday</b> <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('saturday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['saturday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['saturday'][1]">
-          <br>
-          Sunday <br>
-          Stängt? <input type="checkbox" (click)="toggleOpeningHoursDay('sunday')">
-          From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours['sunday'][0]"> To: <input type="time" style="width: 15%;" placeholder="HH:mm" (ngModel)]="screenInfo.opening_hours['sunday'][1]">
-          <br>
+          <div *ngFor="let weekday of weekdays">
+            <div>
+              <h3>{{ weekday }}</h3>
+              <label>Closed: <input class="toggle-box" type="checkbox" (click)="toggleOpeningHoursDay(weekday)"></label>
+            </div>
+            <div *ngIf="screenInfo.opening_hours[weekday][2]">
+              From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][0]">
+              To:   <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][1]">
+            </div>
+          </div>
         </div>
       </td>
       <td>
