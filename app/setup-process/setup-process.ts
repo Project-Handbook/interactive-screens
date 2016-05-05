@@ -67,7 +67,7 @@ export class SetupProcess {
   ngOnInit(){
     this.map = new L.Map('map', {
          zoomControl: false,
-         center: new L.LatLng(59.3469417, 18.0702413),
+         center: new L.LatLng(59.3469417, 18.0702413), // Center on KTH
          zoom: 15,
          minZoom: 4,
          maxZoom: 18,
