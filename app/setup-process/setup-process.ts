@@ -16,7 +16,15 @@ export class SetupProcess {
   map: L.Map;
   public screenInfo = new ScreenSpecificInformation();
 
-  constructor(private router: Router, private mapService: MapService) {}
+  constructor(private router: Router, private mapService: MapService) {
+
+    // console.log(this.screenInfo.opening_hours);
+    // this.screenInfo.opening_hours["monday"] = [new Date(), new Date()];
+    // console.log(this.screenInfo.opening_hours["monday"])
+    //
+    // this.screenInfo.opening_hours["tuesday"] = [new Date(), new Date()];
+    // console.log(this.screenInfo.opening_hours["tuesday"])
+  }
 
   // Stores the ScreenSpecificInformation object and navigates to /home.
   saveInformation() {
@@ -59,7 +67,7 @@ export class SetupProcess {
   ngOnInit(){
     this.map = new L.Map('map', {
          zoomControl: false,
-         center: new L.LatLng(59.3469417, 18.0702413),
+         center: new L.LatLng(59.3469417, 18.0702413), // Center on KTH
          zoom: 15,
          minZoom: 4,
          maxZoom: 18,
@@ -105,5 +113,18 @@ export class SetupProcess {
     this.mapService.getDepartments(department).subscribe(res => {
       this.department_list = res;
     })
+  }
+
+  public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
+                                    'friday', 'saturday', 'sunday'];
+
+  // Toggle if opening hours feature is used or not.
+  toggleOpeningHours() {
+      this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
+  }
+
+  // Toggles opening hours for the specific day
+  toggleOpeningHoursDay(day: string) {
+    this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
   }
 }

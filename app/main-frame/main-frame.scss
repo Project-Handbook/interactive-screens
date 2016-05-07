@@ -68,7 +68,8 @@
   border-right:solid $kth-color-blue;
 }
 
-.contact_field {
+// -------- Contact field styles --------
+.contact-field {
     position:relative;
     font-size:120%;
     float: right;
@@ -79,12 +80,13 @@
     margin:0;
     box-sizing: border-box;
 
-    .inner_contact_field {
+    .inner-contact-field {
       margin:1rem;
     }
 
     h2 {
       font: $kth-font-title;
+      font-weight: normal;
       color: $kth-color-green;
     }
     .open-hrs {
@@ -95,8 +97,12 @@
         margin-right:100px;
       }
     }
+    .opening-hours-day {
+      font-weight: lighter;
+    }
 }
 
+// -------- Footer styles --------
 #footer {
   font: $kth-font-title;
   background-image: url("app/main-frame/images/footer.svg");
@@ -117,5 +123,3 @@
 .absolute {
   z-index:0;
 }
-
-// ----------------

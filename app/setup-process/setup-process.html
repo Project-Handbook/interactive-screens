@@ -31,6 +31,7 @@
         Where the screen is located, this will be shown on the top of the screen.
       </td>
     </tr>
+
     <tr class="item">
       <td>
         <p>Position of the screen</p>
@@ -54,21 +55,25 @@
           Click on the map or insert them manually in the text fields.
       </td>
     </tr>
+  </table>
+
+  <h2>People Tab</h2>
+  <table>
     <tr class="item">
       <td>
         <p>Department</p>
         <label>Choose school</label>
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
-          <option  *ngFor="#school of schools" [value]="school.code">
-            {{school.school}}
+          <option  *ngFor="let school of schools" [value]="school.code">
+            {{ school.school }}
           </option>
         </select>
         <br><br>
-        <label>Choose department</label>
+        <label>Default department</label>
         <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
-          <option *ngFor="#department of department_list" [value]="department.code">
-            {{department.name_sv}}
+          <option *ngFor="let department of department_list" [value]="department.code">
+            {{ department.name_sv }}
           </option>
         </select>
       </td>
@@ -78,7 +83,7 @@
         </a>
       </td>
       <td id="department_code_info" class="info" style="display: none;">
-          This deparment will be displayed by default in the People tab.
+          This deparment will be displayed by default when there is no search in the People tab.
       </td>
     </tr>
   </table>
@@ -151,12 +156,14 @@
         <button (click)="addDepartment()" style="float: right; padding: 0.2em;">Add</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearby-department').style.display= document.getElementById('nearby-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
+      <td id="nearby-department" class="info" style="display: none;">
         Departments located in the close vicinity of the screen, in the same building and so on.
+        Add all the departments that are close then in the next field you select
+        the one which is the closest to the screen.
       </td>
     </tr>
 
@@ -164,45 +171,37 @@
       <td>
         <p>Nearest department</p>
         <select [(ngModel)]="screenInfo.nearest_department" style="width: 90%">
-          <option *ngFor="#department of departments">{{ department }}</option>
+          <option *ngFor="let department of departments">{{ department }}</option>
         </select>
         <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearest-department').style.display= document.getElementById('nearest-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
-        Nearest department in relationship to the screen. The department associated with the screen.
+      <td id="nearest-department" class="info" style="display: none;">
+        Nearest department in relationship to the screen.
+        Select the department associated with the screen.
       </td>
     </tr>
 
     <tr class="item">
       <td>
         <p>Opening hours</p>
-        <p> <input type="checkbox"> Show opening hours </p> <br/>
-        Monday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Tuesday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Wednesday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Thursday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Friday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        <b>Saturday</b> <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
-        Sunday <br>
-        From: <input type="time" style="width: 15%;"> To: <input type="time" style="width: 15%;">
-        <br>
+        Show opening hours? <input class="toggle-box" type="checkbox" (click)="toggleOpeningHours()"> <br/>
+        <div *ngIf="screenInfo.opening_hours_enabled">
+          <div *ngFor="let weekday of weekdays">
+            <div>
+              <h3>{{ weekday }}</h3>
+              <label>Closed: <input class="toggle-box" type="checkbox" (click)="toggleOpeningHoursDay(weekday)"></label>
+            </div>
+            <div *ngIf="screenInfo.opening_hours[weekday][2]">
+              From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][0]">
+              To:   <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][1]">
+            </div>
+          </div>
+        </div>
       </td>
       <td>
         <a href="javascript:void(0)" onclick="document.getElementById('opening-hours').style.display= document.getElementById('opening-hours').style.display == 'none' ? 'block' : 'none';">
@@ -211,6 +210,7 @@
       </td>
       <td id="opening-hours" class="info" style="display: none;">
         Opening hours of the nearest department, for example the closest reception to the screen, etc.
+        Format as 11:00, 13:37, etc.
       </td>
     </tr>
 
