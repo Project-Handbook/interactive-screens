@@ -32,37 +32,62 @@ System.register(['angular2/core', 'angular2/common', './email.service', "rxjs/ad
                     this.email = { fromName: "", message: "", fromEmail: "" };
                     this.showForm = true;
                     this.createForm();
+                    this.captchaInit();
                 }
                 Contact.prototype.createForm = function () {
                     this.error = false;
                     this.msgCtrl = new common_1.Control('', common_1.Validators.minLength(10));
                     this.emailCtrl = new common_1.Control('', EmailValidator.mailFormat);
                     this.nameCtrl = new common_1.Control('', common_1.Validators.required);
+                    this.captchaCtrl = new common_1.Control('', common_1.Validators.required);
                     this.form = this.builder.group({
                         msgCtrl: this.msgCtrl,
                         emailCtrl: this.emailCtrl,
-                        nameCtrl: this.nameCtrl
+                        nameCtrl: this.nameCtrl,
+                        captchaCtrl: this.captchaCtrl
                     });
                 };
+                Contact.prototype.captchaInit = function () {
+                    this.captchaAnswer = null;
+                    this.captchaValid = false;
+                    this.captchaA = Math.floor(Math.random() * 5) + 1;
+                    this.captchaB = Math.floor(Math.random() * 5) + 1;
+                };
+                Contact.prototype.captchaCheck = function () {
+                    if (this.captchaAnswer == (this.captchaA + this.captchaB)) {
+                        this.captchaValid = true;
+                    }
+                };
                 Contact.prototype.reset = function () {
+                    var _this = this;
                     this.createForm();
                     this.email.fromName = "";
                     this.email.message = "";
                     this.email.fromEmail = "";
+                    this.captchaInit();
+                    setTimeout(function () {
+                        _this.messageSent = false;
+                    }, 2000);
                 };
                 Contact.prototype.onSubmit = function (fromName, fromEmail, message) {
                     var _this = this;
                     // INSERT CAPTCHA HERE
-                    console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
-                    this._emailService.sendEmail(fromName, fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) {
-                        console.log(error), _this.error = true;
-                    }, function () {
-                        console.log("apa"), _this.error = false, _this.showForm = false,
-                            setTimeout(function () {
-                                _this.reset();
-                                _this.showForm = true;
-                            });
-                    });
+                    this.captchaCheck();
+                    if (this.captchaValid) {
+                        console.log("Mail from: " + fromEmail + "\nName: " + fromName + "\nMessage: " + message);
+                        this._emailService.sendEmail(fromName, fromEmail, message).map(function (res) { return res; }).subscribe(function (res) { return console.log(res); }, function (error) {
+                            console.log(error), _this.error = true;
+                        }, function () {
+                            console.log("apa"), _this.error = false, _this.messageSent = true, _this.showForm = false,
+                                setTimeout(function () {
+                                    _this.reset();
+                                    _this.showForm = true;
+                                });
+                        });
+                    }
+                    else {
+                        this.error = true;
+                    }
                 };
                 Contact = __decorate([
                     core_1.Component({

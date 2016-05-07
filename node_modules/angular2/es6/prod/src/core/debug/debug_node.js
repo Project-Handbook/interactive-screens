@@ -8,7 +8,8 @@ export class EventListener {
     ;
 }
 export class DebugNode {
-    constructor(nativeNode, parent) {
+    constructor(nativeNode, parent, _debugInfo) {
+        this._debugInfo = _debugInfo;
         this.nativeNode = nativeNode;
         if (isPresent(parent) && parent instanceof DebugElement) {
             parent.addChild(this);
@@ -17,22 +18,26 @@ export class DebugNode {
             this.parent = null;
         }
         this.listeners = [];
-        this.providerTokens = [];
     }
-    setDebugInfo(info) {
-        this.injector = info.injector;
-        this.providerTokens = info.providerTokens;
-        this.locals = info.locals;
-        this.componentInstance = info.component;
+    get injector() { return isPresent(this._debugInfo) ? this._debugInfo.injector : null; }
+    get componentInstance() {
+        return isPresent(this._debugInfo) ? this._debugInfo.component : null;
     }
+    get locals() {
+        return isPresent(this._debugInfo) ? this._debugInfo.locals : null;
+    }
+    get providerTokens() {
+        return isPresent(this._debugInfo) ? this._debugInfo.providerTokens : null;
+    }
+    get source() { return isPresent(this._debugInfo) ? this._debugInfo.source : null; }
     inject(token) { return this.injector.get(token); }
-    getLocal(name) { return this.locals.get(name); }
+    getLocal(name) { return this.locals[name]; }
 }
 export class DebugElement extends DebugNode {
-    constructor(nativeNode, parent) {
-        super(nativeNode, parent);
-        this.properties = new Map();
-        this.attributes = new Map();
+    constructor(nativeNode, parent, _debugInfo) {
+        super(nativeNode, parent, _debugInfo);
+        this.properties = {};
+        this.attributes = {};
         this.childNodes = [];
         this.nativeElement = nativeNode;
     }

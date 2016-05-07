@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './find-person/find-person', './home/home', './contact/contact', './map/map', 'angular2/common', './setup-process/setup-process', './constants', './screen-specific-information'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', "angular2/platform/common", './find-person/find-person', './home/home', './contact/contact', './map/map', 'angular2/common', './setup-process/setup-process', './constants', './screen-specific-information'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, find_person_1, home_1, contact_1, map_1, common_1, setup_process_1, router_2, core_2, constants_1, screen_specific_information_1;
+    var core_1, router_1, common_1, find_person_1, home_1, contact_1, map_1, common_2, setup_process_1, core_2, constants_1, screen_specific_information_1;
     var AppComponent;
     return {
         setters:[
@@ -20,7 +20,9 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
             },
             function (router_1_1) {
                 router_1 = router_1_1;
-                router_2 = router_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (find_person_1_1) {
                 find_person_1 = find_person_1_1;
@@ -34,8 +36,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
             function (map_1_1) {
                 map_1 = map_1_1;
             },
-            function (common_1_1) {
-                common_1 = common_1_1;
+            function (common_2_1) {
+                common_2 = common_2_1;
             },
             function (setup_process_1_1) {
                 setup_process_1 = setup_process_1_1;
@@ -52,6 +54,9 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     var _this = this;
                     this.router = router;
                     this.location = location;
+                    // Keys of screenInfo.opening_hours, used for iteration over dictionary
+                    this.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday',
+                        'friday', 'saturday', 'sunday'];
                     // The system time displayed in the main-frame header
                     this.clock = "";
                     this.menuItemsRightBorder = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
@@ -89,7 +94,7 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     window.setInterval(this.refreshClock, 60);
                     router.subscribe(function (val) {
                         var url_with_para = val.split("?", 1);
-                        console.log(_this.menuImages);
+                        // Set right border on sidebar
                         switch (url_with_para[0]) {
                             case "home":
                                 if (_this.prev !== 0) {
@@ -148,8 +153,8 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                     core_1.Component({
                         selector: 'main-frame',
                         templateUrl: 'app/main-frame/main-frame.html',
-                        directives: [router_1.ROUTER_DIRECTIVES, common_1.NgStyle],
-                        providers: [router_1.ROUTER_PROVIDERS, core_2.provide(router_2.LocationStrategy, { useClass: router_2.HashLocationStrategy })]
+                        directives: [router_1.ROUTER_DIRECTIVES, common_2.NgStyle],
+                        providers: [router_1.ROUTER_PROVIDERS, core_2.provide(common_1.LocationStrategy, { useClass: common_1.HashLocationStrategy })]
                     }),
                     router_1.RouteConfig([
                         {
@@ -179,7 +184,7 @@ System.register(['angular2/core', 'angular2/router', './find-person/find-person'
                             name: 'Map'
                         }
                     ]), 
-                    __metadata('design:paramtypes', [router_1.Router, router_1.Location])
+                    __metadata('design:paramtypes', [router_1.Router, common_1.Location])
                 ], AppComponent);
                 return AppComponent;
             }());

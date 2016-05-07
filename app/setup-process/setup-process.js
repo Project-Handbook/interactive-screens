@@ -44,6 +44,14 @@ System.register(['angular2/core', 'angular2/router', '../constants', '../screen-
                     this.departments = [];
                     this.schools = [];
                     this.department_list = [];
+                    this.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday',
+                        'friday', 'saturday', 'sunday'];
+                    // console.log(this.screenInfo.opening_hours);
+                    // this.screenInfo.opening_hours["monday"] = [new Date(), new Date()];
+                    // console.log(this.screenInfo.opening_hours["monday"])
+                    //
+                    // this.screenInfo.opening_hours["tuesday"] = [new Date(), new Date()];
+                    // console.log(this.screenInfo.opening_hours["tuesday"])
                 }
                 // Stores the ScreenSpecificInformation object and navigates to /home.
                 SetupProcess.prototype.saveInformation = function () {
@@ -117,6 +125,14 @@ System.register(['angular2/core', 'angular2/router', '../constants', '../screen-
                     this.mapService.getDepartments(department).subscribe(function (res) {
                         _this.department_list = res;
                     });
+                };
+                // Toggle if opening hours feature is used or not.
+                SetupProcess.prototype.toggleOpeningHours = function () {
+                    this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
+                };
+                // Toggles opening hours for the specific day
+                SetupProcess.prototype.toggleOpeningHoursDay = function (day) {
+                    this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
                 };
                 SetupProcess = __decorate([
                     core_1.Component({

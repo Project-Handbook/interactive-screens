@@ -3,6 +3,7 @@ System.register("angular2/src/mock/animation_builder_mock", ["angular2/src/core/
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -43,7 +44,7 @@ System.register("angular2/src/mock/animation_builder_mock", ["angular2/src/core/
     };
     MockAnimationBuilder = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockAnimationBuilder);
     return MockAnimationBuilder;
-  })(animation_builder_1.AnimationBuilder);
+  }(animation_builder_1.AnimationBuilder));
   exports.MockAnimationBuilder = MockAnimationBuilder;
   var MockCssAnimationBuilder = (function(_super) {
     __extends(MockCssAnimationBuilder, _super);
@@ -54,7 +55,7 @@ System.register("angular2/src/mock/animation_builder_mock", ["angular2/src/core/
       return new MockAnimation(element, this.data);
     };
     return MockCssAnimationBuilder;
-  })(css_animation_builder_1.CssAnimationBuilder);
+  }(css_animation_builder_1.CssAnimationBuilder));
   var MockBrowserAbstraction = (function(_super) {
     __extends(MockBrowserAbstraction, _super);
     function MockBrowserAbstraction() {
@@ -64,7 +65,7 @@ System.register("angular2/src/mock/animation_builder_mock", ["angular2/src/core/
       this.elapsedTimeIncludesDelay = false;
     };
     return MockBrowserAbstraction;
-  })(browser_details_1.BrowserDetails);
+  }(browser_details_1.BrowserDetails));
   var MockAnimation = (function(_super) {
     __extends(MockAnimation, _super);
     function MockAnimation(element, data) {
@@ -78,15 +79,16 @@ System.register("angular2/src/mock/animation_builder_mock", ["angular2/src/core/
       this._callback = null;
     };
     return MockAnimation;
-  })(animation_1.Animation);
+  }(animation_1.Animation));
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/src/mock/directive_resolver_mock", ["angular2/src/core/di", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/core/metadata", "angular2/src/core/linker/directive_resolver"], true, function(require, exports, module) {
+System.register("angular2/src/mock/directive_resolver_mock", ["angular2/src/core/di", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/core/metadata", "angular2/src/compiler/directive_resolver"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -116,7 +118,7 @@ System.register("angular2/src/mock/directive_resolver_mock", ["angular2/src/core
   var collection_1 = require("angular2/src/facade/collection");
   var lang_1 = require("angular2/src/facade/lang");
   var metadata_1 = require("angular2/src/core/metadata");
-  var directive_resolver_1 = require("angular2/src/core/linker/directive_resolver");
+  var directive_resolver_1 = require("angular2/src/compiler/directive_resolver");
   var MockDirectiveResolver = (function(_super) {
     __extends(MockDirectiveResolver, _super);
     function MockDirectiveResolver() {
@@ -130,12 +132,14 @@ System.register("angular2/src/mock/directive_resolver_mock", ["angular2/src/core
       var viewProviderOverrides = this.viewProviderOverrides.get(type);
       var providers = dm.providers;
       if (lang_1.isPresent(providerOverrides)) {
-        providers = dm.providers.concat(providerOverrides);
+        var originalViewProviders = lang_1.isPresent(dm.providers) ? dm.providers : [];
+        providers = originalViewProviders.concat(providerOverrides);
       }
       if (dm instanceof metadata_1.ComponentMetadata) {
         var viewProviders = dm.viewProviders;
         if (lang_1.isPresent(viewProviderOverrides)) {
-          viewProviders = dm.viewProviders.concat(viewProviderOverrides);
+          var originalViewProviders = lang_1.isPresent(dm.viewProviders) ? dm.viewProviders : [];
+          viewProviders = originalViewProviders.concat(viewProviderOverrides);
         }
         return new metadata_1.ComponentMetadata({
           selector: dm.selector,
@@ -174,16 +178,17 @@ System.register("angular2/src/mock/directive_resolver_mock", ["angular2/src/core
     };
     MockDirectiveResolver = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockDirectiveResolver);
     return MockDirectiveResolver;
-  })(directive_resolver_1.DirectiveResolver);
+  }(directive_resolver_1.DirectiveResolver));
   exports.MockDirectiveResolver = MockDirectiveResolver;
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/src/mock/view_resolver_mock", ["angular2/src/core/di", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/core/metadata", "angular2/src/core/linker/view_resolver"], true, function(require, exports, module) {
+System.register("angular2/src/mock/view_resolver_mock", ["angular2/src/core/di", "angular2/src/core/di", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/core/metadata", "angular2/src/compiler/view_resolver"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -210,11 +215,12 @@ System.register("angular2/src/mock/view_resolver_mock", ["angular2/src/core/di",
       return Reflect.metadata(k, v);
   };
   var di_1 = require("angular2/src/core/di");
+  var di_2 = require("angular2/src/core/di");
   var collection_1 = require("angular2/src/facade/collection");
   var lang_1 = require("angular2/src/facade/lang");
   var exceptions_1 = require("angular2/src/facade/exceptions");
   var metadata_1 = require("angular2/src/core/metadata");
-  var view_resolver_1 = require("angular2/src/core/linker/view_resolver");
+  var view_resolver_1 = require("angular2/src/compiler/view_resolver");
   var MockViewResolver = (function(_super) {
     __extends(MockViewResolver, _super);
     function MockViewResolver() {
@@ -249,10 +255,10 @@ System.register("angular2/src/mock/view_resolver_mock", ["angular2/src/core/di",
       if (lang_1.isBlank(view)) {
         view = _super.prototype.resolve.call(this, component);
       }
-      var directives = view.directives;
+      var directives = [];
       var overrides = this._directiveOverrides.get(component);
-      if (lang_1.isPresent(overrides) && lang_1.isPresent(directives)) {
-        directives = collection_1.ListWrapper.clone(view.directives);
+      if (lang_1.isPresent(overrides) && lang_1.isPresent(view.directives)) {
+        flattenArray(view.directives, directives);
         overrides.forEach(function(to, from) {
           var srcIndex = directives.indexOf(from);
           if (srcIndex == -1) {
@@ -283,53 +289,290 @@ System.register("angular2/src/mock/view_resolver_mock", ["angular2/src/core/di",
         throw new exceptions_1.BaseException("The component " + lang_1.stringify(component) + " has already been compiled, its configuration can not be changed");
       }
     };
-    MockViewResolver = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockViewResolver);
+    MockViewResolver = __decorate([di_2.Injectable(), __metadata('design:paramtypes', [])], MockViewResolver);
     return MockViewResolver;
-  })(view_resolver_1.ViewResolver);
+  }(view_resolver_1.ViewResolver));
   exports.MockViewResolver = MockViewResolver;
+  function flattenArray(tree, out) {
+    for (var i = 0; i < tree.length; i++) {
+      var item = di_1.resolveForwardRef(tree[i]);
+      if (lang_1.isArray(item)) {
+        flattenArray(item, out);
+      } else {
+        out.push(item);
+      }
+    }
+  }
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/src/router/location/location_strategy", ["angular2/src/facade/lang", "angular2/core"], true, function(require, exports, module) {
+System.register("angular2/src/platform/browser/location/platform_location", [], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
+  var PlatformLocation = (function() {
+    function PlatformLocation() {}
+    Object.defineProperty(PlatformLocation.prototype, "pathname", {
+      get: function() {
+        return null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(PlatformLocation.prototype, "search", {
+      get: function() {
+        return null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(PlatformLocation.prototype, "hash", {
+      get: function() {
+        return null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return PlatformLocation;
+  }());
+  exports.PlatformLocation = PlatformLocation;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/platform/browser/location/location_strategy", ["angular2/src/facade/lang", "angular2/core"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
   var lang_1 = require("angular2/src/facade/lang");
   var core_1 = require("angular2/core");
   var LocationStrategy = (function() {
     function LocationStrategy() {}
     return LocationStrategy;
-  })();
+  }());
   exports.LocationStrategy = LocationStrategy;
   exports.APP_BASE_HREF = lang_1.CONST_EXPR(new core_1.OpaqueToken('appBaseHref'));
-  function normalizeQueryParams(params) {
-    return (params.length > 0 && params.substring(0, 1) != '?') ? ('?' + params) : params;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/platform/browser/location/location", ["angular2/src/facade/async", "angular2/core", "angular2/src/platform/browser/location/location_strategy"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var async_1 = require("angular2/src/facade/async");
+  var core_1 = require("angular2/core");
+  var location_strategy_1 = require("angular2/src/platform/browser/location/location_strategy");
+  var Location = (function() {
+    function Location(platformStrategy) {
+      var _this = this;
+      this.platformStrategy = platformStrategy;
+      this._subject = new async_1.EventEmitter();
+      var browserBaseHref = this.platformStrategy.getBaseHref();
+      this._baseHref = Location.stripTrailingSlash(_stripIndexHtml(browserBaseHref));
+      this.platformStrategy.onPopState(function(ev) {
+        async_1.ObservableWrapper.callEmit(_this._subject, {
+          'url': _this.path(),
+          'pop': true,
+          'type': ev.type
+        });
+      });
+    }
+    Location.prototype.path = function() {
+      return this.normalize(this.platformStrategy.path());
+    };
+    Location.prototype.normalize = function(url) {
+      return Location.stripTrailingSlash(_stripBaseHref(this._baseHref, _stripIndexHtml(url)));
+    };
+    Location.prototype.prepareExternalUrl = function(url) {
+      if (url.length > 0 && !url.startsWith('/')) {
+        url = '/' + url;
+      }
+      return this.platformStrategy.prepareExternalUrl(url);
+    };
+    Location.prototype.go = function(path, query) {
+      if (query === void 0) {
+        query = '';
+      }
+      this.platformStrategy.pushState(null, '', path, query);
+    };
+    Location.prototype.replaceState = function(path, query) {
+      if (query === void 0) {
+        query = '';
+      }
+      this.platformStrategy.replaceState(null, '', path, query);
+    };
+    Location.prototype.forward = function() {
+      this.platformStrategy.forward();
+    };
+    Location.prototype.back = function() {
+      this.platformStrategy.back();
+    };
+    Location.prototype.subscribe = function(onNext, onThrow, onReturn) {
+      if (onThrow === void 0) {
+        onThrow = null;
+      }
+      if (onReturn === void 0) {
+        onReturn = null;
+      }
+      return async_1.ObservableWrapper.subscribe(this._subject, onNext, onThrow, onReturn);
+    };
+    Location.normalizeQueryParams = function(params) {
+      return (params.length > 0 && params.substring(0, 1) != '?') ? ('?' + params) : params;
+    };
+    Location.joinWithSlash = function(start, end) {
+      if (start.length == 0) {
+        return end;
+      }
+      if (end.length == 0) {
+        return start;
+      }
+      var slashes = 0;
+      if (start.endsWith('/')) {
+        slashes++;
+      }
+      if (end.startsWith('/')) {
+        slashes++;
+      }
+      if (slashes == 2) {
+        return start + end.substring(1);
+      }
+      if (slashes == 1) {
+        return start + end;
+      }
+      return start + '/' + end;
+    };
+    Location.stripTrailingSlash = function(url) {
+      if (/\/$/g.test(url)) {
+        url = url.substring(0, url.length - 1);
+      }
+      return url;
+    };
+    Location = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [location_strategy_1.LocationStrategy])], Location);
+    return Location;
+  }());
+  exports.Location = Location;
+  function _stripBaseHref(baseHref, url) {
+    if (baseHref.length > 0 && url.startsWith(baseHref)) {
+      return url.substring(baseHref.length);
+    }
+    return url;
   }
-  exports.normalizeQueryParams = normalizeQueryParams;
-  function joinWithSlash(start, end) {
-    if (start.length == 0) {
-      return end;
+  function _stripIndexHtml(url) {
+    if (/\/index.html$/g.test(url)) {
+      return url.substring(0, url.length - 11);
     }
-    if (end.length == 0) {
-      return start;
-    }
-    var slashes = 0;
-    if (start.endsWith('/')) {
-      slashes++;
-    }
-    if (end.startsWith('/')) {
-      slashes++;
-    }
-    if (slashes == 2) {
-      return start + end.substring(1);
-    }
-    if (slashes == 1) {
-      return start + end;
-    }
-    return start + '/' + end;
+    return url;
   }
-  exports.joinWithSlash = joinWithSlash;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/platform/browser/location/path_location_strategy", ["angular2/core", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/platform/browser/location/platform_location", "angular2/src/platform/browser/location/location_strategy", "angular2/src/platform/browser/location/location"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var __param = (this && this.__param) || function(paramIndex, decorator) {
+    return function(target, key) {
+      decorator(target, key, paramIndex);
+    };
+  };
+  var core_1 = require("angular2/core");
+  var lang_1 = require("angular2/src/facade/lang");
+  var exceptions_1 = require("angular2/src/facade/exceptions");
+  var platform_location_1 = require("angular2/src/platform/browser/location/platform_location");
+  var location_strategy_1 = require("angular2/src/platform/browser/location/location_strategy");
+  var location_1 = require("angular2/src/platform/browser/location/location");
+  var PathLocationStrategy = (function(_super) {
+    __extends(PathLocationStrategy, _super);
+    function PathLocationStrategy(_platformLocation, href) {
+      _super.call(this);
+      this._platformLocation = _platformLocation;
+      if (lang_1.isBlank(href)) {
+        href = this._platformLocation.getBaseHrefFromDOM();
+      }
+      if (lang_1.isBlank(href)) {
+        throw new exceptions_1.BaseException("No base href set. Please provide a value for the APP_BASE_HREF token or add a base element to the document.");
+      }
+      this._baseHref = href;
+    }
+    PathLocationStrategy.prototype.onPopState = function(fn) {
+      this._platformLocation.onPopState(fn);
+      this._platformLocation.onHashChange(fn);
+    };
+    PathLocationStrategy.prototype.getBaseHref = function() {
+      return this._baseHref;
+    };
+    PathLocationStrategy.prototype.prepareExternalUrl = function(internal) {
+      return location_1.Location.joinWithSlash(this._baseHref, internal);
+    };
+    PathLocationStrategy.prototype.path = function() {
+      return this._platformLocation.pathname + location_1.Location.normalizeQueryParams(this._platformLocation.search);
+    };
+    PathLocationStrategy.prototype.pushState = function(state, title, url, queryParams) {
+      var externalUrl = this.prepareExternalUrl(url + location_1.Location.normalizeQueryParams(queryParams));
+      this._platformLocation.pushState(state, title, externalUrl);
+    };
+    PathLocationStrategy.prototype.replaceState = function(state, title, url, queryParams) {
+      var externalUrl = this.prepareExternalUrl(url + location_1.Location.normalizeQueryParams(queryParams));
+      this._platformLocation.replaceState(state, title, externalUrl);
+    };
+    PathLocationStrategy.prototype.forward = function() {
+      this._platformLocation.forward();
+    };
+    PathLocationStrategy.prototype.back = function() {
+      this._platformLocation.back();
+    };
+    PathLocationStrategy = __decorate([core_1.Injectable(), __param(1, core_1.Optional()), __param(1, core_1.Inject(location_strategy_1.APP_BASE_HREF)), __metadata('design:paramtypes', [platform_location_1.PlatformLocation, String])], PathLocationStrategy);
+    return PathLocationStrategy;
+  }(location_strategy_1.LocationStrategy));
+  exports.PathLocationStrategy = PathLocationStrategy;
   global.define = __define;
   return module.exports;
 });
@@ -338,6 +581,7 @@ System.register("angular2/src/mock/ng_zone_mock", ["angular2/src/core/di", "angu
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -390,7 +634,7 @@ System.register("angular2/src/mock/ng_zone_mock", ["angular2/src/core/di", "angu
     };
     MockNgZone = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockNgZone);
     return MockNgZone;
-  })(ng_zone_1.NgZone);
+  }(ng_zone_1.NgZone));
   exports.MockNgZone = MockNgZone;
   global.define = __define;
   return module.exports;
@@ -400,6 +644,7 @@ System.register("angular2/src/testing/utils", ["angular2/core", "angular2/src/fa
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
     var c = arguments.length,
         r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -456,7 +701,7 @@ System.register("angular2/src/testing/utils", ["angular2/core", "angular2/src/fa
     };
     Log = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], Log);
     return Log;
-  })();
+  }());
   exports.Log = Log;
   exports.browserDetection = null;
   var BrowserDetection = (function() {
@@ -527,7 +772,7 @@ System.register("angular2/src/testing/utils", ["angular2/core", "angular2/src/fa
       configurable: true
     });
     return BrowserDetection;
-  })();
+  }());
   exports.BrowserDetection = BrowserDetection;
   function dispatchEvent(element, eventType) {
     dom_adapter_1.DOM.dispatchEvent(element, dom_adapter_1.DOM.createEvent(eventType));
@@ -601,10 +846,365 @@ System.register("angular2/src/testing/utils", ["angular2/core", "angular2/src/fa
   return module.exports;
 });
 
-System.register("angular2/src/mock/mock_location_strategy", ["angular2/src/core/di", "angular2/src/facade/async", "angular2/src/router/location/location_strategy"], true, function(require, exports, module) {
+System.register("angular2/src/testing/fake_async", ["angular2/src/facade/exceptions"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
+  var exceptions_1 = require("angular2/src/facade/exceptions");
+  var _FakeAsyncTestZoneSpecType = Zone['FakeAsyncTestZoneSpec'];
+  function fakeAsync(fn) {
+    if (Zone.current.get('FakeAsyncTestZoneSpec') != null) {
+      throw new exceptions_1.BaseException('fakeAsync() calls can not be nested');
+    }
+    var fakeAsyncTestZoneSpec = new _FakeAsyncTestZoneSpecType();
+    var fakeAsyncZone = Zone.current.fork(fakeAsyncTestZoneSpec);
+    return function() {
+      var args = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i - 0] = arguments[_i];
+      }
+      var res = fakeAsyncZone.run(function() {
+        var res = fn.apply(void 0, args);
+        flushMicrotasks();
+        return res;
+      });
+      if (fakeAsyncTestZoneSpec.pendingPeriodicTimers.length > 0) {
+        throw new exceptions_1.BaseException((fakeAsyncTestZoneSpec.pendingPeriodicTimers.length + " ") + "periodic timer(s) still in the queue.");
+      }
+      if (fakeAsyncTestZoneSpec.pendingTimers.length > 0) {
+        throw new exceptions_1.BaseException(fakeAsyncTestZoneSpec.pendingTimers.length + " timer(s) still in the queue.");
+      }
+      return res;
+    };
+  }
+  exports.fakeAsync = fakeAsync;
+  function _getFakeAsyncZoneSpec() {
+    var zoneSpec = Zone.current.get('FakeAsyncTestZoneSpec');
+    if (zoneSpec == null) {
+      throw new Error('The code should be running in the fakeAsync zone to call this function');
+    }
+    return zoneSpec;
+  }
+  function clearPendingTimers() {}
+  exports.clearPendingTimers = clearPendingTimers;
+  function tick(millis) {
+    if (millis === void 0) {
+      millis = 0;
+    }
+    _getFakeAsyncZoneSpec().tick(millis);
+  }
+  exports.tick = tick;
+  function flushMicrotasks() {
+    _getFakeAsyncZoneSpec().flushMicrotasks();
+  }
+  exports.flushMicrotasks = flushMicrotasks;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/platform/browser/location/hash_location_strategy", ["angular2/core", "angular2/src/platform/browser/location/location_strategy", "angular2/src/platform/browser/location/location", "angular2/src/platform/browser/location/platform_location", "angular2/src/facade/lang"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var __param = (this && this.__param) || function(paramIndex, decorator) {
+    return function(target, key) {
+      decorator(target, key, paramIndex);
+    };
+  };
+  var core_1 = require("angular2/core");
+  var location_strategy_1 = require("angular2/src/platform/browser/location/location_strategy");
+  var location_1 = require("angular2/src/platform/browser/location/location");
+  var platform_location_1 = require("angular2/src/platform/browser/location/platform_location");
+  var lang_1 = require("angular2/src/facade/lang");
+  var HashLocationStrategy = (function(_super) {
+    __extends(HashLocationStrategy, _super);
+    function HashLocationStrategy(_platformLocation, _baseHref) {
+      _super.call(this);
+      this._platformLocation = _platformLocation;
+      this._baseHref = '';
+      if (lang_1.isPresent(_baseHref)) {
+        this._baseHref = _baseHref;
+      }
+    }
+    HashLocationStrategy.prototype.onPopState = function(fn) {
+      this._platformLocation.onPopState(fn);
+      this._platformLocation.onHashChange(fn);
+    };
+    HashLocationStrategy.prototype.getBaseHref = function() {
+      return this._baseHref;
+    };
+    HashLocationStrategy.prototype.path = function() {
+      var path = this._platformLocation.hash;
+      if (!lang_1.isPresent(path))
+        path = '#';
+      return (path.length > 0 ? path.substring(1) : path);
+    };
+    HashLocationStrategy.prototype.prepareExternalUrl = function(internal) {
+      var url = location_1.Location.joinWithSlash(this._baseHref, internal);
+      return url.length > 0 ? ('#' + url) : url;
+    };
+    HashLocationStrategy.prototype.pushState = function(state, title, path, queryParams) {
+      var url = this.prepareExternalUrl(path + location_1.Location.normalizeQueryParams(queryParams));
+      if (url.length == 0) {
+        url = this._platformLocation.pathname;
+      }
+      this._platformLocation.pushState(state, title, url);
+    };
+    HashLocationStrategy.prototype.replaceState = function(state, title, path, queryParams) {
+      var url = this.prepareExternalUrl(path + location_1.Location.normalizeQueryParams(queryParams));
+      if (url.length == 0) {
+        url = this._platformLocation.pathname;
+      }
+      this._platformLocation.replaceState(state, title, url);
+    };
+    HashLocationStrategy.prototype.forward = function() {
+      this._platformLocation.forward();
+    };
+    HashLocationStrategy.prototype.back = function() {
+      this._platformLocation.back();
+    };
+    HashLocationStrategy = __decorate([core_1.Injectable(), __param(1, core_1.Optional()), __param(1, core_1.Inject(location_strategy_1.APP_BASE_HREF)), __metadata('design:paramtypes', [platform_location_1.PlatformLocation, String])], HashLocationStrategy);
+    return HashLocationStrategy;
+  }(location_strategy_1.LocationStrategy));
+  exports.HashLocationStrategy = HashLocationStrategy;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/testing/test_component_builder", ["angular2/core", "angular2/compiler", "angular2/src/facade/lang", "angular2/src/facade/async", "angular2/src/facade/collection", "angular2/src/testing/utils", "angular2/src/platform/dom/dom_tokens", "angular2/src/platform/dom/dom_adapter", "angular2/src/core/debug/debug_node", "angular2/src/testing/fake_async"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = require("angular2/core");
+  var compiler_1 = require("angular2/compiler");
+  var lang_1 = require("angular2/src/facade/lang");
+  var async_1 = require("angular2/src/facade/async");
+  var collection_1 = require("angular2/src/facade/collection");
+  var utils_1 = require("angular2/src/testing/utils");
+  var dom_tokens_1 = require("angular2/src/platform/dom/dom_tokens");
+  var dom_adapter_1 = require("angular2/src/platform/dom/dom_adapter");
+  var debug_node_1 = require("angular2/src/core/debug/debug_node");
+  var fake_async_1 = require("angular2/src/testing/fake_async");
+  var ComponentFixture = (function() {
+    function ComponentFixture(componentRef) {
+      this.changeDetectorRef = componentRef.changeDetectorRef;
+      this.elementRef = componentRef.location;
+      this.debugElement = debug_node_1.getDebugNode(this.elementRef.nativeElement);
+      this.componentInstance = componentRef.instance;
+      this.nativeElement = this.elementRef.nativeElement;
+      this.componentRef = componentRef;
+    }
+    ComponentFixture.prototype.detectChanges = function(checkNoChanges) {
+      if (checkNoChanges === void 0) {
+        checkNoChanges = true;
+      }
+      this.changeDetectorRef.detectChanges();
+      if (checkNoChanges) {
+        this.checkNoChanges();
+      }
+    };
+    ComponentFixture.prototype.checkNoChanges = function() {
+      this.changeDetectorRef.checkNoChanges();
+    };
+    ComponentFixture.prototype.destroy = function() {
+      this.componentRef.destroy();
+    };
+    return ComponentFixture;
+  }());
+  exports.ComponentFixture = ComponentFixture;
+  var _nextRootElementId = 0;
+  var TestComponentBuilder = (function() {
+    function TestComponentBuilder(_injector) {
+      this._injector = _injector;
+      this._bindingsOverrides = new Map();
+      this._directiveOverrides = new Map();
+      this._templateOverrides = new Map();
+      this._viewBindingsOverrides = new Map();
+      this._viewOverrides = new Map();
+    }
+    TestComponentBuilder.prototype._clone = function() {
+      var clone = new TestComponentBuilder(this._injector);
+      clone._viewOverrides = collection_1.MapWrapper.clone(this._viewOverrides);
+      clone._directiveOverrides = collection_1.MapWrapper.clone(this._directiveOverrides);
+      clone._templateOverrides = collection_1.MapWrapper.clone(this._templateOverrides);
+      clone._bindingsOverrides = collection_1.MapWrapper.clone(this._bindingsOverrides);
+      clone._viewBindingsOverrides = collection_1.MapWrapper.clone(this._viewBindingsOverrides);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideTemplate = function(componentType, template) {
+      var clone = this._clone();
+      clone._templateOverrides.set(componentType, template);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideView = function(componentType, view) {
+      var clone = this._clone();
+      clone._viewOverrides.set(componentType, view);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideDirective = function(componentType, from, to) {
+      var clone = this._clone();
+      var overridesForComponent = clone._directiveOverrides.get(componentType);
+      if (!lang_1.isPresent(overridesForComponent)) {
+        clone._directiveOverrides.set(componentType, new Map());
+        overridesForComponent = clone._directiveOverrides.get(componentType);
+      }
+      overridesForComponent.set(from, to);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideProviders = function(type, providers) {
+      var clone = this._clone();
+      clone._bindingsOverrides.set(type, providers);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideBindings = function(type, providers) {
+      return this.overrideProviders(type, providers);
+    };
+    TestComponentBuilder.prototype.overrideViewProviders = function(type, providers) {
+      var clone = this._clone();
+      clone._viewBindingsOverrides.set(type, providers);
+      return clone;
+    };
+    TestComponentBuilder.prototype.overrideViewBindings = function(type, providers) {
+      return this.overrideViewProviders(type, providers);
+    };
+    TestComponentBuilder.prototype.createAsync = function(rootComponentType) {
+      var mockDirectiveResolver = this._injector.get(compiler_1.DirectiveResolver);
+      var mockViewResolver = this._injector.get(compiler_1.ViewResolver);
+      this._viewOverrides.forEach(function(view, type) {
+        return mockViewResolver.setView(type, view);
+      });
+      this._templateOverrides.forEach(function(template, type) {
+        return mockViewResolver.setInlineTemplate(type, template);
+      });
+      this._directiveOverrides.forEach(function(overrides, component) {
+        overrides.forEach(function(to, from) {
+          mockViewResolver.overrideViewDirective(component, from, to);
+        });
+      });
+      this._bindingsOverrides.forEach(function(bindings, type) {
+        return mockDirectiveResolver.setBindingsOverride(type, bindings);
+      });
+      this._viewBindingsOverrides.forEach(function(bindings, type) {
+        return mockDirectiveResolver.setViewBindingsOverride(type, bindings);
+      });
+      var rootElId = "root" + _nextRootElementId++;
+      var rootEl = utils_1.el("<div id=\"" + rootElId + "\"></div>");
+      var doc = this._injector.get(dom_tokens_1.DOCUMENT);
+      var oldRoots = dom_adapter_1.DOM.querySelectorAll(doc, '[id^=root]');
+      for (var i = 0; i < oldRoots.length; i++) {
+        dom_adapter_1.DOM.remove(oldRoots[i]);
+      }
+      dom_adapter_1.DOM.appendChild(doc.body, rootEl);
+      var promise = this._injector.get(core_1.DynamicComponentLoader).loadAsRoot(rootComponentType, "#" + rootElId, this._injector);
+      return promise.then(function(componentRef) {
+        return new ComponentFixture(componentRef);
+      });
+    };
+    TestComponentBuilder.prototype.createFakeAsync = function(rootComponentType) {
+      var result;
+      var error;
+      async_1.PromiseWrapper.then(this.createAsync(rootComponentType), function(_result) {
+        result = _result;
+      }, function(_error) {
+        error = _error;
+      });
+      fake_async_1.tick();
+      if (lang_1.isPresent(error)) {
+        throw error;
+      }
+      return result;
+    };
+    TestComponentBuilder = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_1.Injector])], TestComponentBuilder);
+    return TestComponentBuilder;
+  }());
+  exports.TestComponentBuilder = TestComponentBuilder;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/platform/location", ["angular2/src/platform/browser/location/platform_location", "angular2/src/platform/browser/location/location_strategy", "angular2/src/platform/browser/location/hash_location_strategy", "angular2/src/platform/browser/location/path_location_strategy", "angular2/src/platform/browser/location/location"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  function __export(m) {
+    for (var p in m)
+      if (!exports.hasOwnProperty(p))
+        exports[p] = m[p];
+  }
+  __export(require("angular2/src/platform/browser/location/platform_location"));
+  __export(require("angular2/src/platform/browser/location/location_strategy"));
+  __export(require("angular2/src/platform/browser/location/hash_location_strategy"));
+  __export(require("angular2/src/platform/browser/location/path_location_strategy"));
+  __export(require("angular2/src/platform/browser/location/location"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/platform/common", ["angular2/src/platform/location"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  function __export(m) {
+    for (var p in m)
+      if (!exports.hasOwnProperty(p))
+        exports[p] = m[p];
+  }
+  __export(require("angular2/src/platform/location"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/mock/mock_location_strategy", ["angular2/src/core/di", "angular2/src/facade/async", "angular2/platform/common"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -632,7 +1232,7 @@ System.register("angular2/src/mock/mock_location_strategy", ["angular2/src/core/
   };
   var di_1 = require("angular2/src/core/di");
   var async_1 = require("angular2/src/facade/async");
-  var location_strategy_1 = require("angular2/src/router/location/location_strategy");
+  var common_1 = require("angular2/platform/common");
   var MockLocationStrategy = (function(_super) {
     __extends(MockLocationStrategy, _super);
     function MockLocationStrategy() {
@@ -688,7 +1288,7 @@ System.register("angular2/src/mock/mock_location_strategy", ["angular2/src/core/
     };
     MockLocationStrategy = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockLocationStrategy);
     return MockLocationStrategy;
-  })(location_strategy_1.LocationStrategy);
+  }(common_1.LocationStrategy));
   exports.MockLocationStrategy = MockLocationStrategy;
   var _MockPopStateEvent = (function() {
     function _MockPopStateEvent(newUrl) {
@@ -697,172 +1297,18 @@ System.register("angular2/src/mock/mock_location_strategy", ["angular2/src/core/
       this.type = 'popstate';
     }
     return _MockPopStateEvent;
-  })();
+  }());
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/src/testing/test_component_builder", ["angular2/core", "angular2/src/facade/lang", "angular2/src/facade/collection", "angular2/src/testing/utils", "angular2/src/platform/dom/dom_tokens", "angular2/src/platform/dom/dom_adapter", "angular2/src/core/debug/debug_node"], true, function(require, exports, module) {
+System.register("angular2/platform/testing/browser_static", ["angular2/core", "angular2/compiler", "angular2/src/platform/browser_common", "angular2/src/platform/browser/browser_adapter", "angular2/src/animate/animation_builder", "angular2/src/mock/animation_builder_mock", "angular2/src/mock/directive_resolver_mock", "angular2/src/mock/view_resolver_mock", "angular2/src/mock/mock_location_strategy", "angular2/platform/common", "angular2/src/mock/ng_zone_mock", "angular2/src/platform/browser/xhr_impl", "angular2/compiler", "angular2/src/testing/test_component_builder", "angular2/src/testing/utils", "angular2/platform/common_dom", "angular2/src/facade/lang", "angular2/src/testing/utils"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
-      r = Reflect.decorate(decorators, target, key, desc);
-    else
-      for (var i = decorators.length - 1; i >= 0; i--)
-        if (d = decorators[i])
-          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-  };
-  var __metadata = (this && this.__metadata) || function(k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
-      return Reflect.metadata(k, v);
-  };
+  "use strict";
   var core_1 = require("angular2/core");
-  var lang_1 = require("angular2/src/facade/lang");
-  var collection_1 = require("angular2/src/facade/collection");
-  var utils_1 = require("angular2/src/testing/utils");
-  var dom_tokens_1 = require("angular2/src/platform/dom/dom_tokens");
-  var dom_adapter_1 = require("angular2/src/platform/dom/dom_adapter");
-  var debug_node_1 = require("angular2/src/core/debug/debug_node");
-  var ComponentFixture = (function() {
-    function ComponentFixture() {}
-    return ComponentFixture;
-  })();
-  exports.ComponentFixture = ComponentFixture;
-  var ComponentFixture_ = (function(_super) {
-    __extends(ComponentFixture_, _super);
-    function ComponentFixture_(componentRef) {
-      _super.call(this);
-      this._componentParentView = componentRef.hostView.internalView;
-      this.elementRef = this._componentParentView.appElements[0].ref;
-      this.debugElement = debug_node_1.getDebugNode(this._componentParentView.rootNodesOrAppElements[0].nativeElement);
-      this.componentInstance = this.debugElement.componentInstance;
-      this.nativeElement = this.debugElement.nativeElement;
-      this._componentRef = componentRef;
-    }
-    ComponentFixture_.prototype.detectChanges = function() {
-      this._componentParentView.changeDetector.detectChanges();
-      this._componentParentView.changeDetector.checkNoChanges();
-    };
-    ComponentFixture_.prototype.destroy = function() {
-      this._componentRef.dispose();
-    };
-    return ComponentFixture_;
-  })(ComponentFixture);
-  exports.ComponentFixture_ = ComponentFixture_;
-  var _nextRootElementId = 0;
-  var TestComponentBuilder = (function() {
-    function TestComponentBuilder(_injector) {
-      this._injector = _injector;
-      this._bindingsOverrides = new Map();
-      this._directiveOverrides = new Map();
-      this._templateOverrides = new Map();
-      this._viewBindingsOverrides = new Map();
-      this._viewOverrides = new Map();
-    }
-    TestComponentBuilder.prototype._clone = function() {
-      var clone = new TestComponentBuilder(this._injector);
-      clone._viewOverrides = collection_1.MapWrapper.clone(this._viewOverrides);
-      clone._directiveOverrides = collection_1.MapWrapper.clone(this._directiveOverrides);
-      clone._templateOverrides = collection_1.MapWrapper.clone(this._templateOverrides);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideTemplate = function(componentType, template) {
-      var clone = this._clone();
-      clone._templateOverrides.set(componentType, template);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideView = function(componentType, view) {
-      var clone = this._clone();
-      clone._viewOverrides.set(componentType, view);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideDirective = function(componentType, from, to) {
-      var clone = this._clone();
-      var overridesForComponent = clone._directiveOverrides.get(componentType);
-      if (!lang_1.isPresent(overridesForComponent)) {
-        clone._directiveOverrides.set(componentType, new Map());
-        overridesForComponent = clone._directiveOverrides.get(componentType);
-      }
-      overridesForComponent.set(from, to);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideProviders = function(type, providers) {
-      var clone = this._clone();
-      clone._bindingsOverrides.set(type, providers);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideBindings = function(type, providers) {
-      return this.overrideProviders(type, providers);
-    };
-    TestComponentBuilder.prototype.overrideViewProviders = function(type, providers) {
-      var clone = this._clone();
-      clone._viewBindingsOverrides.set(type, providers);
-      return clone;
-    };
-    TestComponentBuilder.prototype.overrideViewBindings = function(type, providers) {
-      return this.overrideViewProviders(type, providers);
-    };
-    TestComponentBuilder.prototype.createAsync = function(rootComponentType) {
-      var mockDirectiveResolver = this._injector.get(core_1.DirectiveResolver);
-      var mockViewResolver = this._injector.get(core_1.ViewResolver);
-      this._viewOverrides.forEach(function(view, type) {
-        return mockViewResolver.setView(type, view);
-      });
-      this._templateOverrides.forEach(function(template, type) {
-        return mockViewResolver.setInlineTemplate(type, template);
-      });
-      this._directiveOverrides.forEach(function(overrides, component) {
-        overrides.forEach(function(to, from) {
-          mockViewResolver.overrideViewDirective(component, from, to);
-        });
-      });
-      this._bindingsOverrides.forEach(function(bindings, type) {
-        return mockDirectiveResolver.setBindingsOverride(type, bindings);
-      });
-      this._viewBindingsOverrides.forEach(function(bindings, type) {
-        return mockDirectiveResolver.setViewBindingsOverride(type, bindings);
-      });
-      var rootElId = "root" + _nextRootElementId++;
-      var rootEl = utils_1.el("<div id=\"" + rootElId + "\"></div>");
-      var doc = this._injector.get(dom_tokens_1.DOCUMENT);
-      var oldRoots = dom_adapter_1.DOM.querySelectorAll(doc, '[id^=root]');
-      for (var i = 0; i < oldRoots.length; i++) {
-        dom_adapter_1.DOM.remove(oldRoots[i]);
-      }
-      dom_adapter_1.DOM.appendChild(doc.body, rootEl);
-      var promise = this._injector.get(core_1.DynamicComponentLoader).loadAsRoot(rootComponentType, "#" + rootElId, this._injector);
-      return promise.then(function(componentRef) {
-        return new ComponentFixture_(componentRef);
-      });
-    };
-    TestComponentBuilder = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [core_1.Injector])], TestComponentBuilder);
-    return TestComponentBuilder;
-  })();
-  exports.TestComponentBuilder = TestComponentBuilder;
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("angular2/platform/testing/browser_static", ["angular2/core", "angular2/src/platform/browser_common", "angular2/src/platform/browser/browser_adapter", "angular2/src/animate/animation_builder", "angular2/src/mock/animation_builder_mock", "angular2/src/mock/directive_resolver_mock", "angular2/src/mock/view_resolver_mock", "angular2/src/mock/mock_location_strategy", "angular2/src/router/location/location_strategy", "angular2/src/mock/ng_zone_mock", "angular2/src/platform/browser/xhr_impl", "angular2/compiler", "angular2/src/testing/test_component_builder", "angular2/src/testing/utils", "angular2/platform/common_dom", "angular2/src/facade/lang", "angular2/src/testing/utils"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  var core_1 = require("angular2/core");
+  var compiler_1 = require("angular2/compiler");
   var browser_common_1 = require("angular2/src/platform/browser_common");
   var browser_adapter_1 = require("angular2/src/platform/browser/browser_adapter");
   var animation_builder_1 = require("angular2/src/animate/animation_builder");
@@ -870,10 +1316,10 @@ System.register("angular2/platform/testing/browser_static", ["angular2/core", "a
   var directive_resolver_mock_1 = require("angular2/src/mock/directive_resolver_mock");
   var view_resolver_mock_1 = require("angular2/src/mock/view_resolver_mock");
   var mock_location_strategy_1 = require("angular2/src/mock/mock_location_strategy");
-  var location_strategy_1 = require("angular2/src/router/location/location_strategy");
+  var common_1 = require("angular2/platform/common");
   var ng_zone_mock_1 = require("angular2/src/mock/ng_zone_mock");
   var xhr_impl_1 = require("angular2/src/platform/browser/xhr_impl");
-  var compiler_1 = require("angular2/compiler");
+  var compiler_2 = require("angular2/compiler");
   var test_component_builder_1 = require("angular2/src/testing/test_component_builder");
   var utils_1 = require("angular2/src/testing/utils");
   var common_dom_1 = require("angular2/platform/common_dom");
@@ -887,19 +1333,22 @@ System.register("angular2/platform/testing/browser_static", ["angular2/core", "a
     useValue: initBrowserTests,
     multi: true
   })]);
-  exports.ADDITIONAL_TEST_BROWSER_PROVIDERS = lang_1.CONST_EXPR([new core_1.Provider(core_1.APP_ID, {useValue: 'a'}), common_dom_1.ELEMENT_PROBE_PROVIDERS, new core_1.Provider(core_1.DirectiveResolver, {useClass: directive_resolver_mock_1.MockDirectiveResolver}), new core_1.Provider(core_1.ViewResolver, {useClass: view_resolver_mock_1.MockViewResolver}), utils_2.Log, test_component_builder_1.TestComponentBuilder, new core_1.Provider(core_1.NgZone, {useClass: ng_zone_mock_1.MockNgZone}), new core_1.Provider(location_strategy_1.LocationStrategy, {useClass: mock_location_strategy_1.MockLocationStrategy}), new core_1.Provider(animation_builder_1.AnimationBuilder, {useClass: animation_builder_mock_1.MockAnimationBuilder})]);
-  exports.TEST_BROWSER_STATIC_APPLICATION_PROVIDERS = lang_1.CONST_EXPR([browser_common_1.BROWSER_APP_COMMON_PROVIDERS, new core_1.Provider(compiler_1.XHR, {useClass: xhr_impl_1.XHRImpl}), exports.ADDITIONAL_TEST_BROWSER_PROVIDERS]);
+  exports.ADDITIONAL_TEST_BROWSER_PROVIDERS = lang_1.CONST_EXPR([new core_1.Provider(core_1.APP_ID, {useValue: 'a'}), common_dom_1.ELEMENT_PROBE_PROVIDERS, new core_1.Provider(compiler_1.DirectiveResolver, {useClass: directive_resolver_mock_1.MockDirectiveResolver}), new core_1.Provider(compiler_1.ViewResolver, {useClass: view_resolver_mock_1.MockViewResolver}), utils_2.Log, test_component_builder_1.TestComponentBuilder, new core_1.Provider(core_1.NgZone, {useClass: ng_zone_mock_1.MockNgZone}), new core_1.Provider(common_1.LocationStrategy, {useClass: mock_location_strategy_1.MockLocationStrategy}), new core_1.Provider(animation_builder_1.AnimationBuilder, {useClass: animation_builder_mock_1.MockAnimationBuilder})]);
+  exports.TEST_BROWSER_STATIC_APPLICATION_PROVIDERS = lang_1.CONST_EXPR([browser_common_1.BROWSER_APP_COMMON_PROVIDERS, new core_1.Provider(compiler_2.XHR, {useClass: xhr_impl_1.XHRImpl}), exports.ADDITIONAL_TEST_BROWSER_PROVIDERS]);
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/platform/testing/browser", ["angular2/platform/testing/browser_static", "angular2/platform/browser", "angular2/src/facade/lang"], true, function(require, exports, module) {
+System.register("angular2/platform/testing/browser", ["angular2/platform/testing/browser_static", "angular2/platform/browser", "angular2/src/facade/lang", "angular2/platform/browser"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var browser_static_1 = require("angular2/platform/testing/browser_static");
   var browser_1 = require("angular2/platform/browser");
   var lang_1 = require("angular2/src/facade/lang");
+  var browser_2 = require("angular2/platform/browser");
+  exports.CACHED_TEMPLATE_PROVIDER = browser_2.CACHED_TEMPLATE_PROVIDER;
   exports.TEST_BROWSER_PLATFORM_PROVIDERS = lang_1.CONST_EXPR([browser_static_1.TEST_BROWSER_STATIC_PLATFORM_PROVIDERS]);
   exports.TEST_BROWSER_APPLICATION_PROVIDERS = lang_1.CONST_EXPR([browser_1.BROWSER_APP_PROVIDERS, browser_static_1.ADDITIONAL_TEST_BROWSER_PROVIDERS]);
   global.define = __define;
@@ -910,6 +1359,7 @@ System.register("angular2/src/mock/location_mock", ["angular2/src/core/di", "ang
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
     var c = arguments.length,
         r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -1006,7 +1456,7 @@ System.register("angular2/src/mock/location_mock", ["angular2/src/core/di", "ang
     };
     SpyLocation = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], SpyLocation);
     return SpyLocation;
-  })();
+  }());
   exports.SpyLocation = SpyLocation;
   global.define = __define;
   return module.exports;
@@ -1016,6 +1466,7 @@ System.register("angular2/router/testing", ["angular2/src/mock/mock_location_str
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   function __export(m) {
     for (var p in m)
       if (!exports.hasOwnProperty(p))
@@ -1031,6 +1482,7 @@ System.register("angular2/src/http/headers", ["angular2/src/facade/lang", "angul
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var lang_1 = require("angular2/src/facade/lang");
   var exceptions_1 = require("angular2/src/facade/exceptions");
   var collection_1 = require("angular2/src/facade/collection");
@@ -1115,7 +1567,7 @@ System.register("angular2/src/http/headers", ["angular2/src/facade/lang", "angul
       throw new exceptions_1.BaseException('"entries" method is not implemented on Headers class');
     };
     return Headers;
-  })();
+  }());
   exports.Headers = Headers;
   global.define = __define;
   return module.exports;
@@ -1125,6 +1577,7 @@ System.register("angular2/src/http/enums", [], true, function(require, exports, 
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   (function(RequestMethod) {
     RequestMethod[RequestMethod["Get"] = 0] = "Get";
     RequestMethod[RequestMethod["Post"] = 1] = "Post";
@@ -1160,6 +1613,7 @@ System.register("angular2/src/http/http_utils", ["angular2/src/facade/lang", "an
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var lang_1 = require("angular2/src/facade/lang");
   var enums_1 = require("angular2/src/http/enums");
   var exceptions_1 = require("angular2/src/facade/exceptions");
@@ -1199,6 +1653,7 @@ System.register("angular2/src/http/static_request", ["angular2/src/http/headers"
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var headers_1 = require("angular2/src/http/headers");
   var http_utils_1 = require("angular2/src/http/http_utils");
   var lang_1 = require("angular2/src/facade/lang");
@@ -1224,16 +1679,17 @@ System.register("angular2/src/http/static_request", ["angular2/src/http/headers"
       return lang_1.isPresent(this._body) ? this._body.toString() : '';
     };
     return Request;
-  })();
+  }());
   exports.Request = Request;
   global.define = __define;
   return module.exports;
 });
 
-System.register("angular2/src/http/backends/mock_backend", ["angular2/core", "angular2/src/http/static_request", "angular2/src/http/enums", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "rxjs/Subject", "rxjs/subject/ReplaySubject", "rxjs/operator/take"], true, function(require, exports, module) {
+System.register("angular2/src/http/backends/mock_backend", ["angular2/core", "angular2/src/http/static_request", "angular2/src/http/enums", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "rxjs/Subject", "rxjs/ReplaySubject", "rxjs/operator/take"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
     var c = arguments.length,
         r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -1256,7 +1712,7 @@ System.register("angular2/src/http/backends/mock_backend", ["angular2/core", "an
   var lang_1 = require("angular2/src/facade/lang");
   var exceptions_1 = require("angular2/src/facade/exceptions");
   var Subject_1 = require("rxjs/Subject");
-  var ReplaySubject_1 = require("rxjs/subject/ReplaySubject");
+  var ReplaySubject_1 = require("rxjs/ReplaySubject");
   var take_1 = require("rxjs/operator/take");
   var MockConnection = (function() {
     function MockConnection(req) {
@@ -1278,7 +1734,7 @@ System.register("angular2/src/http/backends/mock_backend", ["angular2/core", "an
       this.response.error(err);
     };
     return MockConnection;
-  })();
+  }());
   exports.MockConnection = MockConnection;
   var MockBackend = (function() {
     function MockBackend() {
@@ -1313,7 +1769,7 @@ System.register("angular2/src/http/backends/mock_backend", ["angular2/core", "an
     };
     MockBackend = __decorate([core_1.Injectable(), __metadata('design:paramtypes', [])], MockBackend);
     return MockBackend;
-  })();
+  }());
   exports.MockBackend = MockBackend;
   global.define = __define;
   return module.exports;
@@ -1323,6 +1779,7 @@ System.register("angular2/http/testing", ["angular2/src/http/backends/mock_backe
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   function __export(m) {
     for (var p in m)
       if (!exports.hasOwnProperty(p))
@@ -1333,154 +1790,158 @@ System.register("angular2/http/testing", ["angular2/src/http/backends/mock_backe
   return module.exports;
 });
 
-System.register("angular2/src/testing/fake_async", ["angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/facade/collection"], true, function(require, exports, module) {
+System.register("angular2/src/testing/async", [], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
+  function async(fn) {
+    return function() {
+      return new Promise(function(finishCallback, failCallback) {
+        var AsyncTestZoneSpec = Zone['AsyncTestZoneSpec'];
+        var testZoneSpec = new AsyncTestZoneSpec(finishCallback, failCallback, 'test');
+        var testZone = Zone.current.fork(testZoneSpec);
+        return testZone.run(fn);
+      });
+    };
+  }
+  exports.async = async;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/testing/async_test_completer", ["angular2/src/facade/promise"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var promise_1 = require("angular2/src/facade/promise");
+  var AsyncTestCompleter = (function() {
+    function AsyncTestCompleter() {
+      this._completer = new promise_1.PromiseCompleter();
+    }
+    AsyncTestCompleter.prototype.done = function(value) {
+      this._completer.resolve(value);
+    };
+    AsyncTestCompleter.prototype.fail = function(error, stackTrace) {
+      this._completer.reject(error, stackTrace);
+    };
+    Object.defineProperty(AsyncTestCompleter.prototype, "promise", {
+      get: function() {
+        return this._completer.promise;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    return AsyncTestCompleter;
+  }());
+  exports.AsyncTestCompleter = AsyncTestCompleter;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("angular2/src/compiler/xhr_mock", ["angular2/src/compiler/xhr", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/facade/async"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var __extends = (this && this.__extends) || function(d, b) {
+    for (var p in b)
+      if (b.hasOwnProperty(p))
+        d[p] = b[p];
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+  var xhr_1 = require("angular2/src/compiler/xhr");
+  var collection_1 = require("angular2/src/facade/collection");
   var lang_1 = require("angular2/src/facade/lang");
   var exceptions_1 = require("angular2/src/facade/exceptions");
-  var collection_1 = require("angular2/src/facade/collection");
-  var _scheduler;
-  var _microtasks = [];
-  var _pendingPeriodicTimers = [];
-  var _pendingTimers = [];
-  var FakeAsyncZoneSpec = (function() {
-    function FakeAsyncZoneSpec() {
-      this.name = 'fakeAsync';
-      this.properties = {'inFakeAsyncZone': true};
+  var async_1 = require("angular2/src/facade/async");
+  var MockXHR = (function(_super) {
+    __extends(MockXHR, _super);
+    function MockXHR() {
+      _super.apply(this, arguments);
+      this._expectations = [];
+      this._definitions = new collection_1.Map();
+      this._requests = [];
     }
-    FakeAsyncZoneSpec.assertInZone = function() {
-      if (!Zone.current.get('inFakeAsyncZone')) {
-        throw new Error('The code should be running in the fakeAsync zone to call this function');
-      }
+    MockXHR.prototype.get = function(url) {
+      var request = new _PendingRequest(url);
+      this._requests.push(request);
+      return request.getPromise();
     };
-    FakeAsyncZoneSpec.prototype.onScheduleTask = function(delegate, current, target, task) {
-      switch (task.type) {
-        case 'microTask':
-          _microtasks.push(task.invoke);
-          break;
-        case 'macroTask':
-          switch (task.source) {
-            case 'setTimeout':
-              task.data['handleId'] = _setTimeout(task.invoke, task.data['delay'], task.data['args']);
-              break;
-            case 'setInterval':
-              task.data['handleId'] = _setInterval(task.invoke, task.data['delay'], task.data['args']);
-              break;
-            default:
-              task = delegate.scheduleTask(target, task);
-          }
-          break;
-        case 'eventTask':
-          task = delegate.scheduleTask(target, task);
-          break;
-      }
-      return task;
+    MockXHR.prototype.expect = function(url, response) {
+      var expectation = new _Expectation(url, response);
+      this._expectations.push(expectation);
     };
-    FakeAsyncZoneSpec.prototype.onCancelTask = function(delegate, current, target, task) {
-      switch (task.source) {
-        case 'setTimeout':
-          return _clearTimeout(task.data['handleId']);
-        case 'setInterval':
-          return _clearInterval(task.data['handleId']);
-        default:
-          return delegate.scheduleTask(target, task);
-      }
+    MockXHR.prototype.when = function(url, response) {
+      this._definitions.set(url, response);
     };
-    return FakeAsyncZoneSpec;
-  })();
-  function fakeAsync(fn) {
-    if (Zone.current.get('inFakeAsyncZone')) {
-      throw new Error('fakeAsync() calls can not be nested');
+    MockXHR.prototype.flush = function() {
+      if (this._requests.length === 0) {
+        throw new exceptions_1.BaseException('No pending requests to flush');
+      }
+      do {
+        this._processRequest(this._requests.shift());
+      } while (this._requests.length > 0);
+      this.verifyNoOutstandingExpectations();
+    };
+    MockXHR.prototype.verifyNoOutstandingExpectations = function() {
+      if (this._expectations.length === 0)
+        return ;
+      var urls = [];
+      for (var i = 0; i < this._expectations.length; i++) {
+        var expectation = this._expectations[i];
+        urls.push(expectation.url);
+      }
+      throw new exceptions_1.BaseException("Unsatisfied requests: " + urls.join(', '));
+    };
+    MockXHR.prototype._processRequest = function(request) {
+      var url = request.url;
+      if (this._expectations.length > 0) {
+        var expectation = this._expectations[0];
+        if (expectation.url == url) {
+          collection_1.ListWrapper.remove(this._expectations, expectation);
+          request.complete(expectation.response);
+          return ;
+        }
+      }
+      if (this._definitions.has(url)) {
+        var response = this._definitions.get(url);
+        request.complete(lang_1.normalizeBlank(response));
+        return ;
+      }
+      throw new exceptions_1.BaseException("Unexpected request " + url);
+    };
+    return MockXHR;
+  }(xhr_1.XHR));
+  exports.MockXHR = MockXHR;
+  var _PendingRequest = (function() {
+    function _PendingRequest(url) {
+      this.url = url;
+      this.completer = async_1.PromiseWrapper.completer();
     }
-    var fakeAsyncZone = Zone.current.fork(new FakeAsyncZoneSpec());
-    return function() {
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+    _PendingRequest.prototype.complete = function(response) {
+      if (lang_1.isBlank(response)) {
+        this.completer.reject("Failed to load " + this.url, null);
+      } else {
+        this.completer.resolve(response);
       }
-      _scheduler = new jasmine.DelayedFunctionScheduler();
-      clearPendingTimers();
-      var res = fakeAsyncZone.run(function() {
-        var res = fn.apply(void 0, args);
-        flushMicrotasks();
-        return res;
-      });
-      if (_pendingPeriodicTimers.length > 0) {
-        throw new exceptions_1.BaseException(_pendingPeriodicTimers.length + " periodic timer(s) still in the queue.");
-      }
-      if (_pendingTimers.length > 0) {
-        throw new exceptions_1.BaseException(_pendingTimers.length + " timer(s) still in the queue.");
-      }
-      _scheduler = null;
-      collection_1.ListWrapper.clear(_microtasks);
-      return res;
     };
-  }
-  exports.fakeAsync = fakeAsync;
-  function clearPendingTimers() {
-    collection_1.ListWrapper.clear(_microtasks);
-    collection_1.ListWrapper.clear(_pendingPeriodicTimers);
-    collection_1.ListWrapper.clear(_pendingTimers);
-  }
-  exports.clearPendingTimers = clearPendingTimers;
-  function tick(millis) {
-    if (millis === void 0) {
-      millis = 0;
-    }
-    FakeAsyncZoneSpec.assertInZone();
-    flushMicrotasks();
-    _scheduler.tick(millis);
-  }
-  exports.tick = tick;
-  function flushMicrotasks() {
-    FakeAsyncZoneSpec.assertInZone();
-    while (_microtasks.length > 0) {
-      var microtask = collection_1.ListWrapper.removeAt(_microtasks, 0);
-      microtask();
-    }
-  }
-  exports.flushMicrotasks = flushMicrotasks;
-  function _setTimeout(fn, delay, args) {
-    var cb = _fnAndFlush(fn);
-    var id = _scheduler.scheduleFunction(cb, delay, args);
-    _pendingTimers.push(id);
-    _scheduler.scheduleFunction(_dequeueTimer(id), delay);
-    return id;
-  }
-  function _clearTimeout(id) {
-    _dequeueTimer(id);
-    return _scheduler.removeFunctionWithId(id);
-  }
-  function _setInterval(fn, interval) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-      args[_i - 2] = arguments[_i];
-    }
-    var cb = _fnAndFlush(fn);
-    var id = _scheduler.scheduleFunction(cb, interval, args, true);
-    _pendingPeriodicTimers.push(id);
-    return id;
-  }
-  function _clearInterval(id) {
-    collection_1.ListWrapper.remove(_pendingPeriodicTimers, id);
-    return _scheduler.removeFunctionWithId(id);
-  }
-  function _fnAndFlush(fn) {
-    return function() {
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
-      }
-      fn.apply(lang_1.global, args);
-      flushMicrotasks();
+    _PendingRequest.prototype.getPromise = function() {
+      return this.completer.promise;
     };
-  }
-  function _dequeueTimer(id) {
-    return function() {
-      collection_1.ListWrapper.remove(_pendingTimers, id);
-    };
-  }
+    return _PendingRequest;
+  }());
+  var _Expectation = (function() {
+    function _Expectation(url, response) {
+      this.url = url;
+      this.response = response;
+    }
+    return _Expectation;
+  }());
   global.define = __define;
   return module.exports;
 });
@@ -1489,6 +1950,7 @@ System.register("angular2/src/mock/mock_application_ref", ["angular2/src/core/ap
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var __extends = (this && this.__extends) || function(d, b) {
     for (var p in b)
       if (b.hasOwnProperty(p))
@@ -1523,7 +1985,7 @@ System.register("angular2/src/mock/mock_application_ref", ["angular2/src/core/ap
     }
     MockApplicationRef.prototype.registerBootstrapListener = function(listener) {};
     MockApplicationRef.prototype.registerDisposeListener = function(dispose) {};
-    MockApplicationRef.prototype.bootstrap = function(componentType, bindings) {
+    MockApplicationRef.prototype.bootstrap = function(componentFactory) {
       return null;
     };
     Object.defineProperty(MockApplicationRef.prototype, "injector", {
@@ -1542,6 +2004,12 @@ System.register("angular2/src/mock/mock_application_ref", ["angular2/src/core/ap
       configurable: true
     });
     ;
+    MockApplicationRef.prototype.run = function(callback) {
+      return null;
+    };
+    MockApplicationRef.prototype.waitForAsyncInitializers = function() {
+      return null;
+    };
     MockApplicationRef.prototype.dispose = function() {};
     MockApplicationRef.prototype.tick = function() {};
     Object.defineProperty(MockApplicationRef.prototype, "componentTypes", {
@@ -1554,7 +2022,7 @@ System.register("angular2/src/mock/mock_application_ref", ["angular2/src/core/ap
     ;
     MockApplicationRef = __decorate([di_1.Injectable(), __metadata('design:paramtypes', [])], MockApplicationRef);
     return MockApplicationRef;
-  })(application_ref_1.ApplicationRef);
+  }(application_ref_1.ApplicationRef));
   exports.MockApplicationRef = MockApplicationRef;
   global.define = __define;
   return module.exports;
@@ -1564,6 +2032,7 @@ System.register("angular2/src/testing/matchers", ["angular2/src/platform/dom/dom
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var dom_adapter_1 = require("angular2/src/platform/dom/dom_adapter");
   var lang_1 = require("angular2/src/facade/lang");
   var collection_1 = require("angular2/src/facade/collection");
@@ -1762,119 +2231,19 @@ System.register("angular2/src/testing/matchers", ["angular2/src/platform/dom/dom
   return module.exports;
 });
 
-System.register("angular2/src/compiler/xhr_mock", ["angular2/src/compiler/xhr", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/facade/exceptions", "angular2/src/facade/async"], true, function(require, exports, module) {
+System.register("angular2/src/testing/test_injector", ["angular2/core", "angular2/src/facade/exceptions", "angular2/src/facade/collection", "angular2/src/facade/lang", "angular2/src/testing/async", "angular2/src/testing/async_test_completer", "angular2/src/testing/async"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  var __extends = (this && this.__extends) || function(d, b) {
-    for (var p in b)
-      if (b.hasOwnProperty(p))
-        d[p] = b[p];
-    function __() {
-      this.constructor = d;
-    }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-  var xhr_1 = require("angular2/src/compiler/xhr");
-  var collection_1 = require("angular2/src/facade/collection");
-  var lang_1 = require("angular2/src/facade/lang");
-  var exceptions_1 = require("angular2/src/facade/exceptions");
-  var async_1 = require("angular2/src/facade/async");
-  var MockXHR = (function(_super) {
-    __extends(MockXHR, _super);
-    function MockXHR() {
-      _super.apply(this, arguments);
-      this._expectations = [];
-      this._definitions = new collection_1.Map();
-      this._requests = [];
-    }
-    MockXHR.prototype.get = function(url) {
-      var request = new _PendingRequest(url);
-      this._requests.push(request);
-      return request.getPromise();
-    };
-    MockXHR.prototype.expect = function(url, response) {
-      var expectation = new _Expectation(url, response);
-      this._expectations.push(expectation);
-    };
-    MockXHR.prototype.when = function(url, response) {
-      this._definitions.set(url, response);
-    };
-    MockXHR.prototype.flush = function() {
-      if (this._requests.length === 0) {
-        throw new exceptions_1.BaseException('No pending requests to flush');
-      }
-      do {
-        this._processRequest(this._requests.shift());
-      } while (this._requests.length > 0);
-      this.verifyNoOutstandingExpectations();
-    };
-    MockXHR.prototype.verifyNoOutstandingExpectations = function() {
-      if (this._expectations.length === 0)
-        return ;
-      var urls = [];
-      for (var i = 0; i < this._expectations.length; i++) {
-        var expectation = this._expectations[i];
-        urls.push(expectation.url);
-      }
-      throw new exceptions_1.BaseException("Unsatisfied requests: " + urls.join(', '));
-    };
-    MockXHR.prototype._processRequest = function(request) {
-      var url = request.url;
-      if (this._expectations.length > 0) {
-        var expectation = this._expectations[0];
-        if (expectation.url == url) {
-          collection_1.ListWrapper.remove(this._expectations, expectation);
-          request.complete(expectation.response);
-          return ;
-        }
-      }
-      if (this._definitions.has(url)) {
-        var response = this._definitions.get(url);
-        request.complete(lang_1.normalizeBlank(response));
-        return ;
-      }
-      throw new exceptions_1.BaseException("Unexpected request " + url);
-    };
-    return MockXHR;
-  })(xhr_1.XHR);
-  exports.MockXHR = MockXHR;
-  var _PendingRequest = (function() {
-    function _PendingRequest(url) {
-      this.url = url;
-      this.completer = async_1.PromiseWrapper.completer();
-    }
-    _PendingRequest.prototype.complete = function(response) {
-      if (lang_1.isBlank(response)) {
-        this.completer.reject("Failed to load " + this.url, null);
-      } else {
-        this.completer.resolve(response);
-      }
-    };
-    _PendingRequest.prototype.getPromise = function() {
-      return this.completer.promise;
-    };
-    return _PendingRequest;
-  })();
-  var _Expectation = (function() {
-    function _Expectation(url, response) {
-      this.url = url;
-      this.response = response;
-    }
-    return _Expectation;
-  })();
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("angular2/src/testing/test_injector", ["angular2/core", "angular2/src/facade/exceptions", "angular2/src/facade/collection", "angular2/src/facade/lang"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
+  "use strict";
   var core_1 = require("angular2/core");
   var exceptions_1 = require("angular2/src/facade/exceptions");
   var collection_1 = require("angular2/src/facade/collection");
   var lang_1 = require("angular2/src/facade/lang");
+  var async_1 = require("angular2/src/testing/async");
+  var async_test_completer_1 = require("angular2/src/testing/async_test_completer");
+  var async_2 = require("angular2/src/testing/async");
+  exports.async = async_2.async;
   var TestInjector = (function() {
     function TestInjector() {
       this._instantiated = false;
@@ -1895,23 +2264,29 @@ System.register("angular2/src/testing/test_injector", ["angular2/core", "angular
       this._providers = collection_1.ListWrapper.concat(this._providers, providers);
     };
     TestInjector.prototype.createInjector = function() {
-      var rootInjector = core_1.Injector.resolveAndCreate(this.platformProviders);
+      var rootInjector = core_1.ReflectiveInjector.resolveAndCreate(this.platformProviders);
       this._injector = rootInjector.resolveAndCreateChild(collection_1.ListWrapper.concat(this.applicationProviders, this._providers));
       this._instantiated = true;
       return this._injector;
     };
-    TestInjector.prototype.execute = function(fn) {
-      var additionalProviders = fn.additionalProviders();
-      if (additionalProviders.length > 0) {
-        this.addProviders(additionalProviders);
-      }
+    TestInjector.prototype.get = function(token) {
       if (!this._instantiated) {
         this.createInjector();
       }
-      return fn.execute(this._injector);
+      return this._injector.get(token);
+    };
+    TestInjector.prototype.execute = function(tokens, fn) {
+      var _this = this;
+      if (!this._instantiated) {
+        this.createInjector();
+      }
+      var params = tokens.map(function(t) {
+        return _this._injector.get(t);
+      });
+      return lang_1.FunctionWrapper.apply(fn, params);
     };
     return TestInjector;
-  })();
+  }());
   exports.TestInjector = TestInjector;
   var _testInjector = null;
   function getTestInjector() {
@@ -1929,7 +2304,7 @@ System.register("angular2/src/testing/test_injector", ["angular2/core", "angular
     testInjector.platformProviders = platformProviders;
     testInjector.applicationProviders = applicationProviders;
     var injector = testInjector.createInjector();
-    var inits = injector.getOptional(core_1.PLATFORM_INITIALIZER);
+    var inits = injector.get(core_1.PLATFORM_INITIALIZER, null);
     if (lang_1.isPresent(inits)) {
       inits.forEach(function(init) {
         return init();
@@ -1946,55 +2321,55 @@ System.register("angular2/src/testing/test_injector", ["angular2/core", "angular
   }
   exports.resetBaseTestProviders = resetBaseTestProviders;
   function inject(tokens, fn) {
-    return new FunctionWithParamTokens(tokens, fn, false);
+    var testInjector = getTestInjector();
+    if (tokens.indexOf(async_test_completer_1.AsyncTestCompleter) >= 0) {
+      return function() {
+        var completer = testInjector.get(async_test_completer_1.AsyncTestCompleter);
+        testInjector.execute(tokens, fn);
+        return completer.promise;
+      };
+    } else {
+      return function() {
+        return getTestInjector().execute(tokens, fn);
+      };
+    }
   }
   exports.inject = inject;
   var InjectSetupWrapper = (function() {
     function InjectSetupWrapper(_providers) {
       this._providers = _providers;
     }
+    InjectSetupWrapper.prototype._addProviders = function() {
+      var additionalProviders = this._providers();
+      if (additionalProviders.length > 0) {
+        getTestInjector().addProviders(additionalProviders);
+      }
+    };
     InjectSetupWrapper.prototype.inject = function(tokens, fn) {
-      return new FunctionWithParamTokens(tokens, fn, false, this._providers);
+      var _this = this;
+      return function() {
+        _this._addProviders();
+        return inject(tokens, fn)();
+      };
     };
     InjectSetupWrapper.prototype.injectAsync = function(tokens, fn) {
-      return new FunctionWithParamTokens(tokens, fn, true, this._providers);
+      var _this = this;
+      return function() {
+        _this._addProviders();
+        return injectAsync(tokens, fn)();
+      };
     };
     return InjectSetupWrapper;
-  })();
+  }());
   exports.InjectSetupWrapper = InjectSetupWrapper;
   function withProviders(providers) {
     return new InjectSetupWrapper(providers);
   }
   exports.withProviders = withProviders;
   function injectAsync(tokens, fn) {
-    return new FunctionWithParamTokens(tokens, fn, true);
+    return async_1.async(inject(tokens, fn));
   }
   exports.injectAsync = injectAsync;
-  function emptyArray() {
-    return [];
-  }
-  var FunctionWithParamTokens = (function() {
-    function FunctionWithParamTokens(_tokens, _fn, isAsync, additionalProviders) {
-      if (additionalProviders === void 0) {
-        additionalProviders = emptyArray;
-      }
-      this._tokens = _tokens;
-      this._fn = _fn;
-      this.isAsync = isAsync;
-      this.additionalProviders = additionalProviders;
-    }
-    FunctionWithParamTokens.prototype.execute = function(injector) {
-      var params = this._tokens.map(function(t) {
-        return injector.get(t);
-      });
-      return lang_1.FunctionWrapper.apply(this._fn, params);
-    };
-    FunctionWithParamTokens.prototype.hasToken = function(token) {
-      return this._tokens.indexOf(token) > -1;
-    };
-    return FunctionWithParamTokens;
-  })();
-  exports.FunctionWithParamTokens = FunctionWithParamTokens;
   global.define = __define;
   return module.exports;
 });
@@ -2003,10 +2378,12 @@ System.register("angular2/src/testing/testing", ["angular2/src/facade/lang", "an
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   var lang_1 = require("angular2/src/facade/lang");
   var test_injector_1 = require("angular2/src/testing/test_injector");
   var test_injector_2 = require("angular2/src/testing/test_injector");
   exports.inject = test_injector_2.inject;
+  exports.async = test_injector_2.async;
   exports.injectAsync = test_injector_2.injectAsync;
   var matchers_1 = require("angular2/src/testing/matchers");
   exports.expect = matchers_1.expect;
@@ -2037,79 +2414,25 @@ System.register("angular2/src/testing/testing", ["angular2/src/facade/lang", "an
     });
   }
   exports.beforeEachProviders = beforeEachProviders;
-  function _isPromiseLike(input) {
-    return input && !!(input.then);
+  function _wrapTestFn(fn) {
+    return function(done) {
+      if (fn.length === 0) {
+        var retVal = fn();
+        if (lang_1.isPromise(retVal)) {
+          retVal.then(done, done.fail);
+        } else {
+          done();
+        }
+      } else {
+        fn(done);
+      }
+    };
   }
   function _it(jsmFn, name, testFn, testTimeOut) {
-    var timeOut = testTimeOut;
-    if (testFn instanceof test_injector_1.FunctionWithParamTokens) {
-      jsmFn(name, function(done) {
-        var returnedTestValue;
-        try {
-          returnedTestValue = testInjector.execute(testFn);
-        } catch (err) {
-          done.fail(err);
-          return ;
-        }
-        if (testFn.isAsync) {
-          if (_isPromiseLike(returnedTestValue)) {
-            returnedTestValue.then(function() {
-              done();
-            }, function(err) {
-              done.fail(err);
-            });
-          } else {
-            done.fail('Error: injectAsync was expected to return a promise, but the ' + ' returned value was: ' + returnedTestValue);
-          }
-        } else {
-          if (!(returnedTestValue === undefined)) {
-            done.fail('Error: inject returned a value. Did you mean to use injectAsync? Returned ' + 'value was: ' + returnedTestValue);
-          }
-          done();
-        }
-      }, timeOut);
-    } else {
-      jsmFn(name, testFn, timeOut);
-    }
+    jsmFn(name, _wrapTestFn(testFn), testTimeOut);
   }
   function beforeEach(fn) {
-    if (fn instanceof test_injector_1.FunctionWithParamTokens) {
-      jsmBeforeEach(function(done) {
-        var returnedTestValue;
-        try {
-          returnedTestValue = testInjector.execute(fn);
-        } catch (err) {
-          done.fail(err);
-          return ;
-        }
-        if (fn.isAsync) {
-          if (_isPromiseLike(returnedTestValue)) {
-            returnedTestValue.then(function() {
-              done();
-            }, function(err) {
-              done.fail(err);
-            });
-          } else {
-            done.fail('Error: injectAsync was expected to return a promise, but the ' + ' returned value was: ' + returnedTestValue);
-          }
-        } else {
-          if (!(returnedTestValue === undefined)) {
-            done.fail('Error: inject returned a value. Did you mean to use injectAsync? Returned ' + 'value was: ' + returnedTestValue);
-          }
-          done();
-        }
-      });
-    } else {
-      if (fn.length === 0) {
-        jsmBeforeEach(function() {
-          fn();
-        });
-      } else {
-        jsmBeforeEach(function(done) {
-          fn(done);
-        });
-      }
-    }
+    jsmBeforeEach(_wrapTestFn(fn));
   }
   exports.beforeEach = beforeEach;
   function it(name, fn, timeOut) {
@@ -2148,6 +2471,7 @@ System.register("angular2/testing", ["angular2/src/testing/testing", "angular2/s
   var global = System.global,
       __define = global.define;
   global.define = undefined;
+  "use strict";
   function __export(m) {
     for (var p in m)
       if (!exports.hasOwnProperty(p))

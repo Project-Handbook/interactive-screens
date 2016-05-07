@@ -7,25 +7,32 @@ export declare class EventListener {
     constructor(name: string, callback: Function);
 }
 export declare class DebugNode {
+    private _debugInfo;
     nativeNode: any;
     listeners: EventListener[];
     parent: DebugElement;
-    providerTokens: any[];
-    locals: Map<string, any>;
+    constructor(nativeNode: any, parent: DebugNode, _debugInfo: RenderDebugInfo);
     injector: Injector;
     componentInstance: any;
-    constructor(nativeNode: any, parent: DebugNode);
-    setDebugInfo(info: RenderDebugInfo): void;
+    locals: {
+        [key: string]: any;
+    };
+    providerTokens: any[];
+    source: string;
     inject(token: any): any;
     getLocal(name: string): any;
 }
 export declare class DebugElement extends DebugNode {
     name: string;
-    properties: Map<string, any>;
-    attributes: Map<string, any>;
+    properties: {
+        [key: string]: string;
+    };
+    attributes: {
+        [key: string]: string;
+    };
     childNodes: DebugNode[];
     nativeElement: any;
-    constructor(nativeNode: any, parent: any);
+    constructor(nativeNode: any, parent: any, _debugInfo: RenderDebugInfo);
     addChild(child: DebugNode): void;
     removeChild(child: DebugNode): void;
     insertChildrenAfter(child: DebugNode, newChildren: DebugNode[]): void;
@@ -33,7 +40,7 @@ export declare class DebugElement extends DebugNode {
     queryAll(predicate: Predicate<DebugElement>): DebugElement[];
     queryAllNodes(predicate: Predicate<DebugNode>): DebugNode[];
     children: DebugElement[];
-    triggerEventHandler(eventName: string, eventObj: Event): void;
+    triggerEventHandler(eventName: string, eventObj: any): void;
 }
 export declare function asNativeElements(debugEls: DebugElement[]): any;
 export declare function getDebugNode(nativeNode: any): DebugNode;
