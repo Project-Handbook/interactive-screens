@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="contact.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <div class="bigAssWrapper">
   <h1>Contact CSC in the text field below if you have an errand.</h1>
@@ -30,23 +31,32 @@
         <label for="name">Name</label>
         <br/>
         <input required type="text" [(ngModel)]="email.fromName" placeholder="Your name" ngControl="nameCtrl"/>
-
+        <br/>
+        <label for="captcha">{{captchaA}} + {{captchaB}} = ?</label>
+        <br/>
+          <input type="number" [(ngModel)]="captchaAnswer" ngControl="captchaCtrl"/>
+          <div class="captcha">
+          <div *ngIf="!(captchaA + captchaB === captchaAnswer)" class="formError">
+            <i class="fa fa-exclamation-triangle"></i> Invalid value.
+          </div>
+        </div>
       </div>
 
     </div>
 
 
     <div class="buttonArea">
-        <button type="submit" [disabled]="!form.valid">Submit</button>
-        <div class="formError" *ngIf="error === true" role="alert">
-      <i class="fa fa-exclamation-triangle"></i> Couldn't send.
-      </div>
+         <button type="submit" [disabled]="!form.valid">Submit</button>
+         <div class="formError" *ngIf="(error === true)" role="alert">
+          <i class="fa fa-exclamation-triangle"></i> Couldn't send.
+        </div>
       <br />
-    <div class="succesfulMail" *ngIf="messageSent === true" role="alert">
-  <i class="fa fa-check" aria-hidden="true"></i> Message sent!
+      <div class="succesfulMail" *ngIf="messageSent === true" role="alert">
+      <i class="fa fa-check" aria-hidden="true"></i> Message sent!
+      </div>
     </div>
-  </div>
 
   </form>
+
 
 </div>
