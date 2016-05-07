@@ -34,16 +34,18 @@ h3 {
 	margin-left: 1rem;
 }
 
-.msgError {
-	margin-left: 2rem;
-}
-
-.emailError {
+.msgError, .emailError, .captcha {
 	margin-left: 2rem;
 }
 
 .formError {
 	color: darkred;
+}
+
+.succesfulMail {
+	color: green;
+	float: right;
+	margin-right: 2rem;
 }
 
 .buttonArea {
