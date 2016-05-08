@@ -16,15 +16,7 @@ export class SetupProcess {
   map: L.Map;
   public screenInfo = new ScreenSpecificInformation();
 
-  constructor(private router: Router, private mapService: MapService) {
-
-    // console.log(this.screenInfo.opening_hours);
-    // this.screenInfo.opening_hours["monday"] = [new Date(), new Date()];
-    // console.log(this.screenInfo.opening_hours["monday"])
-    //
-    // this.screenInfo.opening_hours["tuesday"] = [new Date(), new Date()];
-    // console.log(this.screenInfo.opening_hours["tuesday"])
-  }
+  constructor(private router: Router, private mapService: MapService) {}
 
   // Stores the ScreenSpecificInformation object and navigates to /home.
   saveInformation() {
