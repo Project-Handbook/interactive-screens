@@ -11,6 +11,7 @@
 			width: 70%;
 			margin: 0 auto;
 			display: table;
+			margin-top:1rem;
 		}
 
 		.news_block {
@@ -37,6 +38,7 @@
 			background-color:#98ad29;
 		}
 
+
 		#news_item1{
 			margin-bottom:1rem;
 		}
@@ -47,12 +49,12 @@
 	</style>
 
 
-	<div class="news_block">
-		<div id="news_item1" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[0]">
+	<div class="news_block" >
+		<div id="news_item1" *ngIf="news_block[0] && !news_feed_error"  class="block_item" [innerHTML]="news_block[0]">
 		</div>
-		<div id="news_item2" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[1]">
+		<div id="news_item2" *ngIf="news_block[1] && !news_feed_error" class="block_item" [innerHTML]="news_block[1]">
 		</div>
-		<div id="news_item3" *ngIf="news_block && !news_feed_error" class="block_item" [innerHTML]="news_block[2]">
+		<div id="news_item3" *ngIf="news_block[2] && !news_feed_error" class="block_item" [innerHTML]="news_block[2]">
 		</div>
 
 	<div *ngIf="news_feed_error">
@@ -64,7 +66,7 @@
 	</div>
 </div>
 <div class="calendar_block">
-	<div [innerHtml]="calendar_block"></div>
+	<div *ngIf="calendar_block" [innerHtml]="calendar_block"></div>
 	<div *ngIf="calendar_error">
 		<center>
 			<img src="app/find-person/images/Error-100.png"/>
