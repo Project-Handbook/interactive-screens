@@ -18,7 +18,7 @@ export class Map {
   //Leaflet Marker Object
   currentDestination: L.Marker;
   //Center coords for map Initialize
-  public mapCenter =  new L.LatLng(59.3469417, 18.0702413);
+  public mapCenter = new L.LatLng(59.3469417, 18.0702413);
 
   constructor(routeParams: RouteParams, private _mapService: MapService) {
     //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
@@ -103,9 +103,9 @@ export class Map {
 getAdressFromPerson(person){
     console.log(person.visiting_address);
     this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
-      .subscribe(res=>{
-          var coordinate_lat= res[0].latitude;
-          var coordinate_lng= res[0].longitude;
+      .subscribe(res => {
+          var coordinate_lat = res[0].latitude;
+          var coordinate_lng = res[0].longitude;
           this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
           .bindPopup("<strong>" + res[0].streetAddress + "</strong> <br>" +
             person.given_name + " " +  person.family_name)
@@ -114,6 +114,6 @@ getAdressFromPerson(person){
   }
   //Centers the map on the default coordinates.
   centerOnMarker(){
-    this.map.setView(this.mapCenter,this.map.getZoom(),{animate:true});
+    this.map.setView(this.mapCenter, this.map.getZoom(), {animate: true});
   }
 }

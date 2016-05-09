@@ -1,20 +1,20 @@
-import {Injectable} from 'angular2/core';
-import {Http} from 'angular2/http';
+import { Injectable } from 'angular2/core';
+import { Http } from 'angular2/http';
 import "rxjs/add/operator/map";
-import {LatLngBounds} from 'leaflet';
-import {Location,Location_type} from '../location.interface';
-import {Observable} from 'rxjs/Observable';
+import { LatLngBounds } from 'leaflet';
+import { Location, Location_type } from '../location.interface';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 
 export class MapService{
 
-	constructor(private _http:Http){}
+	constructor(private http: Http) {}
 	//Fetches all locations from KTH Places that matches the given search string.
 	getPlaces(term:string){
-		var searchResult:Array<Location>=[];
-		var url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
-		return this._http.get(url)
+		var searchResult: Array<Location> = [];
+		let url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
+		return this.http.get(url)
 			.map((request)  => request.json())
 			.map(res => {
 				res.forEach(item => {
@@ -43,12 +43,12 @@ export class MapService{
 	}
 
 	getGeoCode(address:string,location_type:Location_type){
-		var searchResult:Array<Location>=[];
-		return this._http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
+		var searchResult: Array<Location> = [];
+		return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
 			.map(res => res.json())
-			.map(res=>{
+			.map(res => {
 							console.log(res),
-          		res.results.forEach(item=>{
+          		res.results.forEach(item => {
               	if(item.geometry.location_type!=="APPROXIMATE"){
               		searchResult.push(
           				{
@@ -64,34 +64,34 @@ export class MapService{
 										floor: null,
 										location_type: location_type
           				});
-
             		}
          		 });
           		return searchResult;
         	});
 	}
 
-	getSchools(){
-		var schools=[];
-		return this._http.get('app/map/schools.json')
-			.map(res=>res.json())
-			.map(res=>{
-				res.forEach(item=>
-				schools.push(item)
+	getSchools() {
+		var schools = [];
+		return this.http.get('app/map/schools.json')
+			.map(res => res.json())
+			.map(res => {
+				res.forEach(item =>
+					schools.push(item)
 				)
 				return schools;
 			});
 	}
-	getDepartments(term:string){
-		var departments=[];
-		return this._http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
-			.map(res=>res.json())
-			.map(res=>{
+
+	getDepartments(term: string) {
+		var departments = [];
+		return this.http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
+			.map(res => res.json())
+			.map(res => {
 				var regexp = new RegExp('handen|kista')
 				var added = [];
-				res.children.forEach(item=>{
+				res.children.forEach(item => {
 					var exists=false;
-					added.forEach( dep =>{
+					added.forEach(dep => {
 						if(item.name_sv===dep){
 							exists=true;
 						}
@@ -100,7 +100,6 @@ export class MapService{
 					if(exists===false && item.address!==null && regexp.test(item.address.toLowerCase())===false){
 						departments.push(item);
 					}
-
 				})
 				return departments;
 			})

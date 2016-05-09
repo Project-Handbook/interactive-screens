@@ -34,7 +34,9 @@ export class FindPerson {
       	this.isOn = newState;
     }
   }
+
   people: Array<Person> = []; // Holds all the persons fetched from the API
+
   constructor(private findPersonService: FindPersonService) {}
 
   // This is called whenever an event that might fail occurs.
@@ -64,15 +66,13 @@ export class FindPerson {
   }
 
   search(input: string) {
-    if(input == undefined) {
+    if (input == undefined) {
       this.getPeople(this.organisation);
       this.currentSearch = "";
-    }
-    else if(input.trim().length == 0) {
+    } else if (input.trim().length == 0) {
       this.getPeople(this.organisation);
       this.currentSearch = "";
-    }
-    else {
+    } else {
       input = input.trim();
       this.currentSearch = "\"" + input + "\"";
       this.getPeople(input);
@@ -85,7 +85,7 @@ export class FindPerson {
   sort(input) {
     var element = this.getElement(input);
 
-    if(this.previous != input) {
+    if (this.previous != input) {
       var prev = this.getElement(this.previous);
       prev.style.transform = "rotate(90deg)";
       prev.style.display = "none";
@@ -93,8 +93,7 @@ export class FindPerson {
       element.style.transform = "rotate(90deg)";
       this.previous = input;
       this.rotation = "rotate(90deg)";
-    }
-    else {
+    } else {
       element.style.transform = this.rotation;
       this.rotation = this.rotation == "rotate(-90deg)" ? "rotate(90deg)" : "rotate(-90deg)";
     }
