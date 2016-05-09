@@ -170,6 +170,7 @@ export class FindPerson {
   }
 
   scrollDep(dir) {
+    var departments = document.getElementById("departments");
     var newScroll = departments.scrollTop + (departments.offsetHeight-55)*dir;
     this.scrollTo(departments, newScroll, 5000);
   }

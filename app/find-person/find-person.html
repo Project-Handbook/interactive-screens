@@ -39,7 +39,7 @@
 		<div *ngIf="showErrorMessage">
 			<img src="app/find-person/images/Error-100.png"/>
 			<br>
-			<h1>The requested data is not available at the moment, please come again!</h1>
+			<h1>The requested data is not available at the moment!</h1>
 		</div>
 
 		<div *ngIf="!showErrorMessage">
@@ -65,5 +65,6 @@
 			</table>
 			<person-profile [person]="currentPerson" [isOn]="isOn"></person-profile>
 		</div>
+		<div style="height:3rem"></div>
 	</div>
 </div>
