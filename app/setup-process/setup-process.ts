@@ -1,8 +1,8 @@
-import { Component } from 'angular2/core';
-import { Router } from 'angular2/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
-import { NgClass } from 'angular2/common';
+import { NgClass } from '@angular/common';
 import { MapService } from '../map/services/map-service';
 
 @Component({

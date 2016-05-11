@@ -1,7 +1,7 @@
-import {Component,ElementRef,EventEmitter} from 'angular2/core';
+import {Component,ElementRef,EventEmitter} from '@angular/core';
 import {MapService} from './services/map-service';
 import {Location,Location_type} from './location.interface';
-import { NgStyle,Control } from 'angular2/common';
+import { NgStyle,Control } from '@angular/common';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';

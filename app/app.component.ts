@@ -1,13 +1,13 @@
-import { Component } from 'angular2/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router } from 'angular2/router';
-import { Location, LocationStrategy, HashLocationStrategy } from "angular2/platform/common";
+import { Component } from '@angular/core';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router } from '@angular/router-deprecated';
+import { Location, LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { FindPerson } from './find-person/find-person';
 import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
-import { NgStyle } from 'angular2/common';
+import { NgStyle } from '@angular/common';
 import { SetupProcess } from './setup-process/setup-process';
-import { provide } from 'angular2/core';
+import { provide } from '@angular/core';
 import { Constants } from './constants';
 import { ScreenSpecificInformation } from './screen-specific-information';
 
