@@ -77,8 +77,7 @@ export class FindPerson {
     else if(input.trim().length == 0) {
       this.getPeople(this.currentPrefix);
       this.currentSearch = "";
-    }
-    else {
+    } else {
       input = input.trim();
       this.currentSearch = "\"" + input + "\"";
       this.getPeople2(input);
@@ -91,7 +90,7 @@ export class FindPerson {
   sort(input) {
     var element = this.getElement(input);
 
-    if(this.previous != input) {
+    if (this.previous != input) {
       var prev = this.getElement(this.previous);
       prev.style.transform = "rotate(90deg)";
       prev.style.display = "none";
@@ -99,8 +98,7 @@ export class FindPerson {
       element.style.transform = "rotate(90deg)";
       this.previous = input;
       this.rotation = "rotate(90deg)";
-    }
-    else {
+    } else {
       element.style.transform = this.rotation;
       this.rotation = this.rotation == "rotate(-90deg)" ? "rotate(90deg)" : "rotate(-90deg)";
     }

@@ -1,11 +1,17 @@
 <!-- Load our partials' css file -->
 <link rel="stylesheet" href="main-frame.min.css"/>
-<header class="main_frame_header">
-  <h1 class="main_header_title">{{ screenInfo.title }}</h1>
+<header class="main-frame-header">
+  <div class="icon-wrapper">
+    <img class="icon" src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
+  </div>
+  <div class="main-header-title"><h1>{{ screenInfo.title }}</h1></div>
+  <div class="main-header-clock"><h2>{{ clock }}</h2></div>
 </header>
 
-<div class="contact_field">
-  <div class="inner_contact_field">
+<div class="header-border"></div>
+
+<div class="contact-field">
+  <div class="inner-contact-field">
     <h2>Contact</h2>
     <p>Address:<br>
        {{ screenInfo.address }}<br>
@@ -15,17 +21,24 @@
       Telephone:<br>
       {{ screenInfo.telephoneNumber }}
     </p>
-     <p class="open-hrs">
-      Open:<br>
-      Mon-Thu <span>08:00 - 17:00</span><br>
-      Friday <span>09:00 - 14:00</span><br>
-      Sat-Sun <span>Closed</span>
+    <p>
+      Telephone deliveries:<br>
+      {{ screenInfo.telephone_deliveries }}
     </p>
+    <div class="open-hrs" *ngIf="screenInfo.opening_hours_enabled">
+      <h2>Opening Hours</h2>
+       <label *ngFor="let weekday of weekdays">
+         <label class="opening-hours-day">{{ weekday }}</label><br>
+         <label class="opening-hours-times" *ngIf="screenInfo.opening_hours[weekday][2]">{{ screenInfo.opening_hours[weekday][0] }} - {{ screenInfo.opening_hours[weekday][1] }}</label>
+         <label class="opening-hours-times" *ngIf="!screenInfo.opening_hours[weekday][2]">Closed</label>
+         <br>
+       </label>
+    </div>
     <h2>Departments</h2>
     <div>
       <b>{{ screenInfo.nearest_department }}</b>
-      <div *ngFor="#department of screenInfo.departments" *ngIf="!(department === screenInfo.nearest_department)">
-        {{ department }}
+      <div *ngFor="let department of screenInfo.departments">
+        <label *ngIf="!(department === screenInfo.nearest_department)"> {{ department }}</label>
       </div>
     </div>
   </div>
@@ -33,41 +46,39 @@
 
 <nav>
   <ul class="sidebar">
-    <div [routerLink] = "['Home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0],
-      'border-bottom': menuItemsTopBottomBorder[0]}">
+    <div [routerLink] = "['Home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0]}">
       <div class="icon">
       <li>Home</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Very_Basic/home-100.png" />
+      <img *ngIf="!menuImages[0]" src="{{imagePath}}ofylldhome.svg" height="100" width="100" />
+      <img *ngIf="menuImages[0]" src="{{imagePath}}fylldhome.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['FindPerson']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1],
-     'border-bottom': menuItemsTopBottomBorder[1]}">
+    <div [routerLink] = "['FindPerson']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1]}">
       <div class="icon">
        <li>People</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Users/user_male_circle_filled-100.png" />
+       <img *ngIf="!menuImages[1]" src="{{imagePath}}people2.svg" height="100" width="100" />
+       <img *ngIf="menuImages[1]" src="{{imagePath}}people1.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['Map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2],
-     'border-bottom': menuItemsTopBottomBorder[2]}">
+    <div [routerLink] = "['Map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2]}">
       <div class="icon">
       <li>Places</li>
-      <img src="https://maxcdn.icons8.com/Android/PNG/96/Maps/map_marker-96.png" />
+      <img *ngIf="!menuImages[2]" src="{{imagePath}}map-unfilled.svg" height="100" width="100" />
+      <img *ngIf="menuImages[2]" src="{{imagePath}}map-filled.svg" height="100" width="100" />
       </div>
     </div>
     <div [routerLink] = "['Contact']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
       <div class="icon">
       <li>Service or advice</li>
-      <img src="https://maxcdn.icons8.com/iOS7/PNG/100/Messaging/message-100.png" />
+      <img *ngIf="!menuImages[3]" src="{{imagePath}}assistance-unfilled.svg" height="100" width="100" />
+      <img *ngIf="menuImages[3]" src="{{imagePath}}assistance-filled.svg" height="100" width="100" />
       </div>
     </div>
-     <div [routerLink] = "['Contact']" class="sidebar-filler" >
+     <div class="sidebar-filler" >
     </div>
   </ul>
 </nav>
 <!-- Routed views go here -->
 <router-outlet></router-outlet>
 
-<footer id="footer"></footer>
-
-<!-- Icons8 requirement to be able to use icons .. -->
-<!-- <a href="https://icons8.com">Icon pack by Icons8</a> -->
+<footer id="footer"><div class="footer_text" ><h3>SKOLAN FÖR DATAVETENSKAP OCH KOMMUNIKATION</h3></div></footer>

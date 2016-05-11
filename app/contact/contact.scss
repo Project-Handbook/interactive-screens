@@ -1,11 +1,10 @@
 @import "../css/app.scss";
 
-
 h1, h2 {
 	text-align: center;
 }
 
-.wrapper {
+.contact_wrapper {
 	display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,16 +34,18 @@ h3 {
 	margin-left: 1rem;
 }
 
-.msgError {
-	margin-left: 2rem;
-}
-
-.emailError {
+.msgError, .emailError, .captcha {
 	margin-left: 2rem;
 }
 
 .formError {
 	color: darkred;
+}
+
+.succesfulMail {
+	color: green;
+	float: right;
+	margin-right: 2rem;
 }
 
 .buttonArea {

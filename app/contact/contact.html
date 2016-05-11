@@ -30,17 +30,32 @@
         <label for="name">Name</label>
         <br/>
         <input required type="text" [(ngModel)]="email.fromName" placeholder="Your name" ngControl="nameCtrl"/>
-
+        <br/>
+        <label for="captcha">{{captchaA}} + {{captchaB}} = ?</label>
+        <br/>
+          <input type="number" [(ngModel)]="captchaAnswer" ngControl="captchaCtrl"/>
+          <div class="captcha">
+          <div *ngIf="!(captchaA + captchaB === captchaAnswer)" class="formError">
+            <i class="fa fa-exclamation-triangle"></i> Invalid value.
+          </div>
+        </div>
       </div>
 
     </div>
 
 
     <div class="buttonArea">
-        <button type="submit" [disabled]="!form.valid">Submit</button>
-        <div class="formError" *ngIf="error === true" role="alert">
-      <i class="fa fa-exclamation-triangle"></i> Couldn't send.
+         <button type="submit" [disabled]="!form.valid">Submit</button>
+         <div class="formError" *ngIf="(error === true)" role="alert">
+          <i class="fa fa-exclamation-triangle"></i> Couldn't send.
+        </div>
+      <br />
+      <div class="succesfulMail" *ngIf="messageSent === true" role="alert">
+      <i class="fa fa-check" aria-hidden="true"></i> Message sent!
       </div>
     </div>
+
   </form>
+
+
 </div>

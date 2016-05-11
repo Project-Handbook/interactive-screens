@@ -7,7 +7,8 @@
   </h1>
 
   <header>
-    <button type="button">Detailed documentation</button>
+    <a href="https://github.com/Project-Handbook/interactive-screens/wiki/Setup-Documentation"><button type="button">Detailed documentation</button></a>
+    <a href="https://github.com/Project-Handbook/interactive-screens/issues"><button type="button">Report an issue</button></a>
     <br />
     <br />
     Or press the the '?' for detailed information about a certain input.
@@ -15,7 +16,7 @@
 
   <h2>General Information</h2>
 
-  <table width="50%" border="0" style="margin-top: 1em">
+  <table>
     <tr class="item">
       <td>
         <p>Title of the screen</p>
@@ -30,12 +31,65 @@
         Where the screen is located, this will be shown on the top of the screen.
       </td>
     </tr>
+
+    <tr class="item">
+      <td>
+        <p>Position of the screen</p>
+        <div class="maps" id="map"></div>
+        <br>
+        <label>Latitude</label>
+        <input placeholder="Enter latitude coordinate" [(ngModel)]="screenInfo.latitude"/>
+        <br>
+        <label>Longitude</label>
+        <input placeholder="Enter longitude coordinate" [(ngModel)]="screenInfo.longitude"/>
+        <br>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('coordinatesInfo').style.display= document.getElementById('coordinatesInfo').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="coordinatesInfo" class="info" style="display: none;">
+          Enter the coordinates of the position of the screen.
+          The coordinates will be used to display the position of the screen in the map view.
+          Click on the map or insert them manually in the text fields.
+      </td>
+    </tr>
+  </table>
+
+  <h2>People Tab</h2>
+  <table>
+    <tr class="item">
+      <td>
+        <p>Department</p>
+        <label>Choose school</label>
+        <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
+          <option>School</option>
+          <option  *ngFor="let school of schools" [value]="school.code">
+            {{ school.school }}
+          </option>
+        </select>
+        <br><br>
+        <label>Default department</label>
+        <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
+          <option *ngFor="let department of department_list" [value]="department.code">
+            {{ department.name_sv }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('department_code_info').style.display= document.getElementById('department_code_info').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="department_code_info" class="info" style="display: none;">
+          This deparment will be displayed by default when there is no search in the People tab.
+      </td>
+    </tr>
   </table>
 
   <h2>Sidebar Information</h2>
-
-  <table width="50%" border="0" style="margin-top: 1rem">
-
+  <table>
     <tr class="item">
       <td>
         <p>Address</p>
@@ -76,7 +130,22 @@
         </a>
       </td>
       <td id="telephoneInfo" class="info" style="display: none;">
-        Where the screen is located, this will be shown on the top of the screen.
+        Telephone number to which the visitors, amongs others, should be calling.
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>Telephone number for deliveries</p>
+        <input type="text" placeholder="+46 076 321 321" [(ngModel)]="screenInfo.telephone_deliveries" />
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('telephone_deliveries').style.display= document.getElementById('telephone_deliveries').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="telephone_deliveries" class="info" style="display: none;">
+        Telephone number to which the delivery man should be calling.
       </td>
     </tr>
 
@@ -87,29 +156,61 @@
         <button (click)="addDepartment()" style="float: right; padding: 0.2em;">Add</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearby-department').style.display= document.getElementById('nearby-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
-        Departments located in the close vicinity of the screen.
+      <td id="nearby-department" class="info" style="display: none;">
+        Departments located in the close vicinity of the screen, in the same building and so on.
+        Add all the departments that are close then in the next field you select
+        the one which is the closest to the screen.
       </td>
     </tr>
 
     <tr class="item">
       <td>
-        <p>The nearest department</p>
-        <select [(ngModel)]="screenInfo.nearest_department" style="width: 100%; padding: 0.2em">
-          <option *ngFor="#department of departments">{{ department }}</option>
+        <p>Nearest department</p>
+        <select [(ngModel)]="screenInfo.nearest_department" style="width: 90%">
+          <option *ngFor="let department of departments">{{ department }}</option>
         </select>
+        <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('telephoneInfo').style.display= document.getElementById('telephoneInfo').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearest-department').style.display= document.getElementById('nearest-department').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="telephoneInfo" class="info" style="display: none;">
-        The nearest department in relation to the screen. The department associated with the screens location.
+      <td id="nearest-department" class="info" style="display: none;">
+        Nearest department in relationship to the screen.
+        Select the department associated with the screen.
+      </td>
+    </tr>
+
+    <tr class="item">
+      <td>
+        <p>Opening hours</p>
+        Show opening hours? <input class="toggle-box" type="checkbox" (click)="toggleOpeningHours()"> <br/>
+        <div *ngIf="screenInfo.opening_hours_enabled">
+          <div *ngFor="let weekday of weekdays">
+            <div>
+              <h3>{{ weekday }}</h3>
+              <label>Closed: <input class="toggle-box" type="checkbox" (click)="toggleOpeningHoursDay(weekday)"></label>
+            </div>
+            <div *ngIf="screenInfo.opening_hours[weekday][2]">
+              From: <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][0]">
+              To:   <input type="time" style="width: 15%;" placeholder="HH:mm" [(ngModel)]="screenInfo.opening_hours[weekday][1]">
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('opening-hours').style.display= document.getElementById('opening-hours').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="opening-hours" class="info" style="display: none;">
+        Opening hours of the nearest department, for example the closest reception to the screen, etc.
+        Format as 11:00, 13:37, etc.
       </td>
     </tr>
 
@@ -119,6 +220,6 @@
   <button class="button" type="submit" (click)="saveInformation()">Save</button>
 
   <!-- Padding -->
-  <div style="height: 200px"></div>
+  <div style="height: 20rem"></div>
 
 </div>
