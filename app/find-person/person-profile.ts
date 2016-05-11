@@ -13,12 +13,7 @@ import { RouterLink } from '@angular/router-deprecated';
 })
 export class PersonProfile {
 	@Input() person;
-
-  	isOn = false;
-
-  	toggle(newState) {
-  	  	this.isOn = newState;
-  	}
+  @Input() isOn;
 
   	constructor(private findPersonService: FindPersonService) {}
 

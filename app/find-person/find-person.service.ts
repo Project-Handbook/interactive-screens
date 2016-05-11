@@ -39,9 +39,12 @@ export class FindPersonService {
 						undefined,	/* Need to fetch the image url */
 						undefined, /* Need to fetch working place */
 						undefined, /* Need to fetch kth profile */
-						undefined /* Need to scrape the 'about me' section */
+						undefined, /* Need to scrape the 'about me' section */
+						undefined,
+						undefined
 					);
-					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+				this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+
 					people.push(person);
 				})
 			},
@@ -51,8 +54,91 @@ export class FindPersonService {
 		return people;
 	}
 
+	// Fetches all the people matching the searchterm from KTH Profiles
+	// This function will also make sure they are from a certain department
+	fetchPeople2(searchterm: string, prefix: string, onError: ErrorCallback): Array<Person> {
+		var people = [];
+		var peopleAlsoInDep = [];
+		var url = "https://www.lan.kth.se/personal/api/katalogjson?q=";
+
+		this.http.get(url + searchterm)
+			.map(res => res.json())
+			.subscribe(res => {
+				res.result.forEach(item => {
+					var person = new Person(
+						item.given_name,
+						item.family_name,
+						item.email_address,
+						item.kthid,
+						item.phonehr,
+						item.visiting_address,
+						item.username,
+						item.title_sv,
+						undefined,	/* Need to fetch the image url */
+						undefined, /* Need to fetch working place */
+						undefined, /* Need to fetch kth profile */
+						undefined, /* Need to scrape the 'about me' section */
+						undefined,
+						undefined
+					);
+					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+
+					people.push(person);
+				})
+			},
+				error => onError(ErrorType.NoInternetConnection),
+				() => {
+
+					if(prefix == "org:KTH") {
+						people.forEach(item => {
+							peopleAlsoInDep.push(item);
+						});
+					}
+					else {
+
+						this.http.get(url + prefix)
+							.map(res => res.json())
+							.subscribe(res => {
+								res.result.forEach(item => {
+									if(people.some(function(e) { return e.kthid == item.kthid })) {
+										// Person was also found in the department, add to list
+
+										var person = new Person(
+											item.given_name,
+											item.family_name,
+											item.email_address,
+											item.kthid,
+											item.phonehr,
+											item.visiting_address,
+											item.username,
+											item.title_sv,
+											undefined,	/* Need to fetch the image url */
+											undefined, /* Need to fetch working place */
+											undefined, /* Need to fetch kth profile */
+											undefined, /* Need to scrape the 'about me' section */
+											undefined,
+											undefined
+										);
+										this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+										peopleAlsoInDep.push(person);
+									}
+								})
+							},
+								error => onError(ErrorType.NoInternetConnection),
+								() => {
+									onError(ErrorType.NoError);
+								}
+							);
+					}
+
+					onError(ErrorType.NoError);
+				}
+			);
+		return peopleAlsoInDep;
+	}
+
 	// Fetches the persons image url from the API asscioated their kth id
-	private fetchAdditionalInfo(person: Person) {
+	public fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
 			.map(res => res.json())
@@ -61,6 +147,7 @@ export class FindPersonService {
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
 				this.fetchAboutMeInfo(person);
+				this.fetchStatus(person);
 			},
 			error => console.log(error),
 			() => {}
@@ -74,5 +161,24 @@ export class FindPersonService {
 			var about_me = jQuery(body).find(".description").text();
 			person.about_me = about_me;
 		})
+	}
+
+//Fetches the availibility of employees
+	private fetchStatus(person:Person){
+		var url = "https://www.lan.kth.se/mobile/api/katalogjson?q=kthid:";
+		this.http.get(url + person.kthid)
+			.map(res=>res.json())
+			.subscribe(res=>{
+				if(res.result[0].intercepts!==undefined){
+					if(res.result[0].intercepts.length===0){
+						person.status_image="https://www.lan.kth.se/sip/lur15.png";
+					}else{
+						person.status_image="https://www.lan.kth.se/sip/lur14.png";
+						person.status_info = res.result[0].intercepts[0];
+					}
+				}else{
+					person.status_image=null;
+				}
+			})
 	}
 }

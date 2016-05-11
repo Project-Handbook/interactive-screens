@@ -5,39 +5,35 @@ import { NgStyle } from '@angular/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
+import { MapService } from '../map/services/map-service';
 
 @Component({
+  host: {
+        '(document:click)': 'handleClick($event)',
+  },
   selector: 'find-person',
   templateUrl: 'app/find-person/find-person.html',
   directives: [NgClass, PersonProfile],
-  providers: [FindPersonService]
+  providers: [FindPersonService, MapService]
 })
 export class FindPerson {
 
   state: string = "none";
 
-  currentPerson: Person;
+  currentPerson: Person = null;
   // Default search values
-  organisation: string = "org:DAS";
-  orgName: string = "CSC";
   currentSearch: string = "";
+  currentPrefix: string = "org:DAS";
+  selectedSchool: string = "CSC Staben";
+  currentSchool: string = "CSC Staben";
 
   // Displaying error message if a search request would fail for any reason
   showErrorMessage: boolean = false;
 
   isOn = false;
-  isDisabled = false;
-
-  toggle(newState, person: Person) {
-    this.currentPerson = person;
-    if (!this.isDisabled) {
-      	this.isOn = newState;
-    }
-  }
 
   people: Array<Person> = []; // Holds all the persons fetched from the API
-
-  constructor(private findPersonService: FindPersonService) {}
+  constructor(private findPersonService: FindPersonService, private _mapService: MapService) {}
 
   // This is called whenever an event that might fail occurs.
   // Ex) Internet/API is down.
@@ -51,8 +47,14 @@ export class FindPerson {
     }
   }
 
+  // This will find all people within the standard department
   getPeople(searchterm: string) {
     this.people = this.findPersonService.fetchPeople(searchterm, this.onError);
+  }
+
+  // This will find all people within the chosen department
+  getPeople2(searchterm: string) {
+    this.people = this.findPersonService.fetchPeople2(searchterm, this.currentPrefix, this.onError);
   }
 
   // Makes a Persons title lowercase instead of KTH standard ALL CAPS.
@@ -62,20 +64,23 @@ export class FindPerson {
 
   //Displays people local to the department as default when the people tab is pushed.
   ngOnInit(): any {
-    this.getPeople(this.organisation);
+    this.getPeople(this.currentPrefix);
+    this.getSchools();
   }
 
   search(input: string) {
-    if (input == undefined) {
-      this.getPeople(this.organisation);
+    this.currentSchool = this.selectedSchool;
+    if(input == undefined) {
+      this.getPeople(this.currentPrefix);
       this.currentSearch = "";
-    } else if (input.trim().length == 0) {
-      this.getPeople(this.organisation);
+    }
+    else if(input.trim().length == 0) {
+      this.getPeople(this.currentPrefix);
       this.currentSearch = "";
     } else {
       input = input.trim();
       this.currentSearch = "\"" + input + "\"";
-      this.getPeople(input);
+      this.getPeople2(input);
     }
   }
 
@@ -160,5 +165,127 @@ export class FindPerson {
       element = document.getElementById("title");
     }
     return element;
+  }
+
+  scrollDep(dir) {
+    var departments = document.getElementById("departments");
+    var newScroll = departments.scrollTop + (departments.offsetHeight-55)*dir;
+    this.scrollTo(departments, newScroll, 5000);
+  }
+
+  scrollTo(element, to, duration) {
+    $("#departments").animate({
+            scrollTop: to
+        }, 300);
+    return false;
+  }
+
+  //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+    // the searchresult array will be cleared and the dropdown will disappear.
+    handleClick(event){
+      this.handleClickForPopup(event);
+      var clickedComponent = event.target;
+      var schoolsDiv = document.getElementById('schools-wrapper');
+      var schoolsBtn = document.getElementById('person-search-schools');
+      do {
+          if (clickedComponent === schoolsBtn) {
+            this.toggleSchools();
+            return;
+          }
+          if (clickedComponent === schoolsDiv) {
+            return;
+          }
+         clickedComponent = clickedComponent.parentNode;
+      }while (clickedComponent);
+
+      schoolsDiv.style.display = "none";
+      this.deps = [];
+    }
+
+  handleClickForPopup(event) {
+      var clickedComponent = event.target;
+      var popupContent = document.getElementById('popup-content');
+      var personTable = document.getElementById('person-table-body');
+
+      do {
+         if (clickedComponent === personTable) {
+            this.isOn = true;
+            return;
+          }
+         if (clickedComponent === popupContent) {
+            return;
+          }
+         clickedComponent = clickedComponent.parentNode;
+      } while (clickedComponent);
+
+      this.isOn = false;
+  }
+
+  deps : Array<any> = [];
+  schools : Array<any> = [];
+
+  toggleSchools() {
+    var w = document.getElementById('schools-wrapper');
+    w.style.display = w.style.display == "table" ? "none" : "table";
+    this.deps = [];
+  }
+
+  getSchools() {
+    this.schools = [];
+    this._mapService.getSchools().subscribe( res=> {
+      this.schools=res;
+
+      // Add KTH as the first element should one just want
+      // to search with that
+
+      var code = "code";
+      var school = "school";
+      var a = {};
+      a[code] = "";
+      a[school] = "KTH";
+
+      this.schools.unshift(a);
+    });
+  }
+
+  getDep(item) {
+    if(item.school == "KTH") {
+      // We want to search all of KTH
+      var code = "code";
+      var name = "name_sv";
+      var a = {};
+      a[code] = "KTH";
+      a[name] = "KTH";
+      this.setDep(a);
+      return;
+    }
+
+    this.deps = [];
+    this._mapService.getDepartments(item.code).subscribe( res=> {
+      this.deps=res;
+
+      // Add the school as the first element should one just want
+      // to search with that
+
+      var code = "code";
+      var name = "name_sv";
+      var a = {};
+      a[code] = item.code;
+      a[name] = item.school;
+
+      this.deps.unshift(a);
+    });
+  }
+
+  setDep(dep) {
+    this.selectedSchool = dep.name_sv;
+    this.currentPrefix = "org:" + dep.code;
+
+    this.deps = [];
+    this.toggleSchools();
+  }
+
+  setPerson(p) {
+    this.currentPerson = p;
   }
 }

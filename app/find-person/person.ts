@@ -11,5 +11,7 @@ export class Person {
 							public image_url: string,
 							public working_place: string,
 							public kth_profile: string,
-							public about_me: string) {}
+							public about_me: string,
+							public status_image: string,
+							public status_info:Object ) {}
 }
