@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core'
-import { CORE_DIRECTIVES, FORM_DIRECTIVES, Control, ControlGroup, FormBuilder, Validators, AbstractControl } from 'angular2/common'
+import { Component } from '@angular/core'
+import { CORE_DIRECTIVES, FORM_DIRECTIVES, Control, ControlGroup, FormBuilder, Validators, AbstractControl } from '@angular/common'
 import { EmailService } from './email.service';
 import "rxjs/add/operator/map";
 

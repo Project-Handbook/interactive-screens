@@ -1,5 +1,5 @@
-import { Injectable } from 'angular2/core';
-import { Http } from 'angular2/http';
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Person } from './person';
 
@@ -50,7 +50,7 @@ export class FindPersonService {
 			);
 		return people;
 	}
-	
+
 	// Fetches the persons image url from the API asscioated their kth id
 	private fetchAdditionalInfo(person: Person) {
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;

@@ -1,5 +1,5 @@
-import { Component ,ViewEncapsulation } from 'angular2/core';
-import { Http, HTTP_PROVIDERS } from 'angular2/http';
+import { Component ,ViewEncapsulation } from '@angular/core';
+import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { HomeService } from './home-service';
 
 @Component({
@@ -18,12 +18,12 @@ export class Home {
 
     getCalendar() {
       this.homeService.getCalendar()
-      .subscribe(res => { this.calendar_block = res });
+      .subscribe(res => { this.calendar_block = res ,error=>console.log("error")});
     }
 
     getNewsFeed() {
       this.homeService.getNewsFeed()
-      .subscribe(res => { this.news_block = res, console.log(res) });
+      .subscribe(res => { this.news_block = res,error=>console.log("error")});
     }
 
     ngOnInit() {

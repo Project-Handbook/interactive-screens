@@ -1,9 +1,9 @@
-import { Component, Input } from 'angular2/core';
-import { OnInit } from 'angular2/core'
-import { NgClass } from 'angular2/common';
+import { Component, Input } from '@angular/core';
+import { OnInit } from '@angular/core'
+import { NgClass } from '@angular/common';
 import { FindPersonService } from './find-person.service';
 import { Person } from './person';
-import { RouterLink } from 'angular2/router';
+import { RouterLink } from '@angular/router-deprecated';
 
 @Component({
   selector: 'person-profile',
@@ -27,5 +27,5 @@ export class PersonProfile {
   		if(title != undefined) {
     		return title.charAt(0) + title.substr(1).toLowerCase();
     	}
-  	}	
+  	}
 }

@@ -1,8 +1,9 @@
-import { Component,ElementRef } from 'angular2/core';
+import { Component,ElementRef } from '@angular/core';
 import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
-import { RouteParams } from 'angular2/router';
+import { RouteParams } from '@angular/router-deprecated';
 import {Location,Location_type} from './location.interface';
+/// <reference path="../../typingsawd/main/ambient/leaflet/index.d.ts"/>
 
 @Component({
   selector: 'map',

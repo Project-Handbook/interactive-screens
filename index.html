@@ -2,50 +2,35 @@
   <head>
     <title>CScreen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/typescript/lib/typescript.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="systemjs.config.js"></script>
     <!-- 1. Load libraries -->
     <!-- IE required polyfills, in this exact order -->
-    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
-    <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
     <!-- Load the Angular router -->
-    <script src="node_modules/angular2/bundles/router.dev.js"></script>
+    <!--<script src="node_modules/angular2/bundles/router.dev.js"></script> -->
 
     <!-- Normalize.css -->
     <link rel="stylesheet" href="node_modules/normalize.css/normalize.css"/>
 
    <!-- Angular HTTP -->
-   <script src="node_modules/angular2/bundles/http.dev.js"></script>
+  <!-- <script src="node_modules/angular2/bundles/http.dev.js"></script>-->
 
    <!-- Angular RXJS -->
    <script src="node_modules/rxjs/bundles/Rx.js"></script>
    <!-- Leaflet -->
     <script src="node_modules/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
-    
+
     <!-- jQuery  -->
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
     <!-- 2. Configure SystemJS -->
     <script>
-      System.config({
-        packages: {
-          app: {
-            format: 'register',
-            defaultExtension: 'js'
-          }
-        },
-    map: {
-      moment: 'node_modules/moment/moment.js'
-    }
-      });
-      System.import('app/main')
-            .then(null, console.error.bind(console));
-    </script>
+        System.import('app').catch(function(err){ console.error(err); });
+      </script>
   </head>
   <!-- Used by the Angular router ... -->
   <base href="">

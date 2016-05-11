@@ -37,7 +37,7 @@
 
 		<div *ngIf="!showErrorMessage">
 			<!--div class="personId"><h4>A</h4></div-->
-			
+
 			<table id="person-table">
 				<thead>
 					<th></th>
@@ -48,7 +48,7 @@
 					<th (click)="sort('title')"><p>Title</p> <mark  id="title">&#10095;</mark></th>
 				</thead>
 				<tbody>
-					<tr *ngFor="#person of people; #i = index">
+					<tr *ngFor="let person of people">
 						<td><img src="https://www.lan.kth.se/sip/lur15.png" /></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
