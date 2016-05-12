@@ -6,6 +6,8 @@ import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
 import { MapService } from '../map/services/map-service';
+import {ScreenSpecificInformation} from '../screen-specific-information';
+import {Constants} from '../constants';
 
 @Component({
   host: {
@@ -17,6 +19,8 @@ import { MapService } from '../map/services/map-service';
   providers: [FindPersonService, MapService]
 })
 export class FindPerson {
+
+
 
   state: string = "none";
 
@@ -66,6 +70,9 @@ export class FindPerson {
   ngOnInit(): any {
     this.getPeople(this.currentPrefix);
     this.getSchools();
+    var screenInfo = new ScreenSpecificInformation();
+    screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    console.log(screenInfo.department_code);
   }
 
   search(input: string) {
