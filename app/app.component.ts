@@ -55,8 +55,8 @@ export class AppComponent {
     clock: string = "";
 
     menuItemsRightBorder: Array<string> = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
-    prev:number = 0;
-    menuImages:Array<boolean> = [true,false,false,false];
+    prev: number = 0;
+    menuImages: Array<boolean> = [true, false, false, false];
     public imagePath = "app/main-frame/images/";
     // Fetches the screen specific information from the session storage
     // If the screen information is null this returns a default object
@@ -85,8 +85,16 @@ export class AppComponent {
     private refreshVar
 
     refreshClock = () => {
-      var datestring = new Date().toString();
-      this.clock = datestring.substring(0, datestring.length - 16); // Removes the timezone information
+      let date = new Date();
+      let day = date.getDate();
+      let months = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+      let month = months[date.getMonth()];
+      let year  = date.getFullYear();
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+      this.clock = `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
     }
 
 constructor(private router: Router, private location: Location) {
