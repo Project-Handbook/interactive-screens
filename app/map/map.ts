@@ -3,6 +3,8 @@ import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
 import { RouteParams } from '@angular/router-deprecated';
 import {Location,Location_type} from './location.interface';
+import { Constants } from '../constants';
+import { ScreenSpecificInformation } from '../screen-specific-information';
 /// <reference path="../../typingsawd/main/ambient/leaflet/index.d.ts"/>
 
 @Component({
@@ -36,11 +38,20 @@ export class Map {
 
   //Executes on page load.
 	ngOnInit(){
+      var screenInfo = new ScreenSpecificInformation();
+      screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      var gotChoords=false;
+      if(screenInfo!==null){
+      gotChoords=true;
+      this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+      }else{
+      this.mapCenter = new L.LatLng(59.347196, 18.073336);
+      }
     //Initialize mapvar antarctica = [-77,70];
 	 this.map = new L.Map('map', {
         zoomControl: false,
         center:this.mapCenter,
-        zoom: 17,
+        zoom: 18,
         minZoom: 4,
         maxZoom: 18,
         zoomAnimation:false,
@@ -58,8 +69,10 @@ export class Map {
           iconSize:     [25, 38], // size of the icon
           popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
       });
-			L.marker([59.34694, 18.07319],{icon: greenIcon}).addTo(this.map)
-       .bindPopup('<strong>You are here.</strong>').openPopup();
+      if(gotChoords===true){
+     L.marker([screenInfo.latitude, screenInfo.longitude],{icon: greenIcon}).addTo(this.map)
+      .bindPopup('<strong>You are here.</strong>').openPopup();
+    }
       this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
   }
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
