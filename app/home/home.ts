@@ -10,6 +10,7 @@ import {Constants} from '../constants';
   encapsulation: ViewEncapsulation.Native,
   templateUrl: 'app/home/home.html',
   providers:[HomeService],
+  styleUrls:['app/home/home.min.css'],
    styles: [`
     @import "http://www.kth.se/css/v/8.28.4/kth.css";
     a{
