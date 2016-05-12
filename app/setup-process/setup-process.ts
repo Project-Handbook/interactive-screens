@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router-deprecated';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
 import { NgClass } from '@angular/common';
@@ -14,6 +14,7 @@ import { MapService } from '../map/services/map-service';
 export class SetupProcess {
 
   map: L.Map;
+
   public screenInfo = new ScreenSpecificInformation();
 
   constructor(private router: Router, private mapService: MapService) {}
@@ -94,17 +95,17 @@ export class SetupProcess {
   }
 
   schools: Array<any> = [];
-
   getSchools() {
-    this.mapService.getSchools().subscribe(res => this.schools = res);
+    this.mapService.getSchools().subscribe(res => {this.schools = res,console.log(res)});
   }
 
   department_list: Array<any> = [];
 
   getDepartments(department) {
-    this.mapService.getDepartments(department).subscribe(res => {
+    this.mapService.getDepartments(this.schools[department].code).subscribe(res => {
       this.department_list = res;
     })
+    this.screenInfo.footer_text = this.schools[department].footer_text;
   }
 
   public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
@@ -118,5 +119,11 @@ export class SetupProcess {
   // Toggles opening hours for the specific day
   toggleOpeningHoursDay(day: string) {
     this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
+  }
+
+  setDepartment(index){
+    console.log(index);
+    this.screenInfo.department_code = this.department_list[index].code;
+    this.screenInfo.department_name = this.department_list[index].name_sv;
   }
 }

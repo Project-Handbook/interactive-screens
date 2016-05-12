@@ -8,7 +8,8 @@ export class ScreenSpecificInformation {
               public city: string = "", /* Nearest city shown in the sidebar */
               public departments: Array<string> = [], /* List of nearby departments */
               public nearest_department: string = "", /* Name of the department nearest the screen */
-              public department_code: string = "", /* Department code for People tab default */
+              public department_code: string ="",/* Department code for People tab default */
+              public department_name: string="", /*Department name for People tab default */
               public longitude: number = 0, /* Coordinate for the sceen */
               public latitude: number = 0, /* Coordinate for the screen  */
               // The first seven of the Date tuples will be interpreted as one opening,
@@ -18,8 +19,9 @@ export class ScreenSpecificInformation {
               // opening_hours["thursday"][2] = false says that on thursday it's closed.
               public opening_hours: { [weekday: string]: [string, string, boolean] } = opening_hours_defaults, /* opening hours */
               public opening_hours_enabled: boolean = false, /* Whether or not the opening hours should be displayed or not */
-              public calendar_polypoly_id:string="",
-              public news_feed_polypoly_id:string="")  {}
+              public calendar_polypoly_id:string="", /*Polypoly id to fetch calendar in home tab*/
+              public news_feed_polypoly_id:string="", /*Polypoly id to fetch news feed in home tab*/
+              public footer_text:string="") {}
 }
 
 let opening_hours_defaults: {[weekday: string]: [string , string, boolean]} =

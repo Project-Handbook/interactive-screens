@@ -5,7 +5,6 @@
   <h1>
     Welcome to the CScreen setup
   </h1>
-
   <header>
     <a href="https://github.com/Project-Handbook/interactive-screens/wiki/Setup-Documentation"><button type="button">Detailed documentation</button></a>
     <a href="https://github.com/Project-Handbook/interactive-screens/issues"><button type="button">Report an issue</button></a>
@@ -65,15 +64,16 @@
         <label>Choose school</label>
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
-          <option  *ngFor="let school of schools" [value]="school.code">
+          <option  *ngFor="let school of schools; let i = index" [value]="i">
             {{ school.school }}
           </option>
         </select>
         <br><br>
         <label>Default department</label>
-        <select id="department_drop_down" [(ngModel)]="screenInfo.department_code" style="width: 100%; padding: 0.2em">
-          <option *ngFor="let department of department_list" [value]="department.code">
-            {{ department.name_sv }}
+        <select enabled="false" (change)="setDepartment($event.target.value)" id="department_drop_down" style="width: 100%; padding: 0.2em">
+          <option></option>
+          <option *ngFor="let department of department_list; let i = index" [value]="i">
+              {{department.name_sv}}
           </option>
         </select>
       </td>
@@ -240,7 +240,7 @@
 
   </table>
 
-  <button class="button" (click)="loadInformation()">Load</button>
+  <button  class="button" (click)="loadInformation()">Load</button>
   <button class="button" type="submit" (click)="saveInformation()">Save</button>
 
   <!-- Padding -->

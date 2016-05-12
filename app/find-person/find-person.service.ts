@@ -149,6 +149,7 @@ export class FindPersonService {
 		this.http.get(url)
 			.map(res => res.json())
 			.subscribe(item => {
+				//console.log(item.image);
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
@@ -156,7 +157,7 @@ export class FindPersonService {
 				this.fetchStatus(person);
 				this.fetchPersonalDetails(person);
 			},
-			error => console.log(error),
+			error => null,
 			() => {}
 		);
 	}
@@ -165,9 +166,12 @@ export class FindPersonService {
 	private fetchAboutMeInfo(person: Person) {
 		this.http.get(person.kth_profile).subscribe(resp => {
 			var body = resp.text();
+			var patt = new RegExp("<img.+>");
+			body = body.replace(patt,""); //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.
 			var about_me = jQuery(body).find(".description").text();
 			person.about_me = about_me;
-		})
+		},
+		error=>null)
 	}
 
 //Fetches the availibility of employees
@@ -186,16 +190,19 @@ export class FindPersonService {
 				}else{
 					person.status_image=null;
 				}
-			})
+			},error=>null)
 	}
+	//Fetches employee room number and phone number from KTH Places personal details API.
 	private fetchPersonalDetails(person:Person){
 		var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
 		this.http.get(url + person.kthid)
 			.map(res=> res.json())
 			.subscribe(res=>{
-			person.phone_number2=res.result[0].result[0].telno;
-			person.room=res.result[0].result[0].room;
+			if(res.result[0].result[0]!==undefined){
+				person.phone_number2=res.result[0].result[0].telno;
+				person.room=res.result[0].result[0].room;
+			}
 
-			})
+		},error=>null)
 	}
 }

@@ -42,7 +42,7 @@ export class Map {
       var screenInfo = new ScreenSpecificInformation();
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       var gotChoords=false;
-      if(screenInfo!==null){
+      if(screenInfo.latitude!==0 && screenInfo.longitude!==0){
       gotChoords=true;
       this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
       }else{
@@ -123,7 +123,7 @@ getAdressFromPerson(person){
           var coordinate_lng = res[0].longitude;
           this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
           .bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
-          "Room: " + person.room + "<br>" + 
+          "Room: " + person.room + "<br>" +
             res[0].streetAddress )
           .openPopup();
     });

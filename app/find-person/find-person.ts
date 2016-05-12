@@ -27,9 +27,9 @@ export class FindPerson {
   currentPerson: Person = null;
   // Default search values
   currentSearch: string = "";
-  currentPrefix: string = "org:DAS";
-  selectedSchool: string = "CSC Staben";
-  currentSchool: string = "CSC Staben";
+  currentPrefix: string = "";
+  selectedSchool: string = "";
+  currentSchool: string = "";
 
   // Displaying error message if a search request would fail for any reason
   showErrorMessage: boolean = false;
@@ -68,13 +68,18 @@ export class FindPerson {
 
   //Displays people local to the department as default when the people tab is pushed.
   ngOnInit(): any {
-    this.getPeople(this.currentPrefix);
-    this.getSchools();
+
+    //Fetches department code and name from local storage.
     var screenInfo = new ScreenSpecificInformation();
     screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-    console.log("hej");
-    console.log(screenInfo.department_code);
-    console.log(screenInfo.title);
+    this.currentPrefix  = "org:" + screenInfo.department_code;
+    this.selectedSchool  = screenInfo.department_name;
+    this.currentSchool = screenInfo.department_name;
+
+    this.getPeople(this.currentPrefix);
+    this.getSchools();
+
+
   }
 
   search(input: string) {
