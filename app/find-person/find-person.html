@@ -13,7 +13,7 @@
 			</form>
 			<div id="schools-wrapper" style="display: none">
 				<ul id="schools">
-					<li *ngFor="#school of schools" (click)="getDep(school)">
+					<li *ngFor="let school of schools" (click)="getDep(school)">
 						{{ school.school }}
 					</li>
 				</ul>
@@ -22,7 +22,7 @@
 						<p><mark>&#10095;</mark></p>
 					</button>
 					<ul id="departments" [ngStyle]="{'display': 'block'}">
-						<li *ngFor="#dep of deps" (click)="setDep(dep)">
+						<li *ngFor="let dep of deps" (click)="setDep(dep)">
 							{{ dep.name_sv }}
 						</li>
 					</ul>
@@ -53,7 +53,7 @@
 					<th (click)="sort('title')"><p>Title</p><mark id="title">&#10095;</mark></th>
 				</thead>
 				<tbody id="person-table-body">
-					<tr *ngFor="#person of people; #i = index" (click)="setPerson(person)">
+					<tr *ngFor="let person of people; let i = index" (click)="setPerson(person)">
 						<td class="image_column"><center><img *ngIf="person.status_image"  [src]="person.status_image" width="20" height="20"></center></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
