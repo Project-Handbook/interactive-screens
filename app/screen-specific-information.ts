@@ -17,7 +17,9 @@ export class ScreenSpecificInformation {
               // Example) opening_hours["monday"][1] would be the closing hour on monday, and so on
               // opening_hours["thursday"][2] = false says that on thursday it's closed.
               public opening_hours: { [weekday: string]: [string, string, boolean] } = opening_hours_defaults, /* opening hours */
-              public opening_hours_enabled: boolean = false) /* Whether or not the opening hours should be displayed or not */ {}
+              public opening_hours_enabled: boolean = false, /* Whether or not the opening hours should be displayed or not */
+              public calendar_polypoly_id:string="",
+              public news_feed_polypoly_id:string="")  {}
 }
 
 let opening_hours_defaults: {[weekday: string]: [string , string, boolean]} =

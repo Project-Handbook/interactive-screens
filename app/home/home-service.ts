@@ -5,14 +5,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class HomeService{
 	url: string = "https://www.kth.se/cm/";
-
 	constructor(private _http:Http){}
-	getCalendar(){
-		var calendar_polopoly_id = "1.467916";
+	getCalendar(id){
+		//"1.467916";
+		var calendar_polopoly_id = id;
 		return this._http.get(this.url + calendar_polopoly_id).map(res=>res.text());
 	}
-	getNewsFeed(){
-		var news_polopoly_id = "1.640564"
+	getNewsFeed(id){
+		//"1.640564"
+		var news_polopoly_id = id;
 		return this._http.get(this.url + news_polopoly_id)
 			.map(res => res.text())
 			.map(res=>{
@@ -44,4 +45,6 @@ export class HomeService{
 				return blocks;
 			});
 		}
+
+
 }

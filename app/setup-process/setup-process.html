@@ -88,6 +88,30 @@
     </tr>
   </table>
 
+  <h2>Home Tab</h2>
+  <table>
+    <tr class="item">
+      <td>
+        <p>Calendar Polypoly Id</p>
+        <input type="text" placeholder="1.234567" [(ngModel)]="screenInfo.calendar_polypoly_id"/>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('home_polypoly_id').style.display= document.getElementById('home_polypoly_id').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="home_polypoly_id" class="info" style="display: none;">
+          These ID will be used to fetch the calendar and news feed that is displayed in the home view.
+      </td>
+    </tr>
+    <tr class="item">
+      <td>
+        <p>News feed Polypoly Id</p>
+        <input type="text" placeholder="1.234567" [(ngModel)]="screenInfo.news_feed_polypoly_id"/>
+      </td>
+    </tr>
+  </table>
+
   <h2>Sidebar Information</h2>
   <table>
     <tr class="item">

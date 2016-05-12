@@ -1,6 +1,8 @@
 import { Component ,ViewEncapsulation } from '@angular/core';
 import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { HomeService } from './home-service';
+import {ScreenSpecificInformation} from '../screen-specific-information';
+import {Constants} from '../constants';
 
 @Component({
   selector: 'home',
@@ -22,8 +24,8 @@ export class Home {
     news_feed_error:boolean;
     constructor(private homeService:HomeService){}
     //Returns the 4 latest calendar events from Polypoly through the home-service class
-    getCalendar(){
-      this.homeService.getCalendar()
+    getCalendar(id:string){
+      this.homeService.getCalendar(id)
         .subscribe(res =>
           {this.calendar_block = res},
           error=>{this.calendar_error=true},
@@ -31,8 +33,8 @@ export class Home {
         );
     }
     //Fetches the news event block from Polypoly through the home-service class.
-    getNewsFeed(){
-      this.homeService.getNewsFeed()
+    getNewsFeed(id:string){
+      this.homeService.getNewsFeed(id)
       .subscribe(res => {
           for(var i =0;i<res.length;i++){
             this.news_block.push(res[i].innerHTML);
@@ -46,7 +48,9 @@ export class Home {
     }
     //Calls getCalendar and getNewsFeed on View Init.
     ngOnInit(){
-      this.getCalendar();
-      this.getNewsFeed();
+      var screenInfo = new ScreenSpecificInformation();
+      screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+      this.getCalendar(screenInfo.calendar_polypoly_id);
+      this.getNewsFeed(screenInfo.news_feed_polypoly_id);
     }
   }
