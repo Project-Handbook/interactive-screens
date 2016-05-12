@@ -88,6 +88,7 @@ export class SearchBarComponent {
 	    }
 			this.resetDropDownMenus();
     }
+
     //This funtion determines if the user clicks outside the dropdown menu. If this is the case
     // the searchresult array will be cleared and the dropdown will disappear.
     handleClick(event){
@@ -97,7 +98,7 @@ export class SearchBarComponent {
 			   if (clickedComponent === this.elementRef.nativeElement) {
 				    inside = true;
 			    }
-			   clickedComponent = clickedComponent.parentNode;
+			   clickedComponent = clickedComponent.nativeElement.parentNode.value;
 		  }while (clickedComponent);
 			//If drop down wrapper is pushed then clear dropdown.
 			if(document.querySelector(".departments_drop_down")===event.target
@@ -116,6 +117,7 @@ export class SearchBarComponent {
   		}
     }
     buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
+
     buttonPush(value){
       if(value===0){
         this.searchForLocation=true;
