@@ -98,7 +98,7 @@ export class SearchBarComponent {
 			   if (clickedComponent === this.elementRef.nativeElement) {
 				    inside = true;
 			    }
-			   clickedComponent = clickedComponent.nativeElement.parentNode.value;
+			   clickedComponent = clickedComponent.parentNode;
 		  }while (clickedComponent);
 			//If drop down wrapper is pushed then clear dropdown.
 			if(document.querySelector(".departments_drop_down")===event.target
@@ -114,6 +114,7 @@ export class SearchBarComponent {
 				}
 				this.showSearchField=true;
 				this.resetDropDownMenus();
+				this.searchResult=[];
   		}
     }
     buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
