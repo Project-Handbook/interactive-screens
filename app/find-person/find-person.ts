@@ -72,7 +72,9 @@ export class FindPerson {
     this.getSchools();
     var screenInfo = new ScreenSpecificInformation();
     screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    console.log("hej");
     console.log(screenInfo.department_code);
+    console.log(screenInfo.title);
   }
 
   search(input: string) {

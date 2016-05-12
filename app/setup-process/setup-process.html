@@ -71,7 +71,7 @@
         </select>
         <br><br>
         <label>Default department</label>
-        <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
+        <select id="department_drop_down" [(ngModel)]="screenInfo.department_code" style="width: 100%; padding: 0.2em">
           <option *ngFor="let department of department_list" [value]="department.code">
             {{ department.name_sv }}
           </option>

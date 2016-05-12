@@ -28,7 +28,8 @@ export class Map {
     var person = {
                    given_name: <string> routeParams.get('given_name'),
                    family_name: <string> routeParams.get('family_name'),
-                   visiting_address: <string> routeParams.get('address')
+                   visiting_address: <string> routeParams.get('address'),
+                   room: <string> routeParams.get('room')
                  }
     //If parameters was passed then display the address on the map
    if(person.given_name!==null && person.family_name!==null && person.visiting_address!==null){
@@ -121,8 +122,9 @@ getAdressFromPerson(person){
           var coordinate_lat = res[0].latitude;
           var coordinate_lng = res[0].longitude;
           this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
-          .bindPopup("<strong>" + res[0].streetAddress + "</strong> <br>" +
-            person.given_name + " " +  person.family_name)
+          .bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
+          "Room: " + person.room + "<br>" + 
+            res[0].streetAddress )
           .openPopup();
     });
   }

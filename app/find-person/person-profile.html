@@ -20,14 +20,22 @@
 							<td>{{ person.email }}</td>
 						</tr>
 						<tr>
-							<td class="category">Phone</td>
+							<td class="category">Phone(+HR)</td>
 							<td>{{ person.phone_number }}</td>
+						</tr>
+						<tr>
+							<td class="category">Phone</td>
+							<td>{{ person.phone_number2 }}</td>
 						</tr>
 						<tr>
 							<td class="category">Address</td>
 							<td>{{ person.visiting_address }}</td>
 							<td *ngIf="person.visiting_address"><a [routerLink]="['Map', {given_name:person.given_name,
-							family_name:person.family_name,address:person.visiting_address}]">View on map</a></td>
+							family_name:person.family_name,address:person.visiting_address,room:person.room}]">View on map</a></td>
+						</tr>
+						<tr>
+							<td class="category">Room</td>
+							<td>{{ person.room }}</td>
 						</tr>
 						<tr>
 							<td class="category">KTH profile</td>

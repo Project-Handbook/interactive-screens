@@ -41,6 +41,8 @@ export class FindPersonService {
 						undefined, /* Need to fetch kth profile */
 						undefined, /* Need to scrape the 'about me' section */
 						undefined,
+						undefined,
+						undefined,
 						undefined
 					);
 				this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
@@ -78,6 +80,8 @@ export class FindPersonService {
 						undefined, /* Need to fetch working place */
 						undefined, /* Need to fetch kth profile */
 						undefined, /* Need to scrape the 'about me' section */
+						undefined,
+						undefined,
 						undefined,
 						undefined
 					);
@@ -117,6 +121,8 @@ export class FindPersonService {
 											undefined, /* Need to fetch kth profile */
 											undefined, /* Need to scrape the 'about me' section */
 											undefined,
+											undefined,
+											undefined,
 											undefined
 										);
 										this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
@@ -148,6 +154,7 @@ export class FindPersonService {
 				person.kth_profile = item.url;
 				this.fetchAboutMeInfo(person);
 				this.fetchStatus(person);
+				this.fetchPersonalDetails(person);
 			},
 			error => console.log(error),
 			() => {}
@@ -179,6 +186,16 @@ export class FindPersonService {
 				}else{
 					person.status_image=null;
 				}
+			})
+	}
+	private fetchPersonalDetails(person:Person){
+		var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
+		this.http.get(url + person.kthid)
+			.map(res=> res.json())
+			.subscribe(res=>{
+			person.phone_number2=res.result[0].result[0].telno;
+			person.room=res.result[0].result[0].room;
+
 			})
 	}
 }
