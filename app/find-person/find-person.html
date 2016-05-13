@@ -5,51 +5,56 @@
 	<div id="wrapper-persons">
 		<div id="person-header">
 			<form action="search()" id="search-container">
-				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone..." autocomplete="off">
-				<div id="person-search-schools" (click)="state = state == 'none' ? 'block' : 'none'">
-					<p id="person-search-schools-current">KTH<mark>&#10095;</mark></p>
-					<ul [ngStyle]="{'display': state}">
-					 	<li>KTH</li>
-					 	<li>ABC</li>
-					 	<li>BIO</li>
-					 	<li>CSC</li>
-					 	<li>EES</li>
-					 	<li>STH</li>
-					 	<li>ICT</li>
-					 	<li>CHE</li>
-					 	<li>ECE</li>
-					 	<li>ITM</li>
-					 	<li>KHD</li>
-					 	<li>UF</li>
-					</ul>
+				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone" autocomplete="off">
+				<div id="person-search-schools">
+					<p id="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
 				</div>
 				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
 			</form>
+			<div id="schools-wrapper" style="display: none">
+				<ul id="schools">
+					<li *ngFor="let school of schools" (click)="getDep(school)">
+						{{ school.school }}
+					</li>
+				</ul>
+				<div id="departments-wrapper" *ngIf="deps.length > 0">
+					<button (click)="scrollDep(-1)" *ngIf="deps.length > 14">
+						<p><mark>&#10095;</mark></p>
+					</button>
+					<ul id="departments" [ngStyle]="{'display': 'block'}">
+						<li *ngFor="let dep of deps" (click)="setDep(dep)">
+							{{ dep.name_sv }}
+						</li>
+					</ul>
+					<button (click)="scrollDep(1)" *ngIf="deps.length > 14">
+						<p><mark>&#10095;</mark></p>
+					</button>
+				</div>
+			</div>
+
 			<br>
-			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing {{ orgName }} staff</h5>
-			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }}</h5>
+			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing staff for {{ currentSchool }}</h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }} at {{ currentSchool }}</h5>
 		</div>
 		<div *ngIf="showErrorMessage">
 			<img src="app/find-person/images/Error-100.png"/>
 			<br>
-			<h1>The requested data is not available at the moment, please come again!</h1>
+			<h1>The requested data is not available at the moment!</h1>
 		</div>
 
 		<div *ngIf="!showErrorMessage">
-			<!--div class="personId"><h4>A</h4></div-->
-			
 			<table id="person-table">
 				<thead>
 					<th></th>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
-					<th (click)="sort('surname')"><p>Family name</p> <mark id="surname">&#10095;</mark></th>
-					<th (click)="sort('email')"><p>Email</p> <mark id="email">&#10095;</mark></th>
-					<th (click)="sort('phone')"><p>Phone</p> <mark id="phone">&#10095;</mark></th>
-					<th (click)="sort('title')"><p>Title</p> <mark  id="title">&#10095;</mark></th>
+					<th (click)="sort('surname')"><p>Family name</p><mark id="surname">&#10095;</mark></th>
+					<th (click)="sort('email')"><p>Email</p><mark id="email">&#10095;</mark></th>
+					<th (click)="sort('phone')"><p>Phone</p><mark id="phone">&#10095;</mark></th>
+					<th (click)="sort('title')"><p>Title</p><mark id="title">&#10095;</mark></th>
 				</thead>
-				<tbody>
-					<tr *ngFor="#person of people; #i = index">
-						<td><img src="https://www.lan.kth.se/sip/lur15.png" /></td>
+				<tbody id="person-table-body">
+					<tr *ngFor="let person of people; let i = index" (click)="setPerson(person)">
+						<td class="image_column"><center><img *ngIf="person.status_image"  [src]="person.status_image" width="20" height="20"></center></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>
@@ -58,6 +63,8 @@
 					</tr>
 				</tbody>
 			</table>
+			<person-profile [person]="currentPerson" [isOn]="isOn"></person-profile>
 		</div>
+		<div style="height:10rem"></div>
 	</div>
 </div>

@@ -5,7 +5,6 @@
   <h1>
     Welcome to the CScreen setup
   </h1>
-
   <header>
     <a href="https://github.com/Project-Handbook/interactive-screens/wiki/Setup-Documentation"><button type="button">Detailed documentation</button></a>
     <a href="https://github.com/Project-Handbook/interactive-screens/issues"><button type="button">Report an issue</button></a>
@@ -65,15 +64,16 @@
         <label>Choose school</label>
         <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
-          <option  *ngFor="let school of schools" [value]="school.code">
+          <option  *ngFor="let school of schools; let i = index" [value]="i">
             {{ school.school }}
           </option>
         </select>
         <br><br>
         <label>Default department</label>
-        <select id="department_drop_down" [(ngModel)]="department_code" style="width: 100%; padding: 0.2em">
-          <option *ngFor="let department of department_list" [value]="department.code">
-            {{ department.name_sv }}
+        <select enabled="false" (change)="setDepartment($event.target.value)" id="department_drop_down" style="width: 100%; padding: 0.2em">
+          <option></option>
+          <option *ngFor="let department of department_list; let i = index" [value]="i">
+              {{department.name_sv}}
           </option>
         </select>
       </td>
@@ -84,6 +84,30 @@
       </td>
       <td id="department_code_info" class="info" style="display: none;">
           This deparment will be displayed by default when there is no search in the People tab.
+      </td>
+    </tr>
+  </table>
+
+  <h2>Home Tab</h2>
+  <table>
+    <tr class="item">
+      <td>
+        <p>Calendar Polypoly Id</p>
+        <input type="text" placeholder="1.234567" [(ngModel)]="screenInfo.calendar_polypoly_id"/>
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('home_polypoly_id').style.display= document.getElementById('home_polypoly_id').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="home_polypoly_id" class="info" style="display: none;">
+          These ID will be used to fetch the calendar and news feed that is displayed in the home view.
+      </td>
+    </tr>
+    <tr class="item">
+      <td>
+        <p>News feed Polypoly Id</p>
+        <input type="text" placeholder="1.234567" [(ngModel)]="screenInfo.news_feed_polypoly_id"/>
       </td>
     </tr>
   </table>
@@ -216,7 +240,7 @@
 
   </table>
 
-  <button class="button" (click)="loadInformation()">Load</button>
+  <button  class="button" (click)="loadInformation()">Load</button>
   <button class="button" type="submit" (click)="saveInformation()">Save</button>
 
   <!-- Padding -->
