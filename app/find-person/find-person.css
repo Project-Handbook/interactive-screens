@@ -198,7 +198,8 @@ mark {
 
 .popup-person-wrapper {
   font-size: 3em;
-  margin: 0.75em; }
+  margin: 0.75em;
+  min-width: 30rem; }
 
 .popup-person-title {
   font-size: .6em;
@@ -317,7 +318,7 @@ mark {
 
 #person-table thead th:first-child {
   border: none;
-  min-width: 0; }
+  min-width: 1.7rem; }
 
 #person-table thead th p {
   float: left;
