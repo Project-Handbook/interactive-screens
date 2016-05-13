@@ -73,7 +73,7 @@ var MapService = (function () {
     };
     MapService.prototype.getSchools = function () {
         var schools = [];
-        return this.http.get('app/map/schools.json')
+        return this.http.get('app/schools.json')
             .map(function (res) { return res.json(); })
             .map(function (res) {
             res.forEach(function (item) {

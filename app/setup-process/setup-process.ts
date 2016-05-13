@@ -58,6 +58,8 @@ export class SetupProcess {
   private currentMapMarker: L.Marker;
 
   ngOnInit(){
+    this.screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+
     this.map = new L.Map('map', {
          zoomControl: false,
          center: new L.LatLng(59.3469417, 18.0702413), // Center on KTH

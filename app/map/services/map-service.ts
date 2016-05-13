@@ -72,7 +72,7 @@ export class MapService{
 
 	getSchools() {
 		var schools = [];
-		return this.http.get('app/map/schools.json')
+		return this.http.get('app/schools.json')
 			.map(res => res.json())
 			.map(res => {
 				res.forEach(item =>

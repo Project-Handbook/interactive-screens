@@ -220,7 +220,6 @@ export class FindPerson {
       var clickedComponent = event.target;
       var popupContent = document.getElementById('popup-content');
       var personTable = document.getElementById('person-table-body');
-
       do {
          if (clickedComponent === personTable) {
             this.isOn = true;
