@@ -13,14 +13,19 @@ var common_1 = require('@angular/common');
 var email_service_1 = require('./email.service');
 require("rxjs/add/operator/map");
 var Contact = (function () {
+    // Constructor, initializes a EmailService and FormBuilder object for later use
+    // Creates the form and initializes the captcha
     function Contact(emailService, builder) {
         this.emailService = emailService;
         this.builder = builder;
+        // This is the object that will be used to send the emails to RT
         this.email = { fromName: "", message: "", fromEmail: "" };
+        // The submit method. Sends the mail containing the forms attributes.
         this.showForm = true;
         this.createForm();
         this.captchaInit();
     }
+    // Method for creating the email form and its validators.
     Contact.prototype.createForm = function () {
         this.error = false;
         this.msgCtrl = new common_1.Control('', common_1.Validators.minLength(10));
@@ -34,17 +39,21 @@ var Contact = (function () {
             captchaCtrl: this.captchaCtrl
         });
     };
+    // Method for initializing and reseting the captcha.
     Contact.prototype.captchaInit = function () {
         this.captchaAnswer = null;
         this.captchaValid = false;
         this.captchaA = Math.floor(Math.random() * 5) + 1;
         this.captchaB = Math.floor(Math.random() * 5) + 1;
     };
+    // Method for checking if the submitted captcha is valid.
     Contact.prototype.captchaCheck = function () {
         if (this.captchaAnswer == (this.captchaA + this.captchaB)) {
             this.captchaValid = true;
         }
     };
+    // Method for reseting the form and re-initializing the captcha.
+    // A workaround for clearing the form had to be done here, it replaces the old form with a new one.
     Contact.prototype.reset = function () {
         var _this = this;
         this.createForm();
@@ -58,12 +67,18 @@ var Contact = (function () {
     };
     Contact.prototype.onSubmit = function (fromName, fromEmail, message) {
         var _this = this;
-        // INSERT CAPTCHA HERE
+        // First checks if the captcha is valid
         this.captchaCheck();
+        // If it is, send the forms attributes to the EmailService service
         if (this.captchaValid) {
             this.emailService.sendEmail(fromName, fromEmail, message)
                 .map(function (res) { return res; })
-                .subscribe(function (res) { return console.log(res); }, function (error) { console.log(error), _this.error = true; }, function () {
+                .subscribe(function (res) { return console.log(res); }, function (error) {
+                console.log(error), _this.error = true;
+            }, 
+            // Below is what will happen if Mailgun responds with a 200 OK response.
+            // It then resets the form and sets error to false.
+            function () {
                 _this.error = false, _this.messageSent = true, _this.showForm = false,
                     setTimeout(function () {
                         _this.reset();
