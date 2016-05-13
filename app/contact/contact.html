@@ -3,6 +3,7 @@
 
 <div class="contact_wrapper">
   <h1>Contact CSC in the text field below if you have an errand.</h1>
+  <h2>If you're looking for the KTH Intranet, it can be found on intra.kth.se</h2>
   <h2>Don't forget to supply your email so that they can contact you.</h2>
 
   <form *ngIf="showForm" [ngFormModel]="form" (submit)="onSubmit(email.fromName, email.fromEmail, email.message)">
@@ -40,9 +41,7 @@
           </div>
         </div>
       </div>
-
     </div>
-
 
     <div class="buttonArea">
          <button type="submit" [disabled]="!form.valid">Submit</button>
@@ -54,8 +53,5 @@
       <i class="fa fa-check" aria-hidden="true"></i> Message sent!
       </div>
     </div>
-
   </form>
-
-
 </div>
