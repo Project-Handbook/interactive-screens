@@ -83,7 +83,7 @@ export class Contact {
   onSubmit(fromName, fromEmail, message) {
      // First checks if the captcha is valid
     this.captchaCheck();
-    // If it is, send a HTTP-POST request to the Mailgun API using the EmailService
+    // If it is, send the forms attributes to the EmailService service
     if (this.captchaValid) {
     this.emailService.sendEmail(fromName, fromEmail, message)
       .map(res => res)
