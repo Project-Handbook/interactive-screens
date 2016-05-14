@@ -58,6 +58,11 @@ export class FindPersonService {
 
 	// Fetches all the people matching the searchterm from KTH Profiles
 	// This function will also make sure they are from a certain department
+	// This function makes two calls to the same API, once based on the name
+	// and once based on the department, it then compares the results and returns
+	// the shared elements.
+	// NOTE: Due to lack of time this function makes an extra unnecessary call
+	// and fetches the image-link for every person a second time.
 	fetchPeople2(searchterm: string, prefix: string, onError: ErrorCallback): Array<Person> {
 		var people = [];
 		var peopleAlsoInDep = [];
@@ -92,6 +97,10 @@ export class FindPersonService {
 			},
 				error => onError(ErrorType.NoInternetConnection),
 				() => {
+
+					// We've fetched all persons based on the search-string.
+					// Let's fetch all persons based on the department and 
+					// then compare the results.
 
 					if(prefix == "org:KTH") {
 						people.forEach(item => {
