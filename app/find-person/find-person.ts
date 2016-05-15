@@ -310,17 +310,6 @@ export class FindPerson {
     this.deps = [];
     this._mapService.getDepartments(item.code).subscribe( res=> {
       this.deps=res;
-
-      // Add the school as the first element should one just want
-      // to search with that
-
-      var code = "code";
-      var name = "name_sv";
-      var a = {};
-      a[code] = item.code;
-      a[name] = item.school;
-
-      this.deps.unshift(a);
     });
   }
 
@@ -335,8 +324,6 @@ export class FindPerson {
 
   // Set's the currently selected person for the popup window
   setPerson(p) {
-    this.findPersonService.fetchPersonalDetails(p);
-    this.findPersonService.fetchStatus(p);
     this.currentPerson = p;
   }
 }
