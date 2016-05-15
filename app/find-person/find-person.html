@@ -8,9 +8,9 @@
 			<!-- Searchbar, dropdown and search-button -->
 			<form action="search()" id="search-container">
 				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone" autocomplete="off">
-				<!--div id="person-search-schools">
+				<div id="person-search-schools">
 					<p id="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
-				</div-->
+				</div>
 				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
 			</form>
 			<!-- Dropdown menu with all schools and departments (initially hidden) -->
@@ -42,7 +42,7 @@
 			<!-- Information about the current search -->
 			<br>
 			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing staff for {{ currentSchool }}</h5>
-			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }}<!-- at {{ currentSchool }} --></h5>
+			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }} at {{ currentSchool }}</h5>
 		</div>
 		<div *ngIf="showErrorMessage">
 			<img src="app/find-person/images/Error-100.png"/>
@@ -54,7 +54,6 @@
 			<!-- Table displaying the current persons -->
 			<table id="person-table">
 				<thead>
-					<th></th>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
 					<th (click)="sort('surname')"><p>Family name</p><mark id="surname">&#10095;</mark></th>
 					<th (click)="sort('email')"><p>Email</p><mark id="email">&#10095;</mark></th>
@@ -63,7 +62,6 @@
 				</thead>
 				<tbody id="person-table-body">
 					<tr *ngFor="let person of people; let i = index" (click)="setPerson(person)">
-						<td><img *ngIf="person.status_image" [src]="person.status_image" width="20" height="20" /></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>

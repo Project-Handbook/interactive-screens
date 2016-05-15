@@ -99,7 +99,7 @@ export class FindPerson {
     } else {
       input = input.trim();
       this.currentSearch = "\"" + input + "\"";
-      this.getPeople(input);
+      this.getPeople2(input);
     }
   }
 
@@ -335,6 +335,8 @@ export class FindPerson {
 
   // Set's the currently selected person for the popup window
   setPerson(p) {
+    this.findPersonService.fetchPersonalDetails(p);
+    this.findPersonService.fetchStatus(p);
     this.currentPerson = p;
   }
 }
