@@ -390,6 +390,11 @@ mark{
   min-width: 156px;
 }
 
+#person-table thead th:first-child {
+  border: none;
+  min-width: 1.7rem;
+}
+
 #person-table thead th p {
   float: left;
   text-decoration: underline;
@@ -416,7 +421,12 @@ mark{
 #person-table tr:nth-child(odd) {
 }
 
-#person-table tr td:nth-child(1), td:nth-child(2) {
+#person-table tr td:first-child {
+  border: none !important;
+  color: #2e7cc0;
+}
+
+#person-table tr td:nth-child(2), td:nth-child(3) {
   color: #2e7cc0;
 }
 
