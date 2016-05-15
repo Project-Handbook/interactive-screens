@@ -42,16 +42,17 @@ var FindPerson = (function () {
                     _this.showErrorMessage = true;
             }
         };
+        // Used for arrows when sorting the results
         this.rotation = "rotate(90deg)";
         this.previous = "surname";
         this.deps = [];
         this.schools = [];
     }
-    // This will find all people within the standard department
+    // This will find all people based on the given search-string
     FindPerson.prototype.getPeople = function (searchterm) {
         this.people = this.findPersonService.fetchPeople(searchterm, this.onError);
     };
-    // This will find all people within the chosen department
+    // This will find all people based on the given search-string within the chosen department
     FindPerson.prototype.getPeople2 = function (searchterm) {
         this.people = this.findPersonService.fetchPeople2(searchterm, this.currentPrefix, this.onError);
     };
@@ -67,9 +68,12 @@ var FindPerson = (function () {
         this.currentPrefix = "org:" + screenInfo.department_code;
         this.selectedSchool = screenInfo.department_name;
         this.currentSchool = screenInfo.department_name;
+        // Load initial results
         this.getPeople(this.currentPrefix);
         this.getSchools();
     };
+    // Set's field based on input and makes a function call
+    // to find all people based on the input
     FindPerson.prototype.search = function (input) {
         this.currentSchool = this.selectedSchool;
         if (input == undefined) {
@@ -86,8 +90,16 @@ var FindPerson = (function () {
             this.getPeople2(input);
         }
     };
+    // Sorts the person-list based on input. This will sort the list first based
+    // on the input and if two objects have the same value it will then sort those
+    // based on their family name
+    // The function will also reset and rotate the arrows marking how the list is
+    // currently sorted.
     FindPerson.prototype.sort = function (input) {
+        // The arrow for the current input
         var element = this.getElement(input);
+        // Rotate and display the current arrow and 
+        // reset the previous
         if (this.previous != input) {
             var prev = this.getElement(this.previous);
             prev.style.transform = "rotate(90deg)";
@@ -102,6 +114,9 @@ var FindPerson = (function () {
             this.rotation = this.rotation == "rotate(-90deg)" ? "rotate(90deg)" : "rotate(-90deg)";
         }
         element.style.transform = this.rotation;
+        // Sort the list based on input and how it's currently sorted. For example, if
+        // it's previously sorted based on email and the input also is email, then simply
+        // flip the list, sorting it backwards.
         var rotation = this.rotation;
         this.people.sort(function (a, b) {
             if (input == "firstname") {
@@ -109,6 +124,7 @@ var FindPerson = (function () {
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.given_name > b.given_name)
                     return rotation == "rotate(90deg)" ? 1 : -1;
+                // Both items were equal, sort based on family name instead
                 if (a.family_name < b.family_name)
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.family_name > b.family_name)
@@ -127,6 +143,7 @@ var FindPerson = (function () {
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.email > b.email)
                     return rotation == "rotate(90deg)" ? 1 : -1;
+                // Both items were equal, sort based on family name instead
                 if (a.family_name < b.family_name)
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.family_name > b.family_name)
@@ -138,6 +155,7 @@ var FindPerson = (function () {
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.phone_number > b.phone_number)
                     return rotation == "rotate(90deg)" ? 1 : -1;
+                // Both items were equal, sort based on family name instead
                 if (a.family_name < b.family_name)
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.family_name > b.family_name)
@@ -149,6 +167,7 @@ var FindPerson = (function () {
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.title > b.title)
                     return rotation == "rotate(90deg)" ? 1 : -1;
+                // Both items were equal, sort based on family name instead
                 if (a.family_name < b.family_name)
                     return rotation == "rotate(90deg)" ? -1 : 1;
                 if (a.family_name > b.family_name)
@@ -157,6 +176,8 @@ var FindPerson = (function () {
             }
         });
     };
+    // Returns the mark-element for the person-table based
+    // on input. This is used to be able to rotate the arrows.
     FindPerson.prototype.getElement = function (input) {
         var element;
         if (input == "firstname") {
@@ -177,11 +198,14 @@ var FindPerson = (function () {
         }
         return element;
     };
+    // Scrolls the div 'departments' in the provided direction.
+    // input 'dir' = -1 or 1
     FindPerson.prototype.scrollDep = function (dir) {
         var departments = document.getElementById("departments");
         var newScroll = departments.scrollTop + (departments.offsetHeight - 55) * dir;
         this.scrollTo(departments, newScroll, 5000);
     };
+    // Scrolls to a position in a certain div in a certain time
     FindPerson.prototype.scrollTo = function (element, to, duration) {
         $("#departments").animate({
             scrollTop: to
@@ -208,6 +232,8 @@ var FindPerson = (function () {
         schoolsDiv.style.display = "none";
         this.deps = [];
     };
+    // This funtion determines if the user clicks outside the popup window. If this is the case
+    // the window will disappear.
     FindPerson.prototype.handleClickForPopup = function (event) {
         var clickedComponent = event.target;
         var popupContent = document.getElementById('popup-content');
@@ -224,11 +250,15 @@ var FindPerson = (function () {
         } while (clickedComponent);
         this.isOn = false;
     };
+    // Will either display or hide the element 'schools-wrapper' depending
+    // on it's previous 'display' value.
+    // It will also clear the deps array.
     FindPerson.prototype.toggleSchools = function () {
         var w = document.getElementById('schools-wrapper');
         w.style.display = w.style.display == "table" ? "none" : "table";
         this.deps = [];
     };
+    // Will fetch all available schools
     FindPerson.prototype.getSchools = function () {
         var _this = this;
         this.schools = [];
@@ -244,6 +274,7 @@ var FindPerson = (function () {
             _this.schools.unshift(a);
         });
     };
+    // Will fetch all departments within a certain school
     FindPerson.prototype.getDep = function (item) {
         var _this = this;
         if (item.school == "KTH") {
@@ -269,12 +300,14 @@ var FindPerson = (function () {
             _this.deps.unshift(a);
         });
     };
+    // Set's the currently selected department
     FindPerson.prototype.setDep = function (dep) {
         this.selectedSchool = dep.name_sv;
         this.currentPrefix = "org:" + dep.code;
         this.deps = [];
         this.toggleSchools();
     };
+    // Set's the currently selected person for the popup window
     FindPerson.prototype.setPerson = function (p) {
         this.currentPerson = p;
     };

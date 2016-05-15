@@ -57,7 +57,9 @@ var SetupProcess = (function () {
     };
     SetupProcess.prototype.ngOnInit = function () {
         var _this = this;
-        this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+            this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+        }
         this.map = new L.Map('map', {
             zoomControl: false,
             center: new L.LatLng(59.3469417, 18.0702413),
@@ -94,7 +96,7 @@ var SetupProcess = (function () {
     };
     SetupProcess.prototype.getSchools = function () {
         var _this = this;
-        this.mapService.getSchools().subscribe(function (res) { _this.schools = res, console.log(res); });
+        this.mapService.getSchools().subscribe(function (res) { _this.schools = res; });
     };
     SetupProcess.prototype.getDepartments = function (department) {
         var _this = this;
@@ -112,7 +114,6 @@ var SetupProcess = (function () {
         this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
     };
     SetupProcess.prototype.setDepartment = function (index) {
-        console.log(index);
         this.screenInfo.department_code = this.department_list[index].code;
         this.screenInfo.department_name = this.department_list[index].name_sv;
     };
