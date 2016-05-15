@@ -90,7 +90,7 @@ export class FindPersonService {
 						undefined,
 						undefined
 					);
-
+					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
 					people.push(person);
 				})
 			},
@@ -98,7 +98,7 @@ export class FindPersonService {
 				() => {
 
 					// We've fetched all persons based on the search-string.
-					// Let's fetch all persons based on the department and 
+					// Let's fetch all persons based on the department and
 					// then compare the results.
 
 					if(prefix == "org:KTH") {
