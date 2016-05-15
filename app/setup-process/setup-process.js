@@ -114,6 +114,7 @@ var SetupProcess = (function () {
         this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
     };
     SetupProcess.prototype.setDepartment = function (index) {
+        console.log(index);
         this.screenInfo.department_code = this.department_list[index].code;
         this.screenInfo.department_name = this.department_list[index].name_sv;
     };

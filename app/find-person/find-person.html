@@ -63,7 +63,7 @@
 				</thead>
 				<tbody id="person-table-body">
 					<tr *ngFor="let person of people; let i = index" (click)="setPerson(person)">
-						<td class="image_column"><center><img *ngIf="person.status_image"  [src]="person.status_image" width="20" height="20"></center></td>
+						<td><img *ngIf="person.status_image" [src]="person.status_image" width="20" height="20" /></td>
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>

@@ -16,6 +16,7 @@ var constants_1 = require('../constants');
 var Home = (function () {
     function Home(homeService) {
         this.homeService = homeService;
+        //Contains the news event HTML blocks.
         this.news_block = [];
     }
     //Returns the 4 latest calendar events from Polypoly through the home-service class
@@ -31,16 +32,24 @@ var Home = (function () {
             .subscribe(function (res) {
             for (var i = 0; i < res.length; i++) {
                 _this.news_block.push(res[i].innerHTML);
-                console.log(_this.news_block[i]);
             }
-        }, function (error) { _this.news_feed_error = true; }, function () { return _this.news_feed_error = false; });
+        }, function (error) { return _this.news_feed_error = true; }, function () { return _this.news_feed_error = false; });
     };
     //Calls getCalendar and getNewsFeed on View Init.
     Home.prototype.ngOnInit = function () {
+        //Contains screenspecific configuration
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
-        screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-        this.getCalendar(screenInfo.calendar_polypoly_id);
-        this.getNewsFeed(screenInfo.news_feed_polypoly_id);
+        //Checks if localstorage file exists
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+            screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+            this.getCalendar(screenInfo.calendar_polypoly_id);
+            this.getNewsFeed(screenInfo.news_feed_polypoly_id);
+        }
+        else {
+            //If localstorage file doesnt exists, display error messages!
+            this.news_feed_error = true;
+            this.calendar_error = true;
+        }
     };
     Home = __decorate([
         core_1.Component({

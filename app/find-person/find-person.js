@@ -64,10 +64,12 @@ var FindPerson = (function () {
     FindPerson.prototype.ngOnInit = function () {
         //Fetches department code and name from local storage.
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
-        screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-        this.currentPrefix = "org:" + screenInfo.department_code;
-        this.selectedSchool = screenInfo.department_name;
-        this.currentSchool = screenInfo.department_name;
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+            screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+            this.currentPrefix = "org:" + screenInfo.department_code;
+            this.selectedSchool = screenInfo.department_name;
+            this.currentSchool = screenInfo.department_name;
+        }
         // Load initial results
         this.getPeople(this.currentPrefix);
         this.getSchools();
@@ -98,7 +100,7 @@ var FindPerson = (function () {
     FindPerson.prototype.sort = function (input) {
         // The arrow for the current input
         var element = this.getElement(input);
-        // Rotate and display the current arrow and 
+        // Rotate and display the current arrow and
         // reset the previous
         if (this.previous != input) {
             var prev = this.getElement(this.previous);
@@ -290,14 +292,6 @@ var FindPerson = (function () {
         this.deps = [];
         this._mapService.getDepartments(item.code).subscribe(function (res) {
             _this.deps = res;
-            // Add the school as the first element should one just want
-            // to search with that
-            var code = "code";
-            var name = "name_sv";
-            var a = {};
-            a[code] = item.code;
-            a[name] = item.school;
-            _this.deps.unshift(a);
         });
     };
     // Set's the currently selected department

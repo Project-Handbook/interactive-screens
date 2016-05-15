@@ -36,9 +36,9 @@ var Map = (function () {
     //Executes on page load.
     Map.prototype.ngOnInit = function () {
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
-        screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
         var gotChoords = false;
-        if (screenInfo.latitude !== 0 && screenInfo.longitude !== 0) {
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null && screenInfo.latitude !== 0 && screenInfo.longitude !== 0) {
+            screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
             gotChoords = true;
             this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
         }

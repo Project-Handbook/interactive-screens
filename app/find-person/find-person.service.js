@@ -61,7 +61,7 @@ var FindPersonService = (function () {
             });
         }, function (error) { return onError(ErrorType.NoInternetConnection); }, function () {
             // We've fetched all persons based on the search-string.
-            // Let's fetch all persons based on the department and 
+            // Let's fetch all persons based on the department and
             // then compare the results.
             if (prefix == "org:KTH") {
                 people.forEach(function (item) {
