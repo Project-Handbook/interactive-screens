@@ -19,11 +19,17 @@ import {Constants} from '../constants';
   `],
 })
 export class Home {
+    //Contains the calendar HTML block.
     calendar_block: String;
+    //Contains the news event HTML blocks.
     news_block:Array<String>=[];
+    //Used to display error message on the screen in the case of failed HTTP request
     calendar_error:boolean;
+    //Used to display error message on the screen in the case of failed HTTP request
     news_feed_error:boolean;
+
     constructor(private homeService:HomeService){}
+
     //Returns the 4 latest calendar events from Polypoly through the home-service class
     getCalendar(id:string){
       this.homeService.getCalendar(id)
@@ -40,23 +46,24 @@ export class Home {
           for(var i =0;i<res.length;i++){
             this.news_block.push(res[i].innerHTML);
           }
-
         },
-        error=>{this.news_feed_error=true},
-        ()=>  this.news_feed_error=false
+        error=> this.news_feed_error=true,
+        ()=>    this.news_feed_error=false
       );
     }
     //Calls getCalendar and getNewsFeed on View Init.
     ngOnInit(){
+      //Contains screenspecific configuration
       var screenInfo = new ScreenSpecificInformation();
+      //Checks if localstorage file exists
       if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
         screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
         this.getCalendar(screenInfo.calendar_polypoly_id);
         this.getNewsFeed(screenInfo.news_feed_polypoly_id);
       }else{
+        //If localstorage file doesnt exists, display error messages!
         this.news_feed_error=true;
         this.calendar_error=true;
       }
-
     }
   }
