@@ -58,7 +58,9 @@ export class SetupProcess {
   private currentMapMarker: L.Marker;
 
   ngOnInit(){
-    this.screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
+      this.screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+    }
 
     this.map = new L.Map('map', {
          zoomControl: false,
@@ -98,7 +100,7 @@ export class SetupProcess {
 
   schools: Array<any> = [];
   getSchools() {
-    this.mapService.getSchools().subscribe(res => {this.schools = res,console.log(res)});
+    this.mapService.getSchools().subscribe(res => {this.schools = res});
   }
 
   department_list: Array<any> = [];

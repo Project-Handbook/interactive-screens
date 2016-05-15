@@ -39,7 +39,6 @@ export class Home {
       .subscribe(res => {
           for(var i =0;i<res.length;i++){
             this.news_block.push(res[i].innerHTML);
-            console.log(this.news_block[i]);
           }
 
         },
@@ -50,8 +49,14 @@ export class Home {
     //Calls getCalendar and getNewsFeed on View Init.
     ngOnInit(){
       var screenInfo = new ScreenSpecificInformation();
-      screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-      this.getCalendar(screenInfo.calendar_polypoly_id);
-      this.getNewsFeed(screenInfo.news_feed_polypoly_id);
+      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
+        screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+        this.getCalendar(screenInfo.calendar_polypoly_id);
+        this.getNewsFeed(screenInfo.news_feed_polypoly_id);
+      }else{
+        this.news_feed_error=true;
+        this.calendar_error=true;
+      }
+
     }
   }

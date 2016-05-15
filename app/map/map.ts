@@ -40,13 +40,13 @@ export class Map {
   //Executes on page load.
 	ngOnInit(){
       var screenInfo = new ScreenSpecificInformation();
-      screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       var gotChoords=false;
-      if(screenInfo.latitude!==0 && screenInfo.longitude!==0){
-      gotChoords=true;
-      this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null && screenInfo.latitude!==0 && screenInfo.longitude!==0){
+        screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+        gotChoords=true;
+        this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
       }else{
-      this.mapCenter = new L.LatLng(59.347196, 18.073336);
+        this.mapCenter = new L.LatLng(59.347196, 18.073336);
       }
     //Initialize mapvar antarctica = [-77,70];
 	 this.map = new L.Map('map', {
