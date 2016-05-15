@@ -163,8 +163,8 @@ export class FindPersonService {
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
 				this.fetchAboutMeInfo(person);
-				this.fetchStatus(person);
-				this.fetchPersonalDetails(person);
+				//this.fetchStatus(person);
+				//this.fetchPersonalDetails(person);
 			},
 			error => null,
 			() => {}
