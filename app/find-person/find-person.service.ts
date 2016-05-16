@@ -157,7 +157,6 @@ export class FindPersonService {
 		this.http.get(url)
 			.map(res => res.json())
 			.subscribe(item => {
-				//console.log(item.image);
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;

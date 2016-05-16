@@ -40,15 +40,19 @@ export class Map {
   //Executes on page load.
 	ngOnInit(){
       var screenInfo = new ScreenSpecificInformation();
+      //Used to detect if chords of the screen is saved in localstorage
       var gotChoords=false;
-      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null && screenInfo.latitude!==0 && screenInfo.longitude!==0){
+      //Check if localstorage object exists
+      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
         screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-        gotChoords=true;
-        this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
-      }else{
-        this.mapCenter = new L.LatLng(59.347196, 18.073336);
+        //Check if localstorage object contains position coordinates.
+        if(screenInfo.latitude!==0 && screenInfo.longitude!==0){
+          //Set map center
+          this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+          gotChoords=true;
+        }
       }
-    //Initialize mapvar antarctica = [-77,70];
+    //Initialize map
 	 this.map = new L.Map('map', {
         zoomControl: false,
         center:this.mapCenter,
@@ -58,24 +62,28 @@ export class Map {
         zoomAnimation:false,
         doubleClickZoom:false
     });
+    //Add map layer
     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
         	attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
         }).addTo(this.map);
+    //Add zoom control
     var zoomControl = L.control.zoom({
           position: 'topright'
         }).addTo(this.map);
-      //Add marker at the location of the screen
-      var greenIcon = L.icon({
-          iconUrl: 'app/map/images/marker-icon-red.png',
-          iconSize:     [25, 38], // size of the icon
-          popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
-      });
-      if(gotChoords===true){
+    //Add marker at the location of the screen
+    var greenIcon = L.icon({
+        iconUrl: 'app/map/images/marker-icon-red.png',
+        iconSize:     [25, 38], // size of the icon
+        popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
+    });
+    /*If choordiantes are found in localstorage then set map center to the containing chords and display marker*/
+    if(gotChoords===true){
+      //Display marker
      L.marker([screenInfo.latitude, screenInfo.longitude],{icon: greenIcon}).addTo(this.map)
       .bindPopup('<strong>You are here.</strong>').openPopup();
     }
-      this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
-  }
+  this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
+}
   //Adds a marker on the location the place that the user has searched for. If multiple searches had been made this method
   //also removed the old destination marker.
   addDestinationMarker(place:Location){
@@ -87,9 +95,8 @@ export class Map {
       }
       this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
       this.map.setView([place.latitude,place.longitude],this.map.getZoom(),{animate:true});
-        /*Depending if the location is fetched from googleapis, department api or KTH places the location Object
-          contains different information and therefore the popups print different variables.
-        */
+        /*Depending if the location is fetched from googleapis or KTH places the location Object
+          contains different information and therefore the popups print different variables.  */
         switch(place.location_type){
           case Location_type.kth_places:
             if(place.popular_name.length!==0){
@@ -112,11 +119,9 @@ export class Map {
               console.log("No match");
       }
 }
-/* Used to fetch the address if the user navigates to the map tab through the peoples tab by clicking on
- the view address button. Fetches the coordinates of the adress of the person and displays it on the map.
-*/
+/* This method is used when a person has been passed as argument when navigating to this view. It fetches
+   the coordinates of the person and dispaly the coordinates as a marker on the map */
 getAdressFromPerson(person){
-    console.log(person.visiting_address);
     this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
       .subscribe(res => {
           var coordinate_lat = res[0].latitude;
@@ -128,8 +133,10 @@ getAdressFromPerson(person){
           .openPopup();
     });
   }
-  //Centers the map on the default coordinates.
-  centerOnMarker(){
-    this.map.setView(this.mapCenter, this.map.getZoom(), {animate: true});
+
+//Centers the map on the default coordinates.
+centerOnMarker(){
+  this.map.setView(this.mapCenter, this.map.getZoom(), {animate: true});
   }
+
 }

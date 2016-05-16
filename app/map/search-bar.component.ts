@@ -31,6 +31,7 @@ export class SearchBarComponent {
 	// Boolean values that keeps track of which button is currently pressed
   searchForLocation:boolean=true;
 	searchForAddress:boolean=false;
+	//Boolean value that decides if the searchfield shall be visible or not
 	showSearchField:boolean=true;
 	//Holds the string that will be displayed in the search field if there is no user input.
 	search_bar_placeholder="Search for a location...";
@@ -38,37 +39,53 @@ export class SearchBarComponent {
   term = new Control();
 	//If no adress is found by google geocord api then an error shall be presented on the screen.
 	no_address_found:boolean=false;
+	//Holds the the school objects fetched from schools.json.
+	schools:Array<any>=[];
+	//Control array for updating the buttons in the search component
+	buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
+	// Holds department objects fetched from KTH Places.
+	departmentsColumns: Array<Array<any>> = [];
+
 	constructor(private _mapService: MapService, myElement: ElementRef) {
     //Saves the root node of this componenet. Used for toogling dropdown menu on and off.
 		  this.elementRef = myElement;
       this.term.valueChanges
+				//Only execute new search query if no changes has been made to the search field for 300ms.
         .debounceTime(300)
+				//Only executes new search query if the new query is different than the last one
         .distinctUntilChanged()
         .subscribe(item => {
 					var regex = new RegExp('^[\\w\\d\\säöåÄÖÅ]+:?[\\w\\d\\säöåÄÖÅ]*$','i');
+					/**	search field only accepts letters, numbers and the character ":".''
+					    if the search field contains accepted input and input is longer than 1
+							 character -> search query will be executed */
           if (item.toString().length > 1 && regex.test(item.toString())){
+						//Search from KTH Places API
             if (this.searchForLocation === true) {
               this._mapService.getPlaces(item.toString()).subscribe(res => { this.searchResult = res },
                 error => this.showErrorMessage = true,
                 () => this.showErrorMessage = false);
             } else {
-							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
+							/**Search from google geocoding API*/
+							//Check if the search query is for a department or address
 							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
+							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
 							var term = item.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
               this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
                 error => {this.showErrorMessage = true},
                 () => this.showErrorMessage = false);
             }
           }else{
+						//Clear dropdown search list
 						this.searchResult=[];
           }
         })
-	 }
+	 		}
     //Send the selected location to map component.
     select(location){
 	    this.term.updateValue(""); //Reset search field
-			//Locations that is not fetched from KTH Places hasnt got coordinates but an address.
-			//Those locations has to be sent to googleapis in order to recieve coordinates.
+			/**Locations that is not fetched from KTH Places hasnt got coordinates but an address.
+		 		Those locations has to be sent to googleapis in order to recieve coordinates.*/
 	    if(location.latitude!==undefined && location.longitude!==undefined){
 	        this.newLocation.emit(location); // Send selected location to output
 	    }else{
@@ -89,11 +106,14 @@ export class SearchBarComponent {
 			this.resetDropDownMenus();
     }
 
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
-    // the searchresult array will be cleared and the dropdown will disappear.
+    /**This funtion is used determine if the user clicks outside the dropdown menu. If this is the case
+     the searchresult array will be cleared and the dropdown will disappear.*/
     handleClick(event){
+			//The component that the user has clicked on
 			var clickedComponent = event.target;
+			//Boolean value that will be set to true if the user has clicked inside the dropdown
 			var inside = false;
+			//Check every parent node of the clicked component.
 		  do {
 			   if (clickedComponent === this.elementRef.nativeElement) {
 				    inside = true;
@@ -104,8 +124,8 @@ export class SearchBarComponent {
 			if(document.querySelector(".departments_drop_down")===event.target
 				||document.querySelector(".component_wrapper")===event.target ){
 					inside=false;
-					console.log("hej");
 			};
+			//If the clicked component is outside dropdown then clear dropdown.
   		if(!inside){
 				if(this.searchForLocation===true){
 						this.updateButtons(0);
@@ -117,8 +137,8 @@ export class SearchBarComponent {
 				this.searchResult=[];
   		}
     }
-    buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
-
+		/**Switchs the color of the buttons in the search componet and also keep
+		control of what api to execute the search query to.*/
     buttonPush(value){
       if(value===0){
         this.searchForLocation=true;
@@ -139,6 +159,7 @@ export class SearchBarComponent {
 			this.term.updateValue("");
 			this.updateButtons(value);
     }
+	//Updates the colors of the buttons
 	updateButtons(value){
 		switch(value){
 			case 0:
@@ -161,15 +182,15 @@ export class SearchBarComponent {
 				break;
 		}
 	}
-  schools:Array<any>=[];
 	//Returns a list of all the schools listed in a local .json file
   getSchools(){
     this._mapService.getSchools().subscribe(res=>this.schools=res);
   }
-  departmentsColumns: Array<Array<any>> = [];
+	// Fetches all departments matching the given school code string passed as argument
   getDepartments(department:string){
     this._mapService.getDepartments(department).subscribe(res => {
 			this.departmentsColumns=[];
+			// Depening on the amount of departments. The list is split into diffenrent amount of sublists(columns).
 			switch(true){
 				case res.length>51:
 					this.departmentsColumns[0] = res.splice(0, 17);
@@ -194,14 +215,15 @@ export class SearchBarComponent {
 		error=>this.showErrorMessage=true,
 		()=> this.showErrorMessage=false)
   }
+	// Clears dropdown lists.
 	resetDropDownMenus(){
 		this.schools=[];
 		this.departmentsColumns=[];
 	}
-//used when search button is pressed
+//Searches for the first object displayed in the dropdown menu.
 	search(){
 		if(this.searchResult.length!==0){
 			this.select(this.searchResult[0]);
-	}
-}
+		}
+	}	
 }

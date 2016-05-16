@@ -181,7 +181,8 @@ mark {
 
 .popup-wrapper {
   width: 1000px;
-  margin: 250px auto; }
+  margin: 250px auto;
+  margin-top: 100px; }
 
 #popup-content {
   background-color: #fff;
@@ -234,7 +235,7 @@ mark {
   font-size: 0.75em;
   color: #000;
   overflow: hidden;
-  max-height: 600px; }
+  max-height: 550px; }
 
 .popup-person-about p {
   color: #000;

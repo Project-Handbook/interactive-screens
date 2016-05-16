@@ -18,6 +18,7 @@ export class MapService{
 			.map((request)  => request.json())
 			.map(res => {
 				res.forEach(item => {
+				//Only accept locations of certain types.
 				if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
 					|| item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
 					&& (item.placeName.length !== 0 || item.kthPopularName.length !==0)) {
@@ -41,7 +42,7 @@ export class MapService{
 			}
       	);
 	}
-
+	//Fetches all locations from google geocoding API that matches the given search string.
 	getGeoCode(address:string,location_type:Location_type){
 		var searchResult: Array<Location> = [];
 		return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
@@ -49,6 +50,7 @@ export class MapService{
 			.map(res => {
 							console.log(res),
           		res.results.forEach(item => {
+								//Only accepts exact locations.
               	if(item.geometry.location_type!=="APPROXIMATE"){
               		searchResult.push(
           				{
@@ -69,7 +71,7 @@ export class MapService{
           		return searchResult;
         	});
 	}
-
+	//Fetches all schools of KTH from local schools.json.
 	getSchools() {
 		var schools = [];
 		return this.http.get('app/schools.json')
@@ -81,7 +83,7 @@ export class MapService{
 				return schools;
 			});
 	}
-
+	//Fetches all the departments of the school passed as argument.
 	getDepartments(term: string) {
 		var departments = [];
 		return this.http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
@@ -89,6 +91,8 @@ export class MapService{
 			.map(res => {
 				var regexp = new RegExp('handen|kista')
 				var added = [];
+				// Removes dupplicates from the returned department list
+				// Only adds departments of KTH Östermalm campus.
 				res.children.forEach(item => {
 					var exists=false;
 					added.forEach(dep => {
@@ -103,5 +107,5 @@ export class MapService{
 				})
 				return departments;
 			})
+		}
 	}
-}
