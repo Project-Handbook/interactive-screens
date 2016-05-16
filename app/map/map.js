@@ -36,16 +36,19 @@ var Map = (function () {
     //Executes on page load.
     Map.prototype.ngOnInit = function () {
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
+        //Used to detect if chords of the screen is saved in localstorage
         var gotChoords = false;
-        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null && screenInfo.latitude !== 0 && screenInfo.longitude !== 0) {
+        //Check if localstorage object exists
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
             screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-            gotChoords = true;
-            this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+            //Check if localstorage object contains position coordinates.
+            if (screenInfo.latitude !== 0 && screenInfo.longitude !== 0) {
+                //Set map center
+                this.mapCenter = new L.LatLng(screenInfo.latitude, screenInfo.longitude);
+                gotChoords = true;
+            }
         }
-        else {
-            this.mapCenter = new L.LatLng(59.347196, 18.073336);
-        }
-        //Initialize mapvar antarctica = [-77,70];
+        //Initialize map
         this.map = new L.Map('map', {
             zoomControl: false,
             center: this.mapCenter,
@@ -55,9 +58,11 @@ var Map = (function () {
             zoomAnimation: false,
             doubleClickZoom: false
         });
+        //Add map layer
         var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
             attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
         }).addTo(this.map);
+        //Add zoom control
         var zoomControl = L.control.zoom({
             position: 'topright'
         }).addTo(this.map);
@@ -67,7 +72,9 @@ var Map = (function () {
             iconSize: [25, 38],
             popupAnchor: [2, -10] // point from which the popup should open relative to the iconAnchor
         });
+        /*If choordiantes are found in localstorage then set map center to the containing chords and display marker*/
         if (gotChoords === true) {
+            //Display marker
             L.marker([screenInfo.latitude, screenInfo.longitude], { icon: greenIcon }).addTo(this.map)
                 .bindPopup('<strong>You are here.</strong>').openPopup();
         }
@@ -84,9 +91,8 @@ var Map = (function () {
         }
         this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map);
         this.map.setView([place.latitude, place.longitude], this.map.getZoom(), { animate: true });
-        /*Depending if the location is fetched from googleapis, department api or KTH places the location Object
-          contains different information and therefore the popups print different variables.
-        */
+        /*Depending if the location is fetched from googleapis or KTH places the location Object
+          contains different information and therefore the popups print different variables.  */
         switch (place.location_type) {
             case location_interface_1.Location_type.kth_places:
                 if (place.popular_name.length !== 0) {
@@ -109,21 +115,27 @@ var Map = (function () {
                 console.log("No match");
         }
     };
-    /* Used to fetch the address if the user navigates to the map tab through the peoples tab by clicking on
-     the view address button. Fetches the coordinates of the adress of the person and displays it on the map.
-    */
+    /* This method is used when a person has been passed as argument when navigating to this view. It fetches
+       the coordinates of the person and dispaly the coordinates as a marker on the map */
     Map.prototype.getAdressFromPerson = function (person) {
         var _this = this;
-        console.log(person.visiting_address);
         this._mapService.getGeoCode(person.visiting_address, location_interface_1.Location_type.street_address)
             .subscribe(function (res) {
             var coordinate_lat = res[0].latitude;
             var coordinate_lng = res[0].longitude;
-            _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map)
-                .bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
-                "Room: " + person.room + "<br>" +
-                res[0].streetAddress)
-                .openPopup();
+            _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map);
+            //If room number exists then print it in popup otherwise not.
+            if (person.room !== "null") {
+                _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
+                    "Room: " + person.room + "<br>" +
+                    res[0].streetAddress)
+                    .openPopup();
+            }
+            else {
+                _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
+                    res[0].streetAddress)
+                    .openPopup();
+            }
         });
     };
     //Centers the map on the default coordinates.

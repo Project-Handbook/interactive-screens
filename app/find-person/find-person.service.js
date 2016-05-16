@@ -95,7 +95,6 @@ var FindPersonService = (function () {
         this.http.get(url)
             .map(function (res) { return res.json(); })
             .subscribe(function (item) {
-            //console.log(item.image);
             person.image_url = item.image;
             person.working_place = item.worksFor[0].name;
             person.kth_profile = item.url;

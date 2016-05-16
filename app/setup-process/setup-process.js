@@ -18,12 +18,15 @@ var SetupProcess = (function () {
     function SetupProcess(router, mapService) {
         this.router = router;
         this.mapService = mapService;
+        // Localstorage configuration object
         this.screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
         // Input - need to add this the the list
         this.newDepartment = "";
         // List of user created departments
         this.departments = [];
+        // Holds all schools fetched from getSchools.
         this.schools = [];
+        // Holds all departments from getDepartments.
         this.department_list = [];
         this.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday',
             'friday', 'saturday', 'sunday'];
@@ -57,9 +60,11 @@ var SetupProcess = (function () {
     };
     SetupProcess.prototype.ngOnInit = function () {
         var _this = this;
+        //Checks if localstorage object exists and saves the object to screenInfo(if it exists).
         if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
             this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
         }
+        //Initialize leaflet map
         this.map = new L.Map('map', {
             zoomControl: false,
             center: new L.LatLng(59.3469417, 18.0702413),
@@ -69,12 +74,15 @@ var SetupProcess = (function () {
             zoomAnimation: false,
             doubleClickZoom: false
         });
+        //Choose map layer
         var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
             attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
         }).addTo(this.map);
+        // Add zoom control buttons
         var zoomControl = L.control.zoom({
             position: 'topright'
         }).addTo(this.map);
+        // Every time the map is clicked, the coordinates are saved.
         this.map.on('click', function (event) {
             var longitude = event.latlng.lng;
             var latitude = event.latlng.lat;
@@ -82,9 +90,12 @@ var SetupProcess = (function () {
             _this.screenInfo.longitude = longitude;
             _this.updateMapMarker(longitude, latitude);
         });
+        //Disable pinch zoom
         this.map.touchZoom.disable();
+        //Fetches all schools at KTH from local schools.json file.
         this.getSchools();
     };
+    //Updates the marker on the laeflet map
     SetupProcess.prototype.updateMapMarker = function (longitude, latitude) {
         if (this.currentMapMarker != null) {
             this.map.removeLayer(this.currentMapMarker); // Remove old marker
@@ -94,15 +105,18 @@ var SetupProcess = (function () {
             .addTo(this.map)
             .bindPopup('<b>You are here.</b>').openPopup();
     };
+    //Fetches all schools at KTH from a local school.json file
     SetupProcess.prototype.getSchools = function () {
         var _this = this;
         this.mapService.getSchools().subscribe(function (res) { _this.schools = res; });
     };
+    //Fetches the departments of the school passed as argument
     SetupProcess.prototype.getDepartments = function (department) {
         var _this = this;
         this.mapService.getDepartments(this.schools[department].code).subscribe(function (res) {
             _this.department_list = res;
         });
+        //Updates the footer text depending on the choosen school.
         this.screenInfo.footer_text = this.schools[department].footer_text;
     };
     // Toggle if opening hours feature is used or not.
@@ -113,8 +127,8 @@ var SetupProcess = (function () {
     SetupProcess.prototype.toggleOpeningHoursDay = function (day) {
         this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
     };
+    //Set the department attributes of screenInfo object
     SetupProcess.prototype.setDepartment = function (index) {
-        console.log(index);
         this.screenInfo.department_code = this.department_list[index].code;
         this.screenInfo.department_name = this.department_list[index].name_sv;
     };

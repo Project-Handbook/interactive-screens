@@ -29,6 +29,7 @@ var SearchBarComponent = (function () {
         // Boolean values that keeps track of which button is currently pressed
         this.searchForLocation = true;
         this.searchForAddress = false;
+        //Boolean value that decides if the searchfield shall be visible or not
         this.showSearchField = true;
         //Holds the string that will be displayed in the search field if there is no user input.
         this.search_bar_placeholder = "Search for a location...";
@@ -36,8 +37,11 @@ var SearchBarComponent = (function () {
         this.term = new common_1.Control();
         //If no adress is found by google geocord api then an error shall be presented on the screen.
         this.no_address_found = false;
-        this.buttonColors = ["#2E7CC0", "#8c8c93", "#8c8c93"];
+        //Holds the the school objects fetched from schools.json.
         this.schools = [];
+        //Control array for updating the buttons in the search component
+        this.buttonColors = ["#2E7CC0", "#8c8c93", "#8c8c93"];
+        // Holds department objects fetched from KTH Places.
         this.departmentsColumns = [];
         //Saves the root node of this componenet. Used for toogling dropdown menu on and off.
         this.elementRef = myElement;
@@ -46,18 +50,25 @@ var SearchBarComponent = (function () {
             .distinctUntilChanged()
             .subscribe(function (item) {
             var regex = new RegExp('^[\\w\\d\\säöåÄÖÅ]+:?[\\w\\d\\säöåÄÖÅ]*$', 'i');
+            /**	search field only accepts letters, numbers and the character ":".''
+                if the search field contains accepted input and input is longer than 1
+                     character -> search query will be executed */
             if (item.toString().length > 1 && regex.test(item.toString())) {
+                //Search from KTH Places API
                 if (_this.searchForLocation === true) {
                     _this._mapService.getPlaces(item.toString()).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                 }
                 else {
-                    //Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
+                    /**Search from google geocoding API*/
+                    //Check if the search query is for a department or address
                     var location_type = _this.searchForAddress === true ? location_interface_1.Location_type.street_address : location_interface_1.Location_type.department;
+                    //Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
                     var term = item.toString().replace(/ä|å/ig, 'a').replace(/ö/ig, 'o');
                     _this._mapService.getGeoCode(term, location_type).subscribe(function (res) { _this.searchResult = res; }, function (error) { _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                 }
             }
             else {
+                //Clear dropdown search list
                 _this.searchResult = [];
             }
         });
@@ -66,8 +77,8 @@ var SearchBarComponent = (function () {
     SearchBarComponent.prototype.select = function (location) {
         var _this = this;
         this.term.updateValue(""); //Reset search field
-        //Locations that is not fetched from KTH Places hasnt got coordinates but an address.
-        //Those locations has to be sent to googleapis in order to recieve coordinates.
+        /**Locations that is not fetched from KTH Places hasnt got coordinates but an address.
+            Those locations has to be sent to googleapis in order to recieve coordinates.*/
         if (location.latitude !== undefined && location.longitude !== undefined) {
             this.newLocation.emit(location); // Send selected location to output
         }
@@ -87,11 +98,14 @@ var SearchBarComponent = (function () {
         }
         this.resetDropDownMenus();
     };
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
-    // the searchresult array will be cleared and the dropdown will disappear.
+    /**This funtion is used determine if the user clicks outside the dropdown menu. If this is the case
+     the searchresult array will be cleared and the dropdown will disappear.*/
     SearchBarComponent.prototype.handleClick = function (event) {
+        //The component that the user has clicked on
         var clickedComponent = event.target;
+        //Boolean value that will be set to true if the user has clicked inside the dropdown
         var inside = false;
+        //Check every parent node of the clicked component.
         do {
             if (clickedComponent === this.elementRef.nativeElement) {
                 inside = true;
@@ -102,9 +116,9 @@ var SearchBarComponent = (function () {
         if (document.querySelector(".departments_drop_down") === event.target
             || document.querySelector(".component_wrapper") === event.target) {
             inside = false;
-            console.log("hej");
         }
         ;
+        //If the clicked component is outside dropdown then clear dropdown.
         if (!inside) {
             if (this.searchForLocation === true) {
                 this.updateButtons(0);
@@ -117,6 +131,8 @@ var SearchBarComponent = (function () {
             this.searchResult = [];
         }
     };
+    /**Switchs the color of the buttons in the search componet and also keep
+    control of what api to execute the search query to.*/
     SearchBarComponent.prototype.buttonPush = function (value) {
         if (value === 0) {
             this.searchForLocation = true;
@@ -139,6 +155,7 @@ var SearchBarComponent = (function () {
         this.term.updateValue("");
         this.updateButtons(value);
     };
+    //Updates the colors of the buttons
     SearchBarComponent.prototype.updateButtons = function (value) {
         switch (value) {
             case 0:
@@ -166,10 +183,12 @@ var SearchBarComponent = (function () {
         var _this = this;
         this._mapService.getSchools().subscribe(function (res) { return _this.schools = res; });
     };
+    // Fetches all departments matching the given school code string passed as argument
     SearchBarComponent.prototype.getDepartments = function (department) {
         var _this = this;
         this._mapService.getDepartments(department).subscribe(function (res) {
             _this.departmentsColumns = [];
+            // Depening on the amount of departments. The list is split into diffenrent amount of sublists(columns).
             switch (true) {
                 case res.length > 51:
                     _this.departmentsColumns[0] = res.splice(0, 17);
@@ -192,11 +211,12 @@ var SearchBarComponent = (function () {
             }
         }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
     };
+    // Clears dropdown lists.
     SearchBarComponent.prototype.resetDropDownMenus = function () {
         this.schools = [];
         this.departmentsColumns = [];
     };
-    //used when search button is pressed
+    //Searches for the first object displayed in the dropdown menu.
     SearchBarComponent.prototype.search = function () {
         if (this.searchResult.length !== 0) {
             this.select(this.searchResult[0]);

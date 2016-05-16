@@ -24,6 +24,7 @@ var MapService = (function () {
             .map(function (request) { return request.json(); })
             .map(function (res) {
             res.forEach(function (item) {
+                //Only accept locations of certain types.
                 if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
                     || item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
                     && (item.placeName.length !== 0 || item.kthPopularName.length !== 0)) {
@@ -45,6 +46,7 @@ var MapService = (function () {
             return searchResult;
         });
     };
+    //Fetches all locations from google geocoding API that matches the given search string.
     MapService.prototype.getGeoCode = function (address, location_type) {
         var searchResult = [];
         return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
@@ -52,6 +54,7 @@ var MapService = (function () {
             .map(function (res) {
             console.log(res),
                 res.results.forEach(function (item) {
+                    //Only accepts exact locations.
                     if (item.geometry.location_type !== "APPROXIMATE") {
                         searchResult.push({
                             latitude: item.geometry.location.lat,
@@ -71,6 +74,7 @@ var MapService = (function () {
             return searchResult;
         });
     };
+    //Fetches all schools of KTH from local schools.json.
     MapService.prototype.getSchools = function () {
         var schools = [];
         return this.http.get('app/schools.json')
@@ -82,6 +86,7 @@ var MapService = (function () {
             return schools;
         });
     };
+    //Fetches all the departments of the school passed as argument.
     MapService.prototype.getDepartments = function (term) {
         var departments = [];
         return this.http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
@@ -89,6 +94,8 @@ var MapService = (function () {
             .map(function (res) {
             var regexp = new RegExp('handen|kista');
             var added = [];
+            // Removes dupplicates from the returned department list
+            // Only adds departments of KTH Östermalm campus.
             res.children.forEach(function (item) {
                 var exists = false;
                 added.forEach(function (dep) {

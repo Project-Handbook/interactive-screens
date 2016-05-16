@@ -71,9 +71,10 @@ var AppComponent = (function () {
         window.onclick = this.onWindowClick;
         // Refresh the clock every minute
         window.setInterval(this.refreshClock, 60);
+        /**Subscribes to the router, every time the route is changed the code inside the subscribe statement
+          is executed, changed the appearance of the menu items depending on the current route*/
         router.subscribe(function (val) {
             var url_with_para = val.split("?", 1);
-            // Set right border on sidebar
             switch (url_with_para[0]) {
                 case "home":
                     if (_this.prev !== 0) {
