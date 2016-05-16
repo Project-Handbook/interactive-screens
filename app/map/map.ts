@@ -127,10 +127,17 @@ getAdressFromPerson(person){
           var coordinate_lat = res[0].latitude;
           var coordinate_lng = res[0].longitude;
           this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
-          .bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
-          "Room: " + person.room + "<br>" +
-            res[0].streetAddress )
-          .openPopup();
+          //If room number exists then print it in popup otherwise not.
+          if(person.room!=="null"){
+            this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
+            "Room: " + person.room + "<br>" +
+              res[0].streetAddress )
+            .openPopup();
+          }else{
+            this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
+              res[0].streetAddress )
+            .openPopup();
+          }
     });
   }
 

@@ -30,10 +30,10 @@ export class Contact {
     this.createForm();
     this.captchaInit();
   }
-  
+
   // This is the object that will be used to send the emails to RT
   public email = {fromName: "", message: "", fromEmail: ""};
-  
+
   // Method for creating the email form and its validators.
   createForm() {
     this.error = false;
@@ -57,7 +57,7 @@ export class Contact {
     this.captchaA = Math.floor(Math.random() * 5) + 1;
     this.captchaB = Math.floor(Math.random() * 5) + 1;
   }
-  
+
   // Method for checking if the submitted captcha is valid.
   captchaCheck() {
     if (this.captchaAnswer == (this.captchaA + this.captchaB)) {
@@ -88,12 +88,12 @@ export class Contact {
     this.emailService.sendEmail(fromName, fromEmail, message)
       .map(res => res)
       // If Mailgun responds with an error, log the error and set error to true.
-      .subscribe(res => console.log(res), error => { 
-        console.log(error), this.error = true 
+      .subscribe(res => console.log(res), error => {
+        console.log(error), this.error = true
       },
       // Below is what will happen if Mailgun responds with a 200 OK response.
       // It then resets the form and sets error to false.
-      () => { 
+      () => {
         this.error = false, this.messageSent = true, this.showForm = false,
         setTimeout(() => {
           this.reset()
@@ -113,7 +113,7 @@ interface ValidationResult {
 
 class EmailValidator {
   static mailFormat(control: Control): ValidationResult {
-    var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+    var EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;
     if (control.value != "" && !EMAIL_REGEXP.test(control.value)) {
       return { "isInCorrectEmail": true };
     }
