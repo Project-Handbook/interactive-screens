@@ -98,7 +98,7 @@ export class FindPersonService {
 				() => {
 
 					// We've fetched all persons based on the search-string.
-					// Let's fetch all persons based on the department and 
+					// Let's fetch all persons based on the department and
 					// then compare the results.
 
 					if(prefix == "org:KTH") {
@@ -157,7 +157,6 @@ export class FindPersonService {
 		this.http.get(url)
 			.map(res => res.json())
 			.subscribe(item => {
-				//console.log(item.image);
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;

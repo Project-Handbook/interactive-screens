@@ -39,6 +39,13 @@ export class SearchBarComponent {
   term = new Control();
 	//If no adress is found by google geocord api then an error shall be presented on the screen.
 	no_address_found:boolean=false;
+	//Holds the the school objects fetched from schools.json.
+	schools:Array<any>=[];
+	//Control array for updating the buttons in the search component
+	buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
+	// Holds department objects fetched from KTH Places.
+	departmentsColumns: Array<Array<any>> = [];
+
 	constructor(private _mapService: MapService, myElement: ElementRef) {
     //Saves the root node of this componenet. Used for toogling dropdown menu on and off.
 		  this.elementRef = myElement;
@@ -130,8 +137,6 @@ export class SearchBarComponent {
 				this.searchResult=[];
   		}
     }
-		//Control array for updating the buttons in the search component
-    buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
 		/**Switchs the color of the buttons in the search componet and also keep
 		control of what api to execute the search query to.*/
     buttonPush(value){
@@ -177,15 +182,15 @@ export class SearchBarComponent {
 				break;
 		}
 	}
-  schools:Array<any>=[];
 	//Returns a list of all the schools listed in a local .json file
   getSchools(){
     this._mapService.getSchools().subscribe(res=>this.schools=res);
   }
-  departmentsColumns: Array<Array<any>> = [];
+	// Fetches all departments matching the given school code string passed as argument
   getDepartments(department:string){
     this._mapService.getDepartments(department).subscribe(res => {
 			this.departmentsColumns=[];
+			// Depening on the amount of departments. The list is split into diffenrent amount of sublists(columns).
 			switch(true){
 				case res.length>51:
 					this.departmentsColumns[0] = res.splice(0, 17);
@@ -210,14 +215,15 @@ export class SearchBarComponent {
 		error=>this.showErrorMessage=true,
 		()=> this.showErrorMessage=false)
   }
+	// Clears dropdown lists.
 	resetDropDownMenus(){
 		this.schools=[];
 		this.departmentsColumns=[];
 	}
-//used when search button is pressed
+//Searches for the first object displayed in the dropdown menu.
 	search(){
 		if(this.searchResult.length!==0){
 			this.select(this.searchResult[0]);
-	}
-}
+		}
+	}	
 }
