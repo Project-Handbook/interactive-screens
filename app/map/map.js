@@ -123,9 +123,11 @@ var Map = (function () {
             .subscribe(function (res) {
             var coordinate_lat = res[0].latitude;
             var coordinate_lng = res[0].longitude;
+            _this.mapCenter = new L.LatLng(coordinate_lat, coordinate_lng);
+            _this.centerOnMarker();
             _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map);
             //If room number exists then print it in popup otherwise not.
-            if (person.room !== "null") {
+            if (person.room != "null") {
                 _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
                     "Room: " + person.room + "<br>" +
                     res[0].streetAddress)
