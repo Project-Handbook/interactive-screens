@@ -21,6 +21,8 @@ var Map = (function () {
         this._mapService = _mapService;
         //Center coords for map Initialize
         this.mapCenter = new L.LatLng(59.3469417, 18.0702413);
+        //Boolean to display error message
+        this.showError = false;
         //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
         var person = {
             given_name: routeParams.get('given_name'),
@@ -121,24 +123,22 @@ var Map = (function () {
         var _this = this;
         this._mapService.getGeoCode(person.visiting_address, location_interface_1.Location_type.street_address)
             .subscribe(function (res) {
-            var coordinate_lat = res[0].latitude;
-            var coordinate_lng = res[0].longitude;
-            _this.mapCenter = new L.LatLng(coordinate_lat, coordinate_lng);
-            _this.centerOnMarker();
-            _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map);
-            //If room number exists then print it in popup otherwise not.
-            if (person.room != "null") {
+            if (res[0] !== undefined) {
+                var coordinate_lat = res[0].latitude;
+                var coordinate_lng = res[0].longitude;
+                _this.mapCenter = new L.LatLng(coordinate_lat, coordinate_lng);
+                _this.centerOnMarker();
+                _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map);
+                //If room number exists then print it in popup otherwise not.
                 _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
-                    "Room: " + person.room + "<br>" +
                     res[0].streetAddress)
                     .openPopup();
             }
             else {
-                _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
-                    res[0].streetAddress)
-                    .openPopup();
+                _this.showError = true;
+                setTimeout(function () { _this.showError = false; }, 3000);
             }
-        });
+        }, function (error) { return console.log("error"); });
     };
     //Centers the map on the default coordinates.
     Map.prototype.centerOnMarker = function () {

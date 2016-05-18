@@ -20,6 +20,8 @@ var SetupProcess = (function () {
         this.mapService = mapService;
         // Localstorage configuration object
         this.screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
+        //Used to display error message when trying to load the configuration object when no exists
+        this.noConfigFound = false;
         // Input - need to add this the the list
         this.newDepartment = "";
         // List of user created departments
@@ -43,8 +45,17 @@ var SetupProcess = (function () {
     };
     // Reads the stored ScreenSpecificInformation object
     SetupProcess.prototype.loadInformation = function () {
-        this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-        this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+        var _this = this;
+        //Check if config object exsists, if not -> display error message
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+            this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+            this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+            this.departments = this.screenInfo.departments;
+        }
+        else {
+            this.noConfigFound = true;
+            setTimeout(function () { _this.noConfigFound = false; }, 3000);
+        }
     };
     // Validates that all the required fields in the setup process contain data
     SetupProcess.prototype.validateInputs = function (screenInfo) {
@@ -59,11 +70,8 @@ var SetupProcess = (function () {
         this.departments.splice(index, 1);
     };
     SetupProcess.prototype.ngOnInit = function () {
-        var _this = this;
         //Checks if localstorage object exists and saves the object to screenInfo(if it exists).
-        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
-            this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-        }
+        var _this = this;
         //Initialize leaflet map
         this.map = new L.Map('map', {
             zoomControl: false,

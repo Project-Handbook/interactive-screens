@@ -69,10 +69,10 @@ var FindPerson = (function () {
             this.currentPrefix = "org:" + screenInfo.department_code;
             this.selectedSchool = screenInfo.department_name;
             this.currentSchool = screenInfo.department_name;
+            // Load initial results
+            this.getPeople(this.currentPrefix);
+            this.getSchools();
         }
-        // Load initial results
-        this.getPeople(this.currentPrefix);
-        this.getSchools();
     };
     // Set's field based on input and makes a function call
     // to find all people based on the input
