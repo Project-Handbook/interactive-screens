@@ -68,10 +68,8 @@
 				margin:0;
 				padding:0;
 				width:100%;
-
 			}
 			.suggestions ul li{
-
 				list-style-type: none;
 				width:100%;
 				border-bottom:solid 1px #f1f1f1;
@@ -83,12 +81,9 @@
 			.suggestions ul li a:hover{
 				background-color: #f1f1f1;
 			}
-			.error{
-				background-color:white;
-				margin-top:10rem;
-			}
 		}
 		.drop_down_wrapper{
+				z-index:10;
 				position:relative;
 		    .schools_drop_down{
 					background-color: #ffffff;
@@ -145,5 +140,12 @@
 		    		}
 		    	}
 		    }
+		}
+		.error{
+			z-index:1;
+			position: absolute;
+			left:20rem;
+			white-space: nowrap;
+			top:-0.5rem;
 		}
 }

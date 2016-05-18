@@ -62,7 +62,7 @@
       <td>
         <p>Department</p>
         <label>Choose school</label>
-        <select (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
+        <select id="select-school" (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
           <option>School</option>
           <option  *ngFor="let school of schools; let i = index" [value]="i">
             {{ school.school }}

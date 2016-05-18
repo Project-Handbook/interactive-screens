@@ -22,7 +22,8 @@ export class Map {
   currentDestination: L.Marker;
   //Center coords for map Initialize
   public mapCenter = new L.LatLng(59.3469417, 18.0702413);
-
+  //Boolean to display error message
+  showError:boolean=false;
   constructor(routeParams: RouteParams, private _mapService: MapService) {
     //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
     var person = {
@@ -122,23 +123,25 @@ export class Map {
 /* This method is used when a person has been passed as argument when navigating to this view. It fetches
    the coordinates of the person and dispaly the coordinates as a marker on the map */
 getAdressFromPerson(person){
+
+
     this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
       .subscribe(res => {
-          var coordinate_lat = res[0].latitude;
-          var coordinate_lng = res[0].longitude;
-          this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
-          //If room number exists then print it in popup otherwise not.
-          if(person.room!=="null"){
-            this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
-            "Room: " + person.room + "<br>" +
-              res[0].streetAddress )
-            .openPopup();
+          if(res[0]!==undefined){
+            var coordinate_lat = res[0].latitude;
+            var coordinate_lng = res[0].longitude;
+            this.mapCenter = new L.LatLng(coordinate_lat, coordinate_lng);
+            this.centerOnMarker();
+            this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
+            //If room number exists then print it in popup otherwise not.
+              this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
+                res[0].streetAddress )
+              .openPopup();
           }else{
-            this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
-              res[0].streetAddress )
-            .openPopup();
+            this.showError=true;
+            setTimeout(() => {this.showError=false;},3000);
           }
-    });
+    },error=>console.log("error"));
   }
 
 //Centers the map on the default coordinates.

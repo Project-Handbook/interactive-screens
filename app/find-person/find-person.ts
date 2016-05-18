@@ -71,18 +71,19 @@ export class FindPerson {
 
     //Fetches department code and name from local storage.
     var screenInfo = new ScreenSpecificInformation();
-    
+
     if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       this.currentPrefix  = "org:" + screenInfo.department_code;
       this.selectedSchool  = screenInfo.department_name;
       this.currentSchool = screenInfo.department_name;
+      // Load initial results
+      this.getPeople(this.currentPrefix);
+      this.getSchools();
     }
 
 
-    // Load initial results
-    this.getPeople(this.currentPrefix);
-    this.getSchools();
+
   }
 
   // Set's field based on input and makes a function call

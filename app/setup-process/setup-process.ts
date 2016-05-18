@@ -32,6 +32,7 @@ export class SetupProcess {
   loadInformation() {
     this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
     this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+    this.departments = this.screenInfo.departments;
   }
 
   // Validates that all the required fields in the setup process contain data
@@ -59,9 +60,7 @@ export class SetupProcess {
 
   ngOnInit(){
     //Checks if localstorage object exists and saves the object to screenInfo(if it exists).
-    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
-      this.screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-    }
+
     //Initialize leaflet map
     this.map = new L.Map('map', {
          zoomControl: false,
