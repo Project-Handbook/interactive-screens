@@ -29,6 +29,7 @@ import { ScreenSpecificInformation } from './screen-specific-information';
     path: '/home',
     component: Home,
     name: 'Home',
+    useAsDefault: true
   },
   {
     path: '/find-person',
@@ -99,9 +100,9 @@ export class AppComponent {
 
 constructor(private router: Router, private location: Location) {
     // Check whether or not the screen has gone through the setup process
-    var screenInfo = sessionStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
-    if (screenInfo != null) { /* Has gone through setup - go to Home then */
-      this.router.navigate(['Home']);
+    var screenInfo = localStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
+    if (screenInfo === null) { /* Has not gone through setup - go to Setup then */
+      this.router.navigate(['Setup']);
     }
 
     // Setup update interval
