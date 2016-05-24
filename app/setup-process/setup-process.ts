@@ -12,7 +12,7 @@ import { MapService } from '../map/services/map-service';
   providers: [MapService]
 })
 export class SetupProcess {
-  //Leaflet map object
+  // Leaflet map object
   map: L.Map;
   // Localstorage configuration object
   public screenInfo = new ScreenSpecificInformation();
@@ -31,8 +31,10 @@ export class SetupProcess {
   // Reads the stored ScreenSpecificInformation object
   loadInformation() {
     this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-    this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
-    this.departments = this.screenInfo.departments;
+    if (this.screenInfo) {
+      this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+      this.departments = this.screenInfo.departments;
+    }
   }
 
   // Validates that all the required fields in the setup process contain data
@@ -58,10 +60,8 @@ export class SetupProcess {
   // Leaflet Marker Object which shows the current selected position on the map
   private currentMapMarker: L.Marker;
 
-  ngOnInit(){
-    //Checks if localstorage object exists and saves the object to screenInfo(if it exists).
-
-    //Initialize leaflet map
+  ngOnInit() {
+    // Initialize leaflet map
     this.map = new L.Map('map', {
          zoomControl: false,
          center: new L.LatLng(59.3469417, 18.0702413), // Center on KTH
@@ -71,7 +71,7 @@ export class SetupProcess {
          zoomAnimation: false,
          doubleClickZoom: false
     });
-    //Choose map layer
+    // Choose map layer
     var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
            attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
          }).addTo(this.map);
@@ -87,12 +87,15 @@ export class SetupProcess {
       this.screenInfo.longitude = longitude;
       this.updateMapMarker(longitude, latitude);
     });
-    //Disable pinch zoom
+    // Disable pinch zoom
     this.map.touchZoom.disable();
-    //Fetches all schools at KTH from local schools.json file.
+    // Fetches all schools at KTH from local schools.json file
     this.getSchools();
+
+    this.loadInformation();
   }
-  //Updates the marker on the laeflet map
+
+  // Updates the marker on the laeflet map
   updateMapMarker(longitude: number, latitude: number) {
     if (this.currentMapMarker != null) {
       this.map.removeLayer(this.currentMapMarker); // Remove old marker
@@ -102,28 +105,32 @@ export class SetupProcess {
       .addTo(this.map)
       .bindPopup('<b>You are here.</b>').openPopup();
   }
+
   // Holds all schools fetched from getSchools.
   schools: Array<any> = [];
-  //Fetches all schools at KTH from a local school.json file
+
+  // Fetches all schools at KTH from a local school.json file
   getSchools() {
     this.mapService.getSchools().subscribe(res => {this.schools = res});
   }
+
   // Holds all departments from getDepartments.
   department_list: Array<any> = [];
 
-  //Fetches the departments of the school passed as argument
+  // Fetches the departments of the school passed as argument
   getDepartments(department) {
     this.mapService.getDepartments(this.schools[department].code).subscribe(res => {
       this.department_list = res;
     })
-    //Updates the footer text depending on the choosen school.
+    // Updates the footer text depending on the choosen school
     this.screenInfo.footer_text = this.schools[department].footer_text;
   }
 
+  // Hash keys for screenInfo.opening_hours
   public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
                                     'friday', 'saturday', 'sunday'];
 
-  // Toggle if opening hours feature is used or not.
+  // Toggle if opening hours feature is used or not
   toggleOpeningHours() {
       this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
   }
@@ -133,8 +140,8 @@ export class SetupProcess {
     this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
   }
 
-  //Set the department attributes of screenInfo object
-  setDepartment(index){
+  // Set the department attributes of screenInfo object
+  setDepartment(index) {
     this.screenInfo.department_code = this.department_list[index].code;
     this.screenInfo.department_name = this.department_list[index].name_sv;
   }
