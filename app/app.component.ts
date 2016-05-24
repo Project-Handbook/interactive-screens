@@ -94,7 +94,16 @@ export class AppComponent {
       let hours = date.getHours();
       let minutes = date.getMinutes();
       let seconds = date.getSeconds();
-      this.clock = `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+
+      var hours_str: string;
+      var minutes_str: string;
+      var seconds_str: string;
+
+      if (hours < 10)   { hours_str   = `0${hours}`;   } else { hours_str   = `${hours}`}
+      if (minutes < 10) { minutes_str = `0${minutes}`; } else { minutes_str = `${minutes}`}
+      if (seconds < 10) { seconds_str = `0${seconds}`; } else { seconds_str = `${seconds}`}
+
+      this.clock = `${day} ${month} ${year} ${hours_str}:${minutes_str}:${seconds_str}`;
     }
 
 constructor(private router: Router, private location: Location) {
