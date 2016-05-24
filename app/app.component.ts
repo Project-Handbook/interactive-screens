@@ -22,8 +22,7 @@ import { ScreenSpecificInformation } from './screen-specific-information';
   {
     path: '/setup',
     component: SetupProcess,
-    name: 'SetupProcess',
-    useAsDefault: true
+    name: 'Setup',
   },
   {
     path: '/home',
