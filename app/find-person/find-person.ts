@@ -6,8 +6,8 @@ import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
 import { MapService } from '../map/services/map-service';
-import {ScreenSpecificInformation} from '../screen-specific-information';
-import {Constants} from '../constants';
+import { ScreenSpecificInformation } from '../screen-specific-information';
+import { Constants } from '../constants';
 
 @Component({
   host: {
@@ -19,8 +19,6 @@ import {Constants} from '../constants';
   providers: [FindPersonService, MapService]
 })
 export class FindPerson {
-
-
 
   state: string = "none";
 
@@ -37,7 +35,8 @@ export class FindPerson {
   isOn = false;
 
   people: Array<Person> = []; // Holds all the persons fetched from the API
-  constructor(private findPersonService: FindPersonService, private _mapService: MapService) {}
+
+  constructor(private findPersonService: FindPersonService, private mapService: MapService) {}
 
   // This is called whenever an event that might fail occurs.
   // Ex) Internet/API is down.
@@ -66,13 +65,12 @@ export class FindPerson {
     return title.charAt(0) + title.substr(1).toLowerCase();
   }
 
-  //Displays people local to the department as default when the people tab is pushed.
+  // Displays people local to the department as default when the people tab is pushed.
   ngOnInit(): any {
-
-    //Fetches department code and name from local storage.
+    // Fetches department code and name from local storage.
     var screenInfo = new ScreenSpecificInformation();
 
-    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
+    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY) !== null){
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
       this.currentPrefix  = "org:" + screenInfo.department_code;
       this.selectedSchool  = screenInfo.department_name;
@@ -81,13 +79,9 @@ export class FindPerson {
       this.getPeople(this.currentPrefix);
       this.getSchools();
     }
-
-
-
   }
 
-  // Set's field based on input and makes a function call
-  // to find all people based on the input
+  // Set's field based on input and makes a function call to find all people based on the input
   search(input: string) {
     this.currentSchool = this.selectedSchool;
     if(input == undefined) {
@@ -208,7 +202,7 @@ export class FindPerson {
 
   // Scrolls the div 'departments' in the provided direction.
   // input 'dir' = -1 or 1
-  scrollDep(dir) {
+  scrollDep(dir: number) {
     var departments = document.getElementById("departments");
     var newScroll = departments.scrollTop + (departments.offsetHeight-55)*dir;
     this.scrollTo(departments, newScroll, 5000);
@@ -222,9 +216,9 @@ export class FindPerson {
     return false;
   }
 
-  //This funtion determines if the user clicks outside the dropdown menu. If this is the case
-    // the searchresult array will be cleared and the dropdown will disappear.
-    handleClick(event){
+  // This funtion determines if the user clicks outside the dropdown menu. If this is the case
+  // the searchresult array will be cleared and the dropdown will disappear.
+  handleClick(event) {
       this.handleClickForPopup(event);
       var clickedComponent = event.target;
       var schoolsDiv = document.getElementById('schools-wrapper');
@@ -279,18 +273,15 @@ export class FindPerson {
   // Will fetch all available schools
   getSchools() {
     this.schools = [];
-    this._mapService.getSchools().subscribe( res=> {
-      this.schools=res;
-
+    this.mapService.getSchools().subscribe(res => {
+      this.schools = res;
       // Add KTH as the first element should one just want
       // to search with that
-
       var code = "code";
       var school = "school";
       var a = {};
       a[code] = "";
       a[school] = "KTH";
-
       this.schools.unshift(a);
     });
   }
@@ -309,8 +300,8 @@ export class FindPerson {
     }
 
     this.deps = [];
-    this._mapService.getDepartments(item.code).subscribe( res=> {
-      this.deps=res;
+    this.mapService.getDepartments(item.code).subscribe( res=> {
+      this.deps = res;
     });
   }
 

@@ -13,7 +13,7 @@ export class Person {
 							public kth_profile: string,
 							public about_me: string,
 							public status_image: string,
-							public status_info:Object,
-						 	public room:string,
-							public phone_number2:string) {}
+							public status_info: Object,
+						 	public room: string,
+							public phone_number2: string) /* Internal KTH phone */ {}
 }

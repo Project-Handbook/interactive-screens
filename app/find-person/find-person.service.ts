@@ -105,16 +105,13 @@ export class FindPersonService {
 						people.forEach(item => {
 							peopleAlsoInDep.push(item);
 						});
-					}
-					else {
-
+					} else {
 						this.http.get(url + prefix)
 							.map(res => res.json())
 							.subscribe(res => {
 								res.result.forEach(item => {
 									if(people.some(function(e) { return e.kthid == item.kthid })) {
 										// Person was also found in the department, add to list
-
 										var person = new Person(
 											item.given_name,
 											item.family_name,
@@ -174,42 +171,42 @@ export class FindPersonService {
 		this.http.get(person.kth_profile).subscribe(resp => {
 			var body = resp.text();
 			var patt = new RegExp("<img.+>");
-			body = body.replace(patt,""); //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.
+			body = body.replace(patt, ""); //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.
 			var about_me = jQuery(body).find(".description").text();
 			person.about_me = about_me;
 		},
-		error=>null)
+		error => null)
 	}
 
-//Fetches the availibility of employees
-	private fetchStatus(person:Person){
+	// Fetches the availibility of employees
+	private fetchStatus(person: Person) {
 		var url = "https://www.lan.kth.se/mobile/api/katalogjson?q=kthid:";
 		this.http.get(url + person.kthid)
-			.map(res=>res.json())
-			.subscribe(res=>{
-				if(res.result[0].intercepts!==undefined){
-					if(res.result[0].intercepts.length===0){
-						person.status_image="https://www.lan.kth.se/sip/lur15.png";
-					}else{
-						person.status_image="https://www.lan.kth.se/sip/lur14.png";
+			.map(res => res.json())
+			.subscribe(res => {
+				if(res.result[0].intercepts !== undefined) {
+					if(res.result[0].intercepts.length === 0) {
+						person.status_image = "https://www.lan.kth.se/sip/lur15.png";
+					} else {
+						person.status_image = "https://www.lan.kth.se/sip/lur14.png";
 						person.status_info = res.result[0].intercepts[0];
 					}
-				}else{
-					person.status_image=null;
+				} else {
+					person.status_image = null;
 				}
-			},error=>null)
+			}, error => null)
 	}
-	//Fetches employee room number and phone number from KTH Places personal details API.
-	private fetchPersonalDetails(person:Person){
+
+	// Fetches employee room number and phone number from KTH Places personal details API.
+	private fetchPersonalDetails(person: Person) {
 		var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
 		this.http.get(url + person.kthid)
-			.map(res=> res.json())
-			.subscribe(res=>{
-			if(res.result[0].result[0]!==undefined){
-				person.phone_number2=res.result[0].result[0].telno;
-				person.room=res.result[0].result[0].room;
+			.map(res => res.json())
+			.subscribe(res => {
+			if(res.result[0].result[0] !== undefined){
+				person.phone_number2 = res.result[0].result[0].telno;
+				person.room = res.result[0].result[0].room;
 			}
-
-		},error=>null)
+		}, error => null)
 	}
 }

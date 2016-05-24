@@ -9,7 +9,6 @@ import "rxjs/add/operator/map";
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
   providers: [EmailService],
 })
-
 export class Contact {
   // Variable initializations
   public captchaA: number;
@@ -109,7 +108,7 @@ export class Contact {
 // Below is the custom Email Validator to check if the supplied email is a valid one (using RegEX)
 interface ValidationResult {
   [key:string]:boolean
- }
+}
 
 class EmailValidator {
   static mailFormat(control: Control): ValidationResult {
