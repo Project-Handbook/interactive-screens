@@ -5,20 +5,27 @@ import { LatLngBounds } from 'leaflet';
 import { Location, Location_type } from '../location.interface';
 import { Observable } from 'rxjs/Observable';
 
-@Injectable()
+// See schools.json for more
+export class School {
+  constructor(public name: string, /* Short codename for the school (CSC) */
+              public code: string, /* Unique identifier */
+              public footer_text: string) /* School's fullname */ {}
+}
 
-export class MapService{
+@Injectable()
+export class MapService {
 
 	constructor(private http: Http) {}
-	//Fetches all locations from KTH Places that matches the given search string.
-	getPlaces(term:string){
+
+	// Fetches all locations from KTH Places that matches the given search string.
+	getPlaces(term: string): Observable<Location[]> {
 		var searchResult: Array<Location> = [];
 		let url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
 		return this.http.get(url)
-			.map((request)  => request.json())
+			.map((request) => request.json())
 			.map(res => {
 				res.forEach(item => {
-				//Only accept locations of certain types.
+				// Only accept locations of certain types.
 				if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
 					|| item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
 					&& (item.placeName.length !== 0 || item.kthPopularName.length !==0)) {
@@ -40,18 +47,17 @@ export class MapService{
 				})
 				return searchResult;
 			}
-      	);
+    );
 	}
 	//Fetches all locations from google geocoding API that matches the given search string.
-	getGeoCode(address:string,location_type:Location_type){
+	getGeoCode(address: string, location_type: Location_type): Observable<Location[]> {
 		var searchResult: Array<Location> = [];
-		return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address +'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
+		return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
 			.map(res => res.json())
 			.map(res => {
-							console.log(res),
           		res.results.forEach(item => {
-								//Only accepts exact locations.
-              	if(item.geometry.location_type!=="APPROXIMATE"){
+								// Only accepts exact locations.
+              	if(item.geometry.location_type !== "APPROXIMATE"){
               		searchResult.push(
           				{
           					latitude: item.geometry.location.lat,
@@ -71,8 +77,9 @@ export class MapService{
           		return searchResult;
         	});
 	}
-	//Fetches all schools of KTH from local schools.json.
-	getSchools() {
+
+	// Fetches all schools of KTH from local schools.json.
+	getSchools(): Observable<School[]> {
 		var schools = [];
 		return this.http.get('app/schools.json')
 			.map(res => res.json())
@@ -83,8 +90,9 @@ export class MapService{
 				return schools;
 			});
 	}
-	//Fetches all the departments of the school passed as argument.
-	getDepartments(term: string) {
+
+	// Fetches all the departments of the school passed as argument.
+	getDepartments(term: string): Observable<any[]> {
 		var departments = [];
 		return this.http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)
 			.map(res => res.json())
@@ -94,14 +102,14 @@ export class MapService{
 				// Removes dupplicates from the returned department list
 				// Only adds departments of KTH Östermalm campus.
 				res.children.forEach(item => {
-					var exists=false;
+					var exists = false;
 					added.forEach(dep => {
-						if(item.name_sv===dep){
+						if(item.name_sv === dep){
 							exists=true;
 						}
 					})
 					added.push(item.name_sv);
-					if(exists===false && item.address!==null && regexp.test(item.address.toLowerCase())===false){
+					if(exists === false && item.address !== null && regexp.test(item.address.toLowerCase()) === false){
 						departments.push(item);
 					}
 				})
