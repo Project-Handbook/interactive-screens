@@ -20,8 +20,6 @@ var SetupProcess = (function () {
         this.mapService = mapService;
         // Localstorage configuration object
         this.screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
-        //Used to display error message when trying to load the configuration object when no exists
-        this.noConfigFound = false;
         // Input - need to add this the the list
         this.newDepartment = "";
         // List of user created departments
@@ -30,6 +28,7 @@ var SetupProcess = (function () {
         this.schools = [];
         // Holds all departments from getDepartments.
         this.department_list = [];
+        // Hash keys for screenInfo.opening_hours
         this.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday',
             'friday', 'saturday', 'sunday'];
     }
@@ -45,16 +44,10 @@ var SetupProcess = (function () {
     };
     // Reads the stored ScreenSpecificInformation object
     SetupProcess.prototype.loadInformation = function () {
-        var _this = this;
-        //Check if config object exsists, if not -> display error message
-        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
-            this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+        this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+        if (this.screenInfo) {
             this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
             this.departments = this.screenInfo.departments;
-        }
-        else {
-            this.noConfigFound = true;
-            setTimeout(function () { _this.noConfigFound = false; }, 3000);
         }
     };
     // Validates that all the required fields in the setup process contain data
@@ -70,9 +63,8 @@ var SetupProcess = (function () {
         this.departments.splice(index, 1);
     };
     SetupProcess.prototype.ngOnInit = function () {
-        //Checks if localstorage object exists and saves the object to screenInfo(if it exists).
         var _this = this;
-        //Initialize leaflet map
+        // Initialize leaflet map
         this.map = new L.Map('map', {
             zoomControl: false,
             center: new L.LatLng(59.3469417, 18.0702413),
@@ -82,7 +74,7 @@ var SetupProcess = (function () {
             zoomAnimation: false,
             doubleClickZoom: false
         });
-        //Choose map layer
+        // Choose map layer
         var baseMap = new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
             attribution: 'Tiles courtesy of Humanitarian OpenStreetMap Team<br><br>'
         }).addTo(this.map);
@@ -98,12 +90,13 @@ var SetupProcess = (function () {
             _this.screenInfo.longitude = longitude;
             _this.updateMapMarker(longitude, latitude);
         });
-        //Disable pinch zoom
+        // Disable pinch zoom
         this.map.touchZoom.disable();
-        //Fetches all schools at KTH from local schools.json file.
+        // Fetches all schools at KTH from local schools.json file
         this.getSchools();
+        this.loadInformation();
     };
-    //Updates the marker on the laeflet map
+    // Updates the marker on the laeflet map
     SetupProcess.prototype.updateMapMarker = function (longitude, latitude) {
         if (this.currentMapMarker != null) {
             this.map.removeLayer(this.currentMapMarker); // Remove old marker
@@ -113,21 +106,21 @@ var SetupProcess = (function () {
             .addTo(this.map)
             .bindPopup('<b>You are here.</b>').openPopup();
     };
-    //Fetches all schools at KTH from a local school.json file
+    // Fetches all schools at KTH from a local school.json file
     SetupProcess.prototype.getSchools = function () {
         var _this = this;
         this.mapService.getSchools().subscribe(function (res) { _this.schools = res; });
     };
-    //Fetches the departments of the school passed as argument
+    // Fetches the departments of the school passed as argument
     SetupProcess.prototype.getDepartments = function (department) {
         var _this = this;
         this.mapService.getDepartments(this.schools[department].code).subscribe(function (res) {
             _this.department_list = res;
         });
-        //Updates the footer text depending on the choosen school.
+        // Updates the footer text depending on the choosen school
         this.screenInfo.footer_text = this.schools[department].footer_text;
     };
-    // Toggle if opening hours feature is used or not.
+    // Toggle if opening hours feature is used or not
     SetupProcess.prototype.toggleOpeningHours = function () {
         this.screenInfo.opening_hours_enabled = !this.screenInfo.opening_hours_enabled;
     };
@@ -135,7 +128,7 @@ var SetupProcess = (function () {
     SetupProcess.prototype.toggleOpeningHoursDay = function (day) {
         this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
     };
-    //Set the department attributes of screenInfo object
+    // Set the department attributes of screenInfo object
     SetupProcess.prototype.setDepartment = function (index) {
         this.screenInfo.department_code = this.department_list[index].code;
         this.screenInfo.department_name = this.department_list[index].name_sv;

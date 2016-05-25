@@ -1,4 +1,5 @@
-[	{"school":"ABE","code":"A","footer_text":"SCHOOL OF ARCHITECTURE AND THE BUILT ENVIRONMENT"},
+[
+	{"school":"ABE","code":"A","footer_text":"SCHOOL OF ARCHITECTURE AND THE BUILT ENVIRONMENT"},
 	{"school":"BIO","code":"B","footer_text":"SCHOOL OF BIOTECHNOLOGY"},
 	{"school":"CSC","code":"D","footer_text":"SCHOOL OF COMPUTER SCIENCE AND COMMUNICATION"},
 	{"school":"EES","code":"E","footer_text":"SCHOOL OF ELECTRICAL ENGINEERING"},

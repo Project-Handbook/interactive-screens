@@ -16,10 +16,10 @@ var map_service_1 = require('../map/services/map-service');
 var screen_specific_information_1 = require('../screen-specific-information');
 var constants_1 = require('../constants');
 var FindPerson = (function () {
-    function FindPerson(findPersonService, _mapService) {
+    function FindPerson(findPersonService, mapService) {
         var _this = this;
         this.findPersonService = findPersonService;
-        this._mapService = _mapService;
+        this.mapService = mapService;
         this.state = "none";
         this.currentPerson = null;
         // Default search values
@@ -60,9 +60,9 @@ var FindPerson = (function () {
     FindPerson.prototype.getTitle = function (title) {
         return title.charAt(0) + title.substr(1).toLowerCase();
     };
-    //Displays people local to the department as default when the people tab is pushed.
+    // Displays people local to the department as default when the people tab is pushed.
     FindPerson.prototype.ngOnInit = function () {
-        //Fetches department code and name from local storage.
+        // Fetches department code and name from local storage.
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
         if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
             screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
@@ -74,8 +74,7 @@ var FindPerson = (function () {
             this.getSchools();
         }
     };
-    // Set's field based on input and makes a function call
-    // to find all people based on the input
+    // Set's field based on input and makes a function call to find all people based on the input
     FindPerson.prototype.search = function (input) {
         this.currentSchool = this.selectedSchool;
         if (input == undefined) {
@@ -214,7 +213,7 @@ var FindPerson = (function () {
         }, 300);
         return false;
     };
-    //This funtion determines if the user clicks outside the dropdown menu. If this is the case
+    // This funtion determines if the user clicks outside the dropdown menu. If this is the case
     // the searchresult array will be cleared and the dropdown will disappear.
     FindPerson.prototype.handleClick = function (event) {
         this.handleClickForPopup(event);
@@ -264,7 +263,7 @@ var FindPerson = (function () {
     FindPerson.prototype.getSchools = function () {
         var _this = this;
         this.schools = [];
-        this._mapService.getSchools().subscribe(function (res) {
+        this.mapService.getSchools().subscribe(function (res) {
             _this.schools = res;
             // Add KTH as the first element should one just want
             // to search with that
@@ -290,7 +289,7 @@ var FindPerson = (function () {
             return;
         }
         this.deps = [];
-        this._mapService.getDepartments(item.code).subscribe(function (res) {
+        this.mapService.getDepartments(item.code).subscribe(function (res) {
             _this.deps = res;
         });
     };

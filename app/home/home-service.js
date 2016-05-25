@@ -12,33 +12,33 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var HomeService = (function () {
-    function HomeService(_http) {
-        this._http = _http;
-        //Polypoly URL
+    function HomeService(http) {
+        this.http = http;
+        // Polypoly URL
         this.url = "https://www.kth.se/cm/";
     }
-    /**Fetches the calendar block associated with the given id string
-        Returns observable that has to be subscribed in order to retrieve the data*/
+    /* Fetches the calendar block associated with the given id string
+         Returns observable that has to be subscribed in order to retrieve the data */
     HomeService.prototype.getCalendar = function (id) {
         var calendar_polopoly_id = id;
-        return this._http.get(this.url + calendar_polopoly_id).map(function (res) { return res.text(); });
+        return this.http.get(this.url + calendar_polopoly_id).map(function (res) { return res.text(); });
     };
-    /**Fetches the calendar news feed block associated with the given id string
-        Returns observable that has to be subscribed in order to retrieve the data*/
+    /* Fetches the calendar news feed block associated with the given id string
+         Returns observable that has to be subscribed in order to retrieve the data */
     HomeService.prototype.getNewsFeed = function (id) {
         var news_polopoly_id = id;
-        return this._http.get(this.url + news_polopoly_id)
+        return this.http.get(this.url + news_polopoly_id)
             .map(function (res) { return res.text(); })
             .map(function (res) {
-            //Add https://kth.se infront of every image url
+            // Add https://kth.se infront of every image url
             var regex = new RegExp("/polopoly_fs/1.+/image/.+\.(jpg|png)", "g");
             var image_urls = res.match(regex);
             image_urls.forEach(function (image) {
                 res = res.replace(image, "https://www.kth.se" + image);
             });
-            //The news events are contained in the blockItem div class.
+            // The news events are contained in the blockItem div class.
             var blocks = jQuery(res).find(".blockItem");
-            //Returns a list of news events
+            // Returns a list of news events
             return blocks;
         });
     };

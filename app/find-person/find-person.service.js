@@ -113,7 +113,7 @@ var FindPersonService = (function () {
             person.about_me = about_me;
         }, function (error) { return null; });
     };
-    //Fetches the availibility of employees
+    // Fetches the availibility of employees
     FindPersonService.prototype.fetchStatus = function (person) {
         var url = "https://www.lan.kth.se/mobile/api/katalogjson?q=kthid:";
         this.http.get(url + person.kthid)
@@ -133,7 +133,7 @@ var FindPersonService = (function () {
             }
         }, function (error) { return null; });
     };
-    //Fetches employee room number and phone number from KTH Places personal details API.
+    // Fetches employee room number and phone number from KTH Places personal details API.
     FindPersonService.prototype.fetchPersonalDetails = function (person) {
         var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
         this.http.get(url + person.kthid)

@@ -58,12 +58,33 @@ var AppComponent = (function () {
             var hours = date.getHours();
             var minutes = date.getMinutes();
             var seconds = date.getSeconds();
-            _this.clock = day + " " + month + " " + year + " " + hours + ":" + minutes + ":" + seconds;
+            var hours_str;
+            var minutes_str;
+            var seconds_str;
+            if (hours < 10) {
+                hours_str = "0" + hours;
+            }
+            else {
+                hours_str = "" + hours;
+            }
+            if (minutes < 10) {
+                minutes_str = "0" + minutes;
+            }
+            else {
+                minutes_str = "" + minutes;
+            }
+            if (seconds < 10) {
+                seconds_str = "0" + seconds;
+            }
+            else {
+                seconds_str = "" + seconds;
+            }
+            _this.clock = day + " " + month + " " + year + " " + hours_str + ":" + minutes_str + ":" + seconds_str;
         };
         // Check whether or not the screen has gone through the setup process
-        var screenInfo = sessionStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
-        if (screenInfo != null) {
-            this.router.navigate(['Home']);
+        var screenInfo = localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
+        if (screenInfo === null) {
+            this.router.navigate(['Setup']);
         }
         // Setup update interval
         this.refreshVar = window.setInterval(this.refreshPage, this.refreshTimeout);
@@ -71,8 +92,8 @@ var AppComponent = (function () {
         window.onclick = this.onWindowClick;
         // Refresh the clock every minute
         window.setInterval(this.refreshClock, 60);
-        /**Subscribes to the router, every time the route is changed the code inside the subscribe statement
-          is executed, changed the appearance of the menu items depending on the current route*/
+        /* Subscribes to the router, every time the route is changed the code inside the subscribe statement
+           is executed, changed the appearance of the menu items depending on the current route */
         router.subscribe(function (val) {
             var url_with_para = val.split("?", 1);
             switch (url_with_para[0]) {
@@ -140,13 +161,13 @@ var AppComponent = (function () {
             {
                 path: '/setup',
                 component: setup_process_1.SetupProcess,
-                name: 'SetupProcess',
-                useAsDefault: true
+                name: 'Setup',
             },
             {
                 path: '/home',
                 component: home_1.Home,
                 name: 'Home',
+                useAsDefault: true
             },
             {
                 path: '/find-person',
