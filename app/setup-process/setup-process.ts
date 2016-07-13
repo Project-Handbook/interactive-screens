@@ -30,10 +30,17 @@ export class SetupProcess {
 
   // Reads the stored ScreenSpecificInformation object
   loadInformation() {
-    this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-    if (this.screenInfo) {
-      this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
-      this.departments = this.screenInfo.departments;
+    if(JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY))){
+        this.screenInfo = <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
+        //If coordinates exist in local storage then set pin on map
+        if(this.screenInfo.longitude && this.screenInfo.latitude){
+          this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+        }
+        this.departments = this.screenInfo.departments;
+        //If a school exist in local storage then load the departments assosciated with the school.
+        if(Object.keys(this.screenInfo.school).length!==0){
+          this.getDepartments(JSON.stringify(this.screenInfo.school));
+        }
     }
   }
 
@@ -116,14 +123,14 @@ export class SetupProcess {
 
   // Holds all departments from getDepartments.
   department_list: Array<any> = [];
-
   // Fetches the departments of the school passed as argument
-  getDepartments(department) {
-    this.mapService.getDepartments(this.schools[department].code).subscribe(res => {
+  getDepartments(selectedSchool) {
+    const school = JSON.parse(selectedSchool);
+    // Save selected  school in screenInfo Object.
+    this.screenInfo.school = school;
+    this.mapService.getDepartments(school.code).subscribe(res => {
       this.department_list = res;
     })
-    // Updates the footer text depending on the choosen school
-    this.screenInfo.footer_text = this.schools[department].footer_text;
   }
 
   // Hash keys for screenInfo.opening_hours
@@ -141,8 +148,10 @@ export class SetupProcess {
   }
 
   // Set the department attributes of screenInfo object
-  setDepartment(index) {
-    this.screenInfo.department_code = this.department_list[index].code;
-    this.screenInfo.department_name = this.department_list[index].name_sv;
+  setDepartment(department) {
+    this.screenInfo.department = JSON.parse(department);
+  }
+  stringify(value){
+    return JSON.stringify(value);
   }
 }

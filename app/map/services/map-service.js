@@ -12,11 +12,21 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require("rxjs/add/operator/map");
 var location_interface_1 = require('../location.interface');
+// See schools.json for more
+var School = (function () {
+    function School(name, /* Short codename for the school (CSC) */ code, /* Unique identifier */ footer_text) {
+        this.name = name;
+        this.code = code;
+        this.footer_text = footer_text;
+    }
+    return School;
+}());
+exports.School = School;
 var MapService = (function () {
     function MapService(http) {
         this.http = http;
     }
-    //Fetches all locations from KTH Places that matches the given search string.
+    // Fetches all locations from KTH Places that matches the given search string.
     MapService.prototype.getPlaces = function (term) {
         var searchResult = [];
         var url = "https://www.kth.se/api/places/v3/search/room?q=" + term.toLowerCase() + "&api_key=lkjashd(%26*0987-7-0Ujuhdhj4HGRESDs";
@@ -24,7 +34,7 @@ var MapService = (function () {
             .map(function (request) { return request.json(); })
             .map(function (res) {
             res.forEach(function (item) {
-                //Only accept locations of certain types.
+                // Only accept locations of certain types.
                 if ((item.typeName === "Övningssal" || item.typeName === "Datorsal"
                     || item.typeName === "Hörsal" || item.typeName === "Seminarierum" || item.typeName === "Kontor")
                     && (item.placeName.length !== 0 || item.kthPopularName.length !== 0)) {
@@ -52,29 +62,28 @@ var MapService = (function () {
         return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
             .map(function (res) { return res.json(); })
             .map(function (res) {
-            console.log(res),
-                res.results.forEach(function (item) {
-                    //Only accepts exact locations.
-                    if (item.geometry.location_type !== "APPROXIMATE") {
-                        searchResult.push({
-                            latitude: item.geometry.location.lat,
-                            longitude: item.geometry.location.lng,
-                            buildingName: null,
-                            roomCode: null,
-                            popular_name: null,
-                            streetAddress: item.formatted_address,
-                            streetNumber: null,
-                            roomType: null,
-                            zipCode: null,
-                            floor: null,
-                            location_type: location_type
-                        });
-                    }
-                });
+            res.results.forEach(function (item) {
+                // Only accepts exact locations.
+                if (item.geometry.location_type !== "APPROXIMATE") {
+                    searchResult.push({
+                        latitude: item.geometry.location.lat,
+                        longitude: item.geometry.location.lng,
+                        buildingName: null,
+                        roomCode: null,
+                        popular_name: null,
+                        streetAddress: item.formatted_address,
+                        streetNumber: null,
+                        roomType: null,
+                        zipCode: null,
+                        floor: null,
+                        location_type: location_type
+                    });
+                }
+            });
             return searchResult;
         });
     };
-    //Fetches all schools of KTH from local schools.json.
+    // Fetches all schools of KTH from local schools.json.
     MapService.prototype.getSchools = function () {
         var schools = [];
         return this.http.get('app/schools.json')
@@ -86,7 +95,7 @@ var MapService = (function () {
             return schools;
         });
     };
-    //Fetches all the departments of the school passed as argument.
+    // Fetches all the departments of the school passed as argument.
     MapService.prototype.getDepartments = function (term) {
         var departments = [];
         return this.http.get("https://www.lan.kth.se/personal/api/orginfo?code=" + term)

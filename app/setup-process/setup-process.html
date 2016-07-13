@@ -62,17 +62,17 @@
       <td>
         <p>Department</p>
         <label>Choose school</label>
-        <select id="select-school" (change)="getDepartments($event.target.value)" style="width: 100%; padding: 0.2em">
-          <option>School</option>
-          <option  *ngFor="let school of schools; let i = index" [value]="i">
+        <select id="select-school" [ngModel]="stringify(screenInfo.school)"
+          (ngModelChange)="getDepartments($event)" style="width: 100%; padding: 0.2em">
+          <option  *ngFor="let school of schools" [ngValue]="stringify(school)">
             {{ school.school }}
           </option>
         </select>
         <br><br>
         <label>Default department</label>
-        <select enabled="false" (change)="setDepartment($event.target.value)" id="department_drop_down" style="width: 100%; padding: 0.2em">
-          <option></option>
-          <option *ngFor="let department of department_list; let i = index" [value]="i">
+        <select enabled="false" [ngModel]="stringify(screenInfo.department)"
+          (ngModelChange)="setDepartment($event)" id="select-department" style="width: 100%; padding: 0.2em">
+          <option *ngFor="let department of department_list" [ngValue]="stringify(department)">
               {{department.name_sv}}
           </option>
         </select>
@@ -240,7 +240,6 @@
 
   </table>
 
-  <button  class="button" (click)="loadInformation()">Load</button>
   <button class="button" type="submit" (click)="saveInformation()">Save</button>
 
   <!-- Padding -->
