@@ -46,7 +46,10 @@ import { ScreenSpecificInformation } from './screen-specific-information';
     name: 'Map'
   }
 ])
-export class AppComponent {
+
+
+
+export class AppComponent  {
     // Keys of screenInfo.opening_hours, used for iteration over dictionary
     public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
                                       'friday', 'saturday', 'sunday'];
@@ -165,5 +168,19 @@ constructor(private router: Router, private location: Location) {
           break;
       };
     })
+   }
+
+   /**
+    If title text covers more than 60% percent of the screen width then decrease the
+    font-size until the text covers less then 60%:
+   */
+   ngAfterViewInit(){
+     const titleTextElement = document.getElementById('title-text');
+     let titleFontSize = window.getComputedStyle(titleTextElement, null).getPropertyValue('font-size');
+     const windowWidth = window.innerWidth;
+     while(titleTextElement.offsetWidth>= windowWidth*0.6){
+       titleFontSize = (parseFloat(titleFontSize)*0.95).toString();
+       titleTextElement.style.fontSize = titleFontSize;
+     }
    }
 }

@@ -17,6 +17,7 @@
   }
 
   .main-header-title {
+    overflow: auto;
     display: flex;
     align-items: center;
     h1 {
@@ -29,9 +30,10 @@
   }
 
   .main-header-clock {
+    font-size: 1vw;
     align-self: flex-end;
     color: $kth-color-blue;
-    padding-right: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
 
