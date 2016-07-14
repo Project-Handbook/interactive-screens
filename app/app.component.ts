@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router } from '@angular/router-deprecated';
+import { RouterConfig, ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { Location, LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { FindPerson } from './find-person/find-person';
 import { Home } from './home/home';
@@ -11,43 +11,40 @@ import { provide } from '@angular/core';
 import { Constants } from './constants';
 import { ScreenSpecificInformation } from './screen-specific-information';
 
+export const routes:RouterConfig = [
+  {
+    path:'',
+    redirectTo:'home',
+    terminal:true
+  },
+  {
+    path: 'setup',
+    component: SetupProcess,
+  },
+  {
+    path: 'home',
+    component: Home
+    },
+  {
+    path: 'people',
+    component: FindPerson
+  },
+  {
+    path: 'contact',
+    component: Contact
+  },
+  {
+    path: 'map',
+    component: Map
+  }
+]
+
 @Component({
     selector: 'main-frame',
     templateUrl: 'app/main-frame/main-frame.html', // Relative base
     directives: [ROUTER_DIRECTIVES, NgStyle],
-    providers: [ROUTER_PROVIDERS, provide(LocationStrategy,
-         {useClass: HashLocationStrategy})]
+    precompile:[Home,FindPerson,Contact,Map,SetupProcess]
 })
-@RouteConfig([
-  {
-    path: '/setup',
-    component: SetupProcess,
-    name: 'Setup',
-  },
-  {
-    path: '/home',
-    component: Home,
-    name: 'Home',
-    useAsDefault: true
-  },
-  {
-    path: '/find-person',
-    component: FindPerson,
-    name: 'FindPerson'
-  },
-  {
-    path: '/contact',
-    component: Contact,
-    name: 'Contact'
-  },
-  {
-    path: '/map',
-    component: Map,
-    name: 'Map'
-  }
-])
-
-
 
 export class AppComponent  {
     // Keys of screenInfo.opening_hours, used for iteration over dictionary
@@ -126,11 +123,11 @@ constructor(private router: Router, private location: Location) {
 
     /* Subscribes to the router, every time the route is changed the code inside the subscribe statement
        is executed, changed the appearance of the menu items depending on the current route */
-    router.subscribe((val) => {
-    var url_with_para = val.split("?",1);
+    router.events.subscribe((val) => {
+    var url_with_para = val.url.split("?",1);
 
     switch(url_with_para[0]){
-      case "home":
+      case "/home":
         if (this.prev !== 0) {
             this.menuItemsRightBorder[0] = "none";
             this.menuItemsRightBorder[this.prev] = "solid #2258A5";
@@ -139,7 +136,7 @@ constructor(private router: Router, private location: Location) {
             this.prev = 0;
           }
           break;
-        case "find-person":
+        case "/people":
           if (this.prev !== 1) {
             this.menuItemsRightBorder[1] = "none";
             this.menuItemsRightBorder[this.prev] = "solid #2258A5";
@@ -148,7 +145,7 @@ constructor(private router: Router, private location: Location) {
             this.prev = 1;
           }
           break;
-        case "map":
+        case "/map":
           if (this.prev !== 2) {
             this.menuItemsRightBorder[2] = "none";
             this.menuItemsRightBorder[this.prev] = "solid #2258A5";
@@ -157,7 +154,7 @@ constructor(private router: Router, private location: Location) {
             this.prev = 2;
           }
           break;
-        case "contact":
+        case "/contact":
           if (this.prev !== 3) {
             this.menuItemsRightBorder[3] = "none";
             this.menuItemsRightBorder[this.prev] = "solid #2258A5";

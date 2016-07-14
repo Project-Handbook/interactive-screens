@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
 import { NgClass } from '@angular/common';
@@ -25,7 +25,7 @@ export class SetupProcess {
     this.screenInfo.departments = this.departments;
     // Save the screen information in the session storage for use by all of the app
     localStorage.setItem(Constants.SETUP_PROCESS_KEY, JSON.stringify(this.screenInfo));
-    this.router.navigate(['Home']);
+    this.router.navigate(['home']);
   }
 
   // Reads the stored ScreenSpecificInformation object
@@ -130,7 +130,7 @@ export class SetupProcess {
     this.screenInfo.school = school;
     this.mapService.getDepartments(school.code).subscribe(res => {
       this.department_list = res;
-    })
+    },error=>console.log(error));
   }
 
   // Hash keys for screenInfo.opening_hours

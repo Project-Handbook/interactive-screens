@@ -2,10 +2,9 @@ import {Component,ElementRef,EventEmitter} from '@angular/core';
 import {MapService} from './services/map-service';
 import {Location,Location_type} from './location.interface';
 import { NgStyle,Control } from '@angular/common';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
+import 'rxjs/Rx';
+
+
 
 @Component({
 	selector:'auto-complete',
@@ -54,15 +53,14 @@ export class SearchBarComponent {
         .debounceTime(300)
 				//Only executes new search query if the new query is different than the last one
         .distinctUntilChanged()
-        .subscribe(item => {
-					var regex = new RegExp('^[\\w\\d\\säöåÄÖÅ]+:?[\\w\\d\\säöåÄÖÅ]*$','i');
-					/**	search field only accepts letters, numbers and the character ":".''
-					    if the search field contains accepted input and input is longer than 1
-							 character -> search query will be executed */
-          if (item.toString().length > 1 && regex.test(item.toString())){
+				/**	search field only accepts letters, numbers and the character ":".''
+						if the search field contains accepted input and input is longer than 1
+						 character -> search query will be executed */
+        .subscribe(query => {
+          if (query.toString().length>1 && /^[\w\s\däöåÄÖÅ]+:?[\w\d\säöåÄÖÅ]*$/i.test(query.toString())){
 						//Search from KTH Places API
             if (this.searchForLocation === true) {
-              this._mapService.getPlaces(item.toString()).subscribe(res => { this.searchResult = res },
+              this._mapService.getPlaces(query.toString()).subscribe(res => { this.searchResult = res },
                 error => this.showErrorMessage = true,
                 () => this.showErrorMessage = false);
             } else {
@@ -70,12 +68,12 @@ export class SearchBarComponent {
 							//Check if the search query is for a department or address
 							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
 							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
-							var term = item.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
+							var term = query.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
+							console.log(term)
               this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
                 error => {this.showErrorMessage = true},
                 () => this.showErrorMessage = false);
             }
-          }else{
 						//Clear dropdown search list
 						this.searchResult=[];
           }
@@ -225,5 +223,5 @@ export class SearchBarComponent {
 		if(this.searchResult.length!==0){
 			this.select(this.searchResult[0]);
 		}
-	}	
+	}
 }

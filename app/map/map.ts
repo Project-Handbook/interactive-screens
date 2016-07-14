@@ -1,11 +1,10 @@
 import { Component,ElementRef } from '@angular/core';
 import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
-import { RouteParams } from '@angular/router-deprecated';
 import {Location,Location_type} from './location.interface';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation } from '../screen-specific-information';
-/// <reference path="../../typingsawd/main/ambient/leaflet/index.d.ts"/>
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'map',
@@ -15,25 +14,31 @@ import { ScreenSpecificInformation } from '../screen-specific-information';
   providers:[MapService],
 })
 export class Map {
-  public destinationLocation;
+  private destinationLocation;
   //Leaflet Map Object
-  map: L.Map;
+  private map: L.Map;
   //Leaflet Marker Object
-  currentDestination: L.Marker;
+  private currentDestination: L.Marker;
   //Center coords for map Initialize
-  public mapCenter = new L.LatLng(59.3469417, 18.0702413);
+  private mapCenter = new L.LatLng(59.3469417, 18.0702413);
   //Boolean to display error message
-  showError:boolean=false;
-  constructor(routeParams: RouteParams, private _mapService: MapService) {
+  private showError:boolean=false;
+  //
+
+  constructor(router: Router, private _mapService: MapService) {
     //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
-    var person = {
-                   given_name: <string> routeParams.get('given_name'),
-                   family_name: <string> routeParams.get('family_name'),
-                   visiting_address: <string> routeParams.get('address'),
-                   room: <string> routeParams.get('room')
-                 }
+    let person = {given_name:"",family_name:"",visiting_address:"",room:""};
+    router.routerState.queryParams
+      .subscribe(params=>{
+         person = {
+                     given_name: <string> params['givenName'],
+                     family_name: <string> params['familyName'],
+                     visiting_address: <string> params['address'],
+                     room: <string> params['room']
+                  }
+      });
     //If parameters was passed then display the address on the map
-   if(person.given_name!==null && person.family_name!==null && person.visiting_address!==null){
+   if(person.given_name && person.family_name && person.visiting_address){
      this.getAdressFromPerson(person);
    }
   }
@@ -124,7 +129,6 @@ export class Map {
    the coordinates of the person and dispaly the coordinates as a marker on the map */
 getAdressFromPerson(person){
 
-
     this._mapService.getGeoCode(person.visiting_address,Location_type.street_address)
       .subscribe(res => {
           if(res[0]!==undefined){
@@ -134,8 +138,8 @@ getAdressFromPerson(person){
             this.centerOnMarker();
             this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
             //If room number exists then print it in popup otherwise not.
-              this.currentDestination.bindPopup("<strong>" + person.given_name + " " +  person.family_name + "</strong> <br>" +
-                res[0].streetAddress )
+              this.currentDestination.bindPopup(`<strong> ${person.given_name} ${person.family_name} </strong>
+                <br> ${res[0].streetAddress}`)
               .openPopup();
           }else{
             this.showError=true;
