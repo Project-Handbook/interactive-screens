@@ -227,12 +227,11 @@ mark{
     width: 1000px;
     margin: 250px auto;
     margin-top: 100px;
+    max-height: 80%;
 }
 
 #popup-content {
     background-color: #fff;
-    min-height: 500px;
-    max-height: 900px;
     display: table;
     border-radius: 4px
 }
@@ -289,8 +288,20 @@ mark{
 .popup-person-about {
     font-size: 0.75em;
     color: #000;
-    overflow: hidden;
-    max-height: 550px;
+    overflow: scroll;
+    max-height: 300px;
+
+
+}
+
+.popup-person-about::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+.popup-person-about::-webkit-scrollbar-thumb:vertical {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 .popup-person-about p {
@@ -300,7 +311,7 @@ mark{
     font-family: sans-serif;
 }
 
-.popup-person-about .popup-person-line {
+.popup-person-line {
     border-bottom: 1px solid gray;
     margin-top: .25em;
     margin-bottom: .75em;

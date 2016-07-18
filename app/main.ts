@@ -13,4 +13,4 @@ bootstrap(AppComponent,
     provideRouter(routes),
     provide(LocationStrategy, {useClass: HashLocationStrategy})
   ]
-).catch((err:any)=>location.reload());
+)//.catch((err:any)=>location.reload());

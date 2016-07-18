@@ -76,6 +76,7 @@ export class FindPerson {
       this.selectedSchool  =  screenInfo.school['school'];
       this.currentSchool =  screenInfo.school['school'];
       // Load initial results
+      console.log("hej");
       this.getPeople(this.currentPrefix);
       this.getSchools();
     }
