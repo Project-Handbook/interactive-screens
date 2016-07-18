@@ -9,9 +9,13 @@ import { NgStyle } from '@angular/common';
 import { SetupProcess } from './setup-process/setup-process';
 import { provide } from '@angular/core';
 import { Constants } from './constants';
-import { ScreenSpecificInformation } from './screen-specific-information';
+import { ScreenSpecificInformation} from './screen-specific-information';
 
 export const routes:RouterConfig = [
+  {
+    path: 'home',
+    component: Home
+  },
   {
     path:'',
     redirectTo:'home',
@@ -21,10 +25,6 @@ export const routes:RouterConfig = [
     path: 'setup',
     component: SetupProcess,
   },
-  {
-    path: 'home',
-    component: Home
-    },
   {
     path: 'people',
     component: FindPerson

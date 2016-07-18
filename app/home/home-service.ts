@@ -14,7 +14,8 @@ export class HomeService{
 		 Returns observable that has to be subscribed in order to retrieve the data */
 	getCalendar(id) {
 		var calendar_polopoly_id = id;
-		return this.http.get(this.url + calendar_polopoly_id).map(res => res.text());
+		return this.http.get(this.url + calendar_polopoly_id)
+			.map(res=>res.text());
 	}
 
 	/* Fetches the calendar news feed block associated with the given id string

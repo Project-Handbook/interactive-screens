@@ -3,6 +3,8 @@ import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { HomeService } from './home-service';
 import {ScreenSpecificInformation} from '../screen-specific-information';
 import {Constants} from '../constants';
+import {DomSanitizationService} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'home',
@@ -20,21 +22,23 @@ import {Constants} from '../constants';
 })
 export class Home {
     //Contains the calendar HTML block.
-    calendar_block: String;
+    calendar_block;
     //Contains the news event HTML blocks.
-    news_block:Array<String>=[];
+    news_block:Array<any>=[];
     //Used to display error message on the screen in the case of failed HTTP request
     calendar_error:boolean;
     //Used to display error message on the screen in the case of failed HTTP request
     news_feed_error:boolean;
 
-    constructor(private homeService:HomeService){}
+    constructor(private homeService:HomeService,private sanitizer:DomSanitizationService){}
 
-    //Returns the 4 latest calendar events from Polypoly through the home-service class
+    //Returns the 4 latest (if 4 exists) calendar events from Polypoly through the home-service class
     getCalendar(id:string){
       this.homeService.getCalendar(id)
         .subscribe(res =>
-          {this.calendar_block = res},
+          {
+            this.calendar_block = this.sanitizer.bypassSecurityTrustHtml(res);
+          },
           error=>{this.calendar_error=true},
           ()=>this.calendar_error=false
         );
@@ -44,11 +48,11 @@ export class Home {
       this.homeService.getNewsFeed(id)
       .subscribe(res => {
           for(var i =0;i<res.length;i++){
-            this.news_block.push(res[i].innerHTML);
+            this.news_block.push(this.sanitizer.bypassSecurityTrustHtml(res[i].innerHTML));
           }
         },
         error=> this.news_feed_error=true,
-        ()=>    this.news_feed_error=false
+        ()=>   { this.news_feed_error=false}
       );
     }
     //Calls getCalendar and getNewsFeed on View Init.
