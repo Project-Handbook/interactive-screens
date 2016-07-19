@@ -106,7 +106,8 @@ export class AppComponent  {
       this.clock = `${day} ${month} ${year} ${hours_str}:${minutes_str}:${seconds_str}`;
     }
 
-constructor(private router: Router, private location: Location,private cdr:ChangeDetectorRef) {
+constructor(private router: Router, private location: Location,private cdr:ChangeDetectorRef,private element:ElementRef) {
+    this.element = element;
     this.cdr = cdr;
     // Check whether or not the screen has gone through the setup process
     var screenInfo = localStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
@@ -174,15 +175,15 @@ constructor(private router: Router, private location: Location,private cdr:Chang
     font-size until the text covers less then 60%:
    */
    @ViewChild('titleText') titleTextElement;
+
+   @ViewChild('header') headerElement;
+
+   titlefontSize:number=5;
+
    ngAfterViewInit(){
-     let fontSize = parseFloat(window.getComputedStyle(this.titleTextElement.nativeElement).fontSize);
-     const windowWidth = window.innerWidth;
-     while(this.titleTextElement.nativeElement.offsetWidth>=windowWidth*0.6){
-       console.log(this.titleTextElement.nativeElement.style.fontSize)
-       fontSize *= 0.95;
-       this.titleTextElement.nativeElement.style.fontSize = fontSize + "em";
+     while(this.titleTextElement.nativeElement.offsetWidth>=this.headerElement.nativeElement.offsetWidth*0.6){
+       this.titlefontSize*=0.95;
+       this.cdr.detectChanges();
      }
   }
-
-
 }
