@@ -1,8 +1,9 @@
-import {Component,ElementRef,EventEmitter} from '@angular/core';
+import {Component,ElementRef,EventEmitter,ViewChild} from '@angular/core';
 import {MapService} from './services/map-service';
 import {Location,Location_type} from './location.interface';
-import { NgStyle,Control } from '@angular/common';
 import 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
+import {FormControl,FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 
 
@@ -13,11 +14,10 @@ import 'rxjs/Rx';
     },
     templateUrl: './app/map/html/search-bar.html',
     providers: [MapService],
-    directives:[NgStyle],
+		directives:[FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES],
     styleUrls:['./app/map/styles/search-bar.min.css'],
     outputs:['newLocation']
 })
-
 export class SearchBarComponent {
 	// Used for passing the selected argument from the dropdown menu to the map component
 	newLocation = new EventEmitter<Location>();
@@ -35,7 +35,8 @@ export class SearchBarComponent {
 	//Holds the string that will be displayed in the search field if there is no user input.
 	search_bar_placeholder="Search for a location...";
 	// Holds an Observable that is subscribed to inside the constructor. Keeps track if the user is typing in the search field
-  term = new Control();
+	//@ViewChild('searchField') searchFields;
+	term = new FormControl();
 	//If no adress is found by google geocord api then an error shall be presented on the screen.
 	no_address_found:boolean=false;
 	//Holds the the school objects fetched from schools.json.
@@ -46,9 +47,9 @@ export class SearchBarComponent {
 	departmentsColumns: Array<Array<any>> = [];
 
 	constructor(private _mapService: MapService, myElement: ElementRef) {
-    //Saves the root node of this componenet. Used for toogling dropdown menu on and off.
+		//Saves the root node of this componenet. Used for toogling dropdown menu on and off.
 		  this.elementRef = myElement;
-      this.term.valueChanges
+			this.term.valueChanges
 				//Only execute new search query if no changes has been made to the search field for 300ms.
         .debounceTime(300)
 				//Only executes new search query if the new query is different than the last one
@@ -57,6 +58,7 @@ export class SearchBarComponent {
 						if the search field contains accepted input and input is longer than 1
 						 character -> search query will be executed */
         .subscribe(query => {
+					console.log(query);
           if (query.toString().length>1 && /^[\w\s\däöåÄÖÅ]+:?[\w\d\säöåÄÖÅ]*$/i.test(query.toString())){
 						//Search from KTH Places API
             if (this.searchForLocation === true) {
@@ -74,11 +76,14 @@ export class SearchBarComponent {
                 error => {this.showErrorMessage = true},
                 () => this.showErrorMessage = false);
             }
+          } else {
 						//Clear dropdown search list
-						this.searchResult=[];
-          }
-        })
-	 		}
+					this.searchResult=[];
+					}
+				})
+			}
+
+
     //Send the selected location to map component.
     select(location){
 	    this.term.updateValue(""); //Reset search field

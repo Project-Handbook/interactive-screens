@@ -45,8 +45,7 @@ export class FindPersonService {
 						undefined,
 						undefined
 					);
-				this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
-
+					this.fetchAdditionalInfo(person) // Profile info is divided into two APIs.
 					people.push(person);
 				})
 			},
@@ -150,6 +149,7 @@ export class FindPersonService {
 
 	// Fetches the persons image url from the API asscioated their kth id
 	public fetchAdditionalInfo(person: Person) {
+
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
 			.map(res => res.json())
@@ -157,11 +157,11 @@ export class FindPersonService {
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
-				this.fetchAboutMeInfo(person);
 				this.fetchStatus(person);
+				this.fetchAboutMeInfo(person);
 				this.fetchPersonalDetails(person);
 			},
-			error => null,
+			error => console.log(error),
 			() => {}
 		);
 	}
@@ -186,9 +186,9 @@ export class FindPersonService {
 			.subscribe(res => {
 				if(res.result[0].intercepts !== undefined) {
 					if(res.result[0].intercepts.length === 0) {
-						person.status_image = "https://www.lan.kth.se/sip/lur15.png";
+						person.status_image = "app/find-person/images/availible.png";
 					} else {
-						person.status_image = "https://www.lan.kth.se/sip/lur14.png";
+						person.status_image = "app/find-person/images/unavailible.png";
 						person.status_info = res.result[0].intercepts[0];
 					}
 				} else {

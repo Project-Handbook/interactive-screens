@@ -1,0 +1,78 @@
+<link rel="stylesheet" type="text/css" href="contact.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+<div class="contact_wrapper">
+  <h1>If you need service or advice, contact CSC in the text field below</h1>
+  <h2>Have you remembered to check if your answer could be found at intra.csc.kth.se?</h2>
+  <h2>Don't forget to supply your email so that we can contact you.</h2>
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
+    <div class="wrapper">
+      <p>
+        <label for="msg">Message</label>
+      </p>
+      <input type="text"
+                placeholder="Description"
+                [formControl]="myForm.controls['message']">
+      <div class="msgError" *ngIf="myForm.controls['message'].touched">
+        <div class="formError" *ngIf="myForm.controls['message'].hasError('required')">
+         <p>
+           <i class="fa fa-exclamation-triangle"></i>
+           Your message needs to be at least 10 characters long.
+         </p>
+      </div>
+     </div>
+      <!--    <div class="contactInfo">
+        <p>
+          <label><h3>Please supply your contact info here</h3></label>
+        </p>
+        <p>
+          <label for="email">Email</label>
+        </p>
+        <input type="text"
+               placeholder="Your mail"
+               [formControl]="myForm.controls['email']"/>
+         <div class="emailError" *ngIf="myForm.controls['email'].touched">
+           <div class="formError" *ngIf="myForm.controls['email'].hasError('required')">
+             <p>
+               <i class="fa fa-exclamation-triangle"></i> Enter your email address.
+             </p>
+           </div>
+           <div class="formError" *ngIf="myForm.controls['email'].hasError('invalidEmail')">
+             <p>
+               <i class="fa fa-exclamation-triangle"></i> Invalid email format.
+             </p>
+           </div>
+         </div>
+        <p>
+          <label for="name">Name</label>
+        </p>
+        <input type="text"
+               placeholder="Your name"
+               [formControl]="myForm.controls['name']"/>
+       <div class="nameError" *ngIf="myForm.controls['name'].hasError('required') &&
+            myForm.controls['name'].touched">
+         <div class="formError">
+           <p>
+             <i class="fa fa-exclamation-triangle"></i> Enter your name.
+           </p>
+         </div>
+       </div>
+     <p>
+          <label for="captcha">{{captchaA}} + {{captchaB}} = ?</label>
+        </p>
+        <input type="text"
+              [formControl]="myForm.controls['captcha']"/>
+      </div>
+       <div class="captchaError" *ngIf="myForm.controls['captcha'].touched && !myForm.controls['captcha'].valid">
+        <div class="formError" *ngIf="myForm.controls['captcha'].hasError('invalidCaptcha')">
+          <p>
+            <i class="fa fa-exclamation-triangle"></i> Invalid captcha.
+          </p>
+        </div>
+      </div>
+    <div class="buttonArea">
+           <button type="submit" [disabled]="!myForm.valid">Submit</button>
+      </div>-->
+    </div>
+  </form>
+</div>

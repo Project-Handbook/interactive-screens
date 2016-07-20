@@ -1,57 +1,89 @@
 <link rel="stylesheet" type="text/css" href="contact.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
 <div class="contact_wrapper">
   <h1>If you need service or advice, contact CSC in the text field below</h1>
   <h2>Have you remembered to check if your answer could be found at intra.csc.kth.se?</h2>
   <h2>Don't forget to supply your email so that we can contact you.</h2>
-
-  <form *ngIf="showForm" [ngFormModel]="form" (submit)="onSubmit(email.fromName, email.fromEmail, email.message)">
-    <div class="wrapper">
-      <label for="msg">Message</label>
-      <br/>
-      <textarea required type="text" [(ngModel)]="email.message" placeholder="Description"  ngControl="msgCtrl"></textarea>
-      <div class="msgError" *ngIf="msgCtrl.dirty && !msgCtrl.valid">
-        <div *ngIf="msgCtrl.errors.minlength" class="formError">
-        <i class="fa fa-exclamation-triangle"></i> Your message needs to be longer.
-        </div>
-      </div>
-
-      <div class="contactInfo">
-        <h3>Please supply your contact info here</h3>
-        <label for="email">Email</label>
-        <br/>
-        <input required type="text" [(ngModel)]="email.fromEmail" placeholder="Your mail" ngControl="emailCtrl"/>
-        <div class="emailError" *ngIf="emailCtrl.dirty && !emailCtrl.valid">
-        <div *ngIf="emailCtrl.errors.isInCorrectEmail" class="formError">
-          <i class="fa fa-exclamation-triangle"></i> Invalid format.
-        </div>
-        </div>
-        <br/>
-        <label for="name">Name</label>
-        <br/>
-        <input required type="text" [(ngModel)]="email.fromName" placeholder="Your name" ngControl="nameCtrl"/>
-        <br/>
-        <label for="captcha">{{captchaA}} + {{captchaB}} = ?</label>
-        <br/>
-          <input type="number" [(ngModel)]="captchaAnswer" ngControl="captchaCtrl"/>
-          <div class="captcha">
-          <div *ngIf="!(captchaA + captchaB === captchaAnswer)" class="formError">
-            <i class="fa fa-exclamation-triangle"></i> Invalid value.
+  <div *ngIf="messageSentSuccess" class="messageStatusSuccess">
+    <h3>Message sent successfully!</h3>
+  </div>
+  <div *ngIf="messageSentError" class="messageStatusError">
+    <h3>Failed to send message, please try again later!</h3>
+  </div>
+  <form *ngIf="!messageSentSuccess && !messageSentError" [formGroup]="myForm" (submit)="onSubmit(myForm)">
+      <div class="content">
+        <div class="field">
+          <label for="messageInput"><p>Message</p></label>
+          <textarea
+                    [class.success]="myForm.controls['message'].valid"
+                    id="messageInput"
+                    type="text"
+                    placeholder="Description"
+                    [formControl]="myForm.controls['message']"
+                    rows="6">
+          </textarea>
+        <div class="messageSuccess" *ngIf="myForm.controls['message'].valid && myForm.controls['message'].touched"> <img src="app/contact/checkmark.png"></div>
+        <div *ngIf="myForm.controls['message'].touched">
+          <div class="messageError" *ngIf="myForm.controls['message'].hasError('minlength') || myForm.controls['message'].hasError('required')">
+             Your message needs to be at least 10 characters long.
           </div>
-        </div>
-      </div>
+       </div>
+     </div>
+     <div class="field">
+       <label for="emailInput"><p>Email</p></label>
+       <input
+                  [class.success]="myForm.controls['email'].valid"
+                 id="emailInput"
+                 type="text"
+                 placeholder="Description"
+                 [formControl]="myForm.controls['email']"
+                 rows="6">
+      <span *ngIf="myForm.controls['email'].valid && myForm.controls['email'].touched"> <img src="app/contact/checkmark.png"> </span>
+     <div *ngIf="myForm.controls['email'].touched" >
+       <div class="formError" *ngIf=" myForm.controls['email'].hasError('required')">
+         Enter your email.
+       </div>
+       <div class="formError" *ngIf="myForm.controls['email'].hasError('invalidEmail')">
+        Invalid email.
+       </div>
     </div>
+  </div>
+  <div class="field">
+    <label for="nameInput"><p>Name</p></label>
+    <input
+              [class.success]="myForm.controls['name'].valid &&  myForm.controls['name'].touched"
+              id="nameInput"
+              type="text"
+              placeholder="Description"
+              [formControl]="myForm.controls['name']"
+              rows="6">
+  <span *ngIf="myForm.controls['name'].valid && myForm.controls['name'].touched"> <img src="app/contact/checkmark.png"> </span>
+  <div *ngIf="myForm.controls['name'].touched" >
+    <div class="formError" *ngIf="myForm.controls['name'].hasError('required')">
+      Enter your name.
+    </div>
+ </div>
+</div>
+<div class="field">
+  <label for="captchInput"><p>{{captchaA}} + {{captchaB}} = ?</p></label>
+  <input
+            [class.success]="myForm.controls['captcha'].valid"
+            id="captchaInput"
+            type="text"
+            placeholder="Description"
+            [formControl]="myForm.controls['captcha']"
+            rows="6">
+<span *ngIf="myForm.controls['captcha'].valid && myForm.controls['captcha'].touched"> <img src="app/contact/checkmark.png"> </span>
+<div *ngIf="myForm.controls['captcha'].touched" >
+  <div class="formError" *ngIf="myForm.controls['captcha'].hasError('invalidCaptcha')">
+    Wrong Answer.
+  </div>
+</div>
+</div>
+<div class="buttonArea">
+      <button type="submit" [disabled]="!myForm.valid">Submit</button>
+ </div>
+   </div>
 
-    <div class="buttonArea">
-         <button type="submit" [disabled]="!form.valid">Submit</button>
-         <div class="formError" *ngIf="(error === true)" role="alert">
-          <i class="fa fa-exclamation-triangle"></i> Couldn't send.
-        </div>
-      <br />
-      <div class="succesfulMail" *ngIf="messageSent === true" role="alert">
-      <i class="fa fa-check" aria-hidden="true"></i> Message sent!
-      </div>
-    </div>
   </form>
 </div>

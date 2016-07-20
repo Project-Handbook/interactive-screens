@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core'
-import { NgClass } from '@angular/common';
-import { NgStyle } from '@angular/common';
+import { Component,OnInit } from '@angular/core';
+import { NgClass , NgStyle } from '@angular/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
@@ -76,7 +74,6 @@ export class FindPerson {
       this.selectedSchool  =  screenInfo.school['school'];
       this.currentSchool =  screenInfo.school['school'];
       // Load initial results
-      console.log("hej");
       this.getPeople(this.currentPrefix);
       this.getSchools();
     }
