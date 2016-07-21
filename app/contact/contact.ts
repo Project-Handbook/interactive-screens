@@ -15,24 +15,23 @@ export class Contact {
   captchaB: number;
   messageSentSuccess: boolean;
   messageSentError: boolean;
-  myForm:FormGroup;
+  emailForm:FormGroup;
 
   // Constructor, initializes a EmailService and FormBuilder object for later use
   // Creates the form and initializes the captcha
   constructor(private emailService: EmailService, private fb: FormBuilder) {
     this.captchaInit();
-    this.myForm = fb.group({
+    this.emailForm = fb.group({
       'message' : ['',Validators.compose([Validators.required,Validators.minLength(10)])],
       'email' : ['',Validators.compose([Validators.required,this.emailValidator])],
       'name' : ['',Validators.required],
-      'captcha' : ['',this.captchaValidator(this.captchaA,this.captchaB)]
+      'captcha' : ['',this.captchaValidator()]
     });
   }
 
-captchaValidator(captchaA:number,captchaB:number):ValidatorFn {
-  console.log(captchaA + "-" + captchaB);
+captchaValidator():ValidatorFn {
   return (control:FormControl):{[key:string]:boolean}=>{
-    if(control.value==captchaA+captchaB){
+    if(control.value==this.captchaA+this.captchaB){
       return null;
     }else{
       return {invalidCaptcha: true};
@@ -62,13 +61,12 @@ captchaInit() {
   }
   // The submit method. Sends the mail containing the forms attributes.
   onSubmit(form:any) {
-    this.emailService.sendEmail("jakob", "jakve@kth.se", "message")
+    this.emailService.sendEmail(form.value.name.toString(),form.value.email.toString(),form.value.message.toString())
       .map(res => res)
       // If Mailgun responds with an error, log the error and set error to true.
       .subscribe(
-                res => console.log(res),
+                res => {},
                 error => {
-                      console.log(error);
                       this.messageSentError = true
                       this.reset(form);
                       setTimeout(()=>{this.messageSentError=false},3000);
