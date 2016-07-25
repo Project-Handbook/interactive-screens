@@ -1,4 +1,4 @@
-import { Component ,ViewEncapsulation } from '@angular/core';
+import { Component ,ViewEncapsulation,ViewChild,ElementRef,ChangeDetectorRef} from '@angular/core';
 import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { HomeService } from './home-service';
 import {ScreenSpecificInformation} from '../screen-specific-information';
@@ -28,7 +28,13 @@ export class Home {
     //Used to display error message on the screen in the case of failed HTTP request
     news_feed_error:boolean;
 
-    constructor(private homeService:HomeService){}
+    elementRef:ElementRef;
+
+    @ViewChild('newsBlock') newsBlockElement;
+    @ViewChild('newsBlockInner') newsBlockInnerElement;
+    constructor(private homeService:HomeService,elementRef:ElementRef,private cdr:ChangeDetectorRef){
+      this.elementRef = elementRef;
+    }
 
     //Returns the 4 latest calendar events from Polypoly through the home-service class
     getCalendar(id:string){
@@ -43,12 +49,15 @@ export class Home {
     getNewsFeed(id:string){
       this.homeService.getNewsFeed(id)
       .subscribe(res => {
-          for(var i =0;i<res.length;i++){
-            this.news_block.push(res[i].innerHTML);
+          for(var i =0;i<res.length-1;i++){
+            this.news_block.push(res[i]);
+          }
+          if(res.splice(res.length-1,1)[0]){
+            this.slideShow(this.news_block);
           }
         },
         error=> this.news_feed_error=true,
-        ()=>    this.news_feed_error=false
+        ()=>   {}
       );
     }
     //Calls getCalendar and getNewsFeed on View Init.
@@ -56,7 +65,7 @@ export class Home {
       //Contains screenspecific configuration
       var screenInfo = new ScreenSpecificInformation();
       //Checks if localstorage file exists
-      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)!==null){
+      if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)){
         screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
         this.getCalendar(screenInfo.calendar_polypoly_id);
         this.getNewsFeed(screenInfo.news_feed_polypoly_id);
@@ -65,5 +74,21 @@ export class Home {
         this.news_feed_error=true;
         this.calendar_error=true;
       }
+    }
+    //opacity is used to set the opacity of all the news event elements in the view of this component.
+    opacatiy:number=1;
+    //Creates a simple slideshow of the articles in the array passed as argument.
+    slideShow(articles, tmp=null){
+      if(tmp===null){
+        tmp = articles.splice(0,1)[0];
+        return this.slideShow(articles,tmp);
+      }
+      setTimeout(()=>this.opacatiy=1,1);
+      setTimeout(()=>{
+        this.opacatiy=0;
+        articles.push(tmp);
+        tmp = articles.splice(0,1)[0];
+        this.slideShow(articles,tmp);
+      },7500);
     }
   }

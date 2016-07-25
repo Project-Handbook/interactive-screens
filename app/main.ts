@@ -7,6 +7,10 @@ import { Location, LocationStrategy, HashLocationStrategy } from "@angular/commo
 import { provideForms,disableDeprecatedForms } from '@angular/forms';
 //enableProdMode();
 
+if(!localStorage.getItem('EMAIL_API_KEY')){
+  localStorage.setItem('EMAIL_API_KEY',JSON.stringify({key:"api:key-5164d1f0b491719c50e103020764205a"}));
+}  
+
 bootstrap(AppComponent,
   [
     HTTP_PROVIDERS,
