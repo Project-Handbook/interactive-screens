@@ -49,8 +49,14 @@
 			<br>
 			<h1>The requested data is not available at the moment!</h1>
 		</div>
+		<div *ngIf="missingConfiguration">
+			<img src="app/find-person/images/Error-100.png"/>
+			<br>
+			<h2>Could not display staff of the default department because configuration is missing!</h2>
+			<h3>Navigate to the setup view and fill in the missing pieces.</h3>
+		</div>
 
-		<div *ngIf="!showErrorMessage">
+		<div *ngIf="!showErrorMessage && !missingConfiguration">
 			<!-- Table displaying the current persons -->
 			<table id="person-table">
 				<thead>

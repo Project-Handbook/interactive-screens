@@ -45,7 +45,7 @@ var Map = (function () {
         //Used to detect if chords of the screen is saved in localstorage
         var gotChoords = false;
         //Check if localstorage object exists
-        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY)) {
             screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
             //Check if localstorage object contains position coordinates.
             if (screenInfo.latitude !== 0 && screenInfo.longitude !== 0) {

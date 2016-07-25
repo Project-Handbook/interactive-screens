@@ -29,6 +29,7 @@ var FindPerson = (function () {
         this.currentSchool = "";
         // Displaying error message if a search request would fail for any reason
         this.showErrorMessage = false;
+        this.missingConfiguration = false;
         this.isOn = false;
         this.people = []; // Holds all the persons fetched from the API
         // This is called whenever an event that might fail occurs.
@@ -64,14 +65,22 @@ var FindPerson = (function () {
     FindPerson.prototype.ngOnInit = function () {
         // Fetches department code and name from local storage.
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
-        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
+        if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY)) {
             screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-            this.currentPrefix = "org:" + screenInfo.school['code'];
-            this.selectedSchool = screenInfo.school['school'];
-            this.currentSchool = screenInfo.school['school'];
-            // Load initial results
-            this.getPeople(this.currentPrefix);
-            this.getSchools();
+            if (screenInfo.school['code'] && screenInfo.school['school']) {
+                this.currentPrefix = "org:" + screenInfo.school['code'];
+                this.selectedSchool = screenInfo.school['school'];
+                this.currentSchool = screenInfo.school['school'];
+                // Load initial results
+                this.getPeople(this.currentPrefix);
+                this.getSchools();
+            }
+            else {
+                this.missingConfiguration = true;
+            }
+        }
+        else {
+            this.missingConfiguration = true;
         }
     };
     // Set's field based on input and makes a function call to find all people based on the input

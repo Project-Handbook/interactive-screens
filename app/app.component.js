@@ -114,7 +114,7 @@ var AppComponent = (function () {
         this.cdr = cdr;
         // Check whether or not the screen has gone through the setup process
         var screenInfo = localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
-        if (screenInfo === null) {
+        if (screenInfo) {
             this.router.navigate(['Setup']);
         }
         // Setup update interval
