@@ -5,11 +5,12 @@ import { provideRouter} from '@angular/router';
 import { enableProdMode,provide} from '@angular/core';
 import { Location, LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { provideForms,disableDeprecatedForms } from '@angular/forms';
-//enableProdMode();
+
+enableProdMode();
 
 if(!localStorage.getItem('EMAIL_API_KEY')){
   localStorage.setItem('EMAIL_API_KEY',JSON.stringify({key:"api:key-5164d1f0b491719c50e103020764205a"}));
-}  
+}
 
 bootstrap(AppComponent,
   [
@@ -19,4 +20,4 @@ bootstrap(AppComponent,
     provideForms(),
     disableDeprecatedForms()
   ]
-)//.catch((err:any)=>location.reload());
+).catch((err:any)=>location.reload());

@@ -111,8 +111,7 @@ constructor(private router: Router, private location: Location,private cdr:Chang
     this.cdr = cdr;
     // Check whether or not the screen has gone through the setup process
     var screenInfo = localStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
-    console.log(screenInfo);
-    if (screenInfo === null) { /* Has not gone through setup - go to Setup then */
+    if (screenInfo) { /* Has not gone through setup - go to Setup then */
       this.router.navigate(['Setup']);
     }
 

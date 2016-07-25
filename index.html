@@ -17,13 +17,11 @@
     <!-- Leaflet -->
     <script src="node_modules/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
-
     <!-- jQuery  -->
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-
     <!-- 2. Configure SystemJS -->
     <script>
-        System.import('app').catch(function(err){ console.error(err); /*location.reload();*/ });
+        System.import('app').catch(function(err){ console.error(err); location.reload(); });
       </script>
   </head>
   <!-- Used by the Angular router ... -->

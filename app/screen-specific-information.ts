@@ -32,3 +32,4 @@ let opening_hours_defaults: {[weekday: string]: [string , string, boolean]} =
                               'friday'   : ['09:00', '17:00', true],
                               'saturday' : ['09:00', '17:00', true],
                               'sunday'   : ['09:00', '17:00', true]};
+                            

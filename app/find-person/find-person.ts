@@ -29,6 +29,7 @@ export class FindPerson {
 
   // Displaying error message if a search request would fail for any reason
   showErrorMessage: boolean = false;
+  missingConfiguration:boolean =false;
 
   isOn = false;
 
@@ -67,15 +68,20 @@ export class FindPerson {
   ngOnInit(): any {
     // Fetches department code and name from local storage.
     var screenInfo = new ScreenSpecificInformation();
-
-    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY) !== null){
+    if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)){
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-      this.currentPrefix  = "org:" + screenInfo.school['code'];
-      this.selectedSchool  =  screenInfo.school['school'];
-      this.currentSchool =  screenInfo.school['school'];
-      // Load initial results
-      this.getPeople(this.currentPrefix);
-      this.getSchools();
+      if(screenInfo.school['code'] && screenInfo.school['school']){
+        this.currentPrefix  = "org:" + screenInfo.school['code'];
+        this.selectedSchool  =  screenInfo.school['school'];
+        this.currentSchool =  screenInfo.school['school'];
+        // Load initial results
+        this.getPeople(this.currentPrefix);
+        this.getSchools();
+      }else{
+        this.missingConfiguration = true;
+      }
+    }else{
+      this.missingConfiguration=true;
     }
   }
 
