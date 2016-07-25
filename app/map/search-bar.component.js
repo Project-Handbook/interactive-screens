@@ -11,11 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var map_service_1 = require('./services/map-service');
 var location_interface_1 = require('./location.interface');
-var common_1 = require('@angular/common');
-require('rxjs/add/operator/map');
-require('rxjs/add/operator/debounceTime');
-require('rxjs/add/operator/distinctUntilChanged');
-require('rxjs/add/operator/switchMap');
+require('rxjs/Rx');
+var forms_1 = require('@angular/forms');
 var SearchBarComponent = (function () {
     function SearchBarComponent(_mapService, myElement) {
         var _this = this;
@@ -34,7 +31,8 @@ var SearchBarComponent = (function () {
         //Holds the string that will be displayed in the search field if there is no user input.
         this.search_bar_placeholder = "Search for a location...";
         // Holds an Observable that is subscribed to inside the constructor. Keeps track if the user is typing in the search field
-        this.term = new common_1.Control();
+        //@ViewChild('searchField') searchFields;
+        this.term = new forms_1.FormControl();
         //If no adress is found by google geocord api then an error shall be presented on the screen.
         this.no_address_found = false;
         //Holds the the school objects fetched from schools.json.
@@ -48,22 +46,20 @@ var SearchBarComponent = (function () {
         this.term.valueChanges
             .debounceTime(300)
             .distinctUntilChanged()
-            .subscribe(function (item) {
-            var regex = new RegExp('^[\\w\\d\\säöåÄÖÅ]+:?[\\w\\d\\säöåÄÖÅ]*$', 'i');
-            /**	search field only accepts letters, numbers and the character ":".''
-                if the search field contains accepted input and input is longer than 1
-                     character -> search query will be executed */
-            if (item.toString().length > 1 && regex.test(item.toString())) {
+            .subscribe(function (query) {
+            console.log(query);
+            if (query.toString().length > 1 && /^[\w\s\däöåÄÖÅ]+:?[\w\d\säöåÄÖÅ]*$/i.test(query.toString())) {
                 //Search from KTH Places API
                 if (_this.searchForLocation === true) {
-                    _this._mapService.getPlaces(item.toString()).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
+                    _this._mapService.getPlaces(query.toString()).subscribe(function (res) { _this.searchResult = res; }, function (error) { return _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                 }
                 else {
                     /**Search from google geocoding API*/
                     //Check if the search query is for a department or address
                     var location_type = _this.searchForAddress === true ? location_interface_1.Location_type.street_address : location_interface_1.Location_type.department;
                     //Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
-                    var term = item.toString().replace(/ä|å/ig, 'a').replace(/ö/ig, 'o');
+                    var term = query.toString().replace(/ä|å/ig, 'a').replace(/ö/ig, 'o');
+                    console.log(term);
                     _this._mapService.getGeoCode(term, location_type).subscribe(function (res) { _this.searchResult = res; }, function (error) { _this.showErrorMessage = true; }, function () { return _this.showErrorMessage = false; });
                 }
             }
@@ -230,7 +226,7 @@ var SearchBarComponent = (function () {
             },
             templateUrl: './app/map/html/search-bar.html',
             providers: [map_service_1.MapService],
-            directives: [common_1.NgStyle],
+            directives: [forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
             styleUrls: ['./app/map/styles/search-bar.min.css'],
             outputs: ['newLocation']
         }), 

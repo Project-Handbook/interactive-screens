@@ -66,9 +66,9 @@ var FindPerson = (function () {
         var screenInfo = new screen_specific_information_1.ScreenSpecificInformation();
         if (localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY) !== null) {
             screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-            this.currentPrefix = "org:" + screenInfo.department_code;
-            this.selectedSchool = screenInfo.department_name;
-            this.currentSchool = screenInfo.department_name;
+            this.currentPrefix = "org:" + screenInfo.school['code'];
+            this.selectedSchool = screenInfo.school['school'];
+            this.currentSchool = screenInfo.school['school'];
             // Load initial results
             this.getPeople(this.currentPrefix);
             this.getSchools();

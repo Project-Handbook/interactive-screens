@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var router_deprecated_1 = require('@angular/router-deprecated');
+var router_1 = require('@angular/router');
 var constants_1 = require('../constants');
 var screen_specific_information_1 = require('../screen-specific-information');
 var common_1 = require('@angular/common');
@@ -40,14 +40,21 @@ var SetupProcess = (function () {
         this.screenInfo.departments = this.departments;
         // Save the screen information in the session storage for use by all of the app
         localStorage.setItem(constants_1.Constants.SETUP_PROCESS_KEY, JSON.stringify(this.screenInfo));
-        this.router.navigate(['Home']);
+        this.router.navigate(['home']);
     };
     // Reads the stored ScreenSpecificInformation object
     SetupProcess.prototype.loadInformation = function () {
-        this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
-        if (this.screenInfo) {
-            this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+        if (JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY))) {
+            this.screenInfo = JSON.parse(localStorage.getItem(constants_1.Constants.SETUP_PROCESS_KEY));
+            //If coordinates exist in local storage then set pin on map
+            if (this.screenInfo.longitude && this.screenInfo.latitude) {
+                this.updateMapMarker(this.screenInfo.longitude, this.screenInfo.latitude);
+            }
             this.departments = this.screenInfo.departments;
+            //If a school exist in local storage then load the departments assosciated with the school.
+            if (Object.keys(this.screenInfo.school).length !== 0 && this.screenInfo.school) {
+                this.getDepartments(JSON.stringify(this.screenInfo.school));
+            }
         }
     };
     // Validates that all the required fields in the setup process contain data
@@ -112,13 +119,14 @@ var SetupProcess = (function () {
         this.mapService.getSchools().subscribe(function (res) { _this.schools = res; });
     };
     // Fetches the departments of the school passed as argument
-    SetupProcess.prototype.getDepartments = function (department) {
+    SetupProcess.prototype.getDepartments = function (selectedSchool) {
         var _this = this;
-        this.mapService.getDepartments(this.schools[department].code).subscribe(function (res) {
+        var school = JSON.parse(selectedSchool);
+        // Save selected  school in screenInfo Object.
+        this.screenInfo.school = school;
+        this.mapService.getDepartments(school.code).subscribe(function (res) {
             _this.department_list = res;
-        });
-        // Updates the footer text depending on the choosen school
-        this.screenInfo.footer_text = this.schools[department].footer_text;
+        }, function (error) { return console.log(error); });
     };
     // Toggle if opening hours feature is used or not
     SetupProcess.prototype.toggleOpeningHours = function () {
@@ -129,9 +137,11 @@ var SetupProcess = (function () {
         this.screenInfo.opening_hours[day][2] = !this.screenInfo.opening_hours[day][2];
     };
     // Set the department attributes of screenInfo object
-    SetupProcess.prototype.setDepartment = function (index) {
-        this.screenInfo.department_code = this.department_list[index].code;
-        this.screenInfo.department_name = this.department_list[index].name_sv;
+    SetupProcess.prototype.setDepartment = function (department) {
+        this.screenInfo.department = JSON.parse(department);
+    };
+    SetupProcess.prototype.stringify = function (value) {
+        return JSON.stringify(value);
     };
     SetupProcess = __decorate([
         core_1.Component({
@@ -140,7 +150,7 @@ var SetupProcess = (function () {
             templateUrl: 'app/setup-process/setup-process.html',
             providers: [map_service_1.MapService]
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.Router, map_service_1.MapService])
+        __metadata('design:paramtypes', [router_1.Router, map_service_1.MapService])
     ], SetupProcess);
     return SetupProcess;
 }());

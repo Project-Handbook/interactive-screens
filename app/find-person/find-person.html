@@ -6,13 +6,13 @@
 		<!-- 'Header' - Contains searchbar and information about the current search -->
 		<div id="person-header">
 			<!-- Searchbar, dropdown and search-button -->
-			<form action="search()" id="search-container">
+			<div action="search()" id="search-container">
 				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone" autocomplete="off">
 				<div id="person-search-schools">
 					<p id="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
 				</div>
-				<button type="submit" (click)="search(input)" name="search_button" id="person-search-button"></button>
-			</form>
+				<button (click)="search(input)" name="search_button" id="person-search-button"></button>
+			</div>
 			<!-- Dropdown menu with all schools and departments (initially hidden) -->
 			<div id="schools-wrapper" style="display: none">
 				<!-- List of all schools -->

@@ -1,0 +1,23 @@
+{
+  "name": "{{project}}",
+  "version": "0.1.0",
+  "description": "{{description}}",
+  "keywords": [],
+  "author": "{{name}} <{{email}}>",
+  "repository": { "type": "git", "url": "git://github.com/{{username}}/{{project}}.git" },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "assemble": "~0.4.4"
+  },
+  "scripts": {
+    "test": "grunt assemble"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/{{username}}/{{project}}/blob/master/LICENSE-MIT"
+    }
+  ]
+}

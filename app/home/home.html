@@ -1,9 +1,9 @@
 <!-- Load our partials' css file <link rel="stylesheet" href="http://www.kth.se/css/v/8.28.4/kth.css"/>-->
 <div  id="home_container" class="home_container">
-
-	<div class="news_block" >
-		<div *ngFor="let news_event of news_block">
-			<div id="news_item1" *ngIf="news_event && !news_feed_error" class="block_item" [innerHTML] = "news_event">
+	<div class="news_block" #newsBlock>
+		<div class="news_block_inner"  #newsBlockInner>
+		<div *ngFor="let news_event of news_block;let i=index">
+			<div id="news_item" [style.opacity]="opacatiy" *ngIf="news_event && !news_feed_error" class="block_item" [innerHTML] = "news_event" #i>
 			</div>
 		</div>
 
@@ -15,8 +15,9 @@
 			<h3>The requested data is not available at the moment.</h3>
 		</center>
 	</div>
-	<div style="height:20rem;"></div>
+	<!--<div style="height:20rem;"></div>-->
 
+</div>
 </div>
 <div class="calendar_block">
 	<div *ngIf="calendar_block" [innerHtml]="calendar_block"></div>

@@ -37,9 +37,31 @@ var HomeService = (function () {
                 res = res.replace(image, "https://www.kth.se" + image);
             });
             // The news events are contained in the blockItem div class.
-            var blocks = jQuery(res).find(".blockItem");
-            // Returns a list of news events
-            return blocks;
+            var jqueryBlocks = jQuery(res).find(".blockItem");
+            var numberOfLargeArticles = 0;
+            var numberOfNoMediaArticles = 0;
+            var news_blocks = [];
+            for (var i = 0; i < jqueryBlocks.length; i++) {
+                if (/overlay (bottom|top) color/ig.test(jqueryBlocks[i].innerHTML)) {
+                    numberOfLargeArticles++;
+                }
+                if (/block teaser.+noMedia/ig.test(jqueryBlocks[i].innerHTML)) {
+                    numberOfNoMediaArticles++;
+                }
+                news_blocks.push(jqueryBlocks[i].innerHTML);
+            }
+            //If there is 2 or more articles without a picture, then no slideshow.
+            if (numberOfNoMediaArticles >= 2) {
+                news_blocks.push(false);
+                return news_blocks;
+            }
+            //If there is not 2 or more articles without a picture and atleast 1 "large" article, then display slideshow
+            if (numberOfLargeArticles >= 1) {
+                news_blocks.push(true);
+                return news_blocks;
+            }
+            news_blocks.push(false);
+            return news_blocks;
         });
     };
     HomeService = __decorate([

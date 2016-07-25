@@ -11,27 +11,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var map_service_1 = require('./services/map-service');
 var search_bar_component_1 = require('./search-bar.component');
-var router_deprecated_1 = require('@angular/router-deprecated');
 var location_interface_1 = require('./location.interface');
 var constants_1 = require('../constants');
 var screen_specific_information_1 = require('../screen-specific-information');
-/// <reference path="../../typingsawd/main/ambient/leaflet/index.d.ts"/>
+var router_1 = require('@angular/router');
 var Map = (function () {
-    function Map(routeParams, _mapService) {
+    //
+    function Map(router, _mapService) {
         this._mapService = _mapService;
         //Center coords for map Initialize
         this.mapCenter = new L.LatLng(59.3469417, 18.0702413);
         //Boolean to display error message
         this.showError = false;
         //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
-        var person = {
-            given_name: routeParams.get('given_name'),
-            family_name: routeParams.get('family_name'),
-            visiting_address: routeParams.get('address'),
-            room: routeParams.get('room')
-        };
+        var person = { given_name: "", family_name: "", visiting_address: "", room: "" };
+        router.routerState.queryParams
+            .subscribe(function (params) {
+            person = {
+                given_name: params['givenName'],
+                family_name: params['familyName'],
+                visiting_address: params['address'],
+                room: params['room']
+            };
+        });
         //If parameters was passed then display the address on the map
-        if (person.given_name !== null && person.family_name !== null && person.visiting_address !== null) {
+        if (person.given_name && person.family_name && person.visiting_address) {
             this.getAdressFromPerson(person);
         }
     }
@@ -130,8 +134,7 @@ var Map = (function () {
                 _this.centerOnMarker();
                 _this.currentDestination = L.marker([coordinate_lat, coordinate_lng]).addTo(_this.map);
                 //If room number exists then print it in popup otherwise not.
-                _this.currentDestination.bindPopup("<strong>" + person.given_name + " " + person.family_name + "</strong> <br>" +
-                    res[0].streetAddress)
+                _this.currentDestination.bindPopup("<strong> " + person.given_name + " " + person.family_name + " </strong>\n                <br> " + res[0].streetAddress)
                     .openPopup();
             }
             else {
@@ -152,7 +155,7 @@ var Map = (function () {
             directives: [search_bar_component_1.SearchBarComponent],
             providers: [map_service_1.MapService],
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.RouteParams, map_service_1.MapService])
+        __metadata('design:paramtypes', [router_1.Router, map_service_1.MapService])
     ], Map);
     return Map;
 }());

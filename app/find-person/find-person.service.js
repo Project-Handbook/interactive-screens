@@ -98,10 +98,10 @@ var FindPersonService = (function () {
             person.image_url = item.image;
             person.working_place = item.worksFor[0].name;
             person.kth_profile = item.url;
-            _this.fetchAboutMeInfo(person);
             _this.fetchStatus(person);
+            _this.fetchAboutMeInfo(person);
             _this.fetchPersonalDetails(person);
-        }, function (error) { return null; }, function () { });
+        }, function (error) { return console.log(error); }, function () { });
     };
     // Scrapes the Person's KTH profile 'About me' section from the internet.
     FindPersonService.prototype.fetchAboutMeInfo = function (person) {
@@ -121,10 +121,10 @@ var FindPersonService = (function () {
             .subscribe(function (res) {
             if (res.result[0].intercepts !== undefined) {
                 if (res.result[0].intercepts.length === 0) {
-                    person.status_image = "https://www.lan.kth.se/sip/lur15.png";
+                    person.status_image = "app/find-person/images/availible.png";
                 }
                 else {
-                    person.status_image = "https://www.lan.kth.se/sip/lur14.png";
+                    person.status_image = "app/find-person/images/unavailible.png";
                     person.status_info = res.result[0].intercepts[0];
                 }
             }

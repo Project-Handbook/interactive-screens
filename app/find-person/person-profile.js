@@ -11,16 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var find_person_service_1 = require('./find-person.service');
-var router_deprecated_1 = require('@angular/router-deprecated');
+var router_1 = require('@angular/router');
 var PersonProfile = (function () {
-    function PersonProfile(findPersonService) {
+    function PersonProfile(findPersonService, router) {
         this.findPersonService = findPersonService;
+        this.router = router;
     }
     // Makes a Persons title lowercase instead of KTH standard ALL CAPS.
     PersonProfile.prototype.getTitle = function (title) {
         if (title != undefined) {
             return title.charAt(0) + title.substr(1).toLowerCase();
         }
+    };
+    PersonProfile.prototype.navigate = function () {
+        this.router.navigate(['/map'], { queryParams: {
+                givenName: this.person.given_name,
+                familyName: this.person.family_name,
+                address: this.person.visiting_address,
+                room: this.person.roo
+            }
+        });
     };
     __decorate([
         core_1.Input(), 
@@ -34,10 +44,10 @@ var PersonProfile = (function () {
         core_1.Component({
             selector: 'person-profile',
             templateUrl: 'app/find-person/person-profile.html',
-            directives: [common_1.NgClass, router_deprecated_1.RouterLink],
+            directives: [common_1.NgClass],
             providers: [find_person_service_1.FindPersonService]
         }), 
-        __metadata('design:paramtypes', [find_person_service_1.FindPersonService])
+        __metadata('design:paramtypes', [find_person_service_1.FindPersonService, router_1.Router])
     ], PersonProfile);
     return PersonProfile;
 }());
