@@ -12,7 +12,7 @@ export class EmailService {
     const headers = new Headers();
     headers.append("Authorization", "Basic "+btoa(JSON.parse(localStorage.getItem('EMAIL_API_KEY')).key));
     headers.append("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-    const recieverMail = "test@mail.com"//"service@csc.kth.se";
+    const recieverMail = "service@csc.kth.se";
     const subject = "error report submitted by interactive screen";
     const recieverName = "CSC SERVICE";
     const url = "https://api.mailgun.net/v3/sandbox34e0d52fd37247abab5dbe90b52e2e71.mailgun.org/messages";

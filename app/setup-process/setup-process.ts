@@ -57,6 +57,7 @@ export class SetupProcess {
 
   addDepartment() {
     this.departments.push(this.newDepartment);
+    this.newDepartment = "";
   }
 
   removeDepartment() {

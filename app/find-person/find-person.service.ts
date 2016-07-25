@@ -45,7 +45,8 @@ export class FindPersonService {
 						undefined,
 						undefined
 					);
-					this.fetchAdditionalInfo(person) // Profile info is divided into two APIs.
+					//this.fetchAdditionalInfo(person) // Profile info is divided into two APIs.
+					//this.fetchStatus(person);
 					people.push(person);
 				})
 			},
@@ -89,7 +90,9 @@ export class FindPersonService {
 						undefined,
 						undefined
 					);
-					this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+					//		this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+					//	this.fetchStatus(person);
+
 					people.push(person);
 				})
 			},
@@ -129,7 +132,7 @@ export class FindPersonService {
 											undefined,
 											undefined
 										);
-										this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
+									//	this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
 										peopleAlsoInDep.push(person);
 									}
 								})
@@ -148,7 +151,7 @@ export class FindPersonService {
 	}
 
 	// Fetches the persons image url from the API asscioated their kth id
-	public fetchAdditionalInfo(person: Person) {
+	public fetchAdditionalInfo(person: Person,callback,self) {
 
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
@@ -157,17 +160,17 @@ export class FindPersonService {
 				person.image_url = item.image;
 				person.working_place = item.worksFor[0].name;
 				person.kth_profile = item.url;
-				this.fetchStatus(person);
-				this.fetchAboutMeInfo(person);
-				this.fetchPersonalDetails(person);
+				this.fetchStatus(person,callback,self);
+				this.fetchAboutMeInfo(person,callback,self);
+				this.fetchPersonalDetails(person,callback,self);
 			},
-			error => console.log(error),
-			() => {}
+			error => callback(self,new Error("Error retrieving profile image")),
+			() => {callback(self)}
 		);
 	}
 
 	// Scrapes the Person's KTH profile 'About me' section from the internet.
-	private fetchAboutMeInfo(person: Person) {
+	private fetchAboutMeInfo(person: Person,callback,self) {
 		this.http.get(person.kth_profile).subscribe(resp => {
 			var body = resp.text();
 			var patt = new RegExp("<img.+>");
@@ -175,11 +178,13 @@ export class FindPersonService {
 			var about_me = jQuery(body).find(".description").text();
 			person.about_me = about_me;
 		},
-		error => null)
+		error => callback(self,new Error("Error retrieving about me text")),
+		()=>{callback(self);}
+		);
 	}
 
 	// Fetches the availibility of employees
-	private fetchStatus(person: Person) {
+	private fetchStatus(person: Person,callback,self) {
 		var url = "https://www.lan.kth.se/mobile/api/katalogjson?q=kthid:";
 		this.http.get(url + person.kthid)
 			.map(res => res.json())
@@ -194,11 +199,14 @@ export class FindPersonService {
 				} else {
 					person.status_image = null;
 				}
-			}, error => null)
+			},
+			error => callback(self,new Error("Error retrieving status")),
+			()=>{callback(self);}
+		)
 	}
 
 	// Fetches employee room number and phone number from KTH Places personal details API.
-	private fetchPersonalDetails(person: Person) {
+	private fetchPersonalDetails(person: Person,callback,self) {
 		var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
 		this.http.get(url + person.kthid)
 			.map(res => res.json())
@@ -207,6 +215,9 @@ export class FindPersonService {
 				person.phone_number2 = res.result[0].result[0].telno;
 				person.room = res.result[0].result[0].room;
 			}
-		}, error => null)
-	}
+		},
+		error => callback(self,new Error("Error retrieving personal details")),
+		()=>{callback(self);}
+	)
+}
 }

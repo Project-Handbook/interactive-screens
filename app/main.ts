@@ -6,6 +6,7 @@ import { enableProdMode,provide} from '@angular/core';
 import { Location, LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { provideForms,disableDeprecatedForms } from '@angular/forms';
 
+/// <reference path="typings/index.d.ts" />
 enableProdMode();
 
 if(!localStorage.getItem('EMAIL_API_KEY')){

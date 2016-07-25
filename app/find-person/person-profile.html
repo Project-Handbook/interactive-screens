@@ -8,7 +8,10 @@
 					<p class="popup-person-name">{{ person.given_name }} {{ person.family_name }}</p>
 					<p class="popup-person-title">{{ person.title }}</p>
 					<div>
-						<p class="popup-person-status" *ngIf="person.status_info">Back on {{person.status_info.to}}</p>
+						<p class="popup-person-status" >
+							<img *ngIf="person.status_image" [src]="person.status_image" width="20" height="20" />
+							<span *ngIf="person.status_info"> Back on {{person.status_info.to}}</span>
+						</p>
 					</div>
 					<div class="popup-person-line"></div>
 

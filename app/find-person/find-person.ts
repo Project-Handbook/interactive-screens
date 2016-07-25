@@ -17,7 +17,6 @@ import { Constants } from '../constants';
   providers: [FindPersonService, MapService]
 })
 export class FindPerson {
-
   state: string = "none";
 
   currentPerson: Person = null;
@@ -70,10 +69,10 @@ export class FindPerson {
     var screenInfo = new ScreenSpecificInformation();
     if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)){
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-      if(screenInfo.school['code'] && screenInfo.school['school']){
-        this.currentPrefix  = "org:" + screenInfo.school['code'];
-        this.selectedSchool  =  screenInfo.school['school'];
-        this.currentSchool =  screenInfo.school['school'];
+      if(screenInfo.department['code'] && screenInfo.department['name_sv']){
+        this.currentPrefix  = "org:" + screenInfo.department['code'];
+        this.selectedSchool  =  screenInfo.department['name_sv'];
+        this.currentSchool =  screenInfo.department['name_sv'];
         // Load initial results
         this.getPeople(this.currentPrefix);
         this.getSchools();
@@ -249,10 +248,6 @@ export class FindPerson {
       var popupContent = document.getElementById('popup-content');
       var personTable = document.getElementById('person-table-body');
       do {
-         if (clickedComponent === personTable) {
-            this.isOn = true;
-            return;
-          }
          if (clickedComponent === popupContent) {
             return;
           }
@@ -292,6 +287,7 @@ export class FindPerson {
 
   // Will fetch all departments within a certain school
   getDep(item) {
+    console.log("he");
     if(item.school == "KTH") {
       // We want to search all of KTH
       var code = "code";
@@ -306,7 +302,7 @@ export class FindPerson {
     this.deps = [];
     this.mapService.getDepartments(item.code).subscribe( res=> {
       this.deps = res;
-    });
+    },error=>null,()=>console.log("done"));
   }
 
   // Set's the currently selected department
@@ -320,6 +316,23 @@ export class FindPerson {
 
   // Set's the currently selected person for the popup window
   setPerson(p) {
+    //this.findPersonService.fetchAdditionalInfo(p,this.callback,this);
+    this.isOn=false;
     this.currentPerson = p;
   }
+
+  public count=0;
+  callback(self,err){
+    if(err){
+      console.log(err);
+      self.count=0;
+      return;
+    }
+    self.count++;
+    if(self.count===4){
+      self.isOn=true;
+      self.count=0;
+    }
+  }
+
 }

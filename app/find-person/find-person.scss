@@ -388,7 +388,6 @@ mark{
 }
 
 #person-table {
-
   cursor: pointer;
   width: 100%;
 }
@@ -399,11 +398,6 @@ mark{
   border-bottom: 1px dotted #111111;
   padding: 0.25em;
   min-width: 156px;
-}
-
-#person-table thead th:first-child {
-  border: none;
-  min-width: 1.7rem;
 }
 
 #person-table thead th p {
@@ -423,21 +417,7 @@ mark{
   display: none;
 }
 
-#person-table tr {
-}
-
-#person-table tr:nth-child(even) {
-
-}
-#person-table tr:nth-child(odd) {
-}
-
-#person-table tr td:first-child {
-  border: none !important;
-  color: #2e7cc0;
-}
-
-#person-table tr td:nth-child(2), td:nth-child(3) {
+#person-table tr td:first-child, td:nth-child(2), td:nth-child(3) {
   color: #2e7cc0;
 }
 
@@ -449,4 +429,9 @@ mark{
 
 #person-table td img {
   width: 20px
+}
+
+.table-wrapper{
+  margin-left:2.4em;
+  margin-right:2.4em;
 }
