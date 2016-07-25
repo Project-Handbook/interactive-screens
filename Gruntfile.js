@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 			deploy: {
 				files: [
 					 // move html, js, svg files into dist
-					{src: ['*.svg', '**/*.svg', '*.html', '**/*.html', '*.js', '**/*.js', '*.min.css','**/*.png', '**/*.json', '**/*.min.css', '!Gruntfile.js', '!publish.js'],
+					{src: ['*.gif', '**/*.gif','*.svg', '**/*.svg', '*.html', '**/*.html', '*.js', '**/*.js', '*.min.css','**/*.png', '**/*.json', '**/*.min.css', '!Gruntfile.js', '!publish.js'],
 						dest: 'dist/', flatten: false},
 					// move entire node_modules
 					{src: ['node_modules/**'], dest: 'dist/', expand: true},
