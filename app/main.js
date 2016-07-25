@@ -6,6 +6,7 @@ var router_1 = require('@angular/router');
 var core_1 = require('@angular/core');
 var common_1 = require("@angular/common");
 var forms_1 = require('@angular/forms');
+/// <reference path="typings/index.d.ts" />
 core_1.enableProdMode();
 if (!localStorage.getItem('EMAIL_API_KEY')) {
     localStorage.setItem('EMAIL_API_KEY', JSON.stringify({ key: "api:key-5164d1f0b491719c50e103020764205a" }));

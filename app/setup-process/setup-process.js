@@ -64,6 +64,7 @@ var SetupProcess = (function () {
     };
     SetupProcess.prototype.addDepartment = function () {
         this.departments.push(this.newDepartment);
+        this.newDepartment = "";
     };
     SetupProcess.prototype.removeDepartment = function () {
         var index = this.departments.indexOf(this.screenInfo.nearest_department);
