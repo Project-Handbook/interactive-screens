@@ -54,6 +54,7 @@ mark{
 
 #person-header {
     padding: 2.4em 2.4em 0 2.4em;
+    position: relative;
 }
 
 #search-container {
@@ -63,6 +64,7 @@ mark{
     display: table-cell;
     border: 1px solid #9a9a9a;
     line-height: 55px;
+    position: relative;
 }
 
 #person-search-input {
