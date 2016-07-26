@@ -57,6 +57,7 @@
 		</div>
 
 			<!-- Table displaying the current persons -->
+			<div class="table-wrapper" *ngIf="!showErrorMessage && !missingConfiguration">
 			<table id="person-table">
 				<thead>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
@@ -76,6 +77,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 			<!-- Popup window for the selected person -->
 			<person-profile [person]="currentPerson" [isOn]="isOn"></person-profile>
 		<!-- Padding -->

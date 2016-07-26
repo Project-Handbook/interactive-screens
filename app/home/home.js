@@ -72,7 +72,7 @@ var Home = (function () {
             articles.push(tmp);
             tmp = articles.splice(0, 1)[0];
             _this.slideShow(articles, tmp);
-        }, 7500);
+        }, 10000);
     };
     __decorate([
         core_1.ViewChild('newsBlock'), 
