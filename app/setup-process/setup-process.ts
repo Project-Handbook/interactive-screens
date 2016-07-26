@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constants } from '../constants';
-import { ScreenSpecificInformation } from '../screen-specific-information';
+import { ScreenSpecificInformation,school,department} from '../screen-specific-information';
 import { NgClass } from '@angular/common';
 import { MapService } from '../map/services/map-service';
 
@@ -43,7 +43,6 @@ export class SetupProcess {
         }
     }
   }
-
   // Validates that all the required fields in the setup process contain data
   private validateInputs(screenInfo: ScreenSpecificInformation): boolean {
     // TODO: Implement
@@ -119,17 +118,17 @@ export class SetupProcess {
 
   // Fetches all schools at KTH from a local school.json file
   getSchools() {
-    this.mapService.getSchools().subscribe(res => {this.schools = res});
+    this.mapService.getSchools().subscribe(res => {
+      this.schools = res
+    });
   }
-
   // Holds all departments from getDepartments.
   department_list: Array<any> = [];
   // Fetches the departments of the school passed as argument
   getDepartments(selectedSchool) {
-    const school = JSON.parse(selectedSchool);
     // Save selected  school in screenInfo Object.
-    this.screenInfo.school = school;
-    this.mapService.getDepartments(school.code).subscribe(res => {
+    this.screenInfo.school = JSON.parse(selectedSchool);
+    this.mapService.getDepartments(this.screenInfo.school.code).subscribe(res => {
       this.department_list = res;
     },error=>console.log(error));
   }

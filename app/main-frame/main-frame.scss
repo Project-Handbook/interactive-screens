@@ -29,12 +29,15 @@
       white-space: nowrap;
     }
   }
-
   .main-header-clock {
+    width:15%;
     font-size: 1vw;
     align-self: flex-end;
     color: $kth-color-blue;
-    margin-right: 0.5rem;
+    h2{
+      width:100%;
+      text-align: center;
+    }
   }
 }
 

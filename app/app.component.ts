@@ -47,7 +47,25 @@ export const routes:RouterConfig = [
     selector: 'main-frame',
     templateUrl: 'app/main-frame/main-frame.html', // Relative base
     directives: [ROUTER_DIRECTIVES, NgStyle],
-    precompile:[Home,FindPerson,Contact,Map,SetupProcess]
+    precompile:[Home,FindPerson,Contact,Map,SetupProcess],
+    styleUrls:['./app/main-frame/main-frame.min.css'],
+    /*The styles in the "styles" section underneath is styles that is applied to html inserted in the view
+      with [innerHTML]. To apply styles to these elements the :host>>> operator has to be used that is a
+      angular 2 specific operator and is not supported by sass, hence these styles has to be
+      listed separtely underneath.
+    */
+    styles:[`
+      :host>>>.time{
+        margin-left:auto;
+        margin-right:auto;
+        width:40%;
+        display: inline-block;
+        text-align:left;
+      }
+      :host>>>.date{
+        display: inline-block;
+      }
+    `]
 })
 
 export class AppComponent  {
@@ -107,7 +125,9 @@ export class AppComponent  {
       if (minutes < 10) { minutes_str = `0${minutes}`; } else { minutes_str = `${minutes}`}
       if (seconds < 10) { seconds_str = `0${seconds}`; } else { seconds_str = `${seconds}`}
 
-      this.clock = `${day} ${month} ${year} ${hours_str}:${minutes_str}:${seconds_str}`;
+      this.clock = `<span class="date">${day} ${month} ${year}</span>
+                    <br>
+                    <span class="time">${hours_str}:${minutes_str}:${seconds_str}</span>`;
     }
 
 constructor(private router: Router, private location: Location,private cdr:ChangeDetectorRef,private element:ElementRef) {

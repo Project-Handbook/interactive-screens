@@ -69,10 +69,10 @@ export class FindPerson {
     var screenInfo = new ScreenSpecificInformation();
     if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)){
       screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));
-      if(screenInfo.department['code'] && screenInfo.department['name_sv']){
-        this.currentPrefix  = "org:" + screenInfo.department['code'];
-        this.selectedSchool  =  screenInfo.department['name_sv'];
-        this.currentSchool =  screenInfo.department['name_sv'];
+      if(screenInfo.department.code && screenInfo.department.name_sv){
+        this.currentPrefix  = "org:" + screenInfo.department.code;
+        this.selectedSchool  =  screenInfo.department.name_sv;
+        this.currentSchool =  screenInfo.department.name_sv;
         // Load initial results
         this.getPeople(this.currentPrefix);
         this.getSchools();
@@ -316,22 +316,28 @@ export class FindPerson {
 
   // Set's the currently selected person for the popup window
   setPerson(p) {
-    //this.findPersonService.fetchAdditionalInfo(p,this.callback,this);
+    this.completedFetchedResources=0;
+    this.findPersonService.fetchAdditionalInfo(p,this.getAdditonalInfoCallback,this);
     this.isOn=false;
     this.currentPerson = p;
   }
 
-  public count=0;
-  callback(self,err){
+  /*
+    When fetching all info of a person, the info is fetched from 4 different APIs therefore 4 different
+    http calls has to made, when every http call is done they call a the getAdditonalInfocallback function.
+    When all 4 callbacks has been called all resoures dispalyed in the popup view is fetched and ready to be viewed.
+  */
+  public completedFetchedResources=0;
+  getAdditonalInfoCallback(self,err){
     if(err){
-      console.log(err);
-      self.count=0;
+      console.error(err);
+      self.completedFetchedResources=0;
       return;
     }
-    self.count++;
-    if(self.count===4){
+    self.completedFetchedResources++;
+    if(self.completedFetchedResources===4){
       self.isOn=true;
-      self.count=0;
+      self.completedFetchedResources=0;
     }
   }
 

@@ -90,9 +90,6 @@ export class FindPersonService {
 						undefined,
 						undefined
 					);
-					//		this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
-					//	this.fetchStatus(person);
-
 					people.push(person);
 				})
 			},
@@ -132,18 +129,14 @@ export class FindPersonService {
 											undefined,
 											undefined
 										);
-									//	this.fetchAdditionalInfo(person); // Profile info is divided into two APIs.
 										peopleAlsoInDep.push(person);
 									}
 								})
 							},
-								error => onError(ErrorType.NoInternetConnection),
-								() => {
-									onError(ErrorType.NoError);
-								}
-							);
+							error => onError(ErrorType.NoInternetConnection),
+							() => onError(ErrorType.NoError)
+						);
 					}
-
 					onError(ErrorType.NoError);
 				}
 			);
@@ -179,9 +172,9 @@ export class FindPersonService {
 			person.about_me = about_me;
 		},
 		error => callback(self,new Error("Error retrieving about me text")),
-		()=>{callback(self);}
-		);
-	}
+		()=>callback(self)
+	);
+}
 
 	// Fetches the availibility of employees
 	private fetchStatus(person: Person,callback,self) {
@@ -201,10 +194,9 @@ export class FindPersonService {
 				}
 			},
 			error => callback(self,new Error("Error retrieving status")),
-			()=>{callback(self);}
+			()=>callback(self)
 		)
 	}
-
 	// Fetches employee room number and phone number from KTH Places personal details API.
 	private fetchPersonalDetails(person: Person,callback,self) {
 		var url = "https://www.lan.kth.se/personal/api/personaldetails?kthid=";
@@ -217,7 +209,7 @@ export class FindPersonService {
 			}
 		},
 		error => callback(self,new Error("Error retrieving personal details")),
-		()=>{callback(self);}
+		()=>callback(self)
 	)
 }
 }

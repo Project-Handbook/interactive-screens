@@ -8,8 +8,8 @@ export class ScreenSpecificInformation {
               public city: string = "", /* Nearest city shown in the sidebar */
               public departments: Array<string> = [], /* List of nearby departments */
               public nearest_department: string = "", /* Name of the department nearest the screen */
-              public school: Object = {},/* Department code for People tab default */
-              public department: Object= {}, /*Department name for People tab default */
+              public school: school = {code:"",footer_text:"",school:""},/* Department code for People tab default */
+              public department: department= {address:"",code:"",name:""}, /*Department name for People tab default */
               public longitude: number = 0, /* Coordinate for the sceen */
               public latitude: number = 0, /* Coordinate for the screen  */
               // The first seven of the Date tuples will be interpreted as one opening,
@@ -32,4 +32,15 @@ let opening_hours_defaults: {[weekday: string]: [string , string, boolean]} =
                               'friday'   : ['09:00', '17:00', true],
                               'saturday' : ['09:00', '17:00', true],
                               'sunday'   : ['09:00', '17:00', true]};
-                            
+
+
+export interface school{
+  code:string,
+  footer_text:string,
+  school:string
+}
+export interface department{
+  code:string,
+  name_sv:string,
+  address:string
+}
