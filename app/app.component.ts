@@ -26,10 +26,6 @@ export const routes:RouterConfig = [
     component: Home
     },
   {
-    path: 'people/:person',
-    component: FindPerson
-  },
-  {
     path: 'people',
     component: FindPerson
   },

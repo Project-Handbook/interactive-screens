@@ -9,7 +9,7 @@ export class ScreenSpecificInformation {
               public departments: Array<string> = [], /* List of nearby departments */
               public nearest_department: string = "", /* Name of the department nearest the screen */
               public school: school = {code:"",footer_text:"",school:""},/* Department code for People tab default */
-              public department: department= {address:"",code:"",name:""}, /*Department name for People tab default */
+              public department: department= {code:"",name_sv:"",address:""}, /*Department name for People tab default */
               public longitude: number = 0, /* Coordinate for the sceen */
               public latitude: number = 0, /* Coordinate for the screen  */
               // The first seven of the Date tuples will be interpreted as one opening,

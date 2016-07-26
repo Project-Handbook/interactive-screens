@@ -24,7 +24,7 @@ export class Map {
   //Boolean to display error message
   private showError:boolean=false;
   //
-
+  id;
   constructor(router: Router, private _mapService: MapService) {
     //Fetches information passed via routeParams when a user pushed the "view on map" button in the people tab
     let person = {given_name:"",family_name:"",visiting_address:"",room:""};
