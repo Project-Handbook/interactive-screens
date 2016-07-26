@@ -1,11 +1,11 @@
-<!-- Load our partials' css file -->
-<link rel="stylesheet" href="main-frame.min.css"/>
+<!-- Load our partials' css file
+<link rel="stylesheet" href="main-frame.min.css"/> -->
 <header class="main-frame-header" #header>
   <div class="icon-wrapper">
     <img class="icon" src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
   </div>
   <div class="main-header-title"><h1 [style.font-size.em]="titlefontSize" #titleText>{{ screenInfo.title }}</h1></div>
-  <div class="main-header-clock"><h2>{{ clock }}</h2></div>
+  <div class="main-header-clock"><h2 [innerHTML]="clock"></h2></div>
 </header>
 
 <div class="header-border"></div>
@@ -46,28 +46,28 @@
 
 <nav>
   <ul class="sidebar">
-    <div [routerLink] = "['home']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0]}">
+    <div [routerLink] = "['home']" [queryParams]="{}" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[0]}">
       <div class="icon">
       <li>Home</li>
       <img *ngIf="!menuImages[0]" src="{{imagePath}}ofylldhome.svg" height="100" width="100" />
       <img *ngIf="menuImages[0]" src="{{imagePath}}fylldhome.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['people']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1]}">
+    <div [routerLink] = "['people']" [queryParams]="{}" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[1]}">
       <div class="icon">
        <li>People</li>
        <img *ngIf="!menuImages[1]" src="{{imagePath}}people-fylld.svg" height="100" width="100" />
        <img *ngIf="menuImages[1]" src="{{imagePath}}people-ofylld.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['map']" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2]}">
+    <div [routerLink] = "['map']" [queryParams]="{}" class="sidebar-item" [ngStyle]="{ 'border-right': menuItemsRightBorder[2]}">
       <div class="icon">
       <li>Places</li>
       <img *ngIf="!menuImages[2]" src="{{imagePath}}map-unfilled.svg" height="100" width="100" />
       <img *ngIf="menuImages[2]" src="{{imagePath}}map-filled.svg" height="100" width="100" />
       </div>
     </div>
-    <div [routerLink] = "['contact']" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
+    <div [routerLink] = "['contact']" [queryParams]="{}" class="sidebar-item" [ngStyle]="{'border-right': menuItemsRightBorder[3]}">
       <div class="icon">
       <li>Service or advice</li>
       <img *ngIf="!menuImages[3]" src="{{imagePath}}assistance-unfilled.svg" height="100" width="100" />

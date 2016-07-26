@@ -16,8 +16,8 @@ var ScreenSpecificInformation = (function () {
         if (city === void 0) { city = ""; }
         if (departments === void 0) { departments = []; }
         if (nearest_department === void 0) { nearest_department = ""; }
-        if (school === void 0) { school = {}; }
-        if (department === void 0) { department = {}; }
+        if (school === void 0) { school = { code: "", footer_text: "", school: "" }; }
+        if (department === void 0) { department = { code: "", name_sv: "", address: "" }; }
         if (longitude === void 0) { longitude = 0; }
         if (latitude === void 0) { latitude = 0; }
         if (opening_hours === void 0) { opening_hours = opening_hours_defaults; }

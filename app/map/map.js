@@ -16,7 +16,6 @@ var constants_1 = require('../constants');
 var screen_specific_information_1 = require('../screen-specific-information');
 var router_1 = require('@angular/router');
 var Map = (function () {
-    //
     function Map(router, _mapService) {
         this._mapService = _mapService;
         //Center coords for map Initialize

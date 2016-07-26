@@ -117,15 +117,16 @@ var SetupProcess = (function () {
     // Fetches all schools at KTH from a local school.json file
     SetupProcess.prototype.getSchools = function () {
         var _this = this;
-        this.mapService.getSchools().subscribe(function (res) { _this.schools = res; });
+        this.mapService.getSchools().subscribe(function (res) {
+            _this.schools = res;
+        });
     };
     // Fetches the departments of the school passed as argument
     SetupProcess.prototype.getDepartments = function (selectedSchool) {
         var _this = this;
-        var school = JSON.parse(selectedSchool);
         // Save selected  school in screenInfo Object.
-        this.screenInfo.school = school;
-        this.mapService.getDepartments(school.code).subscribe(function (res) {
+        this.screenInfo.school = JSON.parse(selectedSchool);
+        this.mapService.getDepartments(this.screenInfo.school.code).subscribe(function (res) {
             _this.department_list = res;
         }, function (error) { return console.log(error); });
     };

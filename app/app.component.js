@@ -107,7 +107,7 @@ var AppComponent = (function () {
             else {
                 seconds_str = "" + seconds;
             }
-            _this.clock = day + " " + month + " " + year + " " + hours_str + ":" + minutes_str + ":" + seconds_str;
+            _this.clock = "<span class=\"date\">" + day + " " + month + " " + year + "</span>\n                    <br>\n                    <span class=\"time\">" + hours_str + ":" + minutes_str + ":" + seconds_str + "</span>";
         };
         this.titlefontSize = 5;
         this.element = element;
@@ -200,7 +200,14 @@ var AppComponent = (function () {
             selector: 'main-frame',
             templateUrl: 'app/main-frame/main-frame.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_2.NgStyle],
-            precompile: [home_1.Home, find_person_1.FindPerson, contact_1.Contact, map_1.Map, setup_process_1.SetupProcess]
+            precompile: [home_1.Home, find_person_1.FindPerson, contact_1.Contact, map_1.Map, setup_process_1.SetupProcess],
+            styleUrls: ['./app/main-frame/main-frame.min.css'],
+            /*The styles in the "styles" section underneath is styles that is applied to html inserted in the view
+              with [innerHTML]. To apply styles to these elements the :host>>> operator has to be used that is a
+              angular 2 specific operator and is not supported by sass, hence these styles has to be
+              listed separtely underneath.
+            */
+            styles: ["\n      :host>>>.time{\n        margin-left:auto;\n        margin-right:auto;\n        width:40%;\n        display: inline-block;\n        text-align:left;\n      }\n      :host>>>.date{\n        display: inline-block;\n      }\n    "]
         }), 
         __metadata('design:paramtypes', [router_1.Router, common_1.Location, core_1.ChangeDetectorRef, core_1.ElementRef])
     ], AppComponent);
