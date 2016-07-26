@@ -395,6 +395,7 @@ mark{
 }
 
 #person-table thead th {
+  -webkit-tap-highlight-color:rgba(255, 255, 255, 0);
   font-size: 2em;
   border-top: 1px dotted #111111;
   border-bottom: 1px dotted #111111;

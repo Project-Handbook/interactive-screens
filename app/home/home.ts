@@ -89,6 +89,6 @@ export class Home {
         articles.push(tmp);
         tmp = articles.splice(0,1)[0];
         this.slideShow(articles,tmp);
-      },7500);
+      },10000);
     }
   }
