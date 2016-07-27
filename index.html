@@ -3,26 +3,9 @@
     <title>CScreen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="node_modules/core-js/client/shim.min.js"></script>
-    <script src="node_modules/zone.js/dist/zone.js"></script>
-    <script src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <!--<link rel="stylesheet" href="node_modules/normalize.css/normalize.css"/>
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>-->
 
-    <script src="systemjs.config.js"></script>
-    <!-- 1. Load libraries -->
-    <!-- Normalize.css -->
-    <link rel="stylesheet" href="node_modules/normalize.css/normalize.css"/>
-    <!-- Angular RXJS -->
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <!-- Leaflet -->
-    <script src="node_modules/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css"/>
-    <!-- jQuery  -->
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <!-- 2. Configure SystemJS -->
-    <script>
-        System.import('app').catch(function(err){ console.error(err);location.reload();});
-      </script>
   </head>
   <!-- Used by the Angular router ... -->
   <base href="">
@@ -33,10 +16,10 @@
       <center style="margin-top:20%">
         Loading...
         <p>
-          <img src="app/css/ajax-loader.gif">
+        <!--  require('app/css/ajax-loader.gif'); -->
         </p>
       </center>
     </main-frame>
-  </body>
+  <script type="text/javascript" src="app.bundle.js"></script></body>
 
 </html>
