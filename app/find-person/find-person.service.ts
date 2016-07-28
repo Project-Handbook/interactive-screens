@@ -17,7 +17,7 @@ export interface ErrorCallback {
 @Injectable()
 export class FindPersonService {
 
-	constructor(private http: Http) {}
+	constructor(private http: Http) {	}
 
 	// Fetches all the people matching the searchterm from KTH Profiles
 	fetchPeople(searchterm: string, onError: ErrorCallback): Array<Person> {
@@ -165,6 +165,7 @@ export class FindPersonService {
 	// Scrapes the Person's KTH profile 'About me' section from the internet.
 	private fetchAboutMeInfo(person: Person,callback,self) {
 		this.http.get(person.kth_profile).subscribe(resp => {
+			var jQuery = require('jquery');
 			var body = resp.text();
 			var patt = new RegExp("<img.+>");
 			body = body.replace(patt, ""); //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.

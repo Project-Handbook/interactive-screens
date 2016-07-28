@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="contact.min.css">
 
 <div class="contact_wrapper">
   <h1>If you need service or advice, contact CSC in the text field below</h1>
@@ -24,7 +23,7 @@
                     rows="6">
           </textarea>
         <div class="messageSuccess" *ngIf="emailForm.controls['message'].valid">
-          <img src="app/contact/checkmark.png">
+          <img src="./checkmark.png">
         </div>
         <div *ngIf="emailForm.controls['message'].touched">
           <div class="messageError" *ngIf="emailForm.controls['message'].hasError('minlength') || emailForm.controls['message'].hasError('required')">
@@ -43,7 +42,7 @@
                  [formControl]="emailForm.controls['email']"
                  rows="6">
         <span *ngIf="emailForm.controls['email'].valid">
-           <img src="app/contact/checkmark.png">
+           <img src="./checkmark.png">
         </span>
         <div *ngIf="emailForm.controls['email'].touched" >
            <div class="formError" *ngIf=" emailForm.controls['email'].hasError('required')">
@@ -65,7 +64,7 @@
                 [formControl]="emailForm.controls['name']"
                 rows="6">
       <span *ngIf="emailForm.controls['name'].valid">
-        <img src="app/contact/checkmark.png">
+        <img src="./checkmark.png">
       </span>
       <div *ngIf="emailForm.controls['name'].touched" >
         <div class="formError" *ngIf="emailForm.controls['name'].hasError('required')">
@@ -83,7 +82,7 @@
                 placeholder="Description"
                 [formControl]="emailForm.controls['captcha']"
                 rows="6">
-      <span *ngIf="emailForm.controls['captcha'].valid"> <img src="app/contact/checkmark.png"> </span>
+      <span *ngIf="emailForm.controls['captcha'].valid"> <img src="./checkmark.png"> </span>
       <div *ngIf="emailForm.controls['captcha'].touched" >
         <div class="formError" *ngIf="emailForm.controls['captcha'].hasError('invalidCaptcha')">
           Wrong Answer.

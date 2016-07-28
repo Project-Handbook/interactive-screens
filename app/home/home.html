@@ -1,4 +1,46 @@
-<!-- Load our partials' css file <link rel="stylesheet" href="http://www.kth.se/css/v/8.28.4/kth.css"/>-->
+<!-- Load our partials' css file-->
+
+<style>
+@import "http://www.kth.se/css/v/8.28.4/kth.css";
+
+.home_container {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 0.8rem;
+  height: 100%; }
+  .home_container a {
+    pointer-events: none; }
+  .home_container .news_block {
+    margin-left: 1%;
+    margin-right: 1%;
+    width: 55%;
+    float: left;
+    height: 100%;
+    background-color: white; }
+    .home_container .news_block .news_block_inner {
+      height: auto; }
+      .home_container .news_block .news_block_inner .block_item {
+        margin-bottom: 0.8rem;
+        -webkit-transition: opacity 0.3s ease-in;
+        -moz-transition: opacity 0.3s ease-in;
+        -o-transition: opacity 0.3s ease-in;
+        -ms-transition: opacity 0.3s ease-in;
+        transition: opacity 0.3s ease-in; }
+        .home_container .news_block .news_block_inner .block_item .block.teaser.noMedia {
+          padding: 1rem;
+          background-color: #98ad29; }
+          .home_container .news_block .news_block_inner .block_item .block.teaser.noMedia .teaserText p {
+            color: white;
+            font-size: 21.6px; }
+          .home_container .news_block .news_block_inner .block_item .block.teaser.noMedia .teaserText h2 {
+            color: white; }
+          .home_container .news_block .news_block_inner .block_item .block.teaser.noMedia .teaserText h3 {
+            color: white; }
+  .home_container .calendar_block {
+    width: 42%;
+    float: right;
+    margin-right: 1%; }
+</style>
 <div  id="home_container" class="home_container">
 	<div class="news_block" #newsBlock>
 		<div class="news_block_inner"  #newsBlockInner>
@@ -10,7 +52,7 @@
 
 	<div *ngIf="news_feed_error">
 		<center>
-			<img src="app/find-person/images/Error-100.png"/>
+			<img src="../find-person/images/Error-100.png"/>
 			<br>
 			<h3>The requested data is not available at the moment.</h3>
 		</center>
@@ -23,7 +65,7 @@
 	<div *ngIf="calendar_block" [innerHtml]="calendar_block"></div>
 	<div *ngIf="calendar_error">
 		<center>
-			<img src="app/find-person/images/Error-100.png"/>
+			<img src="../find-person/images/Error-100.png"/>
 			<br>
 			<h3>The requested data is not available at the moment.</h3>
 		</center>

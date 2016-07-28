@@ -1,8 +1,7 @@
-<link rel="stylesheet" type="text/css" href="find-person.min.css" />
 
 <div class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}">
 	<div class="popup-wrapper">
-		<div id="popup-content" *ngIf="person != null">
+		<div class="popup-content" id="popup-content" *ngIf="person != null">
 			<div class="popup-person">
 				<div class="popup-person-wrapper">
 					<p class="popup-person-name">{{ person.given_name }} {{ person.family_name }}</p>

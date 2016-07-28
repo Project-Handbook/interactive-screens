@@ -7,9 +7,11 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'person-profile',
-  templateUrl: 'app/find-person/person-profile.html',
+  templateUrl:'./person-profile.html',
   directives: [NgClass],
-  providers: [FindPersonService]
+  providers: [FindPersonService],
+  styles:[require('./find-person.scss').toString()]
+
 })
 export class PersonProfile {
 	@Input() person;

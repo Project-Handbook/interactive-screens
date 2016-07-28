@@ -113,7 +113,7 @@
 // -------- Footer styles --------
 #footer {
   font: $kth-font-title;
-  background-image: url("app/main-frame/images/footer.svg");
+  background-image: url("./images/footer.svg");
   background-repeat: no-repeat;
   background-size: 100%;
   position: fixed;
@@ -128,10 +128,10 @@
   }
 }
 
-.absolute {
+/*.absolute {
   z-index:0;
 }
 
 p {
   margin-bottom:0.5rem;
-}
+}*/

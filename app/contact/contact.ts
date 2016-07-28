@@ -5,9 +5,10 @@ import "rxjs/add/operator/map";
 
 @Component({
   selector: 'contact',
-  templateUrl: 'app/contact/contact.html',
+  templateUrl: './contact.html',
   directives: [FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES],
   providers: [EmailService],
+ styles:[require('./contact.scss').toString()]
 })
 export class Contact {
   // Variable initializations

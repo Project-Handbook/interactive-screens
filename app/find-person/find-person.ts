@@ -12,9 +12,10 @@ import { Constants } from '../constants';
         '(document:click)': 'handleClick($event)',
   },
   selector: 'find-person',
-  templateUrl: 'app/find-person/find-person.html',
+  templateUrl:'./find-person.html',
   directives: [NgClass, PersonProfile],
-  providers: [FindPersonService, MapService]
+  providers: [FindPersonService, MapService],
+  styles:[require('./find-person.scss').toString()]
 })
 export class FindPerson {
   state: string = "none";
@@ -180,7 +181,6 @@ export class FindPerson {
       }
     });
   }
-
   // Returns the mark-element for the person-table based
   // on input. This is used to be able to rotate the arrows.
   getElement(input) {
@@ -202,7 +202,6 @@ export class FindPerson {
     }
     return element;
   }
-
   // Scrolls the div 'departments' in the provided direction.
   // input 'dir' = -1 or 1
   scrollDep(dir: number) {
@@ -218,7 +217,6 @@ export class FindPerson {
         }, 300);
     return false;
   }
-
   // This funtion determines if the user clicks outside the dropdown menu. If this is the case
   // the searchresult array will be cleared and the dropdown will disappear.
   handleClick(event) {
@@ -240,7 +238,6 @@ export class FindPerson {
       schoolsDiv.style.display = "none";
       this.deps = [];
     }
-
   // This funtion determines if the user clicks outside the popup window. If this is the case
   // the window will disappear.
   handleClickForPopup(event) {
@@ -256,10 +253,8 @@ export class FindPerson {
 
       this.isOn = false;
   }
-
   deps : Array<any> = [];
-  schools : Array<any> = [];
-
+  schools: Array<Object>;
   // Will either display or hide the element 'schools-wrapper' depending
   // on it's previous 'display' value.
   // It will also clear the deps array.
@@ -268,26 +263,19 @@ export class FindPerson {
     w.style.display = w.style.display == "table" ? "none" : "table";
     this.deps = [];
   }
-
   // Will fetch all available schools
   getSchools() {
-    this.schools = [];
-    this.mapService.getSchools().subscribe(res => {
-      this.schools = res;
-      // Add KTH as the first element should one just want
-      // to search with that
-      var code = "code";
-      var school = "school";
-      var a = {};
-      a[code] = "";
-      a[school] = "KTH";
-      this.schools.unshift(a);
-    });
+    this.schools = this.mapService.getSchools();
+    var code = "code";
+    var school = "school";
+    var a = {};
+    a[code] = "";
+    a[school] = "KTH";
+    this.schools.unshift(a);
   }
 
   // Will fetch all departments within a certain school
   getDep(item) {
-    console.log("he");
     if(item.school == "KTH") {
       // We want to search all of KTH
       var code = "code";
@@ -302,7 +290,7 @@ export class FindPerson {
     this.deps = [];
     this.mapService.getDepartments(item.code).subscribe( res=> {
       this.deps = res;
-    },error=>null,()=>console.log("done"));
+    },error=>null,()=>{});
   }
 
   // Set's the currently selected department

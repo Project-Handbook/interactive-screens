@@ -14,7 +14,7 @@
 				</div>
 					<div class="searchField" *ngIf="showSearchField">
 						<input class="search_text_field"  placeholder={{search_bar_placeholder}} autocomplete="off" type="text" [formControl]="term">
-						<div class="search_field_image"><img (click)="search()" src="app/map/images/search_icon.png" width="25" height="25"></div>
+						<div class="search_field_image"><img (click)="search()" src="../images/search_icon.png" width="25" height="25"></div>
 					</div>
 					<div  class="suggestions"  *ngIf="searchResult.length> 0">
 							<ul *ngFor="let item of searchResult" >

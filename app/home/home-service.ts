@@ -32,6 +32,7 @@ export class HomeService{
 					res = res.replace(image,"https://www.kth.se" + image);
 				})
 				// The news events are contained in the blockItem div class.
+				var jQuery = require('jquery');
 				var jqueryBlocks = jQuery(res).find(".blockItem");
 				let numberOfLargeArticles = 0;
 				let numberOfNoMediaArticles = 0;
@@ -55,7 +56,7 @@ export class HomeService{
 					news_blocks.push(true);
 					return news_blocks;
 				}
-				
+
 				news_blocks.push(false);
 				return news_blocks;
 		});

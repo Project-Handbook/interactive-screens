@@ -1,176 +1,139 @@
 @import "../css/app.scss";
 
-h1, h2 {
-	text-align: center;
-}
-
 .contact_wrapper {
 	margin-left:auto;
 	margin-right:auto;
 	width:70%;
 	padding:1rem;
-}
+	h1, h2 {
+		text-align: center;
+	}
+	.messageStatusSuccess{
+		background-color: #FCFFF5;
+		color: #2C662D;
+		box-shadow: 0px 0px 0px 1px #A3C293 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+	}
+	.messageStatusError{
+		background-color: #FFF6F6;
+		color: #9F3A38;
+		box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+	}
+	.messageStatusSuccess,.messageStatusError{
+		margin-left:auto;
+		margin-right:auto;
+		width:60%;
+		margin-top:3rem;
+		text-align: center;
+		height:5rem;
+		display:table;
+		h3{
+			display: table-cell;
+		 	vertical-align: middle;
+			margin-left: 1rem;
+		}
+	}
+	.content{
+		margin-left:auto;
+		margin-right:auto;
+		width:70%;
+		.field{
+			align-items: center;
+			p {
+			  margin-bottom:0.5rem;
+			}
+			input {
+				margin: 0em;
+			   width:30%;
+			   -webkit-box-flex: 1;
+			   -webkit-flex: 1 0 auto;
+			   -ms-flex: 1 0 auto;
+			   flex: 1 0 auto;
+			   outline: none;
+			   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+			   text-align: left;
+			   line-height: 1.2142em;
+			   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+			   padding: 0.67861429em 1em;
+			   background: #FFFFFF;
+			   border: 1px solid rgba(34, 36, 38, 0.15);
+			   color: rgba(0, 0, 0, 0.87);
+			   border-radius: 0.28571429rem;
+			   -webkit-transition: box-shadow 0.1s ease, border-color 0.1s ease;
+			   transition: box-shadow 0.1s ease, border-color 0.1s ease;
+			   box-shadow: none;
+			}
+			input:focus,textarea:focus{
+				border-color: #85B7D9;
+			  color: rgba(0, 0, 0, 0.8);
+			  box-shadow: none;
+			}
+			textarea{
+				width:90%;
+				margin: 0em;
+			  -webkit-appearance: none;
+			  tap-highlight-color: rgba(255, 255, 255, 0);
+			  padding: 0.78571429em 1em;
+			  background: #FFFFFF;
+			  border: 1px solid rgba(34, 36, 38, 0.15);
+			  outline: none;
+			  color: rgba(0, 0, 0, 0.87);
+			  border-radius: 0.28571429rem;
+			  box-shadow: 0em 0em 0em 0em transparent inset;
+			  -webkit-transition: color 0.1s ease, border-color 0.1s ease;
+			  transition: color 0.1s ease, border-color 0.1s ease;
+			  font-size: 1em;
+			  line-height: 1.2857;
+			  resize: vertical;
+			}
+			.success{
+				background-color: #FCFFF5;
+			  color: #2C662D;
+				box-shadow: 0px 0px 0px 1px #A3C293 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+			}
+			.messageSuccess{
+				float:right;
+				width:10%;
+				height:2rem;
+				vertical-align: middle;
+				padding:0.5rem;
+				box-sizing: border-box;
+			}
+			.messageError {
+				width:90%;
+			}
+			.formError {
+				width:30%;
+			}
 
-.content{
-	margin-left:auto;
-	margin-right:auto;
-	width:70%;
-}
+			.formError, .messageError {
+				box-sizing: border-box;
+				font-size:1rem;
+				 margin-top:0.2rem;
+				 background-color: #FFF6F6;
+			   color: #9F3A38;
+				 box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
+				 padding:0.4rem;
 
-
-textarea{
-	width:90%;
-	margin: 0em;
-  -webkit-appearance: none;
-  tap-highlight-color: rgba(255, 255, 255, 0);
-  padding: 0.78571429em 1em;
-  background: #FFFFFF;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  outline: none;
-  color: rgba(0, 0, 0, 0.87);
-  border-radius: 0.28571429rem;
-  box-shadow: 0em 0em 0em 0em transparent inset;
-  -webkit-transition: color 0.1s ease, border-color 0.1s ease;
-  transition: color 0.1s ease, border-color 0.1s ease;
-  font-size: 1em;
-  line-height: 1.2857;
-  resize: vertical;
-
-}
-
-
-button[disabled] {
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  opacity: .65;
-  cursor: not-allowed;
-}
-
-h3 {
-	margin-left: 1rem;
-}
-
-.messageError {
-	width:90%;
-}
-.formError {
-	width:30%;
-}
-.formError, .messageError {
-	box-sizing: border-box;
-
-	font-size:1rem;
-	 margin-top:0.2rem;
-	 background-color: #FFF6F6;
-   color: #9F3A38;
-	 box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
-	 padding:0.4rem;
-
-}
-
-
-.succesfulMail {
-	color: green;
-	float: right;
-	margin-right: 2rem;
-}
-
-.buttonArea {
-	float: right;
-	margin-right: 2rem;
-}
-
-button {
-	width: 9rem;
-	height: 3rem;
-	margin-top: 0.3rem;
-	background-color: #337ab7;
-	border: 1px solid #2e6da4;
-	border-radius: 3px;
-	padding: 4px 8px;
-}
-
-input {
-	margin: 0em;
-   width:30%;
-   -webkit-box-flex: 1;
-   -webkit-flex: 1 0 auto;
-   -ms-flex: 1 0 auto;
-   flex: 1 0 auto;
-   outline: none;
-   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-   text-align: left;
-   line-height: 1.2142em;
-   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-   padding: 0.67861429em 1em;
-   background: #FFFFFF;
-   border: 1px solid rgba(34, 36, 38, 0.15);
-   color: rgba(0, 0, 0, 0.87);
-   border-radius: 0.28571429rem;
-   -webkit-transition: box-shadow 0.1s ease, border-color 0.1s ease;
-   transition: box-shadow 0.1s ease, border-color 0.1s ease;
-   box-shadow: none;
-}
-input:focus,textarea:focus{
-	border-color: #85B7D9;
-  color: rgba(0, 0, 0, 0.8);
-  box-shadow: none;
-}
-
-.touchedfix{
-	width:0;
-	height:0;
-	border-style: none;
-}
-.touchedfix:focus{
-	outline-style:none;
-	box-shadow:none;
-	border-color:transparent;
-}
-
-.success{
-	background-color: #FCFFF5;
-  color: #2C662D;
-	box-shadow: 0px 0px 0px 1px #A3C293 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
-}
-
-.field{
-	align-items: center;
-
-}
-
-.messageSuccess{
-float:right;
-width:10%;
-height:2rem;
-vertical-align: middle;
-padding:0.5rem;
-box-sizing: border-box;
-}
-p {
-  margin-bottom:0.5rem;
-}
-.messageStatusSuccess{
-	background-color: #FCFFF5;
-	color: #2C662D;
-	box-shadow: 0px 0px 0px 1px #A3C293 inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
-}
-.messageStatusError{
-	background-color: #FFF6F6;
-	color: #9F3A38;
-	box-shadow: 0px 0px 0px 1px #C9BA9B inset, 0px 0px 0px 0px rgba(0, 0, 0, 0);
-}
-.messageStatusSuccess,.messageStatusError{
-
-	margin-left:auto;
-	margin-right:auto;
-	width:60%;
-	margin-top:3rem;
-	text-align: center;
-	height:5rem;
-	display:table;
-	h3{
-		display: table-cell;
-	 	vertical-align: middle;
+			}
+		}
+		.buttonArea {
+			float: right;
+			margin-right: 2rem;
+			button[disabled] {
+			  background-color: #337ab7;
+			  border-color: #2e6da4;
+			  opacity: .65;
+			  cursor: not-allowed;
+			}
+			button {
+				width: 9rem;
+				height: 3rem;
+				margin-top: 0.3rem;
+				background-color: #337ab7;
+				border: 1px solid #2e6da4;
+				border-radius: 3px;
+				padding: 4px 8px;
+			}
+		}
 	}
 }

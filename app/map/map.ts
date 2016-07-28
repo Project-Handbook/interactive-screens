@@ -8,8 +8,8 @@ import {Router} from '@angular/router';
 
 @Component({
   selector: 'map',
-  templateUrl:'./app/map/html/map.html',
-  styleUrls:['./app/map/styles/map.min.css'],
+  templateUrl:'./html/map.html',
+  styles:[require('./styles/map.scss').toString()],
   directives:[SearchBarComponent],
   providers:[MapService],
 })
@@ -77,15 +77,15 @@ export class Map {
           position: 'topright'
         }).addTo(this.map);
     //Add marker at the location of the screen
-    var greenIcon = L.icon({
-        iconUrl: 'app/map/images/marker-icon-red.png',
+    var redIcon = L.icon({
+        iconUrl: require('./images/marker-icon-red.png'),
         iconSize:     [25, 38], // size of the icon
         popupAnchor:  [2, -10] // point from which the popup should open relative to the iconAnchor
     });
     /*If choordiantes are found in localstorage then set map center to the containing chords and display marker*/
     if(gotChoords===true){
       //Display marker
-     L.marker([screenInfo.latitude, screenInfo.longitude],{icon: greenIcon}).addTo(this.map)
+     L.marker([screenInfo.latitude, screenInfo.longitude],{icon: redIcon}).addTo(this.map)
       .bindPopup('<strong>You are here.</strong>').openPopup();
     }
   this.map.touchZoom.disable(); //Disable touchZoom to prevent pinch zoom on touchscreens.
@@ -99,7 +99,13 @@ export class Map {
       if (this.currentDestination != null) {
         this.map.removeLayer(this.currentDestination); //Removes old marker
       }
-      this.currentDestination = L.marker([place.latitude, place.longitude]).addTo(this.map)
+      this.currentDestination = L.marker([place.latitude, place.longitude],{
+        icon: L.icon({
+                          iconUrl: require('../../node_modules/leaflet/dist/images/marker-icon.png'),
+                          shadowUrl: require('../../node_modules/leaflet/dist/images/marker-shadow.png')
+                      }),
+        })
+        .addTo(this.map)
       this.map.setView([place.latitude,place.longitude],this.map.getZoom(),{animate:true});
         /*Depending if the location is fetched from googleapis or KTH places the location Object
           contains different information and therefore the popups print different variables.  */
@@ -109,16 +115,23 @@ export class Map {
               place.roomCode=place.popular_name;
             }
             this.currentDestination.bindPopup("<strong>" + place.roomCode + "</strong> - "
-            + place.roomType.toLowerCase() +  "<br>"
-              + place.streetAddress + " " + place.streetNumber + "<br>" + " Våningsplan " + place.floor + ", " + place.buildingName )
+              + place.roomType.toLowerCase() +  "<br>"
+              + place.streetAddress + " " + place.streetNumber + "<br>" + " Våningsplan "
+              + place.floor + ", " + place.buildingName ,{
+                offset: L.point(12, 10)
+              })
                 .openPopup();
             break;
           case Location_type.department:
-            this.currentDestination.bindPopup("<strong>" + place.buildingName + "</strong><br>" + place.streetAddress)
+            this.currentDestination.bindPopup("<strong>" + place.buildingName + "</strong><br>" + place.streetAddress,{
+              offset: L.point(12, 10)
+            })
                 .openPopup();
             break;
           case Location_type.street_address:
-            this.currentDestination.bindPopup("<strong>" + place.streetAddress + "</strong>")
+            this.currentDestination.bindPopup("<strong>" + place.streetAddress + "</strong>",{
+              offset: L.point(12, 10)
+            })
                 .openPopup();
             break;
           default:
@@ -136,7 +149,14 @@ getAdressFromPerson(person){
             var coordinate_lng = res[0].longitude;
             this.mapCenter = new L.LatLng(coordinate_lat, coordinate_lng);
             this.centerOnMarker();
-            this.currentDestination = L.marker([coordinate_lat,coordinate_lng]).addTo(this.map)
+            this.currentDestination = L.marker([coordinate_lat,coordinate_lng],{
+              icon: L.icon({
+                                iconUrl: require('../../node_modules/leaflet/dist/images/marker-icon.png'),
+                                shadowUrl: require('../../node_modules/leaflet/dist/images/marker-shadow.png'),
+                                iconAnchor:[12,6]
+                            })
+              })
+              .addTo(this.map)
             //If room number exists then print it in popup otherwise not.
               this.currentDestination.bindPopup(`<strong> ${person.given_name} ${person.family_name} </strong>
                 <br> ${res[0].streetAddress}`)

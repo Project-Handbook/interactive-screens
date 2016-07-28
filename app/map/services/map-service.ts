@@ -3,8 +3,7 @@ import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
 import { LatLngBounds } from 'leaflet';
 import { Location, Location_type } from '../location.interface';
-import { Observable } from 'rxjs/Observable';
-
+import {Observable} from 'rxjs/Observable';
 // See schools.json for more
 export class School {
   constructor(public name: string, /* Short codename for the school (CSC) */
@@ -55,7 +54,7 @@ export class MapService {
 		return this.http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + address + 'stockholm&bounds=59.328697, 18.036975|59.348656, 18.097400&components=country:SE')
 			.map(res => res.json())
 			.map(res => {
-          		res.results.forEach(item => {
+          		res.results.forEach((item) => {
 								// Only accepts exact locations.
               	if(item.geometry.location_type !== "APPROXIMATE"){
               		searchResult.push(
@@ -79,16 +78,10 @@ export class MapService {
 	}
 
 	// Fetches all schools of KTH from local schools.json.
-	getSchools(): Observable<School[]> {
-		var schools = [];
-		return this.http.get('app/schools.json')
-			.map(res => res.json())
-			.map(res => {
-				res.forEach(item =>
-					schools.push(item)
-				)
-				return schools;
-			});
+	getSchools(){
+    var s = require('../../schools.json');
+    const newArray = s.slice();
+    return newArray;
 	}
 
 	// Fetches all the departments of the school passed as argument.

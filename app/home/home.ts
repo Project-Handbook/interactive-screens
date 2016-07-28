@@ -3,38 +3,31 @@ import { Http, HTTP_PROVIDERS } from '@angular/http';
 import { HomeService } from './home-service';
 import {ScreenSpecificInformation} from '../screen-specific-information';
 import {Constants} from '../constants';
+import {DomSanitizationService,SafeHtml} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'home',
   viewProviders: [HTTP_PROVIDERS],
   encapsulation: ViewEncapsulation.Native,
-  templateUrl: 'app/home/home.html',
-  providers:[HomeService],
-  styleUrls:['app/home/home.min.css'],
-   styles: [`
-    @import "http://www.kth.se/css/v/8.28.4/kth.css";
-    a{
-      pointer-events: none;
-    }
-  `],
+  templateUrl: './home.html',
+  providers:[HomeService]
+
 })
 export class Home {
     //Contains the calendar HTML block.
     calendar_block: String;
     //Contains the news event HTML blocks.
-    news_block:Array<String>=[];
+    news_block:Array<SafeHtml>=[];
     //Used to display error message on the screen in the case of failed HTTP request
     calendar_error:boolean;
     //Used to display error message on the screen in the case of failed HTTP request
     news_feed_error:boolean;
 
-    elementRef:ElementRef;
-
     @ViewChild('newsBlock') newsBlockElement;
     @ViewChild('newsBlockInner') newsBlockInnerElement;
-    constructor(private homeService:HomeService,elementRef:ElementRef,private cdr:ChangeDetectorRef){
-      this.elementRef = elementRef;
-    }
+    constructor(private homeService:HomeService,private elementRef:ElementRef,
+                private cdr:ChangeDetectorRef, private sanitizer:DomSanitizationService){}
 
     //Returns the 4 latest calendar events from Polypoly through the home-service class
     getCalendar(id:string){
@@ -50,13 +43,13 @@ export class Home {
       this.homeService.getNewsFeed(id)
       .subscribe(res => {
           for(var i =0;i<res.length-1;i++){
-            this.news_block.push(res[i]);
+            this.news_block.push(this.sanitizer.bypassSecurityTrustHtml(res[i]));
           }
           if(res.splice(res.length-1,1)[0]){
             this.slideShow(this.news_block);
           }
         },
-        error=> this.news_feed_error=true,
+        error=> {console.log(error),this.news_feed_error=true},
         ()=>   {}
       );
     }

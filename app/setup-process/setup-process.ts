@@ -8,8 +8,9 @@ import { MapService } from '../map/services/map-service';
 @Component({
   selector: 'setup-process',
   directives: [NgClass],
-  templateUrl: 'app/setup-process/setup-process.html',
-  providers: [MapService]
+  templateUrl: './setup-process.html',
+  providers: [MapService],
+  styles:[require('./setup-process.scss').toString()]
 })
 export class SetupProcess {
   // Leaflet map object
@@ -108,24 +109,30 @@ export class SetupProcess {
       this.map.removeLayer(this.currentMapMarker); // Remove old marker
     }
     // Add a new marker at the location of the screen
-    this.currentMapMarker = L.marker([latitude, longitude])
+    this.currentMapMarker = L.marker([latitude, longitude],{
+      icon: L.icon({
+                        iconUrl: require('../../node_modules/leaflet/dist/images/marker-icon.png'),
+                        shadowUrl: require('../../node_modules/leaflet/dist/images/marker-shadow.png'),
+                        iconAnchor:[12,16]
+                    }),
+
+      })
       .addTo(this.map)
-      .bindPopup('<b>You are here.</b>').openPopup();
+      .bindPopup('<b>You are here.</b>',{
+      }).openPopup();
   }
 
   // Holds all schools fetched from getSchools.
-  schools: Array<any> = [];
+  schools:Object=[];
 
   // Fetches all schools at KTH from a local school.json file
   getSchools() {
-    this.mapService.getSchools().subscribe(res => {
-      this.schools = res
-    });
+    this.schools = this.mapService.getSchools();
   }
   // Holds all departments from getDepartments.
   department_list: Array<any> = [];
   // Fetches the departments of the school passed as argument
-  getDepartments(selectedSchool) {
+  getDepartments(selectedSchool:string) {
     // Save selected  school in screenInfo Object.
     this.screenInfo.school = JSON.parse(selectedSchool);
     this.mapService.getDepartments(this.screenInfo.school.code).subscribe(res => {

@@ -1,33 +1,32 @@
-<link rel="stylesheet" type="text/css" href="find-person.min.css" />
 
-<div id="wrapper">
+<div class="wrapper">
 
-	<div id="wrapper-persons">
+	<div class="wrapper-persons">
 		<!-- 'Header' - Contains searchbar and information about the current search -->
-		<div id="person-header">
+		<div class="person-header">
 			<!-- Searchbar, dropdown and search-button -->
-			<div action="search()" id="search-container">
-				<input type="text" [(ngModel)]="input" id="person-search-input" placeholder="Search for someone" autocomplete="off">
-				<div id="person-search-schools">
-					<p id="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
+			<div action="search()" class="search-container">
+				<input type="text" [(ngModel)]="input" class="person-search-input" placeholder="Search for someone" autocomplete="off">
+				<div class="person-search-schools" id="person-search-schools">
+					<p class="person-search-schools-current">{{ selectedSchool }}<mark>&#10095;</mark></p>
 				</div>
-				<button (click)="search(input)" name="search_button" id="person-search-button"></button>
+				<button (click)="search(input)" name="search_button" class="person-search-button"></button>
 			</div>
-			<!-- Dropdown menu with all schools and departments (initially hidden) -->
-			<div id="schools-wrapper" style="display: none">
+			<!-- Dropdown menu with all schools and departments (initially hclassden) -->
+			<div class="schools-wrapper" id="schools-wrapper" style="display: none">
 				<!-- List of all schools -->
-				<ul id="schools">
+				<ul class="schools">
 					<li *ngFor="let school of schools" (click)="getDep(school)">
 						{{ school.school }}
 					</li>
 				</ul>
-				<div id="departments-wrapper" *ngIf="deps.length > 0">
+				<div class="departments-wrapper" *ngIf="deps.length > 0">
 					<!-- Button for scrolling the departments list UP -->
 					<button (click)="scrollDep(-1)" *ngIf="deps.length > 14">
 						<p><mark>&#10095;</mark></p>
 					</button>
 					<!-- List of all departments -->
-					<ul id="departments" [ngStyle]="{'display': 'block'}">
+					<ul class="departments" [ngStyle]="{'display': 'block'}">
 						<li *ngFor="let dep of deps" (click)="setDep(dep)">
 							{{ dep.name_sv }}
 						</li>
@@ -41,16 +40,16 @@
 
 			<!-- Information about the current search -->
 			<br>
-			<h5 *ngIf="currentSearch.length == 0" id="search-input-string">Showing staff for {{ currentSchool }}</h5>
-			<h5 *ngIf="currentSearch.length > 0" id="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }} at {{ currentSchool }}</h5>
+			<h5 *ngIf="currentSearch.length == 0" class="search-input-string">Showing staff for {{ currentSchool }}</h5>
+			<h5 *ngIf="currentSearch.length > 0" class="search-input-string">Showing {{ people.length }} results for: {{ currentSearch }} at {{ currentSchool }}</h5>
 		</div>
 		<div *ngIf="showErrorMessage">
-			<img src="app/find-person/images/Error-100.png"/>
+		<	<img src="./images/Error-100.png"/>
 			<br>
 			<h1>The requested data is not available at the moment!</h1>
 		</div>
 		<div *ngIf="missingConfiguration">
-			<img src="app/find-person/images/Error-100.png"/>
+			<img src="./images/Error-100.png"/>
 			<br>
 			<h2>Could not display staff of the default department because configuration is missing!</h2>
 			<h3>Navigate to the setup view and fill in the missing pieces.</h3>
@@ -58,7 +57,7 @@
 
 			<!-- Table displaying the current persons -->
 			<div class="table-wrapper" *ngIf="!showErrorMessage && !missingConfiguration">
-			<table id="person-table">
+			<table class="person-table">
 				<thead>
 					<th (click)="sort('firstname')"><p>Given name</p><mark id="firstname">&#10095;</mark></th>
 					<th (click)="sort('surname')"><p>Family name</p><mark id="surname">&#10095;</mark></th>
@@ -66,9 +65,9 @@
 					<th (click)="sort('phone')"><p>Phone</p><mark id="phone">&#10095;</mark></th>
 					<th (click)="sort('title')"><p>Title</p><mark id="title">&#10095;</mark></th>
 				</thead>
-				<tbody id="person-table-body">
+				<tbody class="person-table-body" id="person-table-body">
 					<tr *ngFor="let person of people; let i = index" (click)="setPerson(person)">
-					<!--	<td><img *ngIf="person.status_image" [src]="person.status_image" width="20" height="20" /></td>-->
+					<!--	<td><img *ngIf="person.status_image" [src]="person.status_image" wclassth="20" height="20" /></td>-->
 						<td>{{ person.given_name }}</td>
 						<td>{{ person.family_name }}</td>
 						<td>{{ person.email }}</td>

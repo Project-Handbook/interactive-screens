@@ -1,30 +1,30 @@
 import { Component,ViewChild,ElementRef,ChangeDetectorRef } from '@angular/core';
-import { RouterConfig, ROUTER_DIRECTIVES, Router } from '@angular/router';
+import { RouterConfig, ROUTER_DIRECTIVES, Router} from '@angular/router';
 import { Location, LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { FindPerson } from './find-person/find-person';
 import { Home } from './home/home';
 import { Contact } from './contact/contact';
 import { Map } from './map/map';
-import { NgStyle } from '@angular/common';
 import { SetupProcess } from './setup-process/setup-process';
 import { provide } from '@angular/core';
 import { Constants } from './constants';
-import { ScreenSpecificInformation } from './screen-specific-information';
+import { ScreenSpecificInformation} from './screen-specific-information';
+import {DomSanitizationService,SafeHtml} from '@angular/platform-browser';
 
 export const routes:RouterConfig = [
   {
-    path:'',
-    redirectTo:'home',
+    path: '',
+    redirectTo: '/home',
     terminal:true
+  },
+  {
+    path: 'home',
+    component: Home
   },
   {
     path: 'setup',
     component: SetupProcess,
   },
-  {
-    path: 'home',
-    component: Home
-    },
   {
     path: 'people',
     component: FindPerson
@@ -41,16 +41,12 @@ export const routes:RouterConfig = [
 
 @Component({
     selector: 'main-frame',
-    templateUrl: 'app/main-frame/main-frame.html', // Relative base
-    directives: [ROUTER_DIRECTIVES, NgStyle],
-    precompile:[Home,FindPerson,Contact,Map,SetupProcess],
-    styleUrls:['./app/main-frame/main-frame.min.css'],
-    /*The styles in the "styles" section underneath is styles that is applied to html inserted in the view
-      with [innerHTML]. To apply styles to these elements the :host>>> operator has to be used that is a
-      angular 2 specific operator and is not supported by sass, hence these styles has to be
-      listed separtely underneath.
-    */
-    styles:[`
+    templateUrl: './main-frame/main-frame.html', // Relative base
+    directives: [ROUTER_DIRECTIVES],
+    precompile:[Home,SetupProcess,FindPerson,Map,Contact],
+    styles:[require('./main-frame/main-frame.scss').toString()]
+  /*  styles:[
+      `
       :host>>>.time{
         margin-left:auto;
         margin-right:auto;
@@ -61,16 +57,21 @@ export const routes:RouterConfig = [
       :host>>>.date{
         display: inline-block;
       }
-    `]
+      `
+    ]*/
 })
 
+/*The styles in the "styles" section underneath is styles that is applied to html inserted in the view
+  with [innerHTML]. To apply styles to these elements the :host>>> operator has to be used that is a
+  angular 2 specific operator and is not supported by sass, hence these styles has to be
+  listed separtely underneath.*/
 export class AppComponent  {
     // Keys of screenInfo.opening_hours, used for iteration over dictionary
     public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
                                       'friday', 'saturday', 'sunday'];
 
     // The system time displayed in the main-frame header
-    clock: string = "";
+    clock: SafeHtml = "";
 
     menuItemsRightBorder: Array<string> = ['none', 'solid #2258A5', 'solid #2258A5', 'solid #2258A5'];
     prev: number = 0;
@@ -95,7 +96,7 @@ export class AppComponent  {
     // Reloads the current page
     refreshPage = () => {
       // Navigate to '/Home'
-      this.router.navigate(['Home']).then(() => {
+      this.router.navigate(['home']).then(() => {
         window.location.reload(true);
       });
     }
@@ -121,18 +122,20 @@ export class AppComponent  {
       if (minutes < 10) { minutes_str = `0${minutes}`; } else { minutes_str = `${minutes}`}
       if (seconds < 10) { seconds_str = `0${seconds}`; } else { seconds_str = `${seconds}`}
 
-      this.clock = `<span class="date">${day} ${month} ${year}</span>
+      this.clock = this.sanitizer.bypassSecurityTrustHtml(`<span class="date">${day} ${month} ${year}</span>
                     <br>
-                    <span class="time">${hours_str}:${minutes_str}:${seconds_str}</span>`;
+                    <span class="time">${hours_str}:${minutes_str}:${seconds_str}</span>`);
     }
 
-constructor(private router: Router, private location: Location,private cdr:ChangeDetectorRef,private element:ElementRef) {
+constructor(private router: Router, private location: Location,
+            private cdr:ChangeDetectorRef,private element:ElementRef,
+            private sanitizer:DomSanitizationService) {
     this.element = element;
     this.cdr = cdr;
     // Check whether or not the screen has gone through the setup process
     var screenInfo = localStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
     if (screenInfo) { /* Has not gone through setup - go to Setup then */
-      this.router.navigate(['Setup']);
+      this.router.navigate(['setup']);
     }
 
     // Setup update interval

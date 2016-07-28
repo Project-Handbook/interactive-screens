@@ -12,10 +12,10 @@ import {FormControl,FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES} from '@angular/for
    host: {
         '(document:click)': 'handleClick($event)',
     },
-    templateUrl: './app/map/html/search-bar.html',
+    templateUrl:'./html/search-bar.html',
     providers: [MapService],
 		directives:[FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES],
-    styleUrls:['./app/map/styles/search-bar.min.css'],
+    styles:[require('./styles/search-bar.scss').toString()],
     outputs:['newLocation']
 })
 export class SearchBarComponent {
@@ -40,7 +40,7 @@ export class SearchBarComponent {
 	//If no adress is found by google geocord api then an error shall be presented on the screen.
 	no_address_found:boolean=false;
 	//Holds the the school objects fetched from schools.json.
-	schools:Array<any>=[];
+	schools:Array<Object>=[];
 	//Control array for updating the buttons in the search component
 	buttonColors:Array<string>=["#2E7CC0","#8c8c93","#8c8c93"];
 	// Holds department objects fetched from KTH Places.
@@ -187,7 +187,7 @@ export class SearchBarComponent {
 	}
 	//Returns a list of all the schools listed in a local .json file
   getSchools(){
-    this._mapService.getSchools().subscribe(res=>this.schools=res);
+		this.schools = this._mapService.getSchools();
   }
 	// Fetches all departments matching the given school code string passed as argument
   getDepartments(department:string){
