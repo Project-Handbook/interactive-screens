@@ -49,7 +49,7 @@ export class Home {
             this.slideShow(this.news_block);
           }
         },
-        error=> {console.log(error),this.news_feed_error=true},
+        error=> {this.news_feed_error=true},
         ()=>   {}
       );
     }

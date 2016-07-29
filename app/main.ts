@@ -11,6 +11,10 @@ if(!localStorage.getItem('EMAIL_API_KEY')){
   localStorage.setItem('EMAIL_API_KEY',JSON.stringify({key:"api:key-5164d1f0b491719c50e103020764205a"}));
 }
 
+if (process.env.ENV === 'production') {
+  enableProdMode();
+}
+
 bootstrap(AppComponent,
   [
     HTTP_PROVIDERS,
@@ -20,4 +24,4 @@ bootstrap(AppComponent,
     provideForms(),
     disableDeprecatedForms()
   ]
-)//.catch((err:any)=>location.reload());
+).catch((err:any)=>location.reload());

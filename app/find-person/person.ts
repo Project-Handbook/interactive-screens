@@ -12,7 +12,7 @@ export class Person {
 							public working_place: string,
 							public kth_profile: string,
 							public about_me: string,
-							public status_image: string,
+							public status: boolean,
 							public status_info: Object,
 						 	public room: string,
 							public phone_number2: string) /* Internal KTH phone */ {}

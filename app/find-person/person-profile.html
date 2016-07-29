@@ -1,14 +1,15 @@
 
 <div class="popup-pos" [ngClass]="{active: isOn, disabled: !isOn}">
 	<div class="popup-wrapper">
-		<div class="popup-content" id="popup-content" *ngIf="person != null">
+		<div class="popup-content" id="popup-content"  *ngIf="person != null">
 			<div class="popup-person">
 				<div class="popup-person-wrapper">
 					<p class="popup-person-name">{{ person.given_name }} {{ person.family_name }}</p>
 					<p class="popup-person-title">{{ person.title }}</p>
 					<div>
 						<p class="popup-person-status" >
-							<img *ngIf="person.status_image" [src]="person.status_image" width="20" height="20" />
+							<img *ngIf="person.status" src="./images/availible.png" width="20" height="20" />
+							<img *ngIf="!person.status && person.status !==null" src="./images/unavailible.png" width="20" height="20" />
 							<span *ngIf="person.status_info"> Back on {{person.status_info.to}}</span>
 						</p>
 					</div>
@@ -55,7 +56,8 @@
 				</div>
 			</div>
 			<div class="popup-image">
-				<img [src]="person.image_url" onError="this.src='app/find-person/images/missing-profile-image.png'"/>
+				<!--onError="this.src='./images/missing-profile-image.png'"-->
+				<img *ngIf="person.image_url" [src]="person.image_url"/>
 			</div>
 		</div>
 	</div>

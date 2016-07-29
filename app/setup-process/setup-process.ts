@@ -137,7 +137,7 @@ export class SetupProcess {
     this.screenInfo.school = JSON.parse(selectedSchool);
     this.mapService.getDepartments(this.screenInfo.school.code).subscribe(res => {
       this.department_list = res;
-    },error=>console.log(error));
+    });
   }
 
   // Hash keys for screenInfo.opening_hours

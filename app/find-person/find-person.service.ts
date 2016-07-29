@@ -145,7 +145,6 @@ export class FindPersonService {
 
 	// Fetches the persons image url from the API asscioated their kth id
 	public fetchAdditionalInfo(person: Person,callback,self) {
-
 		var url = "https://www.kth.se/social/api/profile/1.1/" + person.kthid;
 		this.http.get(url)
 			.map(res => res.json())
@@ -185,13 +184,13 @@ export class FindPersonService {
 			.subscribe(res => {
 				if(res.result[0].intercepts !== undefined) {
 					if(res.result[0].intercepts.length === 0) {
-						person.status_image = "app/find-person/images/availible.png";
+						person.status = true;
 					} else {
-						person.status_image = "app/find-person/images/unavailible.png";
+						person.status = false;
 						person.status_info = res.result[0].intercepts[0];
 					}
 				} else {
-					person.status_image = null;
+					person.status = null;
 				}
 			},
 			error => callback(self,new Error("Error retrieving status")),

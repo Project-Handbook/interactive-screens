@@ -58,7 +58,6 @@ export class SearchBarComponent {
 						if the search field contains accepted input and input is longer than 1
 						 character -> search query will be executed */
         .subscribe(query => {
-					console.log(query);
           if (query.toString().length>1 && /^[\w\s\däöåÄÖÅ]+:?[\w\d\säöåÄÖÅ]*$/i.test(query.toString())){
 						//Search from KTH Places API
             if (this.searchForLocation === true) {
@@ -71,7 +70,6 @@ export class SearchBarComponent {
 							var location_type = this.searchForAddress===true? Location_type.street_address : Location_type.department;
 							//Replacing ä,å,ö with a's and o's. googleapis works better without swedish charachters.
 							var term = query.toString().replace(/ä|å/ig,'a').replace(/ö/ig,'o');
-							console.log(term)
               this._mapService.getGeoCode(term,location_type).subscribe(res => { this.searchResult = res },
                 error => {this.showErrorMessage = true},
                 () => this.showErrorMessage = false);

@@ -237,6 +237,7 @@
         margin-top: 100px;
         max-height: 80%;
         .popup-content {
+          width: 100%;
             background-color: #fff;
             display: table;
             border-radius: 4px;
@@ -299,7 +300,6 @@
             .popup-image {
                 width: 35%;
                 float: right;
-                height: inherit;
                 text-align: center;
                 img {
                     margin-top: 2em;
