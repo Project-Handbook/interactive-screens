@@ -22,9 +22,6 @@ npm-debug.log
 /tmp/
 /scripts/bower/bower-*
 
-# Git ignore files for Typescript
-*/*/*.js
-*/*.js
 
 # Ignore .css files
 */*/*.css
