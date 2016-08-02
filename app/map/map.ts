@@ -1,4 +1,4 @@
-import { Component,ElementRef } from '@angular/core';
+import { Component,ElementRef, OnInit} from '@angular/core';
 import {MapService} from './services/map-service';
 import {SearchBarComponent} from './search-bar.component';
 import {Location,Location_type} from './location.interface';
@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
   directives:[SearchBarComponent],
   providers:[MapService],
 })
-export class Map {
+export class Map implements OnInit{
   private destinationLocation;
   //Leaflet Map Object
   private map: L.Map;

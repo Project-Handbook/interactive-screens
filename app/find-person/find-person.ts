@@ -1,5 +1,4 @@
 import { Component,OnInit } from '@angular/core';
-import { NgClass , NgStyle } from '@angular/common';
 import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
@@ -13,11 +12,11 @@ import { Constants } from '../constants';
   },
   selector: 'find-person',
   templateUrl:'./find-person.html',
-  directives: [NgClass, PersonProfile],
+  directives: [ PersonProfile],
   providers: [FindPersonService, MapService],
   styles:[require('./find-person.scss').toString()]
 })
-export class FindPerson {
+export class FindPerson implements OnInit{
   state: string = "none";
 
   currentPerson: Person = null;

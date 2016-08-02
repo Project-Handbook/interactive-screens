@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constants } from '../constants';
 import { ScreenSpecificInformation,school,department} from '../screen-specific-information';
-import { NgClass } from '@angular/common';
 import { MapService } from '../map/services/map-service';
 
 @Component({
   selector: 'setup-process',
-  directives: [NgClass],
   templateUrl: './setup-process.html',
   providers: [MapService],
   styles:[require('./setup-process.scss').toString()]
 })
-export class SetupProcess {
+export class SetupProcess implements OnInit{
   // Leaflet map object
   map: L.Map;
   // Localstorage configuration object

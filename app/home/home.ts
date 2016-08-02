@@ -1,5 +1,5 @@
-import { Component ,ViewEncapsulation,ViewChild,ElementRef,ChangeDetectorRef} from '@angular/core';
-import { Http, HTTP_PROVIDERS } from '@angular/http';
+import { Component ,ViewEncapsulation,ViewChild,ElementRef,OnInit} from '@angular/core';
+import { Http  } from '@angular/http';
 import { HomeService } from './home-service';
 import {ScreenSpecificInformation} from '../screen-specific-information';
 import {Constants} from '../constants';
@@ -8,15 +8,14 @@ import {DomSanitizationService,SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'home',
-  viewProviders: [HTTP_PROVIDERS],
   encapsulation: ViewEncapsulation.Native,
   templateUrl: './home.html',
   providers:[HomeService]
 
 })
-export class Home {
+export class Home implements OnInit {
     //Contains the calendar HTML block.
-    calendar_block: String;
+    calendar_block: SafeHtml;
     //Contains the news event HTML blocks.
     news_block:Array<SafeHtml>=[];
     //Used to display error message on the screen in the case of failed HTTP request
@@ -27,13 +26,13 @@ export class Home {
     @ViewChild('newsBlock') newsBlockElement;
     @ViewChild('newsBlockInner') newsBlockInnerElement;
     constructor(private homeService:HomeService,private elementRef:ElementRef,
-                private cdr:ChangeDetectorRef, private sanitizer:DomSanitizationService){}
+                private sanitizer:DomSanitizationService){}
 
     //Returns the 4 latest calendar events from Polypoly through the home-service class
     getCalendar(id:string){
       this.homeService.getCalendar(id)
         .subscribe(res =>
-          {this.calendar_block = res},
+          {this.calendar_block = this.sanitizer.bypassSecurityTrustHtml(res)},
           error=>{this.calendar_error=true},
           ()=>this.calendar_error=false
         );

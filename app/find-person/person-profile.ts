@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { OnInit } from '@angular/core'
-import { NgClass } from '@angular/common';
 import { FindPersonService } from './find-person.service';
 import { Person } from './person';
 import { Router } from '@angular/router';
@@ -8,7 +6,6 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'person-profile',
   templateUrl:'./person-profile.html',
-  directives: [NgClass],
   providers: [FindPersonService],
   styles:[require('./find-person.scss').toString()]
 

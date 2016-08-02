@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { Person } from './person';
 
 // ErrorType describes what kind of error has occured
@@ -164,12 +163,11 @@ export class FindPersonService {
 	// Scrapes the Person's KTH profile 'About me' section from the internet.
 	private fetchAboutMeInfo(person: Person,callback,self) {
 		this.http.get(person.kth_profile).subscribe(resp => {
-			var jQuery = require('jquery');
-			var body = resp.text();
-			var patt = new RegExp("<img.+>");
-			body = body.replace(patt, ""); //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.
-			var about_me = jQuery(body).find(".description").text();
-			person.about_me = about_me;
+			const jQuery = require('jquery');
+			 //Removes all img tags from body because this the img tags genereted a lot of errors in jquery .find.
+			let body = resp.text().replace(/<img.+>/g, "");
+			const profile = jQuery(body).find('.description').html();
+			person.about_me = profile;
 		},
 		error => callback(self,new Error("Error retrieving about me text")),
 		()=>callback(self)

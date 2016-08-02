@@ -1,12 +1,11 @@
 import { Component } from '@angular/core'
-import {ValidatorFn,AbstractControl,FORM_DIRECTIVES,FormBuilder,FormGroup,Validators, REACTIVE_FORM_DIRECTIVES,FormControl} from '@angular/forms';
+import {ValidatorFn,AbstractControl,FormBuilder,FormGroup,Validators, REACTIVE_FORM_DIRECTIVES,FormControl} from '@angular/forms';
 import { EmailService } from './email.service';
-import "rxjs/add/operator/map";
 
 @Component({
   selector: 'contact',
   templateUrl: './contact.html',
-  directives: [FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES],
+  directives: [REACTIVE_FORM_DIRECTIVES],
   providers: [EmailService],
  styles:[require('./contact.scss').toString()]
 })

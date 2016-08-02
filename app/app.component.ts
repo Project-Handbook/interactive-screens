@@ -14,7 +14,7 @@ import {DomSanitizationService,SafeHtml} from '@angular/platform-browser';
 export const routes:RouterConfig = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: 'home',
     terminal:true
   },
   {
@@ -45,20 +45,6 @@ export const routes:RouterConfig = [
     directives: [ROUTER_DIRECTIVES],
     precompile:[Home,SetupProcess,FindPerson,Map,Contact],
     styles:[require('./main-frame/main-frame.scss').toString()]
-  /*  styles:[
-      `
-      :host>>>.time{
-        margin-left:auto;
-        margin-right:auto;
-        width:40%;
-        display: inline-block;
-        text-align:left;
-      }
-      :host>>>.date{
-        display: inline-block;
-      }
-      `
-    ]*/
 })
 
 /*The styles in the "styles" section underneath is styles that is applied to html inserted in the view
@@ -134,7 +120,7 @@ constructor(private router: Router, private location: Location,
     this.cdr = cdr;
     // Check whether or not the screen has gone through the setup process
     var screenInfo = localStorage.getItem(Constants.SETUP_PROCESS_KEY); // Returns null when nothing is found
-    if (screenInfo) { /* Has not gone through setup - go to Setup then */
+    if (!screenInfo) { /* Has not gone through setup - go to Setup then */
       this.router.navigate(['setup']);
     }
 

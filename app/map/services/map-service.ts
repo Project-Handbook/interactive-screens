@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import "rxjs/add/operator/map";
 import { LatLngBounds } from 'leaflet';
+import { Observable} from 'rxjs/Observable'
 import { Location, Location_type } from '../location.interface';
-import {Observable} from 'rxjs/Observable';
 // See schools.json for more
 export class School {
   constructor(public name: string, /* Short codename for the school (CSC) */

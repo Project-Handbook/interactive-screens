@@ -1,9 +1,7 @@
 import {Component,ElementRef,EventEmitter,ViewChild} from '@angular/core';
 import {MapService} from './services/map-service';
 import {Location,Location_type} from './location.interface';
-import 'rxjs/Rx';
-import { Observable } from 'rxjs/Rx';
-import {FormControl,FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
+import {FormControl,REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 
 
 
@@ -14,7 +12,7 @@ import {FormControl,FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES} from '@angular/for
     },
     templateUrl:'./html/search-bar.html',
     providers: [MapService],
-		directives:[FORM_DIRECTIVES,REACTIVE_FORM_DIRECTIVES],
+		directives:[REACTIVE_FORM_DIRECTIVES],
     styles:[require('./styles/search-bar.scss').toString()],
     outputs:['newLocation']
 })
