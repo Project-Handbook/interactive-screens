@@ -26,10 +26,25 @@
         .person-header {
             padding: 2.4em 2.4em 0 2.4em;
             position: relative;
+            .nearby_departments{
+              width:20%;
+              position:absolute;
+              top:2.4em;
+              right:2.4em;
+              p{
+                font-size: 200%;
+              }
+              li{
+                text-align: left;
+                color:#2e7cc0;
+                margin-top:0.5em;
+                font-size: 200%;
+              }
+            }
             .search-container {
                 font-size: 3em;
                 height: 55px;
-                max-width: 100%;
+                max-width: 80%;
                 display: table-cell;
                 border: 1px solid #9a9a9a;
                 line-height: 55px;

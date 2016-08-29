@@ -12,6 +12,14 @@
 				</div>
 				<button (click)="search(input)" name="search_button" class="person-search-button"></button>
 			</div>
+			<div class="nearby_departments">
+				<p>
+					<b>Show staff of nearby departments</b>
+				</p>
+				<ul>
+					<li *ngFor="let dep of nearby_departments" (click)="changeDepartment(dep)">{{dep.name_sv}}</li>
+				</ul>
+			</div>
 			<!-- Dropdown menu with all schools and departments (initially hclassden) -->
 			<div class="schools-wrapper" id="schools-wrapper" style="display: none">
 				<!-- List of all schools -->
@@ -26,11 +34,11 @@
 						<p><mark>&#10095;</mark></p>
 					</button>
 					<!-- List of all departments -->
-					<ul class="departments" [ngStyle]="{'display': 'block'}">
+					<ol class="departments" [ngStyle]="{'display': 'block'}">
 						<li *ngFor="let dep of deps" (click)="setDep(dep)">
 							{{ dep.name_sv }}
 						</li>
-					</ul>
+					</ol>
 					<!-- Button for scrolling the departments list DOWN -->
 					<button (click)="scrollDep(1)" *ngIf="deps.length > 14">
 						<p><mark>&#10095;</mark></p>

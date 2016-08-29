@@ -182,25 +182,51 @@
       </td>
       <td id="additional_delivery_information" class="info" style="display: none;">
         Additional delivery information can be entered in this text field and will displayed below the telephone numbers
-        in the right sidebar. 
+        in the right sidebar.
       </td>
     </tr>
-
     <tr class="item">
       <td>
         <p>Nearby Departments</p>
-        <input type="text" placeholder="Service Center" [(ngModel)]="newDepartment" style="width: 90%">
-        <button (click)="addDepartment()" style="float: right; padding: 0.2em;">Add</button>
+        <br>
+        <label>Choose school</label>
+        <label>choose department</label>
+        <!-- [ngModel]="c"  is just a dummy variable that is only used because [ngModelChange] requires
+       that a [ngModel] tag i present on the select tag. But since the school info does not need to be saved
+        we just bind it to a variable that doenst exist-->
+        <select id="select-nearby-school" [ngModel]="s"
+          (ngModelChange)="getNearbyDepartments($event)" style="width: 100%; padding: 0.2em">
+          <option  *ngFor="let school of schools" [ngValue]="stringify(school)">
+            {{ school.school }}
+          </option>
+        </select>
+        <br><br>
+        <select enabled="false" [ngModel]="c"
+          (ngModelChange)="setNearbyDepartment($event)" id="select-nearby-department" style="width: 100%; padding: 0.2em">
+          <option *ngFor="let department of department_list" [ngValue]="stringify(department)">
+              {{department.name_sv}}
+          </option>
+        </select>
+        <br><br>
+        <label>Display name: (Optional)</label>
+        <input type="text" placeholder="Optional name.." [(ngModel)]="optional_name"/>
+        <br><br>
+        <p>
+          <button (click)="addDepartment()" style="float:right;">Add</button>
+        </p>
       </td>
       <td>
-        <a href="javascript:void(0)" onclick="document.getElementById('nearby-department').style.display= document.getElementById('nearby-department').style.display == 'none' ? 'block' : 'none';">
+        <a href="javascript:void(0)" onclick="document.getElementById('nearby_departments').style.display= document.getElementById('nearby_departments').style.display == 'none' ? 'block' : 'none';">
           <div class="qmark">?</div>
         </a>
       </td>
-      <td id="nearby-department" class="info" style="display: none;">
+      <td id="nearby_departments" class="info" style="display: none;">
         Departments located in the close vicinity of the screen, in the same building and so on.
         Add all the departments that are close then in the next field you select
-        the one which is the closest to the screen.
+        the one which is the closest to the screen. The text field "Display name" gives the option of
+        giving the department a new name that will be used when dispalying the closeby departments
+        in the menu on the righthand side of the application. If this field is left blank, the name displayed
+        in the dropdown menu will be choosen.
       </td>
     </tr>
 
@@ -208,7 +234,7 @@
       <td>
         <p>Nearest department</p>
         <select [(ngModel)]="screenInfo.nearest_department" style="width: 90%">
-          <option *ngFor="let department of departments">{{ department }}</option>
+          <option *ngFor="let department of departments">{{ department.name_sv }}</option>
         </select>
         <button (click)="removeDepartment()" style="float: right; padding: 0.2em;">Remove</button>
       </td>

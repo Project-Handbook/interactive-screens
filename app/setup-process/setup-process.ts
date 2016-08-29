@@ -11,6 +11,9 @@ import { MapService } from '../map/services/map-service';
   styles:[require('./setup-process.scss').toString()]
 })
 export class SetupProcess implements OnInit{
+  optional_name:string="";
+
+
   // Leaflet map object
   map: L.Map;
   // Localstorage configuration object
@@ -49,13 +52,17 @@ export class SetupProcess implements OnInit{
   }
 
   // Input - need to add this the the list
-  public newDepartment: string = ""
+  public newDepartment: department;
   // List of user created departments
-  public departments: Array<string> = []
+  public departments: Array<department> = []
 
   addDepartment() {
+    if(this.optional_name!==""){
+      this.newDepartment.name_sv = this.optional_name;
+    }
     this.departments.push(this.newDepartment);
-    this.newDepartment = "";
+    this.newDepartment = {code:"",name_sv:"",address:""};
+    this.optional_name="";
   }
 
   removeDepartment() {
@@ -137,6 +144,13 @@ export class SetupProcess implements OnInit{
       this.department_list = res;
     });
   }
+  getNearbyDepartments(selectedSchool:string) {
+    // Save selected  school in screenInfo Object.
+    const school = JSON.parse(selectedSchool);
+    this.mapService.getDepartments(school.code).subscribe(res => {
+      this.department_list = res;
+    });
+  }
 
   // Hash keys for screenInfo.opening_hours
   public weekdays: Array<string> = ['monday', 'tuesday', 'wednesday', 'thursday',
@@ -155,6 +169,9 @@ export class SetupProcess implements OnInit{
   // Set the department attributes of screenInfo object
   setDepartment(department) {
     this.screenInfo.department = JSON.parse(department);
+  }
+  setNearbyDepartment(department) {
+    this.newDepartment = JSON.parse(department);
   }
   stringify(value){
     return JSON.stringify(value);

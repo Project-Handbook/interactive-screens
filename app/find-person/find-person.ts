@@ -3,7 +3,7 @@ import { FindPersonService, ErrorType } from './find-person.service';
 import { Person } from './person';
 import { PersonProfile } from './person-profile';
 import { MapService } from '../map/services/map-service';
-import { ScreenSpecificInformation } from '../screen-specific-information';
+import { ScreenSpecificInformation,department } from '../screen-specific-information';
 import { Constants } from '../constants';
 
 @Component({
@@ -25,6 +25,7 @@ export class FindPerson implements OnInit{
   currentPrefix: string = "";
   selectedSchool: string = "";
   currentSchool: string = "";
+  nearby_departments:Array<department>
 
   // Displaying error message if a search request would fail for any reason
   showErrorMessage: boolean = false;
@@ -73,6 +74,7 @@ export class FindPerson implements OnInit{
         this.currentPrefix  = "org:" + screenInfo.department.code;
         this.selectedSchool  =  screenInfo.department.name_sv;
         this.currentSchool =  screenInfo.department.name_sv;
+        this.nearby_departments = screenInfo.departments;
         // Load initial results
         this.getPeople(this.currentPrefix);
         this.getSchools();
@@ -326,6 +328,12 @@ export class FindPerson implements OnInit{
       self.isOn=true;
       self.completedFetchedResources=0;
     }
+  }
+  changeDepartment(dep:department){
+    this.currentPrefix  = "org:" + dep.code;
+    this.selectedSchool  =  dep.name_sv;
+    this.currentSchool =  dep.name_sv;
+    this.getPeople(this.currentPrefix);
   }
 
 }
