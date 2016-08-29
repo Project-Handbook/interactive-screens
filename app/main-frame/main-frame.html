@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="main-frame.min.css"/> -->
 
 
-<header class="main-frame-header" #header>
+<header id="head1" class="main-frame-header" #header>
   <div class="icon-wrapper">
     <img class="icon" src="https://www.kth.se/polopoly_fs/1.77257!/KTH_Logotyp_RGB_2013-2.svg"/>
   </div>
@@ -26,6 +26,9 @@
     <p>
       Telephone deliveries:<br>
       {{ screenInfo.telephone_deliveries }}
+    </p>
+    <p>
+      {{ screenInfo.additional_delivery_info }}
     </p>
     <div class="open-hrs" *ngIf="screenInfo.opening_hours_enabled">
       <h2>Opening Hours</h2>

@@ -170,6 +170,21 @@
         Telephone number to which the delivery man should be calling.
       </td>
     </tr>
+    <tr class="item">
+      <td>
+        <p>Additional delivery information</p>
+        <input type="text" placeholder="Defliveries to PDC: please visit PDC.." [(ngModel)]="screenInfo.additional_delivery_info" />
+      </td>
+      <td>
+        <a href="javascript:void(0)" onclick="document.getElementById('additional_delivery_information').style.display= document.getElementById('additional_delivery_information').style.display == 'none' ? 'block' : 'none';">
+          <div class="qmark">?</div>
+        </a>
+      </td>
+      <td id="additional_delivery_information" class="info" style="display: none;">
+        Additional delivery information can be entered in this text field and will displayed below the telephone numbers
+        in the right sidebar. 
+      </td>
+    </tr>
 
     <tr class="item">
       <td>

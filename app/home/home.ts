@@ -24,7 +24,7 @@ export class Home implements OnInit {
     news_feed_error:boolean;
 
     @ViewChild('newsBlock') newsBlockElement;
-    @ViewChild('newsBlockInner') newsBlockInnerElement;
+
     constructor(private homeService:HomeService,private elementRef:ElementRef,
                 private sanitizer:DomSanitizationService){}
 
@@ -38,15 +38,19 @@ export class Home implements OnInit {
         );
     }
     //Fetches the news event block from Polypoly through the home-service class.
+    visible:number = 0;
     getNewsFeed(id:string){
       this.homeService.getNewsFeed(id)
       .subscribe(res => {
           for(var i =0;i<res.length-1;i++){
             this.news_block.push(this.sanitizer.bypassSecurityTrustHtml(res[i]));
           }
-          if(res.splice(res.length-1,1)[0]){
-            this.slideShow(this.news_block);
-          }
+          setTimeout(()=>{
+            if(this.isOverflowed(this.newsBlockElement.nativeElement)){
+              this.slideShow(this.news_block);
+            };
+            this.visible = 1;
+          },100);
         },
         error=> {this.news_feed_error=true},
         ()=>   {}
@@ -72,15 +76,24 @@ export class Home implements OnInit {
     //Creates a simple slideshow of the articles in the array passed as argument.
     slideShow(articles, tmp=null){
       if(tmp===null){
-        tmp = articles.splice(0,1)[0];
+        let numberOfArticles = articles.length;
+        if(numberOfArticles>2){
+          tmp = articles.splice(0,numberOfArticles-2);
+        }else{
+          tmp = articles.splice(0,1);
+        }
         return this.slideShow(articles,tmp);
       }
       setTimeout(()=>this.opacatiy=1,1);
       setTimeout(()=>{
         this.opacatiy=0;
-        articles.push(tmp);
-        tmp = articles.splice(0,1)[0];
+        articles.push(tmp[0]);
+        tmp.shift();
+        tmp.push(articles.splice(0,1)[0]);
         this.slideShow(articles,tmp);
       },10000);
+    }
+    isOverflowed(element){
+      return element.scrollHeight > element.clientHeight;
     }
   }

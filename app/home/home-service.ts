@@ -45,7 +45,7 @@ export class HomeService{
 					news_blocks.push(jqueryBlocks[i].innerHTML);
 				}
 				//If there is 2 or more articles without a picture, then no slideshow.
-				if(numberOfNoMediaArticles>=2){
+			/*	if(numberOfNoMediaArticles>=2){
 					news_blocks.push(false);
 					return news_blocks;
 				}
@@ -53,10 +53,18 @@ export class HomeService{
 				if(numberOfLargeArticles>=1){
 					news_blocks.push(true);
 					return news_blocks;
-				}
+				}*/
 
 				news_blocks.push(false);
 				return news_blocks;
 		});
 	}
+ getMeta(url){
+	 var jQuery = require('jquery');
+
+    jQuery("<img/>",{
+        load : function(){ alert(this.width+' '+this.height); },
+        src  : url
+    });
+}
 }

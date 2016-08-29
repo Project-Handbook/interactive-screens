@@ -15,10 +15,11 @@
     margin-right: 1%;
     width: 55%;
     float: left;
-    height: 100%;
-    background-color: white; }
+    height: 77%;
+    }
     .home_container .news_block .news_block_inner {
-      height: auto; }
+      opacity: 0;
+     }
       .home_container .news_block .news_block_inner .block_item {
         margin-bottom: 0.8rem;
         -webkit-transition: opacity 0.3s ease-in;
@@ -40,28 +41,28 @@
     width: 42%;
     float: right;
     margin-right: 1%; }
+
 </style>
-<div  id="home_container" class="home_container">
+
+<div  id="home_container" class="home_container" #homeContainer>
 	<div class="news_block" #newsBlock>
-		<div class="news_block_inner"  #newsBlockInner>
-		<div *ngFor="let news_event of news_block;let i=index">
+		<div class="news_block_inner" [style.opacity]="visible" #newsBlockInner>
+		<div *ngFor="let news_event of news_block;let i=index" #testid>
 			<div id="news_item" [style.opacity]="opacatiy" *ngIf="news_event && !news_feed_error" class="block_item" [innerHTML] = "news_event" #i>
 			</div>
 		</div>
-
-
-	<div *ngIf="news_feed_error">
-		<center>
-			<img src="../find-person/images/Error-100.png"/>
-			<br>
-			<h3>The requested data is not available at the moment.</h3>
-		</center>
-	</div>
 	<!--<div style="height:20rem;"></div>-->
 
 </div>
+<div *ngIf="news_feed_error">
+  <center>
+    <img src="../find-person/images/Error-100.png"/>
+    <br>
+    <h3>The requested data is not available at the moment.</h3>
+  </center>
 </div>
-<div class="calendar_block">
+</div>
+<div id="cal1" class="calendar_block">
 	<div *ngIf="calendar_block" [innerHtml]="calendar_block"></div>
 	<div *ngIf="calendar_error">
 		<center>

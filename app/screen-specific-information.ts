@@ -20,7 +20,8 @@ export class ScreenSpecificInformation {
               public opening_hours: { [weekday: string]: [string, string, boolean] } = opening_hours_defaults, /* opening hours */
               public opening_hours_enabled: boolean = false, /* Whether or not the opening hours should be displayed or not */
               public calendar_polypoly_id:string="", /*Polypoly id to fetch calendar in home tab*/
-              public news_feed_polypoly_id:string="" /*Polypoly id to fetch news feed in home tab*/
+              public news_feed_polypoly_id:string="", /*Polypoly id to fetch news feed in home tab*/
+              public additional_delivery_info:string=""
               ) {}
 }
 

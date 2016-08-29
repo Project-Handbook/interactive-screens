@@ -37,7 +37,7 @@ export class SetupProcess implements OnInit{
         }
         this.departments = this.screenInfo.departments;
         //If a school exist in local storage then load the departments assosciated with the school.
-        if(Object.keys(this.screenInfo.school).length!==0 && this.screenInfo.school){
+        if( this.screenInfo.school.code && this.screenInfo.school.school){
           this.getDepartments(JSON.stringify(this.screenInfo.school));
         }
     }
