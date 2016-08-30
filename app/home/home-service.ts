@@ -44,18 +44,6 @@ export class HomeService{
 					}
 					news_blocks.push(jqueryBlocks[i].innerHTML);
 				}
-				//If there is 2 or more articles without a picture, then no slideshow.
-			/*	if(numberOfNoMediaArticles>=2){
-					news_blocks.push(false);
-					return news_blocks;
-				}
-				//If there is not 2 or more articles without a picture and atleast 1 "large" article, then display slideshow
-				if(numberOfLargeArticles>=1){
-					news_blocks.push(true);
-					return news_blocks;
-				}*/
-
-				news_blocks.push(false);
 				return news_blocks;
 		});
 	}

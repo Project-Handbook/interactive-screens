@@ -23,6 +23,7 @@ export class Home implements OnInit {
     //Used to display error message on the screen in the case of failed HTTP request
     news_feed_error:boolean;
 
+
     @ViewChild('newsBlock') newsBlockElement;
 
     constructor(private homeService:HomeService,private elementRef:ElementRef,
@@ -30,36 +31,44 @@ export class Home implements OnInit {
 
     //Returns the 4 latest calendar events from Polypoly through the home-service class
     getCalendar(id:string){
-      this.homeService.getCalendar(id)
-        .subscribe(res =>
-          {this.calendar_block = this.sanitizer.bypassSecurityTrustHtml(res)},
-          error=>{this.calendar_error=true},
-          ()=>this.calendar_error=false
-        );
+      if(id){
+        this.homeService.getCalendar(id)
+          .subscribe(res =>
+            {this.calendar_block = this.sanitizer.bypassSecurityTrustHtml(res)},
+            error=>{this.calendar_error=true},
+            ()=>this.calendar_error=false
+          );
+        }else{
+          this.calendar_error=true;
+        }
     }
     //Fetches the news event block from Polypoly through the home-service class.
     visible:number = 0;
     getNewsFeed(id:string){
-      this.homeService.getNewsFeed(id)
-      .subscribe(res => {
-          for(var i =0;i<res.length-1;i++){
-            this.news_block.push(this.sanitizer.bypassSecurityTrustHtml(res[i]));
-          }
-          setTimeout(()=>{
-            if(this.isOverflowed(this.newsBlockElement.nativeElement)){
-              this.slideShow(this.news_block);
-            };
-            this.visible = 1;
-          },100);
-        },
-        error=> {this.news_feed_error=true},
-        ()=>   {}
-      );
+      if(id){
+        this.homeService.getNewsFeed(id)
+        .subscribe(res => {
+            for(var i =0;i<res.length-1;i++){
+              this.news_block.push(this.sanitizer.bypassSecurityTrustHtml(res[i]));
+            }
+            setTimeout(()=>{
+              if(this.isOverflowed(this.newsBlockElement.nativeElement)){
+                this.slideShow(this.news_block);
+              };
+              this.visible = 1;
+            },100);
+          },
+          error => {this.news_feed_error=true},
+          ()=>   {this.news_feed_error=false}
+        );
+      }else{
+        this.news_feed_error=true;
+      }
     }
     //Calls getCalendar and getNewsFeed on View Init.
     ngOnInit(){
       //Contains screenspecific configuration
-      var screenInfo = new ScreenSpecificInformation();
+      let screenInfo = new ScreenSpecificInformation();
       //Checks if localstorage file exists
       if(localStorage.getItem(Constants.SETUP_PROCESS_KEY)){
         screenInfo =  <ScreenSpecificInformation> JSON.parse(localStorage.getItem(Constants.SETUP_PROCESS_KEY));

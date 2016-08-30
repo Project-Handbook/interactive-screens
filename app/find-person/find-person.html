@@ -12,7 +12,7 @@
 				</div>
 				<button (click)="search(input)" name="search_button" class="person-search-button"></button>
 			</div>
-			<div class="nearby_departments">
+			<div *ngIf="nearby_departments.length!==0" class="nearby_departments">
 				<p>
 					<b>Show staff of nearby departments</b>
 				</p>
